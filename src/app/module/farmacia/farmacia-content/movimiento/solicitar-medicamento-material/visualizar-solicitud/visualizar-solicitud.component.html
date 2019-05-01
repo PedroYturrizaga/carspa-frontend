@@ -1,0 +1,114 @@
+<div class="sombreadoSubtitulos">
+  <h5 mat-dialog-title class="subtitulo-seccion">Visualizar Solicitud
+    <span class="example-spacer"></span>
+    <button mat-button class="mat-button-icon" (click)="dismiss()">
+      <div class="example-tooltip-host" matTooltip="Salir" [matTooltipPosition]="'above'">
+        <span>
+          <i class="material-icons">close</i>
+        </span>
+      </div>
+    </button>
+  </h5>
+</div>
+<div mat-dialog-content>
+
+    <mat-card>
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos Solicitud</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width mat-form-field-flex3">
+                    <input matInput placeholder="Número de Requerimiento:" disabled [(ngModel)]="cabezeraComprobante.numeroComprobante">
+                  </mat-form-field>
+                </div>
+        
+                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width mat-form-field-flex3">
+                    <input matInput placeholder="Fecha de solicitud:" disabled [(ngModel)]="cabezeraComprobante.feComprobante">
+                  </mat-form-field>
+                </div>
+        
+                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width mat-form-field-flex3">
+                    <input matInput placeholder="Farmacia solicitante:" disabled [(ngModel)]="cabezeraComprobante.descripcionAlmacenOrigen">
+                  </mat-form-field>
+                </div>
+        
+                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width mat-form-field-flex3">
+                    <input matInput placeholder="Almacén a solicitar:" disabled [(ngModel)]="cabezeraComprobante.descripcionAlmacenDestino">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+    <mat-card-content>
+      <div class="table responsive">
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="codigo">
+            <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.medicamento? element.medicamento.codigo : element.dispMedicoProdSanitario.codigo }} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="medicamento">
+            <mat-header-cell *matHeaderCellDef matTooltip="Producto Farmacéutico y/o Dispositivo Médico">
+              P. F. / D. M.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.medicamento? (element.medicamento.dciProductoFarmaceutico+' '+element.medicamento.concentracion) : element.dispMedicoProdSanitario.dciDispMedicoProdSanitario}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="formaFarmaceutica">
+            <mat-header-cell *matHeaderCellDef>
+              <div class="example-tooltip-host" matTooltip="Forma Farmacéutica / Tipo de Dispositivo Médico" [matTooltipPosition]="'above'">
+                F. F. / T. D.
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.medicamento ? element.medicamento.formaFarmaceutica : (element.dispMedicoProdSanitario.tipoDispositivo.valor ?
+              element.dispMedicoProdSanitario.tipoDispositivo.valor : '-' ) }}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="presentacion">
+            <mat-header-cell *matHeaderCellDef> Presentación </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.medicamento? element.medicamento.presentacionEnvase : element.dispMedicoProdSanitario.presentacion}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="marca">
+            <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.medicamento? element.medicamento.marca : (element.dispMedicoProdSanitario.marca? element.dispMedicoProdSanitario.marca:
+              '-')}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="nombreUnidad">
+            <mat-header-cell *matHeaderCellDef> Unidad </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.medicamento ? element.medicamento.nombreUnidad : ( element.dispMedicoProdSanitario ? element.dispMedicoProdSanitario.nombreUnidad
+              : '-' ) }}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef style="width: 350px;">Cantidad</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cantidadSolicitud + ' ' +element.cantidadAtendida}} </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumnsDispositivosMeds"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsDispositivosMeds;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+    <div class="col-12 text-right">
+      <button mat-raised-button (click)="dismiss()">Regresar</button>
+      <button mat-raised-button (click)="imprimirSolicitud(2)">Imprimir</button>
+    </div>
+    <br>
+  </mat-card>
+  </div>
+
+

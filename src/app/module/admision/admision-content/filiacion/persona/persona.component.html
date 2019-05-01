@@ -1,0 +1,1158 @@
+<main class="mat-content">
+  <form #savePaciente="ngForm" novalidate name="savePaciente">
+
+    <mat-card>
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos Personales</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+
+            <!-- PRIMERA COLUMNA -->
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona!=null">
+                <input matInput placeholder="Tipo de Documento:" [disabled]="persona!=null" value="{{persona[0].descripcionDocumento}}" name="descripcionDocumento"
+                  required>
+              </mat-form-field>
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select #listaOpciones placeholder="Seleccione un Tipo de Documento:" [(ngModel)]="jsRegistrar.tipoDocumento" name="tipoDocumento"
+                  #tipoDocumento="ngModel" id="tipoDocumento" (selectionChange)="changeInput(listaOpciones.value)" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let tipoDoc of tipoDocumentos" [value]="tipoDoc.id">{{tipoDoc.valor}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="tipoDocumento" labelName="Tipo de Documento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona!=null">
+                <input matInput placeholder="N° de Documento Identidad" [disabled]="persona!=null" [value]="persona[0].numeroDocumentoIdentidad"
+                  name="numeroDocumentoIdentidad" required />
+                <mat-hint align="end" class="longitudInforme">
+                  {{ persona[0].numeroDocumentoIdentidad? persona[0].numeroDocumentoIdentidad.length: '-' }} / {{persona[0].numeroDocumentoIdentidad?
+                  persona[0].numeroDocumentoIdentidad.length: '-'}}
+                </mat-hint>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="N° de Documento Identidad" [(ngModel)]="jsRegistrar.numeroDocumentoIdentidad" required name="numDocumento_Identidad"
+                  #numDocumentoIdentidad="ngModel" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                  minlength="{{longitudDocumento}}" [disabled]="!jsRegistrar.tipoDocumento" maxlength="{{longitudDocumento}}">
+                <mat-error>
+                  <app-validators-messages [controlVar]="numDocumentoIdentidad" labelName="N° de Documento Identidad">
+                  </app-validators-messages>
+                </mat-error>
+                <mat-hint align="end" class="longitudInforme">
+                  {{ jsRegistrar.numeroDocumentoIdentidad? jsRegistrar.numeroDocumentoIdentidad.length: '0' }} / {{longitudDocumento}}
+                </mat-hint>
+              </mat-form-field>
+
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input type="text" matInput placeholder="Apellido Paterno:" [disabled]="persona!=null" [value]="persona[0].apellidoPaterno"
+                  name="apellidoPaterno" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input type="text" matInput placeholder="Apellido Paterno:" [(ngModel)]="jsRegistrar.apellidoPaterno" name="apellidoPaterno"
+                  #apellidoPaterno="ngModel" required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="apellidoPaterno" labelName="Apellido Peterno">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Apellido Materno" [disabled]="persona!=null" [value]="persona[0].apellidoMaterno" name="apellidoMaterno"
+                  required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Apellido Materno" [(ngModel)]="jsRegistrar.apellidoMaterno" name="apellidoMaterno" #apellidoMaterno="ngModel"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="apellidoMaterno" labelName="Apellido Materno">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input type="text" matInput placeholder="Nombre Completo:" [disabled]="persona!=null" [value]="persona[0].nombres" name="nombres"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input type="text" matInput placeholder="Nombre Completo:" [(ngModel)]="jsRegistrar.nombres" name="nombres" #nombres="ngModel"
+                  required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombres" labelName="Nombre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona!=null">
+                <input matInput placeholder="Sexo:" [disabled]="persona!=null" [value]="persona[0].sexo ? persona[0].sexo : '--'" name="sexo"
+                  required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Sexo:" [(ngModel)]="jsRegistrar.idSexo" name="descripcionSexo" #descripcionSexo="ngModel" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let sl of sexosList" [value]="sl.id">{{sl.valor}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="descripcionSexo" labelName="Sexo">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Fecha de Nacimiento:" [disabled]="persona!=null" [value]="persona[0].fechaNacimiento ? (persona[0].fechaNacimiento | date: 'dd/MM/yyyy') : '--'"
+                  name="fechaNacimiento" required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Fecha de Nacimiento:" [matDatepicker]="picker" [(ngModel)]="jsRegistrar.fechaNacimiento" name="fechaNacimiento"
+                  #fechaNacimiento="ngModel" [maxDate]="maxfechRN" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="fechaNacimiento" labelName="Fecha de Nacimiento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+
+
+            </div>
+
+            <!-- SEGUNDA COLUMNA -->
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Departamento de Nacimiento:" [disabled]="persona!=null" [value]="NacimientoDirecciones.direccion1"
+                  required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione un Departamento de Nacimiento:" [(ngModel)]="jsRegistrar.departamentoNacimiento" name="departamentoNacimiento2"
+                  #departamentoNacimiento2="ngModel" (change)="obtenerUbigeo(1)">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of departamentoNacimiento" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="departamentoNacimiento2" labelName="Departamento de Nacimiento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Provincia de Nacimiento" [disabled]="persona!=null" [value]="NacimientoDirecciones.direccion2"
+                  name="provinciaNacimiento" required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione una Provincia de Nacimiento" [(ngModel)]="jsRegistrar.provinciaNacimiento" name="provinciaNacimiento2"
+                  #provinciaNacimiento2="ngModel" (change)="obtenerUbigeos(1)" [disabled]="!jsRegistrar.departamentoNacimiento">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of provinciaNacimiento" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="provinciaNacimiento2" labelName="Provincia de Nacimiento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Distrito de Nacimiento" [disabled]="persona!=null" [value]="NacimientoDirecciones.direccion3"
+                  name="distritoNacimiento" required>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione un Distrito de Nacimiento" [(ngModel)]="jsRegistrar.distritoNacimiento" name="distritoNacimiento2"
+                  #distritoNacimiento2="ngModel" [disabled]="!jsRegistrar.provinciaNacimiento">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of distritoNacimiento" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="distritoNacimiento2" labelName="Distrito de Nacimiento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Grado de Instruccion" [disabled]="persona!=null" [value]="persona[0].gradoInstruccion" name="gradoInstruccion">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione un Grado de Instruccion" [(ngModel)]="jsRegistrar.gradoInstruccion" name="gradoInstruccion"
+                  #gradoInstruccion="ngModel">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let gi of gradoInstruccionList" [value]="gi.valor">{{gi.valor}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="gradoInstruccion" labelName="Grado de Instrucciond">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Estado Civil" [disabled]="persona!=null" [value]="persona[0].estadoCivil" name="estadoCivil">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione un Estado Civil" [(ngModel)]="jsRegistrar.idEstadoCivil" name="estadoCivil" #estadoCivil="ngModel"
+                  required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let ec of estadoCivilList" [value]="ec.id">{{ec.valor}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="estadoCivil" labelName="Estado Civil">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Estatura: " [disabled]="persona!=null" [value]="persona[0].estatura ? persona[0].estatura : '--'"
+                  name="estatura">
+                <span matSuffix> metros </span>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Estatura: " [(ngModel)]="jsRegistrar.estatura" name="estatura" #estatura="ngModel" (keypress)="setInputPattern($event, 'prices')"
+                  [pattern]="setValidatorPattern('prices', setQuantifier('+'), true, true)" max="3" maxlength="4" />
+                <span matSuffix> metros </span>
+                <mat-error>
+                  <app-validators-messages [controlVar]="estatura" labelName="Estatura">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+
+
+            </div>
+
+            <!-- TERCERA COLUMNA -->
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input type="text" matInput placeholder="Nombre del Padre: " [disabled]="persona!=null" [value]="persona[0].nombrePadre ? persona[0].nombrePadre : '-'"
+                  name="nombrePadre">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input type="text" matInput placeholder="Nombre del Padre: " [(ngModel)]="jsRegistrar.nombrePadre" name="nombrePadre" #nombrePadre="ngModel"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombrePadre" labelName="Nombre del Padre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input type="text" matInput placeholder="Nombre de la Madre: " [disabled]="persona!=null" [value]="persona[0].nombreMadre? persona[0].nombreMadre : '-'"
+                  name="nombreMadre">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input type="text" matInput placeholder="Nombre de la Madre: " [(ngModel)]="jsRegistrar.nombreMadre" name="nombreMadre" #nombreMadre="ngModel"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)">
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombreMadre" labelName="Nombre de la Madre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Fecha de Expedición: " [disabled]="persona!=null" [value]="persona[0].fecExpedicion ? (persona[0].fecExpedicion | date: 'dd/MM/yyyy') : '--'"
+                  name="fecExpedicion">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Seleccione la fecha de Expedición: " [matDatepicker]="picker" [(ngModel)]="jsRegistrar.fechExpedicion"
+                  name="fechExpedicion" #fechExpedicion="ngModel" [minDate]="jsRegistrar.fechInscripcion">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="fechExpedicion" labelName="fecha de Expedición">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Dirección de Domicilio: " [disabled]="persona!=null" [value]="persona[0].direccionDomicilio"
+                  name="domicilio">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Dirección de Domicilio: " [(ngModel)]="jsRegistrar.direccionDomicilio" name="direccionDomicilio"
+                  #direccionDomicilio="ngModel" required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="direccionDomicilio" labelName="Dirección de Domicilio">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Departamento de Domicilio: " [disabled]="persona!=null" [value]="DomicilioDirecciones.direccion1"
+                  name="departamentoDomicilio">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione un Departamento de Domicilio: " [(ngModel)]="jsRegistrar.departamentoDomicilio" name="departamentoDomicilio2"
+                  #departamentoDomicilio2="ngModel" (change)="obtenerUbigeo(2)" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of departamentoDomicilio" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="departamentoDomicilio2" labelName="Departamento de Domicilio">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Provincia de Domicilio: " [disabled]="persona!=null" [value]="DomicilioDirecciones.direccion2 ? DomicilioDirecciones.direccion2 : '--'"
+                  name="departamentoDomicilio">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione una Provincia de Domicilio" [(ngModel)]="jsRegistrar.provinciaDomicilio" name="provinciaDomicilio2"
+                  #provinciaDomicilio2="ngModel" (change)="obtenerUbigeos(2)" [disabled]="!jsRegistrar.departamentoDomicilio"
+                  required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of provinciaDomicilio" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="provinciaDomicilio2" labelName="Provincia de Domicilio">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!--  -----   -->
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Distrito de Domicilio" [disabled]="persona!=null" [value]="DomicilioDirecciones.direccion3 ? DomicilioDirecciones.direccion3 : '--'"
+                />
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <mat-select placeholder="Seleccione un Distrito de Domicilio" [(ngModel)]="jsRegistrar.distritoDomicilio" name="distritoDomicilio2"
+                  #distritoDomicilio2="ngModel" [disabled]="!jsRegistrar.provinciaDomicilio" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of distritoDomicilio" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="distritoDomicilio2" labelName="Distrito de Domicilio">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+
+            <!-- <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Restricción: " [disabled]="persona!=null" [value]="persona[0].restriccion" name="restriccion">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Restricción: " [(ngModel)]="jsRegistrar.restriccion" name="restriccion" #restriccion="ngModel"
+                  required>
+                <mat-error>
+                  <app-validators-messages [controlVar]="restriccion" labelName="Restricción">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+
+            <!--  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+             <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona != null">
+                <input matInput placeholder="Fecha de Inscripción: " [disabled]="persona!=null" [value]="persona[0].fecInscripcion" name="fecInscripcion">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngIf="persona == null">
+                <input matInput placeholder="Seleccione la fecha de Inscripción: " [matDatepicker]="picker" [(ngModel)]="jsRegistrar.fechInscripcion"
+                  name="fechInscripcion" #fechInscripcion="ngModel" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="fechInscripcion" labelName="fecha de Inscripción">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field> 
+            </div>-->
+
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="disabled.direccionActual == true">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Domicilio Actual</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-12 text-right">
+              <mat-checkbox [(ngModel)]="checkboxDomicilio" (change)="myFunction($event.checked, false)" [labelPosition]="labelPosition"
+                name="checkboxDomicili" [disabled]="!jsRegistrar.distritoDomicilio || !jsRegistrar.provinciaDomicilio || !jsRegistrar.departamentoDomicilio || !jsRegistrar.direccionDomicilio">
+                Domicilio Actual
+              </mat-checkbox>
+            </div>
+
+
+            <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex1">
+                <input matInput placeholder="Dirección Actual: " [disabled]="disabledDomicilio" [(ngModel)]="jsRegistrar.direccionActual"
+                  name="direccionActual2" #direccionActual2="ngModel" required />
+                <mat-error>
+                  <app-validators-messages [controlVar]="direccionActual2" labelName="Dirección Actual">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Seleccione un Departamento Actual" [disabled]="disabledDomicilio" [(ngModel)]="jsRegistrar.codigoDepartamento"
+                  name="departamentoActual2" #departamentoActual2="ngModel" (change)="obtenerUbigeo(3)">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of departamento" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="departamentoActual2" labelName="Departamento Actual">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Seleccione una Provincia" [disabled]="disabledDomicilio" [(ngModel)]="jsRegistrar.codigoProvincia"
+                  name="provinciaActual" #provinciaActual="ngModel" (change)="obtenerUbigeos(3)" [disabled]="!jsRegistrar.codigoDepartamento">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of provincia" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="provinciaActual" labelName="Provincia Actual">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Seleccione un Distrito" [disabled]="disabledDomicilio" [(ngModel)]="jsRegistrar.codigoDistrito"
+                  name="distritoActual" #distritoActual="ngModel">
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let cv of distrito" [value]="cv.id">{{cv.nombre}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="distritoActual" labelName="Distrito Actual">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card *ngIf="disabled.direccionActual == true">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos Adicionales</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngFor="let numTelfs of numeroTelefonoFijo1; let i = index">
+                <input matInput [placeholder]="numTelfs.placeholder" name="numTelefonoFijo1{{i}}" #numTelefonoFijo1="ngModel" id="numTelefonoFijo1{{i}}"
+                  [(ngModel)]="numTelfs.numTelefonoFijo" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" maxlength="9"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numTelefonoFijo1" [labelName]="numTelfs.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(1)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(1)" [disabled]="numeroTelefonoFijo1.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngFor="let numTelfs of numeroTelefonoCelular1; let i = index">
+                <input matInput [placeholder]="numTelfs.placeholder" name="numTelefonoCelular1{{i}}" #numTelefonoCelular1="ngModel" id="numTelefonoCelular1{{i}}"
+                  [(ngModel)]="numTelfs.numTelefonoCelular" (keypress)="setInputPattern($event, 'cellPhone')" [pattern]="setValidatorPattern('cellPhone', setQuantifier(), true, true)" maxlength="9"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numTelefonoCelular1" [labelName]="numTelfs.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(2)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(2)" [disabled]="numeroTelefonoCelular1.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+
+            </div>
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngFor="let correoEle of correos1; let i = index">
+                <input matInput [placeholder]="correoEle.placeholder" name="correoEle1{{i}}" #correoEle1="ngModel" id="correoEle1{{i}}" [(ngModel)]="correoEle.correoEle1"
+                  ngvemail />
+                <mat-error>
+                  <app-validators-messages [controlVar]="correoEle1" [labelName]="correoEle.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(3)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(3)" [disabled]="correos1.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <section *ngIf="disabled.tipoPaciente == true" class="container-section">
+      <mat-radio-group [(ngModel)]="jsRegistrar.tipoPaciente" class="text-center margin-radio-button" name="tipoPaciente" required>
+        <mat-radio-button class="margin-radio-button" [value]="1">Adscrito</mat-radio-button>
+        <mat-radio-button class="margin-radio-button" [value]="0">Referido</mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <mat-card *ngIf="disabled.datoAcompaniante == true">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos Acompañante</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Tipo Documento acompañante: " [(ngModel)]="jsRegistrar.tipoDocumentoAcompanante" name="tipoDocumentoAcompanante"
+                  #tipoDocumentoAcompanante="ngModel" (selectionChange)="validatipoDoc(1)" >
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let tipoDoc of tipoDocumentos" [value]="tipoDoc.id">{{tipoDoc.valor}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="tipoDocumentoAcompanante" labelName="Tipo Documento acompañante">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput type="text" placeholder="Nombre acompañante: " [(ngModel)]="jsRegistrar.nombreAcompanante" name="nombreAcompanante"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  #nombreAcompanante="ngModel"  />
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombreAcompanante" labelName="Nombre acompañante">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Edad acompañante: " [(ngModel)]="jsRegistrar.edadAcompanante" name="edadAcompanante" #edadAcompanante="ngModel"
+                  (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                  maxlength="3" />
+                <span matSuffix> años </span>
+                <mat-error>
+                  <app-validators-messages [controlVar]="edadAcompanante" labelName="Edad acompañante">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+
+            <div class="row">
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="N° Documento acompañante" [(ngModel)]="jsRegistrar.numeroDocumentoIdentidadAcompanante" maxlength="{{longitudDocumento2}}"
+                  minlength="{{longitudDocumento2}}" #numeroDocumentoIdentidadAcompanante="ngModel" name="numeroDocumentoIdentidadAcompanante"
+                  (keypress)="setInputPattern($event, 'positiveDigits')" [disabled]="!jsRegistrar.tipoDocumentoAcompanante"
+                   />
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="numeroDocumentoIdentidadAcompanante" labelName="N° Documento acompañante">
+                  </app-validators-messages>
+                </mat-error>
+                <mat-hint align="end"> {{ jsRegistrar.numeroDocumentoIdentidadAcompanante? jsRegistrar.numeroDocumentoIdentidadAcompanante.length:
+                  '0' }} / {{longitudDocumento2}} </mat-hint>
+              </mat-form-field>
+              </div>
+              <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Tipo de Parentesco: " [(ngModel)]="jsRegistrar.idParentescoAcompanante" name="idParentescoAcompanante"
+                  #idParentescoAcompanante="ngModel" >
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let pa of parentescos" [value]="pa.id">{{pa.valor}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="idParentescoAcompanante" labelName="Tipo de Parentesco">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+              </div>
+              <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Dirección de Domicilio Actual: " [(ngModel)]="jsRegistrar.domicilioAcompanante" name="domicilioAcompanante"
+                  #domicilioAcompanante="ngModel" />
+                <mat-error>
+                  <app-validators-messages [controlVar]="domicilioAcompanante" labelName="Dirección de Domicilio">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2" *ngFor="let telFijo of numeroTelefonoFijo2; let i = index">
+                <input matInput [placeholder]="telFijo.placeholder" name="numTelefonoFijo2{{i}}" #numTelefonoFijo2="ngModel" id="numTelefonoFijo2{{i}}"
+                  [(ngModel)]="telFijo.numTelefonoFijo" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" maxlength="9"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numTelefonoFijo2" [labelName]="telFijo.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(5)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(5)" [disabled]="numeroTelefonoFijo2.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div> 
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+         <mat-form-field class="example-full-width mat-form-field-flex2" *ngFor="let telMovil of numeroTelefonoCelular2; let i = index">
+                <input matInput [placeholder]="telMovil.placeholder" name="numTelefonoCelular2{{i}}" #numTelefonoCelular2="ngModel" id="numTelefonoCelular2{{i}}"
+                  [(ngModel)]="telMovil.numTelefonoCelular" (keypress)="setInputPattern($event, 'cellPhone')" [pattern]="setValidatorPattern('cellPhone', setQuantifier(), true, true)" maxlength="9"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numTelefonoCelular2" [labelName]="telMovil.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(4)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(4)" [disabled]="numeroTelefonoCelular2.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+          </div>
+
+           </div>
+            </div>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card *ngIf="disabled.datoRepreLegal == true">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos de Representante Legal</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-12 text-right">
+              <mat-checkbox [(ngModel)]="checkboxAcompanante" (change)="myFunction2($event.checked)" [labelPosition]="labelPosition" name="checkboxAcompanante">Acompañante
+                también es representante legal </mat-checkbox>
+            </div>
+
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Tipo Documento Representante Legal: " [(ngModel)]="jsRegistrar.tipoDocumentoRepresentanteLegal"
+                  name="tipoDocumentoRepresentanteLegal" #tipoDocumentoRepresentanteLegal="ngModel" (selectionChange)="validatipoDoc(2)"
+                  [disabled]="disableRepLegal" >
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let tipoDoc of tipoDocumentos" [value]="tipoDoc.id">{{tipoDoc.valor}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="tipoDocumentoRepresentanteLegal" labelName="Tipo Documento Representante Legal">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input type="text" matInput placeholder="Nombre Representante Legal: " [(ngModel)]="jsRegistrar.nombreRepresentanteLegal"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  name="nombreRepresentanteLegal" [disabled]="disableRepLegal" #nombreRepresentanteLegal="ngModel" >
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombreRepresentanteLegal" labelName="Nombre Representante Legal">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Edad Representante Legal: " [(ngModel)]="jsRegistrar.edadRepresentanteLegal" name="edadRepresentanteLegal"
+                  #edadRepresentanteLegal="ngModel" [disabled]="disableRepLegal" (keypress)="setInputPattern($event, 'positiveDigits')"
+                  [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" maxlength="3" />
+                <span matSuffix> años </span>
+                <mat-error>
+                  <app-validators-messages [controlVar]="edadRepresentanteLegal" labelName="Edad Representante Legal">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+          </div>
+
+            </div>
+
+            <div class="row">
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="N° Documento Representante Legal" [disabled]="!jsRegistrar.tipoDocumentoRepresentanteLegal"
+                  [(ngModel)]="jsRegistrar.numeroDocumentoIdentidadRepresentanteLegal" name="numeroDocumentoIdentidadRepresentanteLegall"
+                  #numeroDocumentoIdentidadRepresentanteLegall="ngModel" minlength="{{longitudDocumento3}}" maxlength="{{longitudDocumento3}}"
+                  (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                   />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numeroDocumentoIdentidadRepresentanteLegall" labelName="N° Documento Representante Legal">
+                  </app-validators-messages>
+                </mat-error>
+                <mat-hint align="end">
+                  {{ jsRegistrar.numeroDocumentoIdentidadRepresentanteLegal? jsRegistrar.numeroDocumentoIdentidadRepresentanteLegal.length:
+                  '0' }} / {{longitudDocumento3}}
+                </mat-hint>
+              </mat-form-field>
+              </div>
+              <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Tipo de Parentesco: " [(ngModel)]="jsRegistrar.idParentescoRepresentanteLegal" name="idParentescoRepresentanteLegal"
+                  [disabled]="disableRepLegal" #idParentescoRepresentanteLegal="ngModel" >
+                  <mat-option *ngFor="let pa of parentescos" [value]="pa.id">{{pa.valor}}</mat-option>
+
+                  <mat-error>
+                    <app-validators-messages [controlVar]="idParentescoRepresentanteLegal" labelName="Tipo de Parentesco ">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-select>
+              </mat-form-field>
+              </div>
+              <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Dirección de Domicilio del acompañante: " [(ngModel)]="jsRegistrar.domicilioRepresentanteLegal"
+                  [disabled]="disableRepLegal" name="domicilioRepresentanteLegal" #domicilioRepresentanteLegal="ngModel" />
+                <mat-error>
+                  <app-validators-messages [controlVar]="domicilioRepresentanteLegal" labelName="Dirección de Domicilio">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+              </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3" *ngFor="let telMovil of numeroTelefonoFijo3; let i = index">
+                <input matInput [placeholder]="telMovil.placeholder" name="numTelefonoFijo3{{i}}" #numTelefonoFijo3="ngModel" id="numTelefonoFijo3{{i}}"
+                  [(ngModel)]="telMovil.numTelefonoFijo" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" maxlength="9"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numTelefonoFijo3" [labelName]="telMovil.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar3">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(7)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(7)" [disabled]="numeroTelefonoFijo3.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+             <mat-form-field class="example-full-width mat-form-field-flex3" *ngFor="let telMovil of numeroTelefonoCelular3; let i = index">
+                <input matInput [placeholder]="telMovil.placeholder" name="numTelefonoCelular3{{i}}" #numTelefonoCelular3="ngModel" id="numTelefonoCelular3{{i}}"
+                  [(ngModel)]="telMovil.numTelefonoCelular" (keypress)="setInputPattern($event, 'cellPhone')" [pattern]="setValidatorPattern('cellPhone', setQuantifier(), true, true)" maxlength="9"
+                />
+                <mat-error>
+                  <app-validators-messages [controlVar]="numTelefonoCelular3" [labelName]="telMovil.placeholder">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <div class="col-12 text-right alinearBtnAgregar3">
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="agregarTelefono(6)">
+                  <div class="example-tooltip-host" matTooltip="Agregar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        add_circle_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+
+                <button mat-button type="button" class="mat-button-icon-noModal" (click)="deleteTelefono(6)" [disabled]="numeroTelefonoCelular3.length === 1">
+                  <div class="example-tooltip-host" matTooltip="Quitar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">
+                        delete_outline
+                      </i>
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+       
+      </mat-card-content>
+    </mat-card>
+
+
+
+    <mat-card *ngIf="disabled.datoPadre">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos del Padre</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Tipo de Documento del Padre: " [(ngModel)]="jsRegistrar.tipoDocumentoPadre" name="tipoDocumentoPadre2"
+                  #tipoDocumentoPadre2="ngModel" (selectionChange)="validatipoDoc(3)" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let tipoDoc of tipoDocumentos" [value]="tipoDoc.id">{{tipoDoc.valor}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="tipoDocumentoPadre2" labelName="Tipo Documento del Padre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input type="text" matInput placeholder="Nombre del Padre: " [(ngModel)]="jsRegistrar.nombrePadre" name="nombre_Padre" #nombre_Padre="ngModel"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)">
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombre_Padre" labelName="Nombre del Padre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="N° Documento del Padre" [disabled]="!jsRegistrar.tipoDocumentoPadre" [(ngModel)]="jsRegistrar.dniPadre"
+                  name="dniPadre" #dniPadre="ngModel" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                  minlength="{{longitudDocumento4}}" maxlength="{{longitudDocumento4}}" required />
+                <mat-error>
+                  <app-validators-messages [controlVar]="dniPadre" labelName="N° Documento del Padre">
+                  </app-validators-messages>
+                </mat-error>
+                <mat-hint align="end">
+                  {{ jsRegistrar.dniPadre? jsRegistrar.dniPadre.length: '0' }} / {{longitudDocumento4}}
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Edad del Padre: " [(ngModel)]="jsRegistrar.edadPadre" name="edadPadre" #edadPadre="ngModel"
+                  (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                  maxlength="3" required />
+                <span matSuffix> años </span>
+                <mat-error>
+                  <app-validators-messages [controlVar]="edadPadre" labelName="Edad del Padre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input type="text" matInput placeholder="Dirección de Domicilio actual del Padre: " [(ngModel)]="jsRegistrar.domicilioPadre"
+                  name="domicilioPadre" #domicilioPadre="ngModel" required>
+                <mat-error>
+                  <app-validators-messages [controlVar]="domicilioPadre" labelName="Dirección de Domicilio del Padre">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="disabled.datoRecienNacido == true">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Datos de Recien Nacido</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Número de Hijo: " [(ngModel)]="numeroHijo" name="numeroHijo2" (change)="setearNombre()" #numeroHijo2="ngModel"
+                  (change)="setearNombre()" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option [value]="1">1</mat-option>
+                  <mat-option [value]="2">2</mat-option>
+                  <mat-option [value]="3">3</mat-option>
+                  <mat-option [value]="4">4</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="numeroHijo2" labelName="Número de Hijo">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Sexo del Recién Nacido: " [(ngModel)]="jsRegistrar.idSexo" name="idSexo2" #idSexo2="ngModel" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let sl of sexosList" [value]="sl.id">{{sl.valor}}</mat-option>
+                </mat-select>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="idSexo2" labelName="Sexo del Recién Nacido">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Apellido Paterno: " [(ngModel)]="apellidoPaternoHijo" name="apellidoPaternoHijo2" #apellidoPaternoHijo2="ngModel"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="apellidoPaternoHijo2" labelName="Apellido Paterno">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Seleccione la fecha de Nacimiento: " [matDatepicker]="picker" [(ngModel)]="fechaNacimientoHijo"
+                  name="fechaNacimientoHijo2" #fechaNacimientoHijo2="ngModel" [maxDate]="maxfechRN" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="fechaNacimientoHijo2" labelName="fecha de Nacimiento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Apellido Materno: " [(ngModel)]="apellidoMaternoHijo" name="apellidoMaternoHijo2" #apellidoMaternoHijo2="ngModel"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="apellidoMaternoHijo2" labelName="Apellido Paterno">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Codigo: " [(ngModel)]="codigoRecienNacido" [disabled]="true" name="codigoRecienNacido2" #codigoRecienNacido2="ngModel"
+                  required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="codigoRecienNacido2" labelName="Codigo">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <input matInput placeholder="Nombre del Niño: " [(ngModel)]="nombreRecienNacido" name="nombreRecienNacido2" [disabled]="true"
+                  (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                  #nombreRecienNacido2="ngModel" required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombreRecienNacido2" labelName="Nombre del Niño">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="col-12 text-right margenDerecho">
+      <button mat-raised-button class="border-botton" type="submit" (click)="insertarPaciente(savePaciente)" *ngIf="disabled.registrar" [disabled]="isInvalid(savePaciente)">Registrar</button>
+      <button mat-raised-button class="border-botton" type="submit" (click)="actualizar(savePaciente)" *ngIf="disabled.actualizar"> actualizar</button>
+      <button mat-raised-button class="border-botton" type="button" (click)="regresaFiliacion(savePaciente)"> Regresar </button>
+    </div><br>
+  </form>
+</main>

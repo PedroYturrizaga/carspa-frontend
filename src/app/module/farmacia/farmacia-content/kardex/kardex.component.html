@@ -1,0 +1,178 @@
+<div class="col-lg-12">
+  <mat-card tabindex="-1">
+
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Reporte Kardex</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form #buscarKardex="ngForm" novalidate name="buscarKardex">
+        <div class="card-body">
+
+          <div class="row">
+
+
+            <div class="col-4 form-group margenAuto">
+              <mat-form-field class="example-full-width " style="text-align: left">
+                <mat-select #listaOpciones (change)="placeDesc(listaOpciones.value,buscarKardex.form.controls.descMedicReport)" [(ngModel)]="flgMedicDisp"
+                  placeholder="Seleccionar Grupo" name="comboTipoMedic" disableRipple>
+                  <mat-option *ngFor="let gM of gruposMedicamentos" [value]="gM.id">
+                    {{gM.valor}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3 mdl-input-group mdl-input-group__only" *ngIf="flgMedicDisp!='N'">
+              <mat-form-field class="example-full-width">
+                <mat-label>{{ descripAutoComplete }}:</mat-label>
+                <input matInput [matAutocomplete]="auto" name="descMedicReport" #descMedicReport="ngModel" id="descMedicReport" [(ngModel)]="productoDescripcion"
+                  (input)="buscarMedicDispProdDescripcion($event.target.value)" required />
+                <mat-error>
+                  <app-validators-messages [controlVar]="descMedicReport" labelName="Producto Farmacútico/Dispositivo Médico">
+                    <!-- [ngDirty]="true" [ngTouched]="true" -->
+                  </app-validators-messages>
+                </mat-error>
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <div>
+                    <mat-option (onSelectionChange)="seleccionaMedicamento(dispMeD)" *ngFor="let dispMeD of filteredDispMedi" [value]="dispMeD.dispositivoMedicamento +' '+ dispMeD.marca + ' ' + (dispMeD.presentacion ? dispMeD.presentacion
+                    : '') + ' ' + (dispMeD.viaAdministracion ? dispMeD.viaAdministracion : '') + ' ' + dispMeD.formaFarmaceutica
+                    +' '+ dispMeD.concentracion">
+                      <span>{{ dispMeD.dispositivoMedicamento +' '+ dispMeD.marca + ' ' + (dispMeD.presentacion ? dispMeD.presentacion
+                        : '') + ' ' + (dispMeD.viaAdministracion ? dispMeD.viaAdministracion : '') + ' ' + dispMeD.formaFarmaceutica
+                        +' '+ dispMeD.concentracion }}
+                      </span>
+                    </mat-option>
+                  </div>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" [matDatepicker]="dp" name="feIniForm" #feIniForm="ngModel" [(ngModel)]="feIni" [maxDate]="feFin"
+                  placeholder="Desde:" required>
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
+                <mat-error>
+                  <app-validators-messages [controlVar]="feIniForm" labelName="Fecha Desde">
+                    <!-- [ngDirty]="true" [ngTouched]="true" -->
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" [matDatepicker]="dpp" name="feFinForm" #feFinForm="ngModel" [(ngModel)]="feFin" [minDate]="feIni"
+                  placeholder="Hasta:" required>
+                <mat-datepicker-toggle matSuffix [for]="dpp"></mat-datepicker-toggle>
+                <mat-datepicker #dpp></mat-datepicker>
+                <mat-error>
+                  <app-validators-messages [controlVar]="feFinForm" labelName="Fecha Hasta">
+                    <!-- [ngDirty]="true" [ngTouched]="true" -->
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-3 mdl-input-group mdl-input-group__only margenAuto">
+              <button mat-raised-button (click)="buscarKardexList(1)" [disabled]="isInvalid(buscarKardex)">Buscar</button>
+              <button mat-raised-button (click)="imprimePDFKardex(2)"> Imprimir</button>
+            </div>
+            <!-- PDF -->
+            <!-- <div class="col-1 mdl-input-group mdl-input-group__only">
+              <div class="example-tooltip-host" matTooltip="Descarga PDF" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons" style="font-size: 40px;" (click)="imprimePDFKardex(2)">picture_as_pdf</i>
+                </span>
+              </div>
+            </div> -->
+          </div>
+
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-content>
+      <!-- INICIA TABLA -->
+
+      <div class="table responsive" *ngIf="kardexList.length!=0">
+
+        <mat-table #table [dataSource]="dataSource">
+
+          <!-- id Movimiento -->
+          <ng-container matColumnDef="nMovimiento">
+            <mat-header-cell *matHeaderCellDef> N° Movimiento </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.idMovimiento }} </mat-cell>
+          </ng-container>
+
+          <!-- Tipo Documento -->
+          <ng-container matColumnDef="td">
+            <mat-header-cell *matHeaderCellDef>Tipo Documento</mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.tipoDocumento }} </mat-cell>
+          </ng-container>
+
+          <!-- Numero Documento -->
+          <ng-container matColumnDef="nd">
+            <mat-header-cell *matHeaderCellDef> N° Documento </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.numeroDocumento }} </mat-cell>
+          </ng-container>
+
+          <!-- Prod Disp -->
+          <ng-container matColumnDef="pd">
+            <mat-header-cell *matHeaderCellDef matTooltip=" Producto Farmaceútico/Dispositivo Médico " matTooltipPosition="above">P.F/D.M</mat-header-cell>
+            <mat-cell *matCellDef="let kardexList" ngbPopover="{{kardexList.dciProductoDispositivo}}" triggers="mouseenter:mouseleave"
+            popoverTitle="Producto Medicamnto / Dispositivo Medicamento"> {{ kardexList.dciProductoDispositivo | truncate:20}} </mat-cell>
+          </ng-container>
+
+          <!-- Fecha y Hora -->
+          <ng-container matColumnDef="fh">
+            <mat-header-cell *matHeaderCellDef> Fecha y Hora </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.fhMovimiento }} </mat-cell>
+          </ng-container>
+
+          <!-- Stock Inicial -->
+          <ng-container matColumnDef="si">
+            <mat-header-cell *matHeaderCellDef> Stock Inicial </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.stockInicial }} </mat-cell>
+          </ng-container>
+
+          <!-- Ingreso -->
+          <ng-container matColumnDef="i">
+            <mat-header-cell *matHeaderCellDef> Ingreso </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.ingreso ? kardexList.ingreso : '--' }} </mat-cell>
+          </ng-container>
+
+          <!-- Salida -->
+          <ng-container matColumnDef="s">
+            <mat-header-cell *matHeaderCellDef> Salida </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.salida ? kardexList.salida : '--' }} </mat-cell>
+          </ng-container>
+
+          <!-- Stock Resultante -->
+          <ng-container matColumnDef="sr">
+            <mat-header-cell *matHeaderCellDef matTooltip=" Stock Resultante " matTooltipPosition="above"> Stock R. </mat-header-cell>
+            <mat-cell *matCellDef="let kardexList"> {{ kardexList.stockResultante }} </mat-cell>
+          </ng-container>
+
+          <!-- Header -->
+          <mat-header-row *matHeaderRowDef="displayedColumnsA"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsA;">
+          </mat-row>
+        </mat-table>
+
+        <!-- PAGINADOR -->
+        <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+          showFirstLastButtons></mat-paginator>
+        <!--  -->
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>

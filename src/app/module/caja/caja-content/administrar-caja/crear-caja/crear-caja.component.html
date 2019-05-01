@@ -1,0 +1,169 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">{{flag == 1 ? 'Nueva': 'Actualizar'}} Caja</mat-card-title>
+    <div class="emp">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+
+    <form #FormCrearCaja="ngForm" novalidate name="FormCrearCaja">
+
+      <div class=col-12>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Nombre de Caja" [(ngModel)]="requestParam.descripcionCaja" name="descripcionCaja"
+                  #descripcionCaja="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacios')" [pattern]="setValidatorPattern('soloUnEspacio', setQuantifier('+'), true, true)" id="descripcionCaja"  required>
+                <mat-error>
+                  <app-validators-messages [controlVar]="descripcionCaja" labelName="Nombre de Caja">
+
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Abreviatura" [(ngModel)]="requestParam.abreviatura" name="abreviatura"
+                  #abreviatura="ngModel"  (keypress)="setInputPattern($event, 'soloUnEspacios')" [pattern]="setValidatorPattern('soloUnEspacio', setQuantifier('+'), true, true)" id="abreviatura" required>
+                <mat-error>
+                  <app-validators-messages [controlVar]="abreviatura" labelName="Abreviatura">
+
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class=col-4>
+              <mat-form-field class="example-full-width">
+                <mat-select #listaOpciones placeholder="Seleccione Área Física" [(ngModel)]="requestParam.idArea" name="idArea"
+                  #idArea="ngModel" id="idArea" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let ls of LsAreaFisica" [value]="ls.idArea"> {{ls.descripcionArea}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="idArea" labelName="Area Fisica"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class=col-12>
+        <div class="card-body sinRelleno">
+          <div class="row">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-4" *ngFor="let top of LsTipoOrdenPago; let x = index">
+                  <mat-checkbox name="seleccionado{{x}}" [(ngModel)]="top.seleccionado">{{top.descripciontipoOrden}}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+              <div class="col-12">
+                <div class="row text-right alinearBotones">
+                  <div class="col-2" *ngIf="requestParam.idCaja==null">
+                    <button mat-raised-button (click)="insertar()" [disabled]="FormCrearCaja.invalid">
+                      Guardar</button>
+                  </div>
+                  <div class="col-2" *ngIf="requestParam.idCaja!=null">
+                    <button mat-raised-button (click)="actualizar()" [disabled]="FormCrearCaja.invalid">
+                      Actualizar</button>
+                  </div>
+                  <div class="col-2">
+                    <button mat-raised-button (click)="close()">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+        
+          
+      
+    </form>
+
+  </mat-card-content>
+
+  <!-- <mat-card>
+  <label> Cobro </label>
+  <div class=col-12>
+    <div class="row">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <label>Area Cobro</label>
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="Lsnew" (change)="pruebita()">
+                <mat-option>Seleccione Area Cobro</mat-option>
+                <mat-option *ngFor="let ls of LsAreaCobro" [value]="ls.idArea"> {{ls.descripcionArea}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <div class="text-center">
+              <button mat-raised-button style class="col-sm-2" (click)="agregar()" [disabled]="requestParam.idCaja != null">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="Area">
+      <mat-header-cell *matHeaderCellDef> Area </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.descripcionArea}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Tipo Orden de Pago">
+      <mat-header-cell *matHeaderCellDef> Tipo Orden de Pago </mat-header-cell>
+      <mat-cell *matCellDef="let element; let x = index">
+        <div>
+          <mat-list role="list" >
+            <mat-list-item role="listitem" *ngFor="let tipo of element.tipoOrden; let i = index" id="tipoOrden{{i}}">
+              <mat-checkbox [checked]="tipo.check" (change)="metodsso($event,x,i)">
+                {{tipo.descripciontipoOrden}}
+              </mat-checkbox>
+            </mat-list-item>
+          </mat-list>
+
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="eliminar">
+      <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button>
+          <i class="material-icons" (click)="eliminar(element.descripcionCaja)">delete_forever</i>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+  <div class="col-6">
+    <div class="text-center">
+      <button mat-raised-button style class="col-sm-2" (click)="insertarCaja()" *ngIf="requestParam.idCaja == null">Guardar</button>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="text-center">
+      <button mat-raised-button style class="col-sm-2" (click)="actualizarCaja()" *ngIf="requestParam.idCaja != null">Actualizar</button>
+    </div>
+  </div>
+</mat-card> -->

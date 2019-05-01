@@ -1,0 +1,63 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion"> {{flag == 1 ? 'Nuevo': 'Editar'}} Contratante </mat-card-title>
+    <div class="emp" >
+        <button mat-button class="mat-button-icon" (click)="close()">
+          <div class="example-tooltip-host" matTooltip="Salir" aria-label="hola">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form #registrarContratante="ngForm" novalidate name="registrarContratante">
+      <div class="card-body">
+
+        <div class="row col-12">
+
+          <!-- Nombre del Contratante -->
+          <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+              <mat-label for="nomProducto">Ingresar Nombre Contratante</mat-label>
+              <input matInput type="text" name="nomProducto" #nomProducto="ngModel" id="nomProducto" [(ngModel)]="paramsBusqueda.nombreEmpresaExterna"
+                (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)"
+                required />
+            </mat-form-field>
+          </div>
+
+          <!-- URL -->
+          <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+              <mat-label for="nomUrl">Ingresar URL</mat-label>
+              <input matInput type="text" name="nomUrl" #nomUrl="ngModel" id="nomUrl" [(ngModel)]="paramsBusqueda.url" (keypress)="setInputPattern($event, 'soloUrl')"
+              [pattern]="setValidatorPattern('soloUrl', setQuantifier('+'), true, true)" required />
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-12 text-center" *ngIf="flag==1">
+            <button mat-raised-button (click)="insertarNuevoContratante()" [disabled]="isInvalid(registrarContratante)">Guardar
+            </button>
+            <button mat-raised-button (click)="close(1)">Cancelar
+            </button>
+          </div>
+
+          <div class="col-12 text-center" *ngIf="flag==2">
+            <button mat-raised-button (click)="actualizarNuevoContratante()" [disabled]="isInvalid(registrarContratante)">Editar
+            </button>
+            <button mat-raised-button (click)="close(1)">Cancelar
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </form>
+  </mat-card-content>
+
+</mat-card>

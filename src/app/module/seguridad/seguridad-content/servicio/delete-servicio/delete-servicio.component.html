@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h4 class="modal-title">Eliminar servicio</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+  <p>¿Desea eliminar el servicio?</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="eliminarSerivcio()" style="width:64px" >Sí</button>
+  <button type="button" class="btn btn-outline-dark" style="width:64px" (click)="activeModal.close('Close click')">No</button>
+</div>

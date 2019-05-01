@@ -1,0 +1,347 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Esquema de vacunación</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12" id="fechas">
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-6">
+              <input matInput placeholder="Tuberculosis(BGC)" [matDatepicker]="picker" [(ngModel)]="jsEsquVacunacion.tuberculosis.value" [maxDate]="today" [max]="today" [disabled]="jsEsquVacunacion.tuberculosis.flgDisabled"
+                (dateChange)="selecFecha('tuberculosis', jsEsquVacunacion.tuberculosis.value, 1)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <input matInput placeholder="Antihepatitis" [matDatepicker]="pickers" [(ngModel)]="jsEsquVacunacion.antihepatitis.value" [maxDate]="today" [max]="today" [disabled]="jsEsquVacunacion.antihepatitis.flgDisabled"  (dateChange)="selecFecha('antihepatitis', jsEsquVacunacion.antihepatitis.value, 1)">
+                <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                <mat-datepicker #pickers></mat-datepicker>
+  
+              </mat-form-field>
+          </div>
+          <!-- <div class="form-grup form-group-sm">
+         
+          </div> -->
+<!--       
+          <div class="form-grup form-group-sm">
+        
+          </div> -->
+
+          <mat-divider></mat-divider>
+
+          <div class="form-grup form-group-sm row">
+            <div class="col-12" id="idTable1">
+              <table class="table ">
+                <thead>
+                  <th class="col-0">Vacuna</th>
+                  <th class="col-0">1ra</th>
+                  <th class="col-0">2da</th>
+                  <th class="col-0">3ra</th>
+                  <!-- <th class="col-0">Fecha de próxima dosis</th> --> 
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Antipolio</td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 2 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker5" [(ngModel)]="jsEsquVacunacion.antipolioPrimera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.antipolioPrimera.minfech" [minDate]="jsEsquVacunacion.antipolioPrimera.minfech" [disabled]="jsEsquVacunacion.antipolioPrimera.flgDisabled" (dateChange)="selecFecha('antipolioPrimera', jsEsquVacunacion.antipolioPrimera.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                          <mat-datepicker #picker5></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 4 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker6" [(ngModel)]="jsEsquVacunacion.antipolioSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.antipolioSegunda.minfech" [minDate]="jsEsquVacunacion.antipolioSegunda.minfech" [disabled]="jsEsquVacunacion.antipolioSegunda.flgDisabled" (dateChange)="selecFecha('antipolioSegunda', jsEsquVacunacion.antipolioSegunda.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                          <mat-datepicker #picker6></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 6 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker7" [(ngModel)]="jsEsquVacunacion.antipolioTercera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.antipolioTercera.minfech" [minDate]="jsEsquVacunacion.antipolioTercera.minfech" [disabled]="jsEsquVacunacion.antipolioTercera.flgDisabled" (dateChange)="selecFecha('antipolioTercera', jsEsquVacunacion.antipolioTercera.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+                          <mat-datepicker #picker7></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <!-- <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker8" [(ngModel)]="jsEsquVacunacion.antipolioProxDosis.value" [disabled]="jsEsquVacunacion.antipolioProxDosis.flgDisabled" (dateChange)="selecFecha('antipolioProxDosis', jsEsquVacunacion.antipolioProxDosis.value, 1)"/>
+                          <mat-datepicker-toggle matSuffix [for]="picker8"></mat-datepicker-toggle>
+                          <mat-datepicker #picker8 disabled></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td> -->
+                  </tr>
+                  <tr>
+                    <td>Pentavalente</td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 2 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker9" [(ngModel)]="jsEsquVacunacion.pentavalentePrimera.value" [max]="today" [maxDate]="today" [min]="param.feNacimiento" [minDate]="param.feNacimiento" (dateInput)="selecFecha('pentavalentePrimera', $event.target.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker9"></mat-datepicker-toggle>
+                          <mat-datepicker #picker9></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 4 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker10" [(ngModel)]="jsEsquVacunacion.pentavalenteSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.pentavalentePrimera.value" [minDate]="jsEsquVacunacion.pentavalentePrimera.value" (dateInput)="selecFecha('pentavalenteSegunda', $event.target.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker10"></mat-datepicker-toggle>
+                          <mat-datepicker #picker10></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 6 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker11" [(ngModel)]="jsEsquVacunacion.pentavalenteTercera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.pentavalenteSegunda.minfech" [minDate]="jsEsquVacunacion.pentavalenteSegunda.value" (dateInput)="selecFecha('pentavalenteTercera', $event.target.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                          <mat-datepicker #picker11></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <!-- <td>
+                      <div class="form-grup form-group-sm row" matTooltip="fecha de la siguiente Dosis" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker12" [(ngModel)]="jsEsquVacunacion.pentavalenteProxDosis.value" (dateChange)="selecFecha('pentavalenteProxDosis', jsEsquVacunacion.pentavalenteProxDosis.value, 1)" readonly="true"/>
+                          <mat-datepicker-toggle matSuffix [for]="picker12"></mat-datepicker-toggle>
+                          <mat-datepicker #picker12 disabled></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td> -->
+                  </tr>
+                  <tr>
+                    <td>Neumococo</td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 2 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker19" [(ngModel)]="jsEsquVacunacion.neumococoPrimera.value" [max]="today" [maxDate]="today" [min]="param.feNacimiento" [minDate]="param.feNacimiento" [disabled]="jsEsquVacunacion.neumococoPrimera.flgDisabled" (dateChange)="selecFecha('neumococoPrimera', jsEsquVacunacion.neumococoPrimera.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker19"></mat-datepicker-toggle>
+                          <mat-datepicker #picker19></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 4 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker20" [(ngModel)]="jsEsquVacunacion.neumococoSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.neumococoPrimera.minfech" [minDate]="jsEsquVacunacion.neumococoPrimera.minfech"  [disabled]="jsEsquVacunacion.neumococoPrimera.flgDisabled" (dateChange)="selecFecha('neumococoSegunda', jsEsquVacunacion.neumococoSegunda.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker20"></mat-datepicker-toggle>
+                          <mat-datepicker #picker20></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 6 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker21" [(ngModel)]="jsEsquVacunacion.neumococoTercera.value" [max]="today" [maxDate]="today" [minDate]="jsEsquVacunacion.neumococoTercera.minfech" [disabled]="jsEsquVacunacion.neumococoTercera.flgDisabled" (dateChange)="selecFecha('neumococoTercera', jsEsquVacunacion.neumococoTercera.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker21"></mat-datepicker-toggle>
+                          <mat-datepicker #picker21></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <!-- <td>
+                      <div class="form-grup form-group-sm row" matTooltip="Siguiente Dosis" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker22" [(ngModel)]="jsEsquVacunacion.neumococoProxDosis.value" [max]="today" [min]="jsEsquVacunacion.neumococoProxDosis.minfech" [disabled]="jsEsquVacunacion.neumococoProxDosis.flgDisabled" (dateChange)="selecFecha('neumococoProxDosis', jsEsquVacunacion.neumococoProxDosis.value, 1)" readonly="true" />
+                          <mat-datepicker-toggle matSuffix [for]="picker22"></mat-datepicker-toggle>
+                          <mat-datepicker #picker22 disabled></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td> -->
+                  </tr>
+                  <tr>
+                    <td>RotaVirus</td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 2 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker23" [(ngModel)]="jsEsquVacunacion.rotavirusPrimera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.rotavirusPrimera.minfech" [minDate]="jsEsquVacunacion.rotavirusPrimera.minfech" [disabled]="jsEsquVacunacion.rotavirusPrimera.flgDisabled" (dateChange)="selecFecha('rotavirusPrimera', jsEsquVacunacion.rotavirusPrimera.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker23"></mat-datepicker-toggle>
+                          <mat-datepicker #picker23></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row"  matTooltip="A los 4 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker24" [(ngModel)]="jsEsquVacunacion.rotavirusSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.rotavirusSegunda.minfech" [minDate]="jsEsquVacunacion.rotavirusSegunda.minfech" [disabled]="jsEsquVacunacion.rotavirusSegunda.flgDisabled" (dateChange)="selecFecha('rotavirusSegunda', jsEsquVacunacion.rotavirusSegunda.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker24"></mat-datepicker-toggle>
+                          <mat-datepicker #picker24></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td class="text-center">--</td>
+                    <!-- <td>
+                      <div class="form-grup form-group-sm row"  matTooltip="Siguiente Dosis" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker25" [(ngModel)]="jsEsquVacunacion.rotavirusProxDosis.value"  [disabled]="jsEsquVacunacion.rotavirusProxDosis.flgDisabled" (dateChange)="selecFecha('rotavirusProxDosis', jsEsquVacunacion.rotavirusProxDosis.value, 1)" readonly="true"/>
+                          <mat-datepicker-toggle matSuffix [for]="picker25"></mat-datepicker-toggle>
+                          <mat-datepicker #picker25 disabled></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td> -->
+                  </tr>
+                  <tr>
+                    <td>Influenza</td>
+                    <td>
+                      <div class="form-grup form-group-sm row"  matTooltip="A los 7 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker26" [(ngModel)]="jsEsquVacunacion.influenzaPrimera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.influenzaPrimera.minfech" [minDate]="jsEsquVacunacion.influenzaPrimera.minfech" [disabled]="jsEsquVacunacion.influenzaPrimera.flgDisabled" (dateChange)="selecFecha('influenzaPrimera', jsEsquVacunacion.influenzaPrimera.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker26"></mat-datepicker-toggle>
+                          <mat-datepicker #picker26></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row" matTooltip="A los 8 Meses" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker27" [(ngModel)]="jsEsquVacunacion.influenzaSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.influenzaSegunda.minfech" [minDate]="jsEsquVacunacion.influenzaSegunda.minfech" [disabled]="jsEsquVacunacion.influenzaSegunda.flgDisabled" (dateChange)="selecFecha('influenzaSegunda', jsEsquVacunacion.influenzaSegunda.value, 1)" />
+                          <mat-datepicker-toggle matSuffix [for]="picker27"></mat-datepicker-toggle>
+                          <mat-datepicker #picker27></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td class="text-center"> -- </td>
+                    <!-- <td>
+                      <div class="form-grup form-group-sm row" matTooltip="Siguiente Dosis" [matTooltipPosition]="'above'">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker28" [(ngModel)]="jsEsquVacunacion.influenzaProxDosis.value" [disabled]="jsEsquVacunacion.influenzaProxDosis.flgDisabled" (dateChange)="selecFecha('influenzaProxDosis', jsEsquVacunacion.influenzaProxDosis.value, 1)" readonly="true"/>
+                          <mat-datepicker-toggle matSuffix [for]="picker28"></mat-datepicker-toggle>
+                          <mat-datepicker #picker28 disabled></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-sm-12" >
+          <div *ngIf="listaDisabled.esquemaVacunacion!=2">
+
+            <div class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-6">
+                <input matInput placeholder="Sarampeón, rubeola y paperas (SPR)" [matDatepicker]="picker1" [(ngModel)]="jsEsquVacunacion.sarampionRubeolaPapera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.sarampionRubeolaPapera.minfech" [minDate]="jsEsquVacunacion.sarampionRubeolaPapera.minfech" [disabled]="jsEsquVacunacion.sarampionRubeolaPapera.flgDisabled" (dateChange)="selecFecha('sarampionRubeolaPapera', jsEsquVacunacion.sarampionRubeolaPapera.value, 1 )">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <input matInput placeholder="Antiamarílica (15 meses):" [matDatepicker]="picker3" [(ngModel)]="jsEsquVacunacion.antiamarillica.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.antiamarillica.minfech" [minDate]="jsEsquVacunacion.antiamarillica.minfech" [disabled]="jsEsquVacunacion.antiamarillica.flgDisabled" (dateChange)="selecFecha('antiamarillica',jsEsquVacunacion.antiamarillica.value,1)" />
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-6">
+                <input matInput placeholder="1er Refuerzo DPT (18 meses ó 6 meses despues de la 3ra pentavalente):" [matDatepicker]="picker2" [(ngModel)]="jsEsquVacunacion.refuerzoDPTPrimera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.refuerzoDPTPrimera.minfech" [minDate]="jsEsquVacunacion.refuerzoDPTPrimera.minfech" [disabled]="jsEsquVacunacion.refuerzoDPTPrimera.flgDisabled " (dateChange)="selecFecha('refuerzoDPTPrimera', jsEsquVacunacion.refuerzoDPTPrimera.value, 1)" />
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-6">
+                <input matInput placeholder="2do Refuerzo DPT (4 años) Refuerzo SPR:" [matDatepicker]="picker4" [(ngModel)]="jsEsquVacunacion.refuerzoDPTSegunda.value"  [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.refuerzoDPTSegunda.minfech" [minDate]="jsEsquVacunacion.refuerzoDPTSegunda.minfech" [disabled]="jsEsquVacunacion.refuerzoDPTSegunda.flgDisabled" (dateChange)="selecFecha('refuerzoDPTSegunda', jsEsquVacunacion.refuerzoDPTSegunda.value, 1)" />
+                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+          <div class="form-grup form-group-sm row">
+            <div class="col-12" id="idTableClass2">
+              <table class="table ">
+                <thead>
+                  <th>Vacuna (10 años)</th>
+                  <th>1ra dosis</th>
+                  <th>2da dosis</th>
+                  <th>3ra dosis</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>VPH</td>
+                    <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker13" [(ngModel)]="jsEsquVacunacion.vphPrimera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.vphPrimera.minfech" [minDate]="jsEsquVacunacion.vphPrimera.minfech" [disabled]="jsEsquVacunacion.vphPrimera.flgDisabled" (dateChange)="selecFecha('vphPrimera', jsEsquVacunacion.vphPrimera.value, 1)">
+                          <mat-datepicker-toggle matSuffix [for]="picker13"></mat-datepicker-toggle>
+                          <mat-datepicker #picker13></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker14" [(ngModel)]="jsEsquVacunacion.vphSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.vphSegunda.minfech" [minDate]="jsEsquVacunacion.vphSegunda.minfech" [disabled]="jsEsquVacunacion.vphSegunda.flgDisabled" (dateChange)="selecFecha('vphSegunda', jsEsquVacunacion.vphSegunda.value, 1)">
+                          <mat-datepicker-toggle matSuffix [for]="picker14"></mat-datepicker-toggle>
+                          <mat-datepicker #picker14></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker15" [(ngModel)]="jsEsquVacunacion.vphTercera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.vphTercera.minfech" [minDate]="jsEsquVacunacion.vphTercera.minfech" [disabled]="jsEsquVacunacion.vphTercera.flgDisabled" (dateChange)="selecFecha('vphTercera', jsEsquVacunacion.vphTercera.value, 1)">
+                          <mat-datepicker-toggle matSuffix [for]="picker15"></mat-datepicker-toggle>
+                          <mat-datepicker #picker15></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>DT</td>
+                    <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker16" [(ngModel)]="jsEsquVacunacion.dtPrimera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.dtPrimera.minfech" [minDate]="jsEsquVacunacion.dtPrimera.minfech" [disabled]="jsEsquVacunacion.dtPrimera.flgDisabled" (dateChange)="selecFecha('dtPrimera', jsEsquVacunacion.dtPrimera.value, 1)">
+                          <mat-datepicker-toggle matSuffix [for]="picker16"></mat-datepicker-toggle>
+                          <mat-datepicker #picker16></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker17" [(ngModel)]="jsEsquVacunacion.dtSegunda.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.dtSegunda.minfech" [minDate]="jsEsquVacunacion.dtSegunda.minfech"[disabled]="jsEsquVacunacion.dtSegunda.flgDisabled" (dateChange)="selecFecha('dtSegunda', jsEsquVacunacion.dtSegunda.value, 1)">
+                          <mat-datepicker-toggle matSuffix [for]="picker17"></mat-datepicker-toggle>
+                          <mat-datepicker #picker17></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [matDatepicker]="picker18" [(ngModel)]="jsEsquVacunacion.dtTercera.value" [max]="today" [maxDate]="today" [min]="jsEsquVacunacion.dtTercera.minfech" [minDate]="jsEsquVacunacion.dtTercera.minfech" [disabled]="jsEsquVacunacion.dtTercera.flgDisabled" (dateChange)="selecFecha('dtTercera', jsEsquVacunacion.dtTercera.value, 1)">
+                          <mat-datepicker-toggle matSuffix [for]="picker18"></mat-datepicker-toggle>
+                          <mat-datepicker #picker18></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </mat-card-content>
+</mat-card>

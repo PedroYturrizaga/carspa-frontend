@@ -1,0 +1,36 @@
+<h2 mat-dialog-title> Detalle de la Programación 
+  <span class="example-spacer"></span>
+  <button mat-button class = "mat-button-icon" (click)="onNoClick()">
+    <div class="example-tooltip-host">
+      <span>
+        <i class="material-icons">close</i>
+      </span>
+    </div>
+  </button>
+</h2>
+
+<div class="modal-body">
+  <div class="form-grup form-group-sm row">
+    <mat-label class="col-sm-12  bold-text"> ¿Desea confirmar todas las programaciones.? </mat-label>
+  </div>
+
+  <div class="form-grup form-group-sm row">
+    <button mat-raised-button class="col-sm-6" color="warn" (click)="onNoClick()"> Cerrar </button>
+    <button mat-raised-button class="col-sm-6" color="primary" (click)="confirmarProgramacion()"> Aceptar </button>
+  </div>
+
+</div>
+<!-- 
+<div class="modal-header">
+  <h4 class="modal-title">Detalle Programación</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>  
+</div>
+<div class="modal-body">    
+  <span>¿Desea confirmar todas las programaciones.?</span>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+  <button type="button" class="btn btn-primary"  (click)="confirmarProgramacion()">Aceptar</button>
+</div> -->

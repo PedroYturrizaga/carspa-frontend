@@ -1,0 +1,16 @@
+<div class="sombreadoSubtitulos">
+    <h5 mat-dialog-title class="subtitulo-seccion">Aviso
+      <!-- <span class="example-spacer"></span> -->
+    </h5>
+  </div>
+  
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12 text-center"> {{confirmacion}} </div>
+    </div>
+  </div>
+  
+  <div class="text-center">
+    <button mat-raised-button (click)="confirmacionCorrecta()">Confirmar</button>
+    <button mat-raised-button (click)="dismiss()">Cancelar</button>
+  </div>

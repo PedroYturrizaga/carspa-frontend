@@ -1,0 +1,27 @@
+.mat-dialog-title {
+  align-self: flex-start;
+  color: #2e86de;
+  display: flex !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+  overflow: hidden;
+  margin: 0 0 15px !important;
+  font-family:  sans-serif !important;
+}
+.modal-footer {
+  align-content: center;
+  justify-content: center !important;
+  border-top: none;
+}
+.mat-dialog-actions {
+  padding: 15px 0;
+}
+.mat-dialog-content {
+  display: block;
+  margin: 0 -24px;
+  padding: 0 24px;
+  max-height: 74vh !important;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}

@@ -1,0 +1,467 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Informacion General</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #probarConvenioProducto="ngForm" novalidate name="probarConvenioProducto">
+      <div class="card-body">
+        <div class="row alinear56 alingItems">
+          <div class="col-sm-2">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Codigo de Asegurado" name="idAse" #idAse="ngModel" id="idAse" type="text"
+                [(ngModel)]="requestGeneral.personaContrante.idAsegurado" maxlength="12" (keypress)="setInputPattern($event, 'positiveDigits')"
+                required [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="tablaAuxiliar.length!=0">
+              <mat-error>
+                <app-validators-messages [controlVar]="idAse" labelName="Codigo Asegurado">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-2">
+            <mat-form-field class="example-full-width ">
+              <input matInput placeholder="Poliza/Contrato" name="pol" #pol="ngModel" id="pol" type="text" [maxLength]="16"
+                [(ngModel)]="requestGeneral.personaContrante.idPoliza" (keypress)="setInputPattern($event, 'positiveDigits')"
+                required [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="tablaAuxiliar.length!=0">
+              <mat-error>
+                <app-validators-messages [controlVar]="pol" labelName="Poliza/Contrato">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-2 ">
+            <mat-form-field class="example-full-width">
+              <mat-select #listaOpciones placeholder="Seleccionar Convenio" [(ngModel)]="jsonRequestGeneral.nombreConvenio"
+                name="idConvenio" #idConvenio="ngModel" id="idConvenio" [disabled]="tablaAuxiliar.length!=0">
+                <mat-option *ngFor="let a of lsConvenio" (click)="seleccionarConvenio(a)" [value]="a.nombreConvenio">
+                  {{a.nombreConvenio}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-2">
+
+            <mat-form-field class="example-full-width">
+              <mat-select #listaOpciones placeholder="Seleccionar Producto" [(ngModel)]="jsonRequestGeneral.noProdName"
+                name="idProducto" #idProducto="ngModel" id="idProducto" [disabled]="tablaAuxiliar.length!=0">
+                <mat-option *ngFor="let a of lsProducto" (click)="seleccionarProducto(a)" [value]="a.noProdName">
+                  {{a.noProdName}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-2 alinearBotones2">
+            <button mat-raised-button (click)="probar()" [disabled]="jsonRequestGeneral.idConvenio == null || jsonRequestGeneral.nombreConvenio == null || jsonRequestGeneral.codProducto == null || jsonRequestGeneral.nombreProducto == null || requestGeneral.personaContrante.idAsegurado == null || requestGeneral.personaContrante.idPoliza == '' || this.requestGeneral.personaContrante.idAsegurado == ''">
+              Agregar
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+
+    <mat-table #table [dataSource]="dataSource" *ngIf="tablaAuxiliar.length!=0">
+
+      <ng-container matColumnDef="nombreConvenio">
+        <mat-header-cell *matHeaderCellDef> Nombre Convenio </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.nombreConvenio}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="numeroProducto">
+        <mat-header-cell *matHeaderCellDef matTooltip="Numero Producto" matTooltipPosition="above"> N° de Producto
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.codProducto}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="producto">
+        <mat-header-cell *matHeaderCellDef> Producto </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.noProdName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+        <mat-cell *matCellDef="let element"> VIGENTE </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cambiarEstado">
+        <mat-header-cell *matHeaderCellDef> Cambiar Estado </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button class="border-botton" mat-raised-button>Cambiar</button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="eliminar">
+        <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i=index">
+          <button mat-button (click)="deleteProducto(i)">
+            <i class="material-icons">delete_forever</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<form #ingresarDatosPaciente="ngForm" novalidate name="ingresarDatosPaciente">
+  <mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Datos del Personal Contratante</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+
+
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <input matInput placeholder="Nombre" name="nombres" #nombres="ngModel" id="nombres" type="text"
+                [(ngModel)]="requestGeneral.personaContrante.nombres" maxlength="12" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required>
+              <mat-error>
+                <app-validators-messages [controlVar]="nombres" labelName="Nombre">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width mat-form-field-flex5 ">
+              <input matInput placeholder="Apellido Paterno" name="apPaterno" #apPaterno="ngModel" id="apPaterno"
+                [(ngModel)]="requestGeneral.personaContrante.apellidoPaterno" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required>
+              <mat-error>
+                <app-validators-messages [controlVar]="apPaterno" labelName="Apellido Paterno">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width mat-form-field-flex5 ">
+              <input matInput placeholder="Apellido Materno" name="apMaterno" #apMaterno="ngModel" id="apMaterno"
+                [(ngModel)]="requestGeneral.personaContrante.apellidoMaterno" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required>
+              <mat-error>
+                <app-validators-messages [controlVar]="apMaterno" labelName="Apellido Materno">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3 ">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <mat-select #listaOpciones placeholder="Genero" [(ngModel)]="requestGeneral.personaContrante.nombreGenero"
+                name="idGenero" #idGenero="ngModel" id="idGenero" required>
+                <mat-option *ngFor="let a of lsGenero" (click)="seleccionarGenero(a)" [value]="a.nombreGenero">
+                  {{a.nombreGenero}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idGenero" labelName="Genero">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-sm-3 ">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <input matInput [(ngModel)]="fhNacimiento" name="fechaNacimiento" #fechaNacimiento="ngModel" id="fechaNacimiento"
+                [matDatepicker]="fn" placeholder="Fecha de Nacimiento" (dateChange)="verificarEdad()" disabled required>
+              <mat-datepicker-toggle matSuffix [for]="fn"></mat-datepicker-toggle>
+              <mat-datepicker #fn [disabled]="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="fechaNacimiento" labelName="Fecha Nacimiento">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3 ">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <mat-select #listaOpciones placeholder="Parentesco" [(ngModel)]="requestGeneral.personaContrante.nombreParentesco"
+                name="idParentesco" #idParentesco="ngModel" id="idParentesco" required>
+                <mat-option *ngFor="let a of lsParentesco" (click)="seleccionarParentesco(a)" [value]="a.nombreParentesco">
+                  {{a.nombreParentesco}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idParentesco" labelName="Parentesco">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-sm-3 ">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <mat-select #listaOpciones1 placeholder="TipoDocumento" [(ngModel)]="requestGeneral.personaContrante.descripcionDocumento"
+                name="idDocumento" #idDocumento="ngModel" id="idDocumento" required (selectionChange)="verificarTamanio(listaOpciones1.value)">
+                <mat-option *ngFor="let a of lsDocumento" (click)="seleccionarDocumento(a)" [value]="a.descripcionDocumento">
+                  {{a.descripcionDocumento}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idDocumento" labelName="Documento">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width mat-form-field-flex5 ">
+              <input matInput placeholder="N° de Documento" required name="numDoc" #numDoc="ngModel" id="numDoc"
+                minlength="{{tamDoc}}" maxlength="{{tamDoc}}" [(ngModel)]="requestGeneral.personaContrante.nroDocumento"
+                [disabled]="!requestGeneral.personaContrante.descripcionDocumento" (keypress)="setInputPattern($event, 'positiveDigits')"
+                required [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+              <mat-error>
+                <app-validators-messages [controlVar]="numDoc" labelName="Nro. Documento">
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end">{{numDoc.value?.length}} / {{tamDoc}}</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+
+
+
+          <div class="col-sm-3">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <input matInput type="number" placeholder="Edad" name="edad" #edad="ngModel" id="edad" disabled required
+                [(ngModel)]="requestGeneral.personaContrante.edad">
+              <mat-error>
+                <app-validators-messages [controlVar]="edad" labelName="Tipo Documento">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3 ">
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <mat-select #listaOpciones placeholder="Estado civil" [(ngModel)]="requestGeneral.personaContrante.descripcionEstadoCivil"
+                name="idEstadoCivil" #idEstadoCivil="ngModel" id="idEstadoCivil" required>
+                <mat-option *ngFor="let a of lsEstadoCivil" (click)="seleccionarEstadoCivil(a)" [value]="a.descripcionEstadoCivil">
+                  {{a.descripcionEstadoCivil}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idEstadoCivil" labelName="Estado Civil">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-3">
+
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <input matInput [(ngModel)]="inicioVigencia" required name="fechaVig" #fechaVig="ngModel" id="fechaVig"
+                type="text" [matDatepicker]="dp" placeholder="Inicio de Vigencia" [min]="fhNacimiento" [maxDate]="finVigencia"
+                [max]="finVigencia" disabled required>
+
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp [disabled]="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="fechaVig" labelName="Fecha Vigencia Inicio">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+
+          <div class="col-sm-3">
+
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <input matInput [(ngModel)]="finVigencia" required name="finVig" #finVig="ngModel" id="finVig" type="text"
+                [matDatepicker]="dpp" placeholder="Fin de Vigencia" [minDate]="inicioVigencia" [min]="inicioVigencia"
+                disabled required>
+
+              <mat-datepicker-toggle matSuffix [for]="dpp"></mat-datepicker-toggle>
+              <mat-datepicker #dpp [disabled]="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="finVig" labelName="Fecha Vigencia Fin">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+        </div>
+
+        <div class="row">
+
+
+
+
+          <div class="col-sm-3">
+
+            <mat-form-field class="example-full-width mat-form-field-flex5">
+              <input matInput [(ngModel)]="fhCarencia" type="text" name="fechCar" #fechCar="ngModel" id="fechCar"
+                [matDatepicker]="pp" placeholder="Fecha de Carencia" disabled [minDate]="finVigencia" [min]="finVigencia"
+                required>
+
+              <mat-datepicker-toggle matSuffix [for]="pp"></mat-datepicker-toggle>
+              <mat-datepicker #pp [disabled]="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="fechCar" labelName="Fecha Carencia">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+          <div class="col-sm-9 text-right al3">
+            <button mat-raised-button (click)="insertarProductoContratante()" [disabled]="ingresarDatosPaciente.invalid || !fhNacimiento || !inicioVigencia || !finVigencia || !fhCarencia || tablaAuxiliar.length==0"
+              *ngIf="requestGeneral.personaContrante.idParentesco==1||requestGeneral.personaContrante.idParentesco==null">
+              Guardar </button>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <div class="row agrandarContainer" *ngIf="requestGeneral.personaContrante.idParentesco">
+    <div class="col-5 modalIzquierdoAlineado">
+      <mat-card *ngIf="requestGeneral.personaContrante.idParentesco != 1">
+
+        <mat-card-header class="sombreadoSubtitulos ">
+          <mat-card-title class="subtitulo-seccion">Datos de Busqueda</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="card-body">
+            <div class="row alinearInputBotones">
+              <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <mat-select #listaOpciones2 placeholder="Tipo Documento Titular" [(ngModel)]="requestGeneral.personaContrante.nombreDocumentoTitular"
+                    name="idDocumentoTitular" #idDocumentoTitular="ngModel" id="idDocumentoTitular" (selectionChange)="verificarTamanio2(listaOpciones2.value)">
+                    <mat-option *ngFor="let a of lsDocumentoTitular" (click)="seleccionarDocumentoNoTitular(a)" [value]="a.descripcionDocumento">
+                      {{a.descripcionDocumento}} </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    <app-validators-messages [controlVar]="idDocumentoTitular" labelName="Tipo Documento Titular">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <input matInput name="idDocumentoTitularNUM" #idDocumentoTitularNUM="ngModel" id="idDocumentoTitularNUM"
+                    placeholder="N° de Documento" type="text" [(ngModel)]="requestGeneral.personaContrante.nroDocumentoTitular"
+                    minlength="{{tamDoc2}}" maxlength="{{tamDoc2}}" [disabled]="!requestGeneral.personaContrante.nombreDocumentoTitular"
+                    (keypress)="setInputPattern($event, 'positiveDigits')" required [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                  <mat-error>
+                    <app-validators-messages [controlVar]="idDocumentoTitularNUM" labelName="Nro. Documento Titular">
+                    </app-validators-messages>
+                  </mat-error>
+                  <mat-hint align="end">{{idDocumentoTitularNUM.value?.length}} / {{tamDoc2}}</mat-hint>
+                </mat-form-field>
+
+              </div>
+
+              <div class="col-sm-3">
+                <button mat-raised-button (click)="traerDetalleporDocumento()" [disabled]="!requestGeneral.personaContrante.nroDocumentoTitular||!requestGeneral.personaContrante.idConvenio">
+                  Buscar
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+
+    <div class="col-7 modalDerechoAlineado">
+      <mat-card *ngIf="requestGeneral.personaContrante.idParentesco != 1">
+
+        <mat-card-header class="sombreadoSubtitulos ">
+          <mat-card-title class="subtitulo-seccion">Datos del Titular</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="card-body">
+
+            <!-- <mat-divider></mat-divider> -->
+            <div class="row">
+
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Apellidos y Nombres" name="apenom" #apenom="ngModel" id="apenom" type="text"
+                    [(ngModel)]="contenedorPersonal.nombres" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                    disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Codigo Titular" name="idA" #idA="ngModel" id="idA" type="text" disabled
+                    [(ngModel)]="contenedorPersonal.idAsegurado">
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Fecha de Afiliación" name="fhA" #fhA="ngModel" id="fhA" type="text"
+                    [(ngModel)]="contenedorPersonal.fhAfiliacion" disabled>
+                </mat-form-field>
+              </div>
+
+              
+
+            </div>
+
+
+            <div class="row alinearInputBotones">
+
+                <div class="col-sm-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Tipo de Afiliación" name="af" #af="ngModel" id="af" type="text"
+                        [(ngModel)]="contenedorPersonal.estadoAfiliacion" disabled>
+                    </mat-form-field>
+                  </div>
+
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Inicio de Vigencia" name="idV" #idV="ngModel" id="idV" type="text"
+                    [(ngModel)]="contenedorPersonal.inicioVigencia" disabled>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Fecha de Carencia" name="fhC" #fhC="ngModel" id="fhC" type="text"
+                    [(ngModel)]="contenedorPersonal.fhCarencia" disabled>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3 alinearIzq">
+                <button mat-raised-button (click)="insertarProductoContratante()" [disabled]="ingresarDatosPaciente.invalid || tablaAuxiliar.length==0 || !contenedorPersonal.nombres">
+                  Guardar </button>
+              </div>
+            </div>
+
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+
+
+  </div>
+
+</form>

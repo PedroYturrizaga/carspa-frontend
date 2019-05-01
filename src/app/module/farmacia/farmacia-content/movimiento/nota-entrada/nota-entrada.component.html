@@ -1,0 +1,363 @@
+<main class="mat-content">
+  <mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Datos de Ingreso</mat-card-title>
+    </mat-card-header>
+    <form #proveed="ngForm" novalidate name="proveed">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label for="nroDocNota">N° de Doc. de Ingreso: </mat-label>
+              <input matInput (keypress)="setInputPattern($event, 'simbols')" [pattern]="setValidatorPattern('simbols',setQuantifier(''), true, true)"
+                name="nroDocNota" #nroDocNota="ngModel" id="nroDocNota" [(ngModel)]="notaEntradaRequest.comprobanteFarmacia.numeroDocumentoIngreso"
+                [disabled]="this.arrayMedicDisp.length != 0" maxlength="20" required>
+              <mat-error>
+                <app-validators-messages [controlVar]="nroDocNota" labelName="N° de Doc. de Ingreso">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput [matDatepicker]="dp" name="fechIngresoNota" #fechIngresoNota="ngModel" id="fechIngresoNota" [(ngModel)]="notaEntradaRequest.comprobanteFarmacia.feIngreso"
+                placeholder="Fecha de ingreso:" [minDate]="fechaHoy" disabled required />
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="true"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="fechIngresoNota" labelName="Fecha de ingreso:">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input tabindex="-1" matInput placeholder="Proveedor:" type="text" name="proveedor" #proveedor="ngModel" id="proveedor" [(ngModel)]="notaEntradaRequest.comprobanteFarmacia.proveedor"
+                [disabled]="this.arrayMedicDisp.length != 0" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+                required />
+              <!-- <button mat-button *ngIf="notaEntradaRequest.comprobanteFarmacia.proveedor" matSuffix mat-icon-button
+                aria-label="Clear" (click)="proveedor.reset()" [disabled]="this.arrayMedicDisp.length != 0">
+                <mat-icon>close</mat-icon>
+              </button> -->
+              <mat-error>
+                <app-validators-messages [controlVar]="proveedor" labelName="Proveedor">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+
+  <mat-card tabindex="-1">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Añadir Medicamento</mat-card-title>
+    </mat-card-header>
+    <form #addNotaEntrada="ngForm" novalidate name="addNotaEntrada">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label>Producto Farmacéutico / Dispositivo Médico:</mat-label>
+              <input matInput [matAutocomplete]="auto" name="descMedic" #descMedic="ngModel" id="descMedic" [(ngModel)]="descripMedicDispMedicProducSanit"
+                (input)="buscarMedicDispProdDescripcion($event.target.value)" [disabled]="disableMedic" required />
+              <mat-error>
+                <app-validators-messages [controlVar]="descMedic" labelName="Producto Farmacéutico / Dispositivo Médico">
+                </app-validators-messages>
+              </mat-error>
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <div>
+                  <mat-option (onSelectionChange)="seleccionaMedicamentoMaterial(dispMeD)" *ngFor="let dispMeD of medicDispMedicProdSanit"
+                    [value]="dispMeD.dispositivoMedicamento +' '+ dispMeD.marca + ' ' + (dispMeD.presentacion ? dispMeD.presentacion
+                    : '') + ' ' + (dispMeD.viaAdministracion ? dispMeD.viaAdministracion : '') + ' ' + dispMeD.formaFarmaceutica
+                    +' '+ dispMeD.concentracion">
+                    <span>{{ dispMeD.dispositivoMedicamento }} {{ dispMeD.concentracion }} {{ dispMeD.marca }}</span>
+                  </mat-option>
+                </div>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput placeholder="Registro Sanitario:" name="regiSaniNota" #regiSaniNota="ngModel" id="regiSaniNota" [(ngModel)]="medicDispProd.regiSani"
+                (keypress)="setInputPattern($event, 'lettersNoSpace')" [pattern]="setValidatorPattern('lettersNoSpace', setQuantifier('+'), true, true)"
+                required />
+              <!-- <button mat-button *ngIf="medicDispProd.regiSani" matSuffix mat-icon-button aria-label="Clear"
+                (click)="regiSaniNota.reset()">
+                <mat-icon>close</mat-icon>
+              </button> -->
+              <mat-error>
+                <app-validators-messages [controlVar]="regiSaniNota" labelName="Registro sanitario">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+
+              <mat-select placeholder="Unidad de Medidad" [(ngModel)]="medicDispProd.idUnidad" name="unidMed" [disabled]="descripMedicDispMedicProducSanit==null"
+                #unidMed="ngModel" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let asd of unidadesMedidas" [value]="asd.idUnidad">{{asd.nombreUnidad}}
+                </mat-option>
+              </mat-select>
+
+              <mat-error>
+                <app-validators-messages [controlVar]="unidMed" labelName="Unidad de Medida"></app-validators-messages>
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput placeholder="Cantidad:" name="cantidadNota" #cantidadNota="ngModel" id="cantidadNota" [(ngModel)]="medicDispProd.cantidad"
+                (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true) "
+                [min]="1" [maxlength]="5" required>
+              <!-- <button mat-button *ngIf="medicDispProd.cantidad" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="cantidadNota.reset()">
+                    <mat-icon>close</mat-icon>
+                  </button> -->
+              <mat-error>
+                <app-validators-messages [controlVar]="cantidadNota" labelName="Cantidad">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput [matDatepicker]="dp1" name="fechVenciNota" #fechVenciNota="ngModel" id="fechVenciNota" [(ngModel)]="medicDispProd.fechVenci"
+                placeholder="Fecha de vencimiento:" [minDate]="minimaFecha" [min]="dateMin" required disabled />
+              <!-- <button mat-button *ngIf="medicDispProd.fechVenci" matSuffix mat-icon-button aria-label="Clear"
+                (click)="fechVenciNota.reset()">
+                <mat-icon>close</mat-icon>
+              </button> -->
+              <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+              <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="fechVenciNota" labelName="Fecha de vencimiento">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-sm-3">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Precio Unitario:" name="precUniNota" #precUniNota="ngModel" id="precUniNota" [(ngModel)]="medicDispProd.precUni"
+                (keypress)="setInputPattern($event, 'prices')" required [pattern]="setValidatorPattern('prices', setQuantifier(), true, true)"
+                [min]="1">
+              <button mat-button *ngIf="medicDispProd.precUni" matSuffix mat-icon-button aria-label="Clear" (click)="precUniNota.reset()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="precUniNota" labelName="Precio Unitario">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label for="lote">Lote: </mat-label>
+              <input matInput placeholder="Lote:" type="text" name="loteNota" #loteNota="ngModel" id="loteNota" [(ngModel)]="medicDispProd.lote"
+                (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
+                required />
+              <!-- <button mat-button *ngIf="medicDispProd.lote" matSuffix mat-icon-button aria-label="Clear"
+                (click)="loteNota.reset()">
+                <mat-icon>close</mat-icon>
+              </button> -->
+              <mat-error>
+                <app-validators-messages [controlVar]="loteNota" labelName="Lote">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12" *ngIf="unidadesMedidas.length!=0">
+            <div class="row card-body">
+              <h5 class="font negrita">Precio por Unidad:</h5>
+            </div>
+            <div class="row">
+              <div class="col-sm-4" *ngFor="let umed of unidadesMedidas; let i=index">
+                <mat-form-field class="example-full-width mat-form-field-flex3">
+                  <input matInput type="number" placeholder="Precio {{umed.nombreUnidad}}" name="precio{{i}}" id="precio{{i}}" #precio="ngModel"
+                    [(ngModel)]="umed.precio" (keypress)="setInputPattern($event, 'realPrices')" [pattern]="setValidatorPattern('realPrices', setQuantifier(''), true, true)"
+                    [min]="0.5" type="number" [maxlength]="10" required />
+                  <mat-error>
+                    <app-validators-messages [controlVar]="precio" labelName="Precio">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-12 text-right margenTop">
+                <button mat-raised-button type="button" *ngIf="showGuardar == 1" (click)="agregarMedicDisp(addNotaEntrada)" [disabled]="isInvalid(addNotaEntrada)">Agregar</button>
+                <button mat-raised-button type="button" *ngIf="showGuardar == 2" (click)="edicionMedicDisp(addNotaEntrada)" [disabled]="isInvalid(addNotaEntrada)">Editar</button>
+                <button *ngIf="showGuardar == 2" mat-raised-button (click)="cancelarEdicion(addNotaEntrada)">Cancelar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+
+    <mat-card-content>
+      <div class="table responsive">
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="Codigo">
+            <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.codigoMedicDisp}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="productFarma">
+            <mat-header-cell *matHeaderCellDef>
+              <div class="example-tooltip-host" matTooltip="Producto Farmacéutico / Dispositivo Médico" [matTooltipPosition]="position">
+                <span>P. F./D. M.</span>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descMedicDisp}} {{element.concentracion}} {{element.marca}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="registroSan">
+            <mat-header-cell *matHeaderCellDef>
+              <div class="example-tooltip-host" matTooltip="Registro Sanitario" [matTooltipPosition]="position">
+                <span>Rg. Sanitario</span>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.regiSani}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Lote">
+            <mat-header-cell *matHeaderCellDef> Lote </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.lote}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="fechaVen">
+            <mat-header-cell *matHeaderCellDef>
+              <div class="example-tooltip-host" matTooltip="Fecha de Vencimiento" [matTooltipPosition]="position">
+                <span>F. Vencimiento</span>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fechVenci}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Cantidad">
+            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Unidad">
+            <mat-header-cell *matHeaderCellDef> Unidad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.unidMed.nombreUnidad}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Precio">
+            <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.unidMed.precio}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="SubTotal">
+            <mat-header-cell *matHeaderCellDef> SubTotal </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{(element.cantidad * element.unidMed.precio)}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Editar">
+            <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">
+              <button mat-button (click)="editarMedicDisp(element,i)" [disabled]="disableMedic">
+                <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons">edit</i>
+                  </span>
+                </div>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Accion">
+            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-button (click)="deleteMedicDisp(element.idMedicDisp,element.cantidad,element.precUni,element.descMedicDisp,element.fiTipo)"
+                [disabled]="showGuardar == 2">
+                <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons">delete</i>
+                  </span>
+                </div>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumnsMedicDisp"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsMedicDisp;"></mat-row>
+        </mat-table>
+        <!-- <table class="table">
+          <thead>
+            <tr>
+              <th class="text-center">Codigo</th>
+              <th class="text-center">
+                <div class="example-tooltip-host" matTooltip="Producto Farmacéutico / Dispositivo Médico"
+                  [matTooltipPosition]="position">
+                  <span>P. Farm. / Disp. Médico</span>
+                </div>
+              </th>
+              <th class="text-center">Registro Sanitario</th>
+              <th class="text-center">Lote</th>
+              <th class="text-center" style="width: 15%;">Fecha Vencimiento</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-center">Unidad</th>
+              <th class="text-center">Precio</th>
+              <th class="text-center">SubTotal</th>
+              <th class="text-center">Editar</th>
+              <th class="text-center">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <tr *ngFor="let amd of arrayMedicDisp">
+                <td scope="row" class="text-center">{{amd.codigoMedicDisp}}</td>
+                <td scope="row" class="text-center">{{amd.descMedicDisp}}</td>
+                <td scope="row" class="text-center">{{amd.regiSani}}</td>
+                <td scope="row" class="text-center">{{amd.lote}}</td>
+                <td scope="row" class="text-center">{{amd.fechVenci}}</td>
+                <td scope="row" class="text-center">{{amd.cantidad}}</td>
+                <td scope="row" class="text-center">{{amd.unidMed.nombreUnidad}}</td>
+                <td scope="row" class="text-center">{{amd.unidMed.precio}}</td>
+                <td scope="row" class="text-center">{{(amd.cantidad * amd.unidMed.precio)}}</td>
+                <td scope="row" class="text-center">
+                  <button mat-button (click)="editarMedicDisp(amd,i)" [disabled]="disableMedic">
+                    <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+                      <span>
+                        <i class="material-icons">edit</i>
+                      </span>
+                    </div>
+                  </button>
+                </td>
+                <td scope="row" class="text-center">
+                  <button mat-button (click)="deleteMedicDisp(amd.idMedicDisp,amd.cantidad,amd.precUni,amd.descMedicDisp,amd.fiTipo)"
+                [disabled]="showGuardar == 2">
+                <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons">delete</i>
+                  </span>
+                </div>
+              </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table> -->
+        <div class="col-12 text-right negrita">
+          Total: {{totalM}}
+          <button mat-raised-button (click)="insertarNotaEntrada()" [disabled]="this.arrayMedicDisp.length === 0 || disableMedic">Guardar</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</main>

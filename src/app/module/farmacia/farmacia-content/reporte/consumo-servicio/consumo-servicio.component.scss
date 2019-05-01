@@ -1,0 +1,23 @@
+.fullcenter{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+
+.separacion{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-position{
+    margin-right: 4.5%;
+}
+.alinearBotones{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    /* margin-left: 857px; */
+    justify-content: flex-end;
+}

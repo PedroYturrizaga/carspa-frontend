@@ -1,0 +1,23 @@
+::-webkit-input-placeholder{
+    font-weight: bold;
+    font-size: 90%;
+}
+:-ms-input-placeholder{
+    font-weight: bold;
+    font-size: 90%;
+}
+input, select, table{
+    font-size: 90%;
+}.tabla{
+    table-layout:fixed;
+    width: 100%;
+}input[type=number]::-webkit-inner-spin-button,
+ input[type=number]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+.fullcenter{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+ }

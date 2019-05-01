@@ -1,0 +1,59 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Registrar IAFA</mat-card-title>
+    <div class="emp">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <form #FormCrearIafa="ngForm" novalidate name="FormCrearIafa">
+      <div class="modal-body">
+        <div class="row centrarTituloModal">
+          <div class="col-sm-10">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Codigo de Iafa" [(ngModel)]="lsIafa.codIafa" name="codIafa" #codigo="ngModel"
+                (keypress)="setInputPattern($event, 'positiveDigits')" required [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                (keyup.enter)="actualizarInventario(element,element.i)" [min]="0" [maxlength]="8">
+              <mat-error>
+                <app-validators-messages [controlVar]="codIafa" labelName="Codigo de Iafa">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-10 ">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" value="" placeholder=" Nombre de Iafa" [(ngModel)]="lsIafa.nombre" name="nombre"
+                #nombre="ngModel" required (keypress)="setInputPattern($event, 'soloUnEspacioLetra')" [pattern]="setValidatorPattern('soloUnEspacioLetra', setQuantifier('+'), true, true)">
+              <mat-error>
+                <app-validators-messages [controlVar]="nombre" labelName="Nombre de Iafa">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-sm-3 mat-form-field-flex1">
+
+            <mat-checkbox name="flagEnUso" #uso="ngModel" id="flagEnUso2" [(ngModel)]="lsIafa.flagEnUso">En Uso</mat-checkbox>
+          </div>
+          <div class="col-sm-3"></div>
+          <div class="col-sm-3 mat-form-field-flex1">
+            <mat-checkbox name="flagPropio" #propio="ngModel" id="flagPropio2" [(ngModel)]="lsIafa.flagPropio">Propio</mat-checkbox>
+
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </mat-card-content>
+  <mat-dialog-actions class="modal-footer">
+    <button type="submit" mat-raised-button (click)="insertarIafa()" [disabled]="FormCrearIafa.invalid">Guardar</button>
+    <button type="button" mat-raised-button data-dismiss="modal" (click)="close()">Cancelar</button>
+  </mat-dialog-actions>
+</mat-card>

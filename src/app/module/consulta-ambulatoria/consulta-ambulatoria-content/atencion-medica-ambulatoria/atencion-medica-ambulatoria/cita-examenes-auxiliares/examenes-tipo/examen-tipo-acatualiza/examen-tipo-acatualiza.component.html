@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h4 class="modal-title text-center"> Actualizar Indicaciones de Examen de {{exTipoSelect.valor}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="modal-body">
+  <div class="form-grup form-group-sm row">
+    <mat-form-field class="col-sm-12">
+      <textarea matInput placeholder="Indicaciones" [(ngModel)]="RequestOrdenExamenDetalle.ordenExamenDetalle.observacionExamenDetalle"></textarea>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <div class="form-grup form-group-sm row">
+    <div class="col-sm-12 text-center">
+      <button mat-raised-button color="primary" (click)="actualizarOrdenExamenesDetalle()"> Si </button>
+      <button mat-raised-button color="warn" (click)="onNoClick()"> No </button>
+    </div>
+  </div>
+</div>

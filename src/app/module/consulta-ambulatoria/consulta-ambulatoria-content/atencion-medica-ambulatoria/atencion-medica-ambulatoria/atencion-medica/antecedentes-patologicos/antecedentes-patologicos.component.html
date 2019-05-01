@@ -1,0 +1,199 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Patológicos</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="form-grup form-group-sm row">
+        <mat-label class="col-sm-12  bold-text"> Personales </mat-label>
+      </div>
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12 col-md-12">
+          <input matInput [matAutocomplete]="auto" placeholder="Descripcion de Diagnostico" [(ngModel)]="diagnosticoModel.medicamento.descripcionDiagnostico" (input)="busquedaDiagnosticoDescripcion($event.target.value)" [formControl]="diagnosticoCtrl" matTooltip="Minimo 2 caracteres"
+            [matTooltipPosition]="'above'">
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let ld of listaDiagnostico" [value]="ld.descripcionDiagnostico"
+              (onSelectionChange)="selectDescripcion(ld.descripcionDiagnostico, ld.idDiagnostico)">
+              {{ ld.descripcionDiagnostico }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+      </div>
+      <div class="form-grup form-group-sm row">
+          <mat-form-field class="col-sm-12 col-md-4">
+              <mat-select placeholder="Fecha Diagnostico" [(ngModel)]="diagnosticoModel.fecha" name="diagnostico_fecha"
+                #diagnostico_fecha="ngModel" requerid>
+                <mat-option> -- </mat-option>
+                <mat-option *ngFor="let lf of listfechas" [value]="lf.id"> {{lf.valor}} </mat-option>
+    
+                <mat-error>
+                  <app-validators-messages [controlVar]="diagnostico_fecha" labelName="Fecha de Diagnostico">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-select>
+            </mat-form-field>
+
+        <mat-form-field class="col-sm-12 col-md-4">
+          <input matInput [matDatepicker]="datep" placeholder="Fecha Exacta" [(ngModel)]="diagnosticoModel.fechaCompleta"
+            [max]="today" [maxDate]="today" [min]="param.feNacimiento" [minDate]="param.feNacimiento" disabled>
+          <mat-datepicker-toggle matSuffix [for]="datep"></mat-datepicker-toggle>
+          <mat-datepicker #datep disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <div class="col-sm-12 col-md-4 text-right ">
+            
+              <button class="po1" mat-raised-button  (click)="agregarDiagnostico()">Agregar</button>
+            
+          </div>
+      </div>
+
+      <div class="form-grup form-group-sm row">
+        <div class="col-md-12">
+          <mat-card>
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Lista de Diagnostico</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <mat-table #table [dataSource]="dataSource">
+
+                  <ng-container matColumnDef="diagnostico">
+                    <mat-header-cell *matHeaderCellDef> Diagnostico </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.diagnostico}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="fecha">
+                    <mat-header-cell *matHeaderCellDef> fecha </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.desde}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="eliminar">
+                    <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <button mat-button *ngIf="element.flg==1">
+                        <i class="material-icons"
+                          (click)="eliminarDiagnostico(element.diagnostico)">restore_from_trash</i>
+                      </button>
+                      <p *ngIf="element.flg!=1">--</p>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                </mat-table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <textarea matInput placeholder="Familiares: " [(ngModel)]="listaAntecedentePatologico.dianogticoFamiliar"
+            (keyup)="send()"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-grup form-group-sm row" *ngIf="listaDisabled.psicosociales">
+        <mat-form-field class="col-sm-12">
+          <textarea matInput placeholder="Psicosociales: "
+            [(ngModel)]="listaAntecedentePatologico.dianogticoPsicosocial" (keyup)="send()"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-grup form-group-sm row" *ngIf="listaDisabled.saludSexul">
+        <mat-form-field class="col-sm-12">
+          <textarea matInput placeholder="Salud Sexual y Reporductivo: "
+            [(ngModel)]="listaAntecedentePatologico.saludSexualReproductiva" (keyup)="send()"></textarea>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- <div class="card">
+  <div class="card-header">Patológicos</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="form-grup form-group-sm row">
+          <label for="" class="col-sm-12 col-form-label">
+            <b>Personales</b>
+          </label>
+          <label for="" class="col-sm-12 col-form-label">Diagnostico</label>
+        </div>
+        <div class="form-group form-group-sm row">
+          <div class="col-sm-6">
+            <ng-template #rt let-r="result" let-t="term">
+              {{r.descripcionDiagnostico}}
+            </ng-template>
+
+            <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="diagnosticoModel.medicamento" [ngbTypeahead]="search"
+              [resultTemplate]="rt" [inputFormatter]="formatter" (input)="busquedaDiagnosticoDescripcion($event.target.value)">
+          </div>
+          <div class="col-sm-6">
+            <select id="disabledSelect" class="form-control form-control-sm" [(ngModel)]="diagnosticoModel.fecha">
+              <option *ngFor="let item of listfechas">{{item.valor}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group form-group-sm row">
+          <label for="" class="col-sm-6 col-form-label"></label>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-default" (click)="agregarDiagnostico()">Agregar</button>
+          </div>
+        </div>
+        <div class="form-group form-group-sm row">
+          <table class="table table-hover table-sm">
+            <thead>
+              <tr>
+                <th>Diagnostico</th>
+                <th>Fecha</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cv of lst_diagnostico">
+                <td>{{cv.diagnostico}}</td>
+                <td>
+                  <select id="disabledSelect" class="form-control form-control-sm" [(ngModel)]="cv.desde" (ngModelChange)="send()">
+                    <option *ngFor="let item of listfechas" value="{{item.valor}}">{{item.valor}}</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="text-align: center">
+                    <i class="fa fa-trash" aria-hidden="true" (click)="eliminarDiagnostico(cv.diagnostico)"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group form-group-sm row">
+          <label for="" class="col-sm-12 col-form-label">Familiares: </label>
+          <div class="col-sm-12">
+            <textarea class="form-control" [(ngModel)]="listaAntecedentePatologico.dianogticoFamiliar" (keyup)="send()"></textarea>
+          </div>
+        </div>
+        <div>
+          <div *ngIf="listaDisabled.psicosociales" class="form-group form-group-sm row">
+            <label for="" class="col-sm-12 col-form-label">Psicosociales: </label>
+            <div class="col-sm-12">
+              <textarea class="form-control" [(ngModel)]="listaAntecedentePatologico.dianogticoPsicosocial" (keyup)="send()"></textarea>
+            </div>
+          </div>
+          <div *ngIf="listaDisabled.saludSexul" class="form-group form-group-sm row">
+            <label for="" class="col-sm-12 col-form-label">Salud Sexual y Reporductivo: </label>
+            <div class="col-sm-12">
+              <textarea class="form-control" [(ngModel)]="listaAntecedentePatologico.saludSexualReproductiva" (keyup)="send()"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div> -->

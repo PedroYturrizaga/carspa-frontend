@@ -1,0 +1,971 @@
+@import "./assets/scss/main";
+
+/*bootstrap*/
+@import "~bootstrap/scss/bootstrap";
+
+/*font-awesome*/
+@import "../node_modules/font-awesome/scss/font-awesome";
+
+/*angular-calendar*/
+@import "../node_modules/angular-calendar/scss/angular-calendar";
+
+/*jquery-confirm*/
+@import "../node_modules/jquery-confirm/css/jquery-confirm.css";
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+// .sidebar {
+//   background: #ffffff;
+//   padding: 2em 1em;
+//   &.ng-sidebar--opened.ng-sidebar--over {
+//     box-shadow: 0 0 2.5em rgba(85, 85, 85, 0.5);
+//   }
+// }
+html, 
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #f5f5f5;
+  font-family: sans-serif!important;
+  font-weight: 400px;
+  font-size: 14px!important;
+}
+
+a {
+  cursor: pointer !important;
+}
+
+// button {
+//     cursor: pointer;
+// }
+
+.routerLink {
+  cursor: pointer !important;
+}
+
+.modal-xlg {
+  & .modal-lg {
+    max-width: 1200px;
+  }
+}
+
+.sidebar {
+  background: #ffffff;
+  padding: 2em 1em;
+
+  &.ng-sidebar--opened.ng-sidebar--over {
+    box-shadow: 0 0 2.5em rgba(85, 85, 85, 0.5);
+  }
+}
+
+.fullcenter {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+
+:disabled {
+  cursor: not-allowed;
+}
+
+.cdk-overlay-container {
+  z-index: 1050 !important;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+.mat-menu-content {
+  font-size: 14px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.mat-menu-item {
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.mat-select {
+  font-size: 14px;
+  font-family:  sans-serif;
+}
+
+//Estilos sobre AirDatePicker
+.dp-note {
+  background: #ccc;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  left: 50%;
+  bottom: 1px;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+//estilos para datepicker
+.dp-note,
+.nav {
+  position: absolute;
+}
+
+.datepicker--cell-day {
+  width: 14.28571%;
+}
+
+.datepicker--cell {
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 32px;
+  z-index: 1;
+}
+
+.datepicker--cell.-selected- {
+  border: none;
+}
+
+.datepicker--cell.-selected-,
+.datepicker--cell.-selected-.-current- {
+  color: #fff;
+  background: #5C5C5C!important;
+  /* font-weight: 900; */
+  border: 1px solid #fff!important;
+}
+
+// .datepicker--cell.-selected-amarillo{
+//   color: #fff;
+//   background: #eeff03;
+// }
+.datepicker-days{
+  color: blue;
+}
+.datepicker--cell.-amarillo {
+  color: #fff;
+  background: #5C5C5C;
+}
+.datepicker--cell.-azul {
+  color: #fff;
+  background: #3103ff;
+}
+.datepicker--cell.-rojo {
+  color: #fff;
+  background: #ff0303;
+}
+.datepicker--cell.-verde {
+  color: #fff;
+  font-weight: 600;
+  background: #2E86DE;
+  border-radius: 0px;
+  border: 1px solid #ffffff;
+}
+.datepicker--cell.-verde:hover {
+  color: #5C5C5C!important;
+  font-weight: 600 !important;
+}
+
+.pdfs .mat-dialog-container {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+// .mat-dialog-container {
+//   -webkit-animation-name: mat-dialog;
+//   animation-name: mat-dialog;
+//   -webkit-animation-duration: 1s;
+//   animation-duration: 1s;
+//   -webkit-animation-delay: 0.5s;
+//   animation-delay: 0.5s;
+//   -webkit-animation-fill-mode: both;
+//   animation-fill-mode: both;
+// }
+@keyframes mat-dialog {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.btncerrar{
+  float: right;
+}
+
+.contenedorcomprobante{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.comprobante{
+  border: 2px solid #5cc4ef;
+  width: 50%;
+  text-align: center;
+}
+
+.formatcerrar{
+  color: #f3806b;
+  font-size: 26px;
+}
+
+.formaticono{
+  color: #2e86de;
+  font-size: 26px;
+}
+
+.imagen:hover {
+  -webkit-transform:scale(1.4);transform:scale(1.4);
+  // color: #6ed18f;
+}
+.imagenCanc:hover {
+  -webkit-transform:scale(1.4);transform:scale(1.4);
+  // color:indianred;
+  cursor: pointer;
+}
+.imagenVer:hover {
+  -webkit-transform:scale(1.4);transform:scale(1.4);
+  cursor:pointer;
+  // color:#5cc4ef;
+}
+
+.avisocomprobante{
+  border: 2px solid #5cc4ef;
+  width: 50%;
+  text-align: center;
+}
+
+// .cdk-overlay-pane .mat-dialog-container{
+//     overflow-y: auto !important;
+// }
+
+// mat-dialog-container >*{
+//     overflow-y: auto;
+// }
+
+// .cdk-overlay-pane {
+//         overflow-y: auto;
+//         overflow-x: hidden;
+//     }
+
+.w3-badge,.w3-tag{background-color:#000;color:#fff;display:inline-block;padding-left:8px;padding-right:8px;text-align:center}
+.w3-badge{border-radius:50%}
+
+
+/* Style Starts */
+
+  /* LEFT align */
+  .mat-list .mat-list-item.left .mat-list-item-content{
+    justify-content: flex-start;
+}
+/* RIGHT align */
+.mat-list .mat-list-item.right .mat-list-item-content{
+    justify-content: flex-end;
+}
+
+.mat-list .mat-list-item, .mat-list .mat-list-option, .mat-nav-list .mat-list-item, .mat-nav-list .mat-list-option, .mat-selection-list .mat-list-item, .mat-selection-list .mat-list-option {
+  display: block;
+  height: 27px !important;
+} 
+/* If you will use matLine */
+
+/* LEFT align Listas*/
+.mat-list .mat-list-item.left .mat-list-text>*{
+margin: 0 auto 0 0;
+}
+/* RIGHT align Listas*/
+.mat-list .mat-list-item.right .mat-list-text>*{
+margin: 0 0 0 auto;
+}
+
+.bold-text{
+  font-size: 1rem;
+  font-weight: bold; 
+  // font-size: 20px;
+  line-height: 2;
+}
+
+.celda{
+  width: 80px;
+}
+
+.bold-text.size-text{
+  font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ESTILOS ESTANDAR BASES PARA INTERFAZ */
+/* dar tamaño fijo a los menus de 3er nivel */
+.mat-toolbar-row{
+  height: 47px!important;
+}
+/* acoplar border de las opciones del menu de 3er nivel */
+
+
+/* aplicar tamaño y separacion de elementos input en formularios con 1 columna */
+.mat-form-field-flex1{
+  display: inline-flex;
+    align-items: baseline;
+    width: 22.2% !important;
+    margin-bottom: -15px;
+}
+/* aplicar tamaño y separacion de elementos input en formularios con 4 columnas */
+.mat-form-field-flex4{
+  display: inline-flex;
+    align-items: baseline;
+    width: 58% !important;
+    margin-bottom: -15px;
+}
+/* aplicar tamaño y separacion de elementos input en formularios con 3 columnas */
+.mat-form-field-flex2{
+  display: inline-flex;
+    align-items: baseline;
+    width: 70%!important;
+    margin-bottom: 0px;
+}
+/* aplicar tamaño y separacion de elementos input en formularios con 2 columnas */
+.mat-form-field-flex3{
+  display: inline-flex;
+    align-items: baseline;
+    width: 80%!important;
+    margin-bottom: -15px;
+}
+.mat-form-field-flex33{
+  display: inline-flex;
+    align-items: baseline;
+    width: 80%!important;
+   
+}
+.mat-form-field-flex5{
+  display: inline-flex;
+  align-items: baseline;
+  width: 80% !important;
+  margin-bottom: -5px;
+  padding-left: 15px;
+}
+.margen{
+  margin-bottom: -5px!important;
+}
+/* alinear barra lateral derecha en el menu de consulta ambulatoria - atencion medica */
+.mat-drawer.mat-drawer-end{
+  transform: translate3d(-15px, 27px, 0px) !important;
+}
+.extra{
+  margin-left: 27px!important;
+  margin-top: -10px!important;
+  margin-bottom: -10px!important;
+}
+/* border para los inputs de formulario */
+.mat-form-field-underline {
+  position: absolute;
+  height: 1px;
+  width: 100% !important;
+  background-color: #F0ECEC!important; 
+}
+
+/* dar color de fondo a la cabecera de los listados*/
+.mat-table > .mat-header-row{
+  background-color: #5C5C5C !important;
+  min-height: 40px !important;
+}
+/* dar estilo a boton de enlaces */
+.enlace{
+  color: #007BFF;
+    background: none;
+    border: none;
+    font-weight: 500;
+}
+.enlace:active{
+    font-weight: 600;
+}
+/* aplica negrito y cursor a elementos */
+.negrita{
+  font-weight: 600;
+  cursor: pointer;
+}
+.negrita2{
+  font-weight: 600!important;
+}
+/* crear estilo de color negro a los subtitulos de las secciones */
+.subtitulo-seccion{
+  color: #333 !important;
+}
+/* aplica sombreados a las cajas de los subtitulos */
+.sombreadoSubtitulos{
+  box-shadow: 0px 5px 5px -6px darkgrey;
+}
+/* define la altura que llevara la fila de los listados */
+.alturaFila{
+  min-height: 48px!important;
+}
+/* aplicar alto del menu principal de 1er nivel */
+.mat-toolbar-multiple-rows {
+  min-height: 48px!important;
+}
+/* sufijo del label metros en input formulario */
+.mat-form-field-prefix, .mat-form-field-suffix {
+  color: #333!important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+/* alinear boton de agrear y eliminar telefono/correo a la misma altura de los input en formularios de 3 columnas*/
+.alinearBtnAgregar{
+  padding-right: 25%;
+  margin-top: -62px;
+  height: 0px;
+  margin-bottom: 50px;
+}
+/* alinear boton de agrear y eliminar telefono/correo a la misma altura de los input en formularios de 2 columnas*/
+.alinearBtnAgregar2{
+  padding-right: 17%;
+  margin-top: -49px;
+  height: 0px;
+  margin-bottom: 45px;
+}
+.alinearBtnAgregar3{
+  padding-right: 25%;
+  margin-top: -51px;
+  height: 0px;
+  margin-bottom: 50px;
+}
+/* dar tamaño a icono de agregar/eliminar telefono */
+.material-icons{
+  font-weight: 500!important;
+  font-size: 19px!important;
+  line-height: 1.8!important;
+}
+/* agregar tamaño al icono del calendario en los input de los formularios */
+.mat-form-field-suffix .mat-datepicker-toggle-default-icon {
+  width: 1.2875em!important;
+
+}
+
+/* damos estilo por defecto en disabled a  boton quitar telefono */
+.mat-button-icon-noModal[disabled] {
+  background-color: white!important;
+  background: white;
+  cursor: no-drop !important;
+  opacity: 1;
+  border-color: #757575;
+  color: #333 !important;
+  border-style: none;
+  border-radius: 30px!important;
+  /* width: 11px!important; */
+  font-size: 6px!important;
+  border-color: transparent !important;
+}
+/* eliminar negrita a subtitulos de los listados */
+.mat-header-cell{
+  font-weight: 500!important;
+  border-bottom: 0px solid #2e86de !important;
+}
+/* alinear los label que muestran los datos estaticos encima de los listados */
+.alinearLabel{
+  margin-top: 15px;
+  /* margin-bottom: 3px; */
+  padding-bottom: 10px;
+  text-align: left;
+  margin-left: 0px;
+}
+/* opacar el fondo de los modal a color gris y dar bordes redodeados */
+.mat-dialog-container {
+  background: #f5f5f5!important;
+  color: rgba(0,0,0,.87);
+  border-radius: 15px!important;
+  // height: auto !important;
+}
+/* tipo de letras italica */
+.italica{
+  font-style: italic;
+}
+/* estilos a aplicarle al div de leyendas para listados*/
+.leyenda{
+  margin-bottom: 40px;
+  text-align: left;
+  margin-left: 5px;
+  height: 1px;
+}
+/* color de activo en leyenda */
+.my-fab2{
+  width: 15px!important;
+  height: 15px!important;
+  line-height: 13px!important;
+  background-color: #59c759!important;
+  vertical-align: text-top!important;
+}
+/* color de inactivo en leyenda */
+.my-fab1 {
+  width: 15px !important;
+  height: 15px !important;
+  line-height: 13px !important;
+  vertical-align: text-top !important;
+  background-color: #ce4a4a !important;
+}
+/* dar bordes redondeados en la parte inferior a los modales de confirmacion como eliminar hechos en bootraps */
+.modal-content{
+  border-radius: 20px!important;
+  border: 0px white solid !important;
+}
+/* dar bordes redondeados en la parte superior a los modales hechos con bottraps */
+.modal-header{
+  border-top-left-radius: 18px !important;
+  border-top-right-radius: 18px !important;
+  justify-content: center !important;
+}
+/* tamaño de letra por defecto */
+.font{
+  font-size: 14px !important;
+}
+/* color de fondo sombreado */
+.fondo{
+  background-color: #f5f5f5!important;
+}
+/* color de fondo para el menu de 2do nivel */
+.colorMenu3{
+  background-color: #2e86de!important;
+  height: 40px!important;
+}
+.menu3Nivel{
+  height: 40px!important;
+}
+.activeLinks2{
+  background: transparent !important;
+  color: #2e86de !important;
+  border-bottom: 2px solid #2e86de!important;
+  font-family: sans-serif !important;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600!important;
+  overflow: hidden;
+  text-decoration: none !important;
+  padding: 5px 10px!important;
+}
+
+.links2{
+  background: transparent !important;
+  color: #9E9E9E !important;
+  font-family: sans-serif !important;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+  overflow: hidden;
+  text-decoration: none !important;
+  padding: 0 10px;
+}
+/* separacion de label */
+.form-group2{
+  margin-bottom: 1.5rem;
+}
+/* genera un separador de espacio creando un borde al vertical */
+.separarVertical{
+    /* height: 232px; */
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
+    /* width: 0px; */
+    /* border: 1px solid darkgrey; */
+    box-shadow: 0px 0px 1px 1px #D6DBDF!important;
+}
+.activarCelda:active{
+  font-weight: 600;
+  background: darkgray;
+}
+/* estilos en flexbox que permiten centrar una fila */
+.centrarFila{
+  display: flex;
+ flex-direction: row;
+ justify-content: center;
+ align-items: center;
+
+}
+/*ocultar grosor del div*/
+.oculto{
+  height: 1px;
+}
+
+/**/
+.mat-hint-mensaje{
+  color: #2e86de!important;
+  font-style: italic!important;
+  font-weight: 500!important;
+}
+/* dar poco  margen para cabeceras de  talbas bootraps */
+.margenCero{
+  margin-bottom: 0.5rem !important;
+}
+/* dar color de fondo al cuerpo de las tablas en bootraps */
+.fondoTabla{
+  background: #F3F5F8!important;
+}
+.textareaFull{
+  margin: -10px 15px -15px 15px!important;
+}
+.margenAuto{
+  margin: auto !important;
+}
+/* implementado para los subtitulos de los acordeones */
+.subtituloAcordeon{
+  font-size: 14px!important;
+    font-weight: 600!important;
+    color: #333!important;
+}
+/* estilo para aplicar a los sombreados de caja de acordeon en los subtitulos */
+.sombreadoAcordeon{
+  box-shadow: darkgrey 0px 5px 5px -6px!important;
+  height: 48px!important;
+}
+.paddLeftCero{
+  padding-left: 0px!important;
+}
+.paddRightCero{
+  padding-right: 0px!important;
+}
+.margenTopCero{
+  margin-top: 0px!important;
+}
+.bordesTablaSupInf{
+  margin-top: 1px;
+  margin-bottom: 1px;
+  box-shadow: 0px 2px 3px -1px grey
+}
+// clase estandar para  ampliar  el ancho de la celdas de los listados
+.anchoListado{
+  flex: 0 0 200px!important; 
+}
+.anchoListado2{
+  flex: 0 0 250px!important; 
+}
+.anchoListado3{
+  flex: 0 0 300px!important; 
+}
+.anchoListado4{
+  flex: 0 0 400px!important; 
+}
+.anchoListado5{
+  flex: 0 0 150px!important;
+}
+.anchoListado6{
+  flex: 0 0 50px!important;
+}
+.anchoListado7{
+  flex: 0 0 110px!important;
+}
+
+
+//---------------------------------ESTILOS PRESONALIZADOS ------------------------------------------- //
+/* ESTILOS OPCIONALES PARA CONFIGURAR ASPECTOS DE LOS ELEMENTOS */
+/* agregar margenes  izquierdos en negativo a elementos */
+.margenIzquierdo1{
+  margin-left: -350px;
+}
+.ali5{
+  margin-top: 1.5%;
+  padding-left: 0.7%;
+}
+.margenIzquierdo2{
+  margin-left: -141px;
+}
+.margenIzquierdo3{
+  margin-left: -275px;
+}
+.margenIzquierdo4{
+  margin-left: -20px;
+}
+.margenIzquierdo5{
+  margin-left: 10px;
+}
+/* margenes derechos para aplicar a los input de formularios **/
+.margenDerecho{
+  margin-left: -35px!important;
+}
+.btngua{
+  bottom: 5px;
+    right: 18px;
+    position: absolute;
+}
+.po1{
+  margin-top: 13px!important;
+}
+/* posicionar div de enlaces filiares x3 */
+.margenSuperior{
+  text-align: right;
+  margin-top: 15px;
+  margin-left: 57%;
+}
+.margenSuperior2{
+  text-align: right;
+  margin-top: 15px;
+  margin-left: 76.5%;
+}
+.margenSuperior6{
+  margin-top: -60px;
+}
+.margenSuperior3{
+  margin-top: -30px;
+}
+.margenSuperior4{
+  margin-top: -20px;
+}
+.margenSuperior5{
+  margin-top: -10px;
+}
+/* espacio a los botones*/
+.espa{
+  padding-bottom: 5px;
+  padding-top: 15px;
+}
+/* dar margen al div */
+.margenIzquierdo6{
+  margin-left: 1%;
+}
+.margenIzquierdo7{
+  margin-left: 2.2%;
+}
+.pad-top{
+  padding-top: 25px;
+  margin-left: -9.5%;
+}
+.pad-top2{
+padding-top: 25px;
+}
+.mar5{
+  margin-left: -30px;
+}
+
+/* padding inferior de 10px */
+.pad-bottom{
+  padding-bottom: 10px;
+}
+/* alinear y centrar modal de  eleccion de turno horarios */
+.flex1-modal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.margenSup{
+  margin-top: 25px;
+  margin-left: 25px;
+}
+
+.margenIzq{
+  margin-left: 12%;
+}
+.aliFecha{
+  margin-top: 10px!important;
+    margin-bottom: -5px;
+}
+.mat-cardDoble{
+  margin-top: 0px; margin-bottom: 0px !important;
+}
+.separacionIzqui{
+  padding-left: 20px !important;
+}
+.posicionBot{
+  right: -65px;
+    bottom: 20px;
+    position: absolute;
+}
+.posicionBot2{
+  bottom: 18px;
+  right: 0px;
+    position: absolute;
+}
+.xc{
+  padding-top: 15px!important;
+  margin-left: 45px!important;
+}
+/* centrar los elementos pertenecientes a la ficha de antecedentes en  en el modulo  consulta ambulatoria */
+.antecedentesFicha{
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  position: relative;
+  right: -50%;
+  margin-top: -380px
+}
+.ali1{
+  margin-left: 40px !important;
+}
+.ali2{
+  right: -130px!important;
+}
+.justificarDiv{
+  margin-top: 10px!important; 
+  margin-bottom: -10px!important;
+}
+.alingItems{
+  align-items: baseline;
+}
+.justificarDiv2{
+  margin-bottom:-40px!important;
+}
+.justificarDiv3{
+  margin-bottom:-15px!important;
+}
+.justificarDiv4{
+  margin-bottom:-25px!important;
+}
+.justificarDiv5{
+  margin: 0 -8px;
+}
+.justificarDiv6{
+  padding-top: 16px; padding-bottom: 21px;
+}
+.ali3{
+  margin-bottom: 15px; padding-right: 3%;
+}
+.ali3x{
+  text-align: right;
+  margin-top: 1.5%;
+}
+.padTop2{
+  padding-top:1%;
+}
+.alinear3x{
+  padding-top: 2%;
+  margin-left: -5.5%;
+}
+.empujar{
+  margin-top: 2%;
+}
+.abajo{
+  padding-top:20px;
+}
+.alinear33{
+  padding-top: 2%;
+  margin-left: -5.5%;
+}
+.filaSelect{
+  margin-bottom: 2.5%;
+  margin-top: 2.5%;
+    box-shadow: -4px 3px 2px -3px grey;
+}
+.espacioSuperior{
+  margin-top: 5%;
+}
+.centrarVertical{
+  display: flex;
+    align-items: center;
+}
+.aling{
+  margin-bottom: 2.5%;
+    margin-top: 2.5%;
+}
+.alturaCenter{
+  margin: auto;
+  padding-top: 1%;
+}
+.iniciarSesion{
+  color: #333;
+  font-weight: 600;
+  font-size: 17px;
+}
+.iniciaUsuario{
+  font-size: 14px;
+  color: #333;
+}
+.margenTopBot{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.margenBot{
+margin-bottom: 10px;
+}
+.margenTop{
+  margin-top: 10px;
+}.margenTop2{
+  margin-top: 14px;
+}
+.empujar{
+  padding-top: 30px;
+}
+.empujar2{
+  margin-left: -6%;
+}
+.agrandarContainer{
+  max-width: 100% !important;
+  width: 100% !important;
+}
+.flex5{
+  display: flex; justify-content: flex-end; align-items: baseline
+}
+.xa{
+  margin-bottom: -2%;
+}
+.justifyContent{
+  justify-content: center
+}
+.spaceEvent{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: -10px;
+  font-weight: 600;
+  align-items: baseline;
+}
+.displayCenter{
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: baseline;
+}
+.marBtn{
+  margin-bottom: -0.5%;
+}
+.alinearCabecera{
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    
+}
+.alinearCabecera2{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.matCardMin{
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.centrarTituloModal{
+  display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.emp{margin-right: 1%;}
+
+.eliPaddLeft{
+  padding-left: 0px !important;
+}
+.eliPaddRight{
+  padding-right: 0px !important;
+}

@@ -1,0 +1,220 @@
+<div class="col-lg-12">
+  <mat-card tabindex="-1">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Reporte de Medicos por Productos Caros</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #buscarMedicxProdCaro="ngForm" novalidate name="buscarMedicxProdCaro">
+        <div class="card-body">
+          <!-- GRUPO MEDICAMENTO -->
+          <div class="col-md-12">
+            <div class="row justifyContent">
+              <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <mat-select id="combo" #listaOpciones (change)="placeDesc(listaOpciones.value)" [(ngModel)]="flgMedicDisp" placeholder="Seleccionar Grupo"
+                    name="comboTipoMedic" disableRipple>
+                    <mat-option *ngFor="let gM of gruposMedicamentos" [value]="gM.id">
+                      {{gM.valor}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!-- Medicamento -->
+              <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                <mat-form-field class="example-full-width">
+                  <mat-label>{{ descripAutoCompleteMedicamento }}:</mat-label>
+                  <input matInput [matAutocomplete]="auto" name="descMedicReport" #descMedicReport="ngModel" id="descMedicReport" [(ngModel)]="productoDescripcion"
+                    (input)="buscarMedicDispProdDescripcion($event.target.value)" />
+                  <mat-error>
+                    <app-validators-messages [controlVar]="descMedicReport" labelName="Producto Farmacútico/Dispositivo Médico">
+                    </app-validators-messages>
+                  </mat-error>
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <div>
+                      <mat-option (onSelectionChange)="seleccionaMedicamento(dispMeD)" *ngFor="let dispMeD of filteredDispMedi" [value]="dispMeD.dispositivoMedicamento +' '+ dispMeD.marca + ' ' + (dispMeD.presentacion ? dispMeD.presentacion
+                          : '') + ' ' + (dispMeD.viaAdministracion ? dispMeD.viaAdministracion : '') + ' ' + dispMeD.formaFarmaceutica
+                          +' '+ dispMeD.concentracion">
+                        <span>{{ dispMeD.dispositivoMedicamento +' '+ dispMeD.marca + ' ' + (dispMeD.presentacion ? dispMeD.presentacion
+                          : '') + ' ' + (dispMeD.viaAdministracion ? dispMeD.viaAdministracion : '') + ' ' + dispMeD.formaFarmaceutica
+                          +' '+ dispMeD.concentracion }}</span>
+                      </mat-option>
+                    </div>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+
+            </div>
+            <!-- PRODUCTO FARMACEUTICO - dispositivo medico -->
+               <div class="row">
+
+                <!-- medico -->
+                <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Médico: </mat-label>
+                    <input matInput [matAutocomplete]="autoMedico" name="descMedicoReport" #descMedicoReport="ngModel" id="descMedicoReport"
+                      [(ngModel)]="personalDescripcion" (input)="buscarDoctorDescripciondescripMedicos($event.target.value)"
+                    />
+                    <mat-error>
+                      <app-validators-messages [controlVar]="descMedicoReport" labelName="Médicos">
+                      </app-validators-messages>
+                    </mat-error>
+                    <mat-autocomplete autoActiveFirstOption #autoMedico="matAutocomplete">
+                      <div>
+                        <mat-option (onSelectionChange)="seleccionaMedico(medico)" *ngFor="let medico of medicos" [value]="medico.nombrePersonal">
+                          <span>{{ medico.nombrePersonal }} </span>
+                        </mat-option>
+                      </div>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+                <!-- fecha inicio -->
+                <div class="col-sm-2 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" [matDatepicker]="dp" name="fhIniForm" #fhIniForm="ngModel" [(ngModel)]="fhinicio" [maxDate]="fhfin"
+                      placeholder="Desde:" required>
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker>
+                    <mat-error>
+                      <app-validators-messages [controlVar]="fhIniForm" labelName="Fecha Desde">
+                      </app-validators-messages>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <!-- fecha fin -->
+                <div class="col-sm-2 mdl-input-group mdl-input-group__only">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" [matDatepicker]="dpp" name="fhFinForm" #fhFinForm="ngModel" [(ngModel)]="fhfin" [minDate]="fhinicio"
+                      placeholder="Hasta:" required>
+                    <mat-datepicker-toggle matSuffix [for]="dpp"></mat-datepicker-toggle>
+                    <mat-datepicker #dpp></mat-datepicker>
+                    <mat-error>
+                      <app-validators-messages [controlVar]="fhFinForm" labelName="Fecha Hasta">
+                      </app-validators-messages>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <!-- boton Buscar -->
+                <div class="col-sm-4 alinearBotones">
+                  <button type="submit" mat-raised-button (click)="buscarMedicoxProductoCaro(buscarMedicxProdCaro)" [disabled]="isInvalid(buscarMedicxProdCaro)">Buscar
+                  </button>
+                  <button mat-raised-button (click)="imprimePDF_EXCEL(2)">Imprimir PDF</button>
+                  <button mat-raised-button (click)="imprimePDF_EXCEL(1)">Imprimir Excel</button>
+                </div>
+              </div>
+        
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+    <div>
+      <mat-card-content>
+
+        <div class="table responsive" *ngIf="receCab.length!=0">
+          <table class="table fullcenter" style="display: table;">
+            <thead>
+              <tr>
+
+                <th class="text-center" matTooltip="Producto Farmaceutico / Dispositivo Medicamento" matTooltipPosition="above">P.F/D.M</th>
+                <th class="text-center">Medico</th>
+                <th class="text-center">Fecha</th>
+                <th class="text-center" matTooltip="Unidad de Medida" matTooltipPosition="above">U.Medida</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Precio</th>
+                <th class="text-center">Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let p of receCab; let i = index">
+                <tr class="text-center">
+
+                  <td>{{p.dciMedicDisp}}</td>
+                  <td>{{p.nombrePersonal}}</td>
+                  <td>{{p.fhReceta}}</td>
+                  <td>{{p.descripcionUnidad}}</td>
+                  <td>{{p.cantidadUnidadMaxima}}</td>
+                  <td>S/{{p.precioVenta ? p.precioVenta: '-'}}</td>
+                  <td>
+                    <button class="we"  (click)="mostrarModalVisualizarMedicoProductoCaro(p)">
+                      <i class="material-icons">visibility</i>
+                    </button> 
+                  </td>
+
+
+
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event,buscarMedicxProdCaro)"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </div>
+
+
+    <!-- <mat-card-content>
+      <div class="table responsive">
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="Item">
+            <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.i}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="productoFarma">
+            <mat-header-cell *matHeaderCellDef> Producto Farmacéutico / Dispositivo Médico </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.recetaDetalleList.medicamento.dciProductoFarmaceutico }} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="medico">
+            <mat-header-cell *matHeaderCellDef> Medico</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.actoMedico.personal.nombrePersonal} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="freceta">
+            <mat-header-cell *matHeaderCellDef> Fecha de Receta</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.freceta}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="unidadMedida">
+            <mat-header-cell *matHeaderCellDef> Unidad de Medida</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.recetaDetalleList.descripcionUnidad }}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.recetaDetalleList.cantidadUnidadMaxima}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{elemet.precioVenta }} </mat-cell>
+          </ng-container>
+
+
+
+          <ng-container matColumnDef="Accion">
+            <mat-header-cell *matHeaderCellDef> Ver Detalle </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              
+              <button mat-button (click)="modalTransferencia(element.idComprobante,element.feComprobante,element.almacenOrigen.descripcionAlmacen,element.numeroComprobante,element.flEstadoComprobante)">
+                <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="position">
+                  <span>
+                    <i class="material-icons">visibility</i>
+                  </span>
+                </div>
+              </button>
+           
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumnsComrobantes"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsComrobantes;"></mat-row>
+        </mat-table>
+      </div>
+      <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+    </mat-card-content> -->
+
+
+
+
+
+  </mat-card>
+</div>

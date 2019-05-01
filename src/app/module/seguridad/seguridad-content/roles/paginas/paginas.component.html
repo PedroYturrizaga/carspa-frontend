@@ -1,0 +1,67 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Dar Pagina:</mat-card-title>
+    <div class="margenSuperior" style="padding-left: 28%;">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir" aria-label="hola">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let pr of paginaRolList">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{pr.nombrePagina}}
+                </mat-panel-title>
+                <!-- <mat-panel-description>
+                  Paginas:
+                </mat-panel-description> -->
+              </mat-expansion-panel-header>
+
+              <!-- [style.background]="((i+1)%2)==0?'lightgreen':'lightblue'" -->
+
+              <mat-grid-list cols="4" rowHeight="4:1">
+                <div *ngFor="let prHijo of pr.hijosList; let i = index">
+                  <mat-grid-tile colspan="2" [rowspan]="prHijo.hijosList==null?1:prHijo.hijosList.length">
+                    {{prHijo.nombrePagina}}
+                  </mat-grid-tile>
+
+                  <mat-grid-tile *ngIf="prHijo.hijosList==null" colspan="2" rowspan="1">
+                    <mat-slide-toggle class="example-margin" color="primary"
+                      (change)="agregarPagina(prHijo.idPagina, prHijo.nombrePagina, $event)"
+                      [checked]="prHijo.seleccionado"></mat-slide-toggle>
+                  </mat-grid-tile>
+
+                  <!-- ayudaaaa -->
+
+                  <div *ngFor="let prNieto of prHijo.hijosList">
+                    <mat-grid-tile colspan="1" rowspan="1">
+                      {{prNieto.nombrePagina}}
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="1" rowspan="1">
+                      <mat-slide-toggle class="example-margin"
+                        (change)="agregarPagina(prNieto.idPagina, prNieto.nombrePagina, $event)"
+                        [checked]="prNieto.seleccionado" color="primary"></mat-slide-toggle>
+                    </mat-grid-tile>
+                  </div>
+                </div>
+              </mat-grid-list>
+
+            </mat-expansion-panel>
+          </mat-accordion>
+
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

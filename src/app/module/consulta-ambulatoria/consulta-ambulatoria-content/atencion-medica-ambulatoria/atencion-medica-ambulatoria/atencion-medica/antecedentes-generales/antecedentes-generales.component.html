@@ -1,0 +1,233 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Generales</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <form #antecedenteGeneral novalidate name="listaAntecedenteGeneral">
+            <div class="form-grup form-group-sm">
+              <!-- <div class="col-sm-6"> -->
+
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-6">
+                  <mat-select placeholder="Tipo de Vivienda" [(ngModel)]="listaAntecedenteGeneral.tipoVivienda"
+                    name="tipo_vivienda" #tipo_vivienda="ngModel" requerid>
+                    <mat-option> -- </mat-option>
+                    <mat-option *ngFor="let tp of tipoVivienda" [value]="tp.idOpcion"> {{tp.valorOpcion}} </mat-option>
+
+                    <mat-error>
+                      <app-validators-messages [controlVar]="tipo_vivienda" labelName="Tipo de Vivienda">
+                      </app-validators-messages>
+                    </mat-error>
+                  </mat-select>
+                </mat-form-field>
+              <!-- </div>
+              <div  class="form-grup form-group-sm row"> -->
+                <mat-form-field class="col-sm-6" *ngIf="listaAntecedenteGeneral.tipoVivienda == 15">
+                  <input matInput placeholder="Especificar: "
+                    [(ngModel)]="listaAntecedenteGeneral.tipoVivienda_especificar"
+                    name="general_tipoViviendaEspecificar" #general_tipoViviendaEspecificar="ngModel" requerid>
+
+                  <mat-error>
+                    <app-validators-messages [controlVar]="general_tipoViviendaEspecificar" labelName="Especificar:">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              
+
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-6" *ngIf="listaDisabled.gradoInstruccion">
+                  <mat-select placeholder="Grado Instruccion:" [(ngModel)]="listaAntecedenteGeneral.idGradoInstruccion"
+                    name="grado_instruccion" #grado_instruccion="ngModel" requerid>
+                    <mat-option> -- </mat-option>
+                    <mat-option *ngFor="let gi of GradoInstruccion" [value]="gi.idOpcion"> {{gi.valorOpcion}}
+                    </mat-option>
+
+                    <mat-error>
+                      <app-validators-messages [controlVar]="grado_instruccion" labelName="Grado Instruccion:">
+                      </app-validators-messages>
+                    </mat-error>
+                  </mat-select>
+                </mat-form-field>
+              <!-- </div>
+              <div class="form-grup form-group-sm row"> -->
+                <mat-form-field class="col-sm-6" *ngIf="listaDisabled.alimentacion">
+                  <input matInput placeholder="Alimentación: " [(ngModel)]="listaAntecedenteGeneral.alimentacion"
+                    name="general_alimentacion" #general_alimentacion="ngModel" requerid>
+
+                  <mat-error>
+                    <app-validators-messages [controlVar]="general_alimentacion" labelName="Alimentación:">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-grup form-group-sm row">
+                <mat-label class="col-sm-12  negrita2"> Servicios Básicos </mat-label>
+              </div>
+
+              <div class="form-grup form-group-sm row">
+                <mat-label class="col-sm-6"> Luz </mat-label>
+
+                <mat-radio-group class="col-sm-6" [(ngModel)]="listaAntecedenteGeneral.servicioLuz" name="servicio_luz"
+                  #servicio_luz="ngModel" (change)="send()">
+                  <mat-radio-button class="form-check-inline" [value]="0"> Si </mat-radio-button>
+                  <mat-radio-button class="form-check-inline" [value]="1"> No </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div class="form-grup form-group-sm row">
+                <mat-label class="col-sm-6"> Agua: </mat-label>
+
+                <mat-radio-group class="col-sm-6" [(ngModel)]="listaAntecedenteGeneral.servicioAgua"
+                  name="servicio_agua" #servicio_agua="ngModel" (change)="send()">
+                  <mat-radio-button class="form-check-inline" [value]="0"> Si </mat-radio-button>
+                  <mat-radio-button class="form-check-inline" [value]="1"> No </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div class="form-grup form-group-sm row">
+                <mat-label class="col-sm-6"> Desague: </mat-label>
+
+                <mat-radio-group class="col-sm-6" [(ngModel)]="listaAntecedenteGeneral.servicioDesague"
+                  name="servicio_desague" #servicio_desague="ngModel" (change)="send()">
+                  <mat-radio-button class="form-check-inline" [value]="0"> Si </mat-radio-button>
+                  <mat-radio-button class="form-check-inline" [value]="1"> No </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+
+              <!-- </div>
+                <div class="col-sm-6" *ngIf="listaDisabled.gradoInstruccion && listaDisabled.alimentacion">
+                  
+                  <div *ngIf="listaDisabled.gradoInstruccion" class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <mat-select placeholder="Grado Instruccion:" [(ngModel)]="listaAntecedenteGeneral.idGradoInstruccion" name="grado_instruccion"
+                        #grado_instruccion="ngModel" requerid>
+                        <mat-option> -- </mat-option>
+                        <mat-option *ngFor="let gi of GradoInstruccion" [value]="gi.idOpcion"> {{gi.valorOpcion}} </mat-option>
+
+                        <mat-error>
+                          <app-validators-messages [controlVar]="grado_instruccion" labelName="Grado Instruccion:"> </app-validators-messages>
+                        </mat-error>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="listaDisabled.alimentacion" class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput placeholder="Alimentación: " [(ngModel)]="listaAntecedenteGeneral.alimentacion" name="general_alimentacion" #general_alimentacion="ngModel" requerid>
+
+                      <mat-error>
+                        <app-validators-messages [controlVar]="general_alimentacion" labelName="Alimentación:"> </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div> -->
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- <div class="card">
+  <div class="card-header">Generales</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-grup form-group-sm row">
+          <label for="" class="col-sm-6 col-form-label">Tipo de Vivienda: </label>
+          <div class="col-sm-6">
+            <select id="disabledSelect" class="form-control form-control-sm" [(ngModel)]="listaAntecedenteGeneral.tipoVivienda" (ngModelChange)="send()">
+              <option *ngFor="let cv of tipoVivienda" [value]="cv.idOpcion">{{cv.valorOpcion}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label for="" class="col-sm-12 col-form-label">
+            <b>Servicios Básicos</b>
+          </label>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label for="" class="col-sm-4  offset-sm-2 col-form-label">Luz</label>
+          <div class="col-md-6">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadio" id="inlineRadio1" [value]="1" [(ngModel)]="listaAntecedenteGeneral.servicioLuz"
+                  (change)="send()"> Si
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadio" id="inlineRadio2" [value]="0" [(ngModel)]="listaAntecedenteGeneral.servicioLuz"
+                  (change)="send()"> No
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label for="" class="col-sm-4  offset-sm-2 col-form-label">Agua: </label>
+          <div class="col-md-6">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadioss" id="inlineRadio1" [value]="1" [(ngModel)]="listaAntecedenteGeneral.servicioAgua"
+                  (change)="send()"> Si
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadioss" id="inlineRadio2" [value]="0" [(ngModel)]="listaAntecedenteGeneral.servicioAgua"
+                  (change)="send()"> No
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label for="" class="col-sm-4  offset-sm-2 col-form-label">Desague: </label>
+          <div class="col-md-6">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadiosButton" id="inlineRadio1" [value]="1" [(ngModel)]="listaAntecedenteGeneral.servicioDesague"
+                  (change)="send()"> Si
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadiosButton" id="inlineRadio2" [value]="0" [(ngModel)]="listaAntecedenteGeneral.servicioDesague"
+                  (change)="send()"> No
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6" *ngIf="listaDisabled.gradoInstruccion && listaDisabled.alimentacion">
+        <div *ngIf="listaDisabled.gradoInstruccion" class="form-grup form-group-sm row">
+          <label class="col-sm-6 col-form-label">Grado de Instruccion: </label>
+          <div class="col-sm-6">
+            <select [(ngModel)]="listaAntecedenteGeneral.idGradoInstruccion" id="disabledSelect1" class="form-control form-control-sm"
+              (ngModelChange)="send()">
+              <option *ngFor="let cv of GradoInstruccion" [value]="cv.idOpcion">{{cv.valorOpcion}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="listaDisabled.alimentacion" class="form-grup form-group-sm row">
+          <label class="col-sm-6 col-form-label">Alimentación:</label>
+          <div class="col-sm-6">
+            <input class="form-control form-control-sm" placeholder="Alimentación" [(ngModel)]="listaAntecedenteGeneral.alimentacion"
+              (keyup)="send()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div> -->

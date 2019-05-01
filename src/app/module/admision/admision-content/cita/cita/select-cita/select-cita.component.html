@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h4 class="modal-title text-center"> Planes </h4>
+  <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="form-grup form-group-sm row" *ngIf="flgReprogra==true">
+    <mat-label class="col-sm-12  bold-text"> Seleccione el plan que va a utilizar para la reprogramar de la cita </mat-label>
+  </div>
+  <div class="form-grup form-group-sm row" *ngIf="flgReprogra==false">
+    <mat-label class="col-sm-12  bold-text"> Seleccione el plan que va a utilizar para la confirmaci&oacute;n de la cita </mat-label>
+  </div>
+  <div class="form-grup form-group-sm row">
+    <div class="col-sm-12">
+      <mat-table #table [dataSource]="dataSource">
+        
+        <ng-container matColumnDef="descIafas">
+          <mat-header-cell *matHeaderCellDef> IAFA </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.descIafas}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="descCobertura">
+          <mat-header-cell *matHeaderCellDef> Cobertura </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.descCobertura}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="copagoFijo">
+          <mat-header-cell *matHeaderCellDef> Copago Fijo </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.copagoFijo}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="copagoVariable">
+          <mat-header-cell *matHeaderCellDef> Copago Variable </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.copagoVariable}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="descuentoFarm">
+          <mat-header-cell *matHeaderCellDef> Descuento Farmacia </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.descuentoFarm}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"(click)="selectPlan(row.index)" class="{{row.color}}"></mat-row>
+        
+      </mat-table>
+    </div>
+  </div>
+  <div class="col-sm-12 text-center" *ngFor="let l of routerRepro">
+    <div class="form-grup form-group-sm">
+      <button mat-raised-button color="primary" *ngIf="flgBtnConfirmar==true" (click)="confirmarCitaNewPlan(l.clave)"> Confirmar </button>
+      <button mat-raised-button color="warn" (click)="onNoClick()"> Cerrar </button>
+    </div>
+  </div>
+
+</div>

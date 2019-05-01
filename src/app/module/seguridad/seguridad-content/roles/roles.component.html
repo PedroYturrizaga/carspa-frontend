@@ -1,0 +1,76 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Gestionar Rol</mat-card-title>
+    <div class="margenSuperior" style="padding-left: 289px;">
+      <button class="enlace negrita" type="button" (click)="modalNuevoRol()">Nuevo</button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="table responsive mat-elevation-z8">
+              <mat-table #table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="nro">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>N°</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.nro}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nombreRol">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Rol</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.nombreRol}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="alcance">
+                  <mat-header-cell *matHeaderCellDef>Alcance</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.areaAmbienteEspec}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="grupOcup">
+                  <mat-header-cell *matHeaderCellDef>Grupo Ocupacional</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.descripcionesGrupoOcup}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="editar">
+                  <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-button>
+                      <i class="material-icons" (click)="editarRolGrupOcup(element)">edit</i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="eliminar">
+                  <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-button>
+                      <i class="material-icons" (click)="eliminarRolGrupOcup(element.idRol, element.nombreRol)">delete_forever</i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="darPagina">
+                  <mat-header-cell *matHeaderCellDef>Dar Pagina</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-button>
+                      <i class="material-icons" (click)="darPagina(element.idRol, element.nombreRol)">arrow_forward</i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+              </mat-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

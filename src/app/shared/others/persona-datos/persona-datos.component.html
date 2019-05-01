@@ -1,0 +1,155 @@
+<!-- <div class="panel panel-primary one">
+    <div class="panel-heading">Datos del paciente</div>
+    <div class="panel-body">
+      <div class="row">
+        <label class="col-5">Apellidos y Nombres: {{cabeceraDatosPersona.persona.apellidoPaterno}} {{cabeceraDatosPersona.persona.apellidoMaterno}}, {{cabeceraDatosPersona.persona.nombres}}</label>
+        <label class="col-2">IAFAS: {{cabeceraDatosPersona.persona.planList[0].iafas.descripcionIafas}}</label>
+        <label class="col-3">Fecha de Vigencia: {{cabeceraDatosPersona.persona.planList[0].feVigencia}}</label>
+        <label class="col-2">Estado Civil: {{cabeceraDatosPersona.persona.estadoCivil.valor}}</label>
+  
+        <label class="col-3">Tipo de Doc.: {{cabeceraDatosPersona.persona.tipoDocumentoIdentidad.descripcion}}</label>
+        <label class="col-2">Doc. de identidad: {{documentoIdentidad}}</label>
+        <label class="col-2">Cobertura : {{cabeceraDatosPersona.persona.planList[0].cobertura? cabeceraDatosPersona.persona.planList[0].cobertura.descripcionCobertura : 'No tiene'}}</label>
+        <label class="col-3">Grupo Sanguíneo: {{cabeceraDatosPersona.persona.tipoSangre.valor}}</label>
+        <label class="col-2">Ocupación: {{cabeceraDatosPersona.persona.ocupacion.valor}}</label>
+  
+        <label class="col-3">Sexo: {{cabeceraDatosPersona.persona.sexo.valor}}</label>
+        <label class="col-3">Edad: {{cabeceraDatosPersona.persona.edadLetra}}</label>
+        <label class="col-3">Número de Historia Clínica: {{cabeceraDatosPersona.persona.historiaList[0].idHistoria}}</label>
+        <label class="col-3">Grado de Instrucción: {{cabeceraDatosPersona.persona.gradoInstruccion.valor}}</label>
+  
+        <label class="col-3">Fecha de Nacimiento: {{cabeceraDatosPersona.persona.feNacimiento}}</label>
+        <label class="col-3">Tipo de paciente: {{cabeceraDatosPersona.persona.filiadoList[0].tipoPaciente}}</label>
+        <label class="col-3">Domicilio: {{cabeceraDatosPersona.persona.filiadoList[0].domicilioActual}}</label>
+        <label class="col-3">Teléfono: {{cabeceraDatosPersona.persona.filiadoList[0].telefonoMovil}}</label>
+  
+        <label class="col-6">Lugar de nacimiento: {{cabeceraDatosPersona.persona.filiadoList[0].ubigeo.nombre}}</label>
+        <label class="col-6">Parentesco con el titular: {{cabeceraDatosPersona.persona.filiadoList[0].parentescoAcompanante.valor}}</label>
+      </div>
+    </div>
+  </div> -->
+
+<mat-card class="mat-card-main"> 
+  <mat-card-header>
+    <mat-card-title> Datos del paciente </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Apellido y Nombre:" readonly value="{{cabeceraDatosPersona.persona.apellidoPaterno ? cabeceraDatosPersona.persona.apellidoPaterno +' '+ cabeceraDatosPersona.persona.apellidoMaterno +' '+ cabeceraDatosPersona.persona.nombres: ''}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-8 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <mat-label>Cobertura:</mat-label>
+            <textarea matInput matAutosizeMinRows="1" matAutosizeMaxRows="3" readonly value="{{cabeceraDatosPersona.persona.planList[0].cobertura ? cabeceraDatosPersona.persona.planList[0].cobertura.descripcionCobertura : 'No tiene'}}"
+              matTextareaAutosize>
+            </textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Fecha de Vigencia:" readonly value="{{cabeceraDatosPersona.persona.planList[0].feVigencia | date: 'dd/MM/yyyy' : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="T. de Documento:" readonly value="{{cabeceraDatosPersona.persona.tipoDocumentoIdentidad.descripcion}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="N° Historia Clínica:" readonly value="{{cabeceraDatosPersona.persona.historiaList[0] ? cabeceraDatosPersona.persona.historiaList[0].idHistoria : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Grupo Sanguineo:" readonly value="{{cabeceraDatosPersona.persona.tipoSangre ? cabeceraDatosPersona.persona.tipoSangre.valor : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="N° de Documento:" readonly value="{{cabeceraDatosPersona.persona.numeroDocumentoIdentidad}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="T. de Paciente:" readonly value="{{cabeceraDatosPersona.persona.filiadoList[0] ? cabeceraDatosPersona.persona.filiadoList[0].tipoPaciente : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Grado de Instruccion:" readonly value="{{cabeceraDatosPersona.persona.gradoInstruccion ? cabeceraDatosPersona.persona.gradoInstruccion.valor : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-2 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Sexo:" readonly value="{{cabeceraDatosPersona.persona.sexo.valor}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-2 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Edad:" readonly value="{{cabeceraDatosPersona.persona.edad}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Parentesco Con Titular:" readonly value="{{cabeceraDatosPersona.persona.filiadoList[0].parentescoAcompanante ? cabeceraDatosPersona.persona.filiadoList[0].parentescoAcompanante.valor : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Estado Civil:" readonly value="{{cabeceraDatosPersona.persona ? cabeceraDatosPersona.persona.estadoCivil.valor : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="F. de Nacimiento:" readonly value="{{cabeceraDatosPersona.persona.feNacimiento | date: 'dd/MM/yyyy'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Ocupación:" readonly value="{{cabeceraDatosPersona.persona ? cabeceraDatosPersona.persona.ocupacion.valor : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lugar de Nacimiento:" readonly value="{{cabeceraDatosPersona.persona.filiadoList[0].ubigeo ? cabeceraDatosPersona.persona.filiadoList[0].ubigeo.nombre : '-'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Domicilio:" readonly value="{{cabeceraDatosPersona.persona.filiadoList[0].domicilioActual ? cabeceraDatosPersona.persona.filiadoList[0].domicilioActual : ''}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Telefono:" readonly value="{{cabeceraDatosPersona.persona.filiadoList[0].telefonoMovil ? cabeceraDatosPersona.persona.filiadoList[0].telefonoMovil : ''}}">
+          </mat-form-field>
+        </div>
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

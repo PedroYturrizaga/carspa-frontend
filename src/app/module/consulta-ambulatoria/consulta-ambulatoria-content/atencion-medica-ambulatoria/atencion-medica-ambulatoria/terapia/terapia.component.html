@@ -1,0 +1,94 @@
+<mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Terapia</mat-card-title>
+    </mat-card-header>
+  
+  
+    <mat-card-content>
+      <form #terapiaForm="ngForm" novalidate name="terapiaForm">
+        <div class="card-body">
+  
+          <div class="row centrar">
+  
+            <!-- terapia -->
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Terapia</mat-label>
+                <mat-select placeholder="Seleccionar" name="terap" (selectionChange)="seleccionarTerapia(paramsBusqueda.idTerapia)" [(ngModel)]="paramsBusqueda.idTerapia"
+                  required>
+                  <mat-option *ngFor="let t of terapia" [value]="t.idTerapia">
+                    {{t.descripcionTerapia}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+  
+            <!-- numero de sesionse -->
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field class="example-full-width">
+                <mat-label for="numSesiones">Ingresar numero de sesiones</mat-label>
+                <input matInput type="number" name="numSesiones" [max]="99" [min]="0" #nomProducto="ngModel" id="numSesiones" [(ngModel)]="paramsBusqueda.numeroSesiones"
+                  required />
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3" style="margin-top:1%;">
+              <button mat-raised-button (click)="insertarTerapia(terapiaForm)" [disabled]="terapiaForm.invalid">Insertar
+              </button>
+            </div>
+  
+          </div>
+  
+        </div>
+      </form>
+    </mat-card-content>
+  
+    <mat-card-content class="margenSuperior5">
+  
+      <div class="table responsive" *ngIf="terapia.length!=0">
+  
+        <mat-table #table [dataSource]="dataSource">
+  
+          <!-- convenio -->
+          <ng-container matColumnDef="idTerapia">
+            <mat-header-cell *matHeaderCellDef> Codigo Terapia </mat-header-cell>
+            <mat-cell *matCellDef="let terapia"> {{ terapia.idSolicitudTerapia }} </mat-cell>
+          </ng-container>
+  
+          <!-- producto -->
+          <ng-container matColumnDef="descripcionTerapia">
+            <mat-header-cell *matHeaderCellDef>Descripcion Terapia</mat-header-cell>
+            <mat-cell *matCellDef="let terapia"> {{ terapia.descripcionTerapia }} </mat-cell>
+          </ng-container>
+  
+          <!-- codigo cobertura -->
+          <ng-container matColumnDef="numeroSesiones">
+            <mat-header-cell *matHeaderCellDef>Numero de Sesiones</mat-header-cell>
+            <mat-cell *matCellDef="let terapia"> {{terapia.numeroSesiones}}</mat-cell>
+          </ng-container>
+  
+          <!-- eliminar -->
+          <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+            <mat-cell *matCellDef="let cobertura">
+              <button mat-button (click)="eliminar(cobertura)">
+                <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons">delete</i>
+                  </span>
+                </div>
+              </button>
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Header -->
+          <mat-header-row *matHeaderRowDef="displayedColumnsA"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsA;">
+          </mat-row>
+        </mat-table>
+        <!--  -->
+      </div>
+  
+    </mat-card-content>
+  
+  </mat-card>

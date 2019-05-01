@@ -1,0 +1,147 @@
+
+<mat-card class="matCardMin">  
+<mat-card-header class="sombreadoSubtitulos alinearCabecera">
+  <mat-card-title class="subtitulo-seccion">Búsqueda de Paciente</mat-card-title>
+  <div class="emp"> 
+    <button mat-button class="mat-button-icon" (click)="onNoClick()">
+      <div class="example-tooltip-host" matTooltip="Salir">
+        <span>
+          <i class="material-icons">close</i>
+        </span>
+      </div>
+    </button>
+  </div>
+</mat-card-header>
+
+<div mat-dialog-content>
+  <mat-card-content>
+    <div class="modal-body">
+      <div class="row">
+        <!--<div class="col-sm-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex3">
+            <mat-select #listaOpciones placeholder="Tipo de Documento" [(ngModel)]="CombotipoDocumento" name="tipo_documento" #tipo_documento="ngModel"
+              (selectionChange)="changeInput(listaOpciones.value)">
+              <mat-option> -- </mat-option>
+              <mat-option *ngFor="let tp of tipoDocumento" [value]="tp.id"> {{tp.valor}} </mat-option>
+            </mat-select>
+            <mat-error>
+              <app-validators-messages [controlVar]="tipo_documento" labelName="Tipo de Documento">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex3">
+            <input matInput placeholder="Numero de Documento" [(ngModel)]="numeroDocumento" name="numero_documento" #numero_documento="ngModel"
+              (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+              minlength="{{longitudDocumento}}" [disabled]="!CombotipoDocumento" maxlength="{{longitudDocumento}}" required>
+            <mat-error>
+              <app-validators-messages [controlVar]="numero_documento" labelName="Numero de Documento"> </app-validators-messages>
+            </mat-error>
+            <mat-hint align="end" class="longitudInforme">
+              {{ numeroDocumento? numeroDocumento.length: '0' }} / {{longitudDocumento}}
+            </mat-hint>
+          </mat-form-field>
+        </div>-->
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Nombre(s)" [(ngModel)]="nombres" name="nombre_busqueda" #nombre_busqueda="ngModel">
+            <mat-error>
+              <app-validators-messages [controlVar]="nombre_busqueda" labelName="Nombre">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Apellido Paterno" [(ngModel)]="apellidoPate" name="apellido_paterno" #apellido_paterno="ngModel">
+            <mat-error>
+              <app-validators-messages [controlVar]="apellido_paterno" labelName="Apellido Paterno">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Apellido Materno" [(ngModel)]="apellidoMate" name="apellido_materno" #apellido_materno="ngModel">
+            <mat-error>
+              <app-validators-messages [controlVar]="apellido_materno" labelName="Apellido Materno">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3 alinearBoton ">
+        <div class="form-grup form-group-sm">
+          <button mat-raised-button (click)="getPersona()" style="margin-top: 13px"> Buscar </button>
+          <!--<button mat-raised-button (click)="clearRequest()"> Limpiar </button>-->
+          <!--<button mat-raised-button (click)="onNoClick()"> Volver </button>-->
+        </div>
+      </div>
+      </div>
+    </div>
+    
+  </mat-card-content>
+
+  <mat-card style="width:100%;max-width: 100%"  *ngIf="flSearchTable==true">
+    <!-- *ngIf="flSearchTable==true" -->
+    <mat-card-content>
+      <div class="table responsive">
+        <mat-table #table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="descripcionTipoDocumentoIdentidad">
+            <mat-header-cell *matHeaderCellDef> Tipo Documento </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descripcionTipoDocumentoIdentidad}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="numeroDocumentoIdentidad">
+            <mat-header-cell *matHeaderCellDef> N&uacute;mero Documento </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.numeroDocumentoIdentidad}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="apellidoPaterno">
+            <mat-header-cell *matHeaderCellDef> Apellido Paterno </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.apellidoPaterno}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="apellidoMaterno">
+            <mat-header-cell *matHeaderCellDef> Apellido Materno </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.apellidoMaterno}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nombres">
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.nombres}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="tipoHistoria">
+            <mat-header-cell *matHeaderCellDef> Estado Historia Clinica </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.tipoHistoria}} </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="asigPaciente(row)" class ="tablita"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+</mat-card>
+<!-- <div class="col-sm-12 text-right moverBoton">
+  <button mat-raised-button (click)="onNoClick()"> Cerrar </button>
+</div> -->
+<!--
+ <div class="modal-body">
+
+  <div class="form-grup form-group-sm row">
+    
+      <button mat-raised-button color="primary" (click)="getPersona()"> Buscar </button>
+      <button mat-raised-button color="primary" (click)="clearRequest()"> Limpiar </button>
+    
+  </div>
+
+
+
+</div> -->

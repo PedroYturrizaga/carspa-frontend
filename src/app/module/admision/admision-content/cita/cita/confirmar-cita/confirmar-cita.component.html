@@ -1,0 +1,88 @@
+
+<div class="sombreadoSubtitulos">
+    <h2 mat-dialog-title class="subtitulo-seccion">
+        <span *ngIf="flgTipoConfirmacion==true"> Confirmaci&oacute;n Reserva </span>
+        <span *ngIf="flgTipoConfirmacion==false"> Confirmaci&oacute;n Suspenci&oacute;n </span>
+      
+        <span class="example-spacer"></span>
+        <button mat-button class="mat-button-icon" (click)="onNoClick()">
+          <div class="example-tooltip-host" matTooltip="Salir" [matTooltipPosition]="'above'">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </h2>
+</div>
+
+
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 text-center" *ngIf="flgTipoConfirmacion==true">
+     <p>¿Est&aacute; seguro que desea confirmar la <b>{{pacienteConf.tipoCita}}</b> para el servicio de <b>{{pacienteConf.servicio}}</b> con el
+      m&eacute;dico <b>{{pacienteConf.medicoTratante}}</b>?</p> 
+    </div>
+
+    <div class="col-12 text-center" *ngIf="flgTipoConfirmacion==false">
+      <p> ¿Est&aacute; seguro que desea suspender la <b>{{pacienteConf.tipoCita}}</b> para el servicio de <b>{{pacienteConf.servicio}}</b> con el
+        m&eacute;dico <b>{{pacienteConf.medicoTratante}}</b>?</p>
+    </div>
+  </div>
+</div>
+
+<div class="text-center">
+  <button mat-raised-button class="border-bottom" *ngIf="flgTipoConfirmacion==true" (click)="ConfirmarCitaComponent()">Sí</button>
+  <button mat-raised-button class="border-bottom" *ngIf="flgTipoConfirmacion==false" (click)="suspenderCita()"> Si </button>
+  <button mat-raised-button class="border-bottom" (click)="onNoClick()">No</button>
+</div>
+<!-- 
+
+<div *ngIf="flgTipoConfirmacion==true">
+  <div class="modal-header">
+    <h4 class="modal-title text-center">Confirmaci&oacute;n Reserva</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="form-grup form-group-sm row">
+      <mat-label class="col-sm-12  bold-text">
+        ¿Est&aacute; seguro que desea confirmar la {{pacienteConf.tipoCita}} para el servicio de {{pacienteConf.servicio}} con el
+        m&eacute;dico {{pacienteConf.medicoTratante}}?
+      </mat-label>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <div class="col-sm-12 text-center">
+        <button mat-raised-button color="primary" (click)="ConfirmarCitaComponent()"> Si </button>
+        <button mat-raised-button color="warn" (click)="onNoClick()"> No </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="flgTipoConfirmacion==false">
+  <div class="modal-header">
+    <h4 class="modal-title text-center">Confirmaci&oacute;n Suspenci&oacute;n</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-grup form-group-sm row">
+      <mat-label class="col-sm-12  bold-text">
+        ¿Est&aacute; seguro que desea suspender la {{pacienteConf.tipoCita}} para el servicio de {{pacienteConf.servicio}} con el
+        m&eacute;dico {{pacienteConf.medicoTratante}}?
+      </mat-label>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <div class="col-sm-12 text-center">
+        <button mat-raised-button color="primary" (click)="suspenderCita()"> Si </button>
+        <button mat-raised-button color="warn" (click)="onNoClick()"> No </button>
+      </div>
+    </div>
+  </div>
+</div> -->

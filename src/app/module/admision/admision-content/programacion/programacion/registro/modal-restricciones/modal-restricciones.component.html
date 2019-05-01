@@ -1,0 +1,42 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">Error al registrar la programación</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="form-grup form-group-sm row">
+      <mat-label class="col-sm-12  bold-text"> {{mensaje}} </mat-label>
+    </div>
+    <ol>
+      <li *ngFor = "let restriccion of restricciones">
+        <div class="form-grup form-group-sm row">
+          <mat-label class="col-sm-12  bold-text"> {{restriccion.mensaje}} </mat-label>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="form-grup form-group-sm row">
+    <button mat-raised-button class="col-sm-12" color="primary" (click)="onNoClick()"> Entendido </button>
+  </div>
+</div>
+
+
+<!-- <div class="modal-header">
+  <h4 class="modal-title">Error al registrar la programación</h4>
+</div>
+<div class="modal-body">
+  <span><strong>{{mensaje}}</strong></span>
+  <ol>
+    <li *ngFor = "let restriccion of restricciones">
+      <span>{{restriccion.mensaje}}</span>
+    </li>
+  </ol>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="dialogRef.close()">Entendido</button>
+</div> -->

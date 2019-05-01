@@ -1,0 +1,80 @@
+<div class="sombreadoSubtitulos" style="display:flex;">
+<h5 class="subtitulo-seccion">Cambiar Contrase&ntilde;a</h5>
+    <span class="example-spacer"></span>
+    <button mat-button class="mat-button-icon" (click)="dismiss()" style="margin-top: -10px;">
+        <div class="example-tooltip-host" matTooltip="Salir" [matTooltipPosition]="'above'">
+            <span>
+                <i class="material-icons">close</i>
+            </span>
+        </div>
+    </button>
+</div>
+<form #cambiarPassword="ngForm" novalidate name="cambiarPassword">
+    <mat-card-content class="margenTop empujar">
+
+        <!-- <div class="card-body">
+            <div class="row"> -->
+
+        <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+                <span matPrefix><i class="material-icons">lock_outline</i></span>
+                <input matInput placeholder="Contrase&ntilde;a Actual:" type="{{type}}" name="contrasenaActual" #contrasenaActual="ngModel"
+                    id="contrasenaActual" [(ngModel)]="contrasenaAct" required/>
+                <button mat-button *ngIf="contrasenaAct" matSuffix mat-icon-button (mousedown)="enter('type')" (mouseup)="leave('type')"
+                    (mouseleave)="leave('type')">
+                    <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="'above'">
+                        <mat-icon>visibility</mat-icon>
+                    </div>
+                </button>
+                <mat-error>
+                    <app-validators-messages [controlVar]="contrasenaActual" labelName="Contrase&ntilde;a Actual">
+                    </app-validators-messages>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+                <span matPrefix><i class="material-icons">lock_outline</i></span>
+                <input matInput placeholder="Nueva Contrase&ntilde;a:" type="{{type2}}" name="NuevaContrasena" #NuevaContrasena="ngModel"
+                    id="NuevaContrasena" [(ngModel)]="nuevaPassword" required/>
+                <button mat-button *ngIf="nuevaPassword" matSuffix mat-icon-button (mousedown)="enter('type2')" (mouseup)="leave('type2')"
+                    (mouseleave)="leave('type2')">
+                    <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="'above'">
+                        <mat-icon>visibility</mat-icon>
+                    </div>
+                </button>
+                <mat-error>
+                    <app-validators-messages [controlVar]="NuevaContrasena" labelName="Nueva Contrase&ntilde;a">
+                    </app-validators-messages>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+                <span matPrefix><i class="material-icons">lock_outline</i></span>
+                <input matInput placeholder="Confirmar Contrase&ntilde;a:" type="{{type3}}" name="confirmarContrasena" #confirmarContrasena="ngModel"
+                    id="confirmarContrasena" [(ngModel)]="confirmarPassword" [equalTo]="NuevaContrasena" required/>
+                <button mat-button *ngIf="confirmarPassword" matSuffix mat-icon-button (mousedown)="enter('type3')" (mouseup)="leave('type3')"
+                    (mouseleave)="leave('type3')">
+                    <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="'above'">
+                        <mat-icon>visibility</mat-icon>
+                    </div>
+                </button>
+                <mat-error>
+                    <app-validators-messages [controlVar]="confirmarContrasena" labelName="Confirmacion de Contrase&ntilde;a">
+                    </app-validators-messages>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+
+
+    <div class="text-center">
+        <button mat-raised-button (click)="cambiarContrasena(cambiarPassword)" [disabled]="isInvalid(cambiarPassword)">Cambiar
+            Contrase&ntilde;a
+        </button>
+    </div>
+
+</form>

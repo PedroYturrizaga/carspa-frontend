@@ -1,0 +1,201 @@
+<div *ngIf="flgMostrar==false">
+  <br>
+  <div class="col-12">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <p style="text-align: center">
+            <strong>OTORGAR CITA DE EXAMEN DE APOYO - LABORATORIO</strong>
+          </p>
+        </div>
+      </div>
+      <hr/>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label>
+            <strong>DATOS DE BÚSQUEDA</strong>
+          </label>
+        </div>
+      </div>
+      <hr class="hr2" />
+
+      <div class="row">
+        <div class="col-md-4">
+          <label>
+            <strong>Tipo de Documento:</strong>
+          </label>&nbsp;
+          <select class="form-control" [(ngModel)]="RequestOrdenCabecera.idTipoDocumentoIdentidad">
+            <option value="0">--------Seleccionar--------</option>
+            <option *ngFor="let td of tipoDocumento" [value]="td.id">{{td.valor}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label>
+            <strong>N° de Documento:</strong>
+          </label>
+          <input class="form-control" placeholder="N° de Documento" [(ngModel)]="RequestOrdenCabecera.nuDocumento" />
+        </div>
+
+        <div class="col-md-4">
+          <div>
+            <label>
+              <strong>N° Solicitud:</strong>
+            </label>
+            <input class="form-control" placeholder="N° Solicitud" [(ngModel)]="RequestOrdenCabecera.idOrdenExamenCabecera" />
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <div class="col-12 form-group">
+        <div class="col-12">
+          <div style="text-align:center">
+            <button class="btn btn-primary" (click)="buscarPorFiltro()">Buscar</button>
+          </div>
+          <div style="text-align:center">
+            <button class="btn btn-primary" (click)="openModalHistorial()">Historial de Cita de Examenes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card-body">
+            <div class="col tabla-examen ">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>N° de Solicitud</th>
+                    <th>Fecha</th>
+                    <th>N° de Documento</th>
+                    <th>Paciente</th>
+                    <th>Médico</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="ordenExamenCabecera!=null">
+                  <tr *ngFor="let OED of ordenExamenCabecera; let i=index" (click)="getObtenerDetalle(OED.idOrdenExamenCabecera,OED.persona.nombres,OED.persona.apellidoPaterno,OED.persona.apellidoMaterno,OED.idActoMedico,OED.actoMedico.idArea,i)"
+                    class="{{OED.color}}">
+                    <td>{{OED.idOrdenExamenCabecera}}</td>
+                    <td>{{OED.fhSolicitud}}</td>
+                    <td>{{OED.persona.idPersona}}</td>
+                    <td>{{OED.persona.nombres}} {{OED.persona.apellidoPaterno}} {{OED.persona.apellidoMaterno}}</td>
+                    <td>{{OED.personal.nombrePersonal}} {{OED.personal.apellidoPaternoPersonal}} {{OED.personal.apellidoMaternoPersonal}}</td>
+                    <td>{{OED.estadoExamenCabecera}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="12" class="text-center">
+                      <ngb-pagination class="d-inline-block" [collectionSize]="paginationParameter.total_rows" [(page)]="paginationParameter.nuPagina"
+                        [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getServicios()"></ngb-pagination>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+      <div class="row">
+        <div class="col-md-12">
+          <label>
+            <strong>SOLICITUD</strong>
+          </label>
+        </div>
+      </div>
+      <hr class="hr3" />
+      <br>
+      <div class="row">
+
+        <div class="col-md-4">
+          <label>
+            <strong>N° Solicitud:</strong>
+          </label>
+          <label>{{id}}</label>
+        </div>
+
+        <div class="col-md-4">
+          <label>
+            <strong>Paciente:</strong>
+          </label>
+          <label> {{nombreCompleto}}</label>
+        </div>
+
+        <div class="col-md-4">
+          <button class="btn btn-primary" (click)="generarCita()">Cita</button>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card-body">
+            <div class="col tabla-examen ">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Código</th>
+                    <th>Área</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Precio Descuento</th>
+                    <th>Seleccionar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let f of filtro">
+                    <td>{{f.descripcionExamenTipo}}</td>
+                    <td>{{f.codigoCpt}}</td>
+                    <td>{{f.descripcionExamenArea}}</td>
+                    <td>{{f.descripcionCpt}}</td>
+                    <td>{{f.precio}}</td>
+                    <td>{{f.precioDescuento}}</td>
+                    <td>
+                      <div class="col-auto">
+                        <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                          <input type="checkbox" class="custom-control-input disabled" [(ngModel)]="f.seleccionado" [disabled]="f.flag" (change)="sumaTotal(f.codigoCpt)">
+                          <span class="custom-control-indicator"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+          <label>
+            <strong>Total:</strong>
+          </label>&nbsp;
+          <label>{{total2}}</label>
+        </div>
+
+      </div>
+      <br>
+    </div>
+  </div>
+</div>
+
+
+
+
+<app-cita-laboratorio *ngIf="flgMostrar!=false" [filtro]="filtro2" [actoMedico]="actoMedico" [flgMostrar]="flgMostrar" [id]="id" [idCobertura]="idCobertura" (cambioFlag)="cambioFlag($event)" [idArea]="idArea"></app-cita-laboratorio>

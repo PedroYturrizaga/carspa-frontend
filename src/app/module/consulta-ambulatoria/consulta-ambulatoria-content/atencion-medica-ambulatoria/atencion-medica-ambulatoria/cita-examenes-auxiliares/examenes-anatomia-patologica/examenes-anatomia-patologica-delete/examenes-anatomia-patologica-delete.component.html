@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h4 class="modal-title text-center"> Eliminar Examen Asignado </h4>
+  <button type="button" class="close" aria-label="Close" (click)="onNoClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="form-grup form-group-sm row">
+    <mat-label class="col-sm-12  bold-text"> ¿Desea eliminar el Registro? </mat-label>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <div class="form-grup form-group-sm row">
+    <div class="col-sm-12 text-center">
+      <button mat-raised-button color="primary" (click)="eliminarOrdenExamenesDetalle()"> Si </button>
+      <button mat-raised-button color="warn" (click)="onNoClick()"> No </button>
+    </div>
+  </div>
+</div>
+
+<!-- 
+
+<div class="modal-header">
+  <h4 class="modal-title">Eliminar Examen Asignado</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label>¿Desea eliminar el Registro?</label>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" style="width:64px" class="btn btn-danger" (click)="eliminarOrdenExamenesDetalle()">Sí</button>
+
+  <button type="button" style="width:64px" class="btn btn-outline-dark" (click)="close()">No</button>
+
+</div> -->

@@ -1,0 +1,30 @@
+<div class="sombreadoSubtitulos">
+    <h5 mat-dialog-title class="subtitulo-seccion">
+      <span > Suspenci&oacute;n  de Cita </span>
+    </h5>
+</div>
+
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Motivo de Suspension:" [(ngModel)]="cmbMotivoSuspencion" name="motivo_suspension" #motivo_suspension="ngModel"
+          required>
+          <mat-option> -- </mat-option>
+          <mat-option *ngFor="let ms of motivoSuspencion" [value]="ms.id"> {{ms.valor}} </mat-option>
+        </mat-select>
+        <mat-error>
+          <app-validators-messages [controlVar]="motivo_suspension" labelName="Motivo de Suspension">
+          </app-validators-messages>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions class="modal-footer">
+  <button class="border-botton" type="submit" mat-raised-button (click)="updateCitaPro()"  [disabled]="!cmbMotivoSuspencion"> Aceptar</button>
+  <button class="border-botton" type="submit" mat-raised-button (click)="onNoClick()"> Cancelar </button>
+</mat-dialog-actions>
+

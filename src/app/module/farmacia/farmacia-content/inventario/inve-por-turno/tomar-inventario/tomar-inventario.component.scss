@@ -1,0 +1,24 @@
+::-webkit-input-placeholder{
+    font-weight: bold;
+    font-size: 90%;
+}
+:-ms-input-placeholder{
+    font-weight: bold;
+    font-size: 90%;
+}
+input, select, table{
+    font-size: 90%;
+}.tabla{
+    table-layout:fixed;
+    width: 100%;
+}input[type=number]::-webkit-inner-spin-button,
+ input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.mat-column-ProducFarmaDisp {
+    flex: 0 0 16%;
+}
+.mat-column-FormaFarmaTipoDisp {
+    flex: 0 0 14%;
+}

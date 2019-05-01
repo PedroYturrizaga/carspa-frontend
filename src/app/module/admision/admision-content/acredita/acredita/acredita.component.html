@@ -1,0 +1,374 @@
+<div *ngIf="flgView">
+
+  <mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Búsqueda de Asegurado</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form name="searchForm" #searchForm="ngForm" novalidate>
+        <div class="card-body">
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col">
+              <mat-select placeholder="Seleccionar Convenios
+              " [(ngModel)]="params.codigoIafa" name="idIAFASModel" #idIAFASModel="ngModel" required>
+                <mat-option> -- </mat-option>
+                <mat-option *ngFor="let iaL of iafaList" [value]="iaL.codigo"> {{iaL.nombreIafaEmpresa}} </mat-option>
+
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idIAFASModel" labelName="Select IAFAS"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col">
+              <mat-select #listaOpciones placeholder="Seleccionar Tipo de Documento:" [(ngModel)]="params.tipoDocumento"
+                name="combo_tipoDocumento" #combo_tipoDocumento="ngModel"
+                (selectionChange)="changeInput(listaOpciones.value)" required>
+                <mat-option> -- </mat-option>
+                <mat-option *ngFor="let td of tipoDocumento" [value]="td.id"> {{td.valor}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="combo_tipoDocumento" labelName="Tipo de Documento">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- <div class="col"> -->
+            <mat-form-field class="col">
+              <input matInput placeholder="Numero de Documento" [(ngModel)]="params.numeroDocumento"
+                name="numero_documento" #numero_documento="ngModel"
+                (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                minlength="{{longitudDocumento}}" [disabled]="!params.tipoDocumento" maxlength="{{longitudDocumento}}"
+                (keyup.enter)="searchAsegurado()" required>
+
+              <mat-error>
+                <app-validators-messages [controlVar]="numero_documento" labelName="Numero de Documento">
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end" class="longitudInforme">
+                {{ params.numeroDocumento? params.numeroDocumento.length: '0' }} / {{longitudDocumento}}
+              </mat-hint>
+            </mat-form-field>
+            <!-- </div> -->
+            <div class="col-"></div>
+          </div>
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col">
+              <input matInput placeholder="Nombre del Asegurado" [(ngModel)]="params.nommAsegurado"
+                name="nomAseguradoModel" #nomAseguradoModel="ngModel">
+
+              <mat-error>
+                <app-validators-messages [controlVar]="nomAseguradoModel" labelName="Nombre del Asegurado">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col">
+              <input matInput placeholder="Apellido Paterno" [(ngModel)]="params.apPaterno" name="apPaternoModel"
+                #apPaternoModel="ngModel">
+
+              <mat-error>
+                <app-validators-messages [controlVar]="apPaternoModel" labelName="Apellido Paterno">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col">
+              <input matInput placeholder="Apellido Materno" [(ngModel)]="params.apMaterno" name="apMaternoModel"
+                #apMaternoModel="ngModel">
+
+              <mat-error>
+                <app-validators-messages [controlVar]="apMaternoModel" labelName="Apellido Materno">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="form-grup form-group-sm row text-right">
+            <div class="col align-self-center">
+              <!-- <div class="form-grup form-group-sm row justify-content-end"> -->
+              <button mat-raised-button  [disabled]="isInvalid(searchForm) || flgviewB"
+                (click)="searchAsegurado()"> Buscar </button>
+              <!-- </div> -->
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="lsProductos!=null">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Lista de Productos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <mat-table #table [dataSource]="dataSourceProducto">
+
+          <ng-container matColumnDef="nomProducto">
+            <mat-header-cell *matHeaderCellDef> Productos </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.coDescripcion}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="apellidoPaterno">
+            <mat-header-cell *matHeaderCellDef  matTooltip="Apellido Paterno" matTooltipPosition="above"> A.Paterno </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.apPaternoPaciente}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="apellidoMaterno">
+            <mat-header-cell *matHeaderCellDef  matTooltip="Apellido Materno" matTooltipPosition="above"> A.Materno </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.apMaternoPaciente}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nombres">
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.noPaciente}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="parentesco">
+            <mat-header-cell *matHeaderCellDef> Parentesco </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.coParentesco == 1 ?'REGULAR': element.coParentesco==2 ? 'CONYUGUE':element.coParentesco==5?'COMPLEMENTARIO':'--'}} 
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="contratante">
+            <mat-header-cell *matHeaderCellDef> Contratante </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.noContratante}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.coEsPaciente==1? 'VIGENTE' : element.coEsPaciente==2 ? 'SIN COBERTURA': '--'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="codAsegurado">
+            <mat-header-cell *matHeaderCellDef  matTooltip="Codigo de Asegurado" matTooltipPosition="above"> Codigo.A </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.coReContratante}} </mat-cell>
+          </ng-container>
+
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumnProducto"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnProducto;" (click)="goToCobertura(row)"></mat-row>
+          <!-- [ngClass]="['row.estado']"-->
+
+        </mat-table>
+   
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<app-cobertura *ngIf="!flgView" (sendCobertura)="requestView($event)" [lsCoberturas]="lsCoberturas" [lsAcreditacion]="requestCoberturas" [params]="params"></app-cobertura>
+
+<!-- <label>Numero de Documento</label>
+<mat-card *ngIf="coberturaDisabled == true">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Filtrado de Pacientes</mat-card-title>
+  </mat-card-header>
+
+  <div class="container-fluid">
+    <div class="row">
+
+
+      <div class="col-4 mdl-input-group mdl-input-group__only">
+        <mat-form-field class="example-full-width mat-form-field-flex2">
+          <mat-select #listaOpciones placeholder="Tipo de Documento:" name="tipoDocumento" [(ngModel)]="acreditaRequest.acredita.tipoDocumento"
+            (ngModelChange)="validarComboTipo()" (selectionChange)="changeInput(listaOpciones.value)">
+            <mat-option>
+              <strong>Seleccionar Tipo de Documento</strong>
+            </mat-option>
+            <mat-option *ngFor="let tipoDoc of tipoDocumento" [value]="tipoDoc.id">
+              {{tipoDoc.valor}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-4 mdl-input-group mdl-input-group__only">
+        <mat-form-field class="example-full-width mat-form-field-flex2 ">
+          <mat-label>N&ordm; de Documento:</mat-label>
+          <input matInput [(ngModel)]="acreditaRequest.acredita.codigoAsegurado" name="numDocumentos" #numDocumentos="ngModel"
+            id="numDocumentos" minlength="8" maxlength="8" [disabled]="editNumeroDoc" (ngModelChange)="validarTamano()" />
+          <mat-error>
+            <app-validators-messages [controlVar]="numDocumentos" labelName="N&ordm; de Documento">
+
+            </app-validators-messages>
+          </mat-error>
+          <mat-hint align="end" class="longitudInforme" *ngIf="flVisionTamanoCampoNumero">
+            debe contener 8 digitos y ser valor n&uacute;merico
+          </mat-hint>
+        </mat-form-field>
+        <input type="text" [(ngModel)]="acreditaRequest.acredita.codigoAsegurado" class="form-control" placeholder="Numero de Documento"
+          minlength="8" maxlength="8" [disabled]="editNumeroDoc" (ngModelChange)="validarTamano()" />
+        <div *ngIf="flVisionTamanoCampoNumero" class="text-danger small">
+          debe contener 8 digitos y ser valor n&uacute;merico
+        </div>
+      </div> -->
+
+<!-- <label>Apellido Paterno</label>
+      <div class="col-4 mdl-input-group mdl-input-group__only">
+        <mat-form-field class="example-full-width mat-form-field-flex2">
+          <input matInput placeholder="Apellido Paterno" [(ngModel)]="acreditaRequest.acredita.apellidoPaterno"
+            [disabled]="editNumeroDoc2">
+        </mat-form-field>
+
+        <input type="text" [(ngModel)]="acreditaRequest.acredita.apellidoPaterno" class="form-control" placeholder="Apellido Paterno"
+          [disabled]="editNumeroDoc2" /> 
+      </div>-->
+
+<!-- <div class="col-sm-6 mdl-input-group mdl-input-group__only ">
+        <mat-form-field class="example-full-width tamanoInput margenIzquierdo1">
+          <mat-label>N&ordm; de Documento:</mat-label>
+          <input matInput [(ngModel)]="params.numeroDocumentoIdentidad" name="numDocumento" #numDocumento="ngModel" id="numDocumento"
+            (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+            [disabled]="!params.tipoDocumentoIdentidad" minlength="{{longitudDocumento}}" maxlength="{{longitudDocumento}}"
+            [required]="params.tipoDocumentoIdentidad" />
+          <mat-error>
+            <app-validators-messages [controlVar]="numDocumento" labelName="N&ordm; de Documento">
+
+            </app-validators-messages>
+          </mat-error>
+          <mat-hint align="end" class="longitudInforme">
+            {{ params.numeroDocumentoIdentidad? params.numeroDocumentoIdentidad.length: '0' }} / {{longitudDocumento}}
+          </mat-hint>
+        </mat-form-field>
+      </div> -->
+
+<!-- </div>
+
+    <div class="form-grup form-group-sm row">
+        <div class="col-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+            <input matInput placeholder="Apellido Materno" [(ngModel)]="acreditaRequest.acredita.apellidoMaterno"
+              [disabled]="editNumeroDoc2">
+          </mat-form-field>
+      </div>
+
+      <div class="col-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+              <input matInput placeholder="Nombres" [(ngModel)]="acreditaRequest.acredita.nombres" [disabled]="editNumeroDoc2">
+          </mat-form-field>
+      </div> -->
+<!-- <div class="col-4 ">
+        <label>Apellido Materno</label>
+        <input type="text" [(ngModel)]="acreditaRequest.acredita.apellidoMaterno" class="form-control" placeholder="Apellido Materno"
+          [disabled]="editNumeroDoc2" />
+      </div> -->
+<!-- <div class="col-4 ">
+        <label>Nombres</label>
+        <input type="text" [(ngModel)]="acreditaRequest.acredita.nombres" class="form-control" placeholder="Nombres"
+          [disabled]="editNumeroDoc2" />
+      </div> -->
+<!-- <div class="margenSup">
+        <button mat-raised-button type="submit" (click)="getAllpersonas()" [disabled]="_bPacien">Buscar</button>
+        <button mat-raised-button type="submit" (click)="AtencionParticular()">Atenci&oacute;n Particular</button>
+
+      </div>
+    </div>
+    <br><br>
+  </div>
+  </mat-card>
+  <mat-card>
+  <div class="w-100"></div>
+  <mat-card-content>
+    <div class="table responsive">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="codigoAsegurado">
+          <mat-header-cell *matHeaderCellDef> Codigo Asegurado </mat-header-cell>
+          <mat-cell *matCellDef="let acred">{{acred.codigoAsegurado}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="iafas">
+            <mat-header-cell *matHeaderCellDef> IAFAS </mat-header-cell>
+            <mat-cell *matCellDef="let acred">{{acred.iafas}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="apellidoPaterno">
+              <mat-header-cell *matHeaderCellDef> Apellido Paterno </mat-header-cell>
+              <mat-cell *matCellDef="let acred">{{acred.apellidoPaterno}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="apellidoMaterno">
+                <mat-header-cell *matHeaderCellDef> Apellido Materno </mat-header-cell>
+                <mat-cell *matCellDef="let acred">{{acred.apellidoMaterno}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="nombres">
+                  <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+                  <mat-cell *matCellDef="let acred">{{acred.nombres}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="parentesco">
+                    <mat-header-cell *matHeaderCellDef> Parentesco </mat-header-cell>
+                    <mat-cell *matCellDef="let acred">{{acred.parentesco}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="contratante">
+                      <mat-header-cell *matHeaderCellDef> Contratante </mat-header-cell>
+                      <mat-cell *matCellDef="let acred">{{acred.contratante}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="estado">
+                        <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+                        <mat-cell *matCellDef="let acred">{{acred.estado}}</mat-cell>
+                      </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnAcredita"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnAcredita; " (click)="redirige(row.numeroDocumento,row.tipoDocumento,row.idIAFAS,row.idContratante)"></mat-row>
+      </mat-table>
+    </div>
+  </mat-card-content> -->
+<!-- <div class="container-fluid">
+    <div class="col" *ngIf="flVisionTablaAcredita==true">
+      <h2>Listado de Personas</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Codigo Asegurado</th>
+              <th>IAFAS</th>
+              <th>Apellido Paterno</th>
+              <th>Apellido Materno</th>
+              <th>Nombres</th>
+              <th>Parentesco</th>
+              <th>Contratante</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let acred of personas" (click)="redirige(acred.numeroDocumento,acred.tipoDocumento,acred.idIAFAS,acred.idContratante)">
+              <td scope="row">{{acred.codigoAsegurado}}</td>
+              <td scope="row">{{acred.iafas}}</td>
+              <td scope="row">{{acred.apellidoPaterno}}</td>
+              <td scope="row">{{acred.apellidoMaterno}}</td>
+              <td scope="row">{{acred.nombres}}</td>
+              <td scope="row">{{acred.parentesco}}</td>
+              <td scope="row">{{acred.contratante}}</td>
+              <td scope="row">{{acred.estado}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-12 text-center" *ngIf="flVisionButtonFilia==true">
+      <label>No se ha encontrado registro de la persona</label>
+    </div>
+    <div class="col-12 text-center" *ngIf="flVisionButtonFilia==true">
+      <button mat-raised-button type="submit" class="border-botton">Filiar</button>
+    </div>
+    <div class="text_center" *ngIf="flVisionNoServicio==true">
+      <label>
+        <strong>EL SERVICIO DE ACREDITACI&Oacute;N NO ESTA DISPONIBLE</strong>
+      </label>
+    </div>
+    <div class="text_center" *ngIf="flVisionNoServicio==true">
+      <button mat-raised-button type="submit" class="border-botton" *ngFor="let acred of personas" (click)="redirige(acred.numeroDocumento,acred.tipoDocumento,acred.idIAFAS,acred.idContratante)">Asignar
+        Cobertura
+      </button>
+      <!-- [routerLink]="['cobertura',acred.numeroDocumento,acred.tipoDocumento,acred.idIAFAS,acred.idContratante]" -->
+<!-- 
+    </div>
+
+  </div>  -->
+<!-- 
+</mat-card>
+
+<app-cobertura *ngIf="coberturaDisabled == false" [paramJson]="paramJson" (coberturaDisabled)="aljsdnkasbdh($event)"></app-cobertura> -->

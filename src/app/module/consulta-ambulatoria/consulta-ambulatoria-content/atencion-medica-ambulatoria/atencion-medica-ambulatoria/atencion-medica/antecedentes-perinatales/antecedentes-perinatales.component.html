@@ -1,0 +1,306 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Perinatales</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-6">
+
+          <div class="form-grup form-group-sm row">
+            <mat-label class="col-sm-12  font negrita"> Nacimiento </mat-label>
+          </div>
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-12">
+              <input matInput placeholder="Edad Gestacional al Nacer (semanas)" [(ngModel)]="listaAntecedentePerinatal.numeroSemanaNacimiento" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" name="numero_semanaNacimiento" #numero_semanaNacimiento="ngModel" (keyup)="send()"> 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="numero_semanaNacimiento" labelName="Edad Gestacional al Nacer (semanas)" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div> 
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-12">
+              <input matInput placeholder="Peso al Nacer (gr.)" [(ngModel)]="listaAntecedentePerinatal.pesoNacimiento" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" name="peso_Nacimiento"  #peso_Nacimiento="ngModel" (keyup)="send()"> 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="peso_Nacimiento" labelName="Peso al Nacer (gr.)" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-12">
+              <input matInput placeholder="Talla al Nacer (cm)" [(ngModel)]="listaAntecedentePerinatal.tallaNacimiento" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" name="talla_Nacimiento" #talla_Nacimiento="ngModel" (keyup)="send()"> 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="talla_Nacimiento" labelName="Talla al Nacer (cm)" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-12">
+              <input matInput placeholder="Perimetro Cefálico" [(ngModel)]="listaAntecedentePerinatal.perimetroCefalico" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"  name="perimetro_Cefalico" #perimetro_Cefalico="ngModel" (keyup)="send()"> 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="perimetro_Cefalico" labelName="Perimetro Cefálico" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-12">
+              <input matInput placeholder="Perimetro Torácico" [(ngModel)]="listaAntecedentePerinatal.perimetroToracico" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"  name="perimetro_Toracico" #perimetro_Toracico="ngModel"> 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="perimetro_Toracico" labelName="Perimetro Torácico" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="separarVertical"></div>
+        <div class="col-sm-6">
+
+          <div class="form-grup form-group-sm row">
+            <mat-label class="col-sm-12  font negrita"> Respiración y llanto al Nacer </mat-label>
+          </div>
+
+          <div class="form-grup form-group-sm row ">
+            <mat-label class="col-sm-5"> Inmediato </mat-label>
+
+            <mat-radio-group class="col-sm-7" [(ngModel)]="listaAntecedentePerinatal.respiracionLlantoNacimiento" name="respiracion_llantoNacer" #respiracion_llantoNacer="ngModel" (change)="send()">
+              <mat-radio-button class="form-check-inline " [value]="1"> Si </mat-radio-button>
+              <mat-radio-button class="form-check-inline " [value]="0"> No </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="col-sm-6">
+              <input matInput placeholder="APGAR 1m" [(ngModel)]="listaAntecedentePerinatal.apgar1m" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"  [max]="10" [min]="1" name="apgar_1m" #apgar_1m="ngModel" type="number" (keyup)="send()" > 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="apgar_1m" labelName="APGAR 1m" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-sm-6">
+              <input matInput placeholder="APGAR 5m" [(ngModel)]="listaAntecedentePerinatal.apgar5m" (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [max]="10" [min]="1" name="apgar_5m" #apgar_5m="ngModel" type="number" (keyup)="send()" > 
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="apgar_5m" labelName="APGAR 5m" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-grup form-group-sm row ">
+            <mat-label class="col-sm-5"> Reanimación </mat-label>
+
+            <mat-radio-group class="col-sm-7" [(ngModel)]="listaAntecedentePerinatal.reanimacion" (change)="send()" name="reanimacion" #reanimacion="ngModel" (change)="send()">
+              <mat-radio-button class="form-check-inline " [value]="1"> Si </mat-radio-button>
+              <mat-radio-button class="form-check-inline " [value]="0"> No </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="form-grup form-group-sm row ">
+            <mat-label class="col-sm-5 "> Pat.Neonatal </mat-label>
+
+            <mat-radio-group class="col-sm-7" [(ngModel)]="listaAntecedentePerinatal.paotologiaNeonatal" (change)="send()" name="paotologia_Neonatal" #paotologia_Neonatal="ngModel" (change)="send()">
+              <mat-radio-button class="form-check-inline " [value]="1"> Si </mat-radio-button>
+              <mat-radio-button class="form-check-inline " [value]="0"> No </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="form-grup form-group-sm row" *ngIf="listaAntecedentePerinatal.paotologiaNeonatal==1">
+            <mat-form-field class="col-sm-12">
+              <textarea matInput placeholder="Especifique" rows="2" [(ngModel)]="listaAntecedentePerinatal.descripcionPaotologiaNeonatal"  name="Especifique" #Especifique="ngModel"> </textarea>
+              
+              <mat-error>
+                <app-validators-messages [controlVar]="Especifique" labelName="Especifique" >
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-grup form-group-sm row ">
+            <mat-label class="col-sm-5"> Hospitalización </mat-label>
+
+            <mat-radio-group class="col-sm-7" [(ngModel)]="listaAntecedentePerinatal.hospitalizacion" (change)="send()" name="hospitalizacion" #hospitalizacion="ngModel" (change)="send()">
+              <mat-radio-button class="form-check-inline " [value]="1"> Si </mat-radio-button>
+              <mat-radio-button class="form-check-inline " [value]="0"> No </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="form-grup form-group-sm row"  *ngIf="listaAntecedentePerinatal.hospitalizacion==1">
+            <mat-form-field class="col-sm-12">
+              <textarea matInput placeholder="Especifique Tiempo de Hospitalización" rows="2" [(ngModel)]="listaAntecedentePerinatal.tiempoHospitalizacion"  name="tiempo_Hospitalizacion" #tiempo_Hospitalizacion="ngModel" (keyup)="send()" ></textarea> 
+
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- 
+<div class="card">
+  <div class="card-header">Perinatales</div> 
+  <div class="card-body">
+<div class="row">
+  <div class="col-sm-6">
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-12 col-form-label">
+        <b>Nacimiento</b>
+      </label>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Edad Gest. al Nacer(sem): </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-sm" placeholder="Edad Gestacion" [(ngModel)]="listaAntecedentePerinatal.numeroSemanaNacimiento"
+          (keyup)="send()">
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Peso al Nacer(gr): </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-sm" placeholder="gr." [(ngModel)]="listaAntecedentePerinatal.pesoNacimiento"
+          (keyup)="send()">
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Talla al nacer(cm): </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-sm" placeholder="cm." [(ngModel)]="listaAntecedentePerinatal.tallaNacimiento"
+          (keyup)="send()">
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Perimetro Cefálico: </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-sm" placeholder="Perimetro Cefálico" [(ngModel)]="listaAntecedentePerinatal.perimetroCefalico"
+          (keyup)="send()">
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Perimetro Torácico: </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-sm" placeholder="Perimetro Torácico" [(ngModel)]="listaAntecedentePerinatal.perimetroToracico"
+          (keyup)="send()">
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-grup form-group-sm row">
+      <label class="col-sm-12 col-form-label">
+        <b>Respiración y llanto al Nacer:</b>
+      </label>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Inmediato</label>
+      <div class="col-md-6">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" [value]="1" [(ngModel)]="listaAntecedentePerinatal.respiracionLlantoNacimiento"
+              (change)="send()"> Si
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio2" [value]="0" [(ngModel)]="listaAntecedentePerinatal.respiracionLlantoNacimiento"
+              (change)="send()"> No
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">APGAR</label>
+      <div class="col-sm-6">
+        <input type="text" class="form-grup form-control form-control-sm" placeholder="1m" [(ngModel)]="listaAntecedentePerinatal.apgar1m"
+          (keyup)="send()">
+        <input type="text" class="form-grup form-control form-control-sm" placeholder="5m" [(ngModel)]="listaAntecedentePerinatal.apgar5m"
+          (keyup)="send()">
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Reanimación</label>
+      <div class="col-sm-6">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" [value]="1" [(ngModel)]="listaAntecedentePerinatal.reanimacion"
+              (change)="send()"> Si
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio2" [value]="0" [(ngModel)]="listaAntecedentePerinatal.reanimacion"
+              (change)="send()"> No
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label for="" class="col-sm-6 col-form-label">Patalogía Neonatal</label>
+      <div class="col-sm-6">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" [value]="1" [(ngModel)]="listaAntecedentePerinatal.paotologiaNeonatal"
+              (change)="send()"> Si
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio2" [value]="0" [(ngModel)]="listaAntecedentePerinatal.paotologiaNeonatal"
+              (change)="send()"> No
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group form-group-sm row" *ngIf="listaAntecedentePerinatal.paotologiaNeonatal==1">
+      <label for="" class="col-sm-12 col-form-label">Especifique: </label>
+      <div class="col-sm-12">
+        <textarea class="form-control" [(ngModel)]="listaAntecedentePerinatal.descripcionPaotologiaNeonatal" (keyup)="send()"></textarea>
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row">
+      <label class="col-sm-6 col-form-label">Hospitalización: </label>
+      <div class="col-sm-6">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" [(ngModel)]="listaAntecedentePerinatal.hospitalizacion" type="radio" name="inlineRadioOptions"
+              id="inlineRadio1" [value]="1" (change)="send()">Si
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" [(ngModel)]="listaAntecedentePerinatal.hospitalizacion" type="radio" name="inlineRadioOptions"
+              id="inlineRadio2" [value]="0" (change)="send()"> No
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-grup form-group-sm row" *ngIf="listaAntecedentePerinatal.hospitalizacion==1">
+      <label for="" class="col-sm-6 col-form-label">Tiempo de Hospitalización: </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-sm" placeholder="T. Hospitalización" [(ngModel)]="listaAntecedentePerinatal.tiempoHospitalizacion"
+          (keyup)="send()">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+</div> -->

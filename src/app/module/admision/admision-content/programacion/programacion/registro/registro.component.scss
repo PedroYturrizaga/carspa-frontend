@@ -1,0 +1,66 @@
+.registro-component
+{
+    padding: 15px;
+}
+
+.registro-component .registro-component-fieldset
+{
+    padding: 10px 0 10px 0;
+}
+
+.registro-component .filter-search{
+    padding: 6px;
+}
+
+.registro-component .center-element
+{
+    text-align: center;
+    padding: 15px;
+}
+
+.registro-component /deep/ .btn-link{
+    cursor: not-allowed;
+    opacity: .65;
+    display: none;
+}
+
+.custom-day {
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      display: inline-block;
+      height: 2rem;
+      width: 2rem;
+}
+.custom-day.focused {
+    background-color: #e6e6e6;
+}
+.custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+}
+.custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+}
+
+.mat-card{
+    max-width: 100% !important;
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2) !important;  
+    padding: 0px !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 400;
+    z-index: 1;
+    position: relative;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif !important;
+}

@@ -1,0 +1,175 @@
+<mat-card> 
+    <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+        <mat-card-title class="subtitulo-seccion">Gestionar Cajas</mat-card-title>
+
+      </mat-card-header>   
+
+      <div class="col-12">
+        <div class="row">
+          <div class="card-body alinearSuperior">
+            <div class="row">
+              <div class="col-2">
+                <mat-form-field  class="example-full-width">
+                  <input matInput [(ngModel)]="request.fechaInicio" type="text" [matDatepicker]="picker" placeholder="Desde">
+               
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-2">
+
+                <mat-form-field  class="example-full-width">
+                  <input matInput [(ngModel)]="request.fechaFin" type="text" [matDatepicker]="dp" placeholder="Hasta">
+                  
+                  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                  <mat-datepicker #dp></mat-datepicker>
+                  <mat-error>
+                    <app-validators-messages [controlVar]="fhIniForm" labelName="Fecha Desde">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                  <mat-form-field class="example-full-width">
+
+                      <mat-select #listaOpciones placeholder="Seleccione Estado" [(ngModel)]="request.estado" name="estado"
+                        #estado="ngModel" id="estado" >
+                        <mat-option>--</mat-option>
+                        <mat-option [value]="88">No Aperturado</mat-option>
+                        <mat-option [value]="1">Aperturado</mat-option>
+                        <mat-option [value]="0">cerrado</mat-option>
+                        <mat-option [value]="2">cerrado parcialmente</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+              </div>
+              <div class="col-3">
+                  <mat-form-field class="example-full-width">
+
+                  <mat-select #listaOpciones placeholder="Seleccione Area Ubicacion" [(ngModel)]="request.idAreaFisica" name="idAreaFisica"
+                  #idAreaFisica="ngModel" id="idAreaFisica" >
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let a of lsAreas" [value]="a.id">
+                    {{a.valor}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+              </div>
+              <div class="col-2 alinearRow">
+                  <button  mat-raised-button  type="button" (click)="obtenerAperturaCajas(1)">Buscar</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+  
+ 
+
+  <div class="col-12">
+    <div class="row">
+      <div class="card-body alinearGrilla">
+        <mat-table #table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="areaFisica">
+            <mat-header-cell *matHeaderCellDef  matTooltip="Area / Ubicación" matTooltipPosition="above" [ngClass]="'anchoListado5'">Are/Ubi </mat-header-cell>
+            <mat-cell *matCellDef="let element " [ngClass]="'anchoListado5'"> {{element.descripcionCaja}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado5'"> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'anchoListado5'"> {{element.descripcionApertura}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado7'"> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'anchoListado7'"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="turno">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado5'"> Turno </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'anchoListado5'"> {{element.turno}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cajero">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado5'"> Cajero </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'anchoListado5'"> {{element.nombrePersonal}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="montoApertura">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado7'" matTooltip="Monto de Apertura" matTooltipPosition="above"> M.A </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'anchoListado7'">S/{{element.montoAperturaDecimal}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descripcionEstado}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="apertura">
+            <mat-header-cell matTooltip="Apertura" matTooltipPosition="above" *matHeaderCellDef> Ape</mat-header-cell>
+            <mat-cell [ngClass]="''" *matCellDef="let element">
+              <button mat-button  (click)="aperturarCajaModal(element)" *ngIf='element.estado=="88"'>
+                <div class="example-tooltip-host" matTooltip="Aperturar"
+                  [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons">play_circle_outline</i>
+                  </span>
+                </div>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="verDetalle">
+            <mat-header-cell [ngClass]="''" *matHeaderCellDef>Detalle</mat-header-cell>
+            <mat-cell [ngClass]="''" *matCellDef="let personal">
+              <button mat-button (click)="imprimir(personal)" *ngIf='personal.estado=="0" ||personal.estado=="2" ||personal.estado=="1"'>
+                <div class="example-tooltip-host"  matTooltip="Ver"
+                  [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons" >visibility</i>
+                  </span>
+                </div>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cierre">
+            <mat-header-cell [ngClass]="''" *matHeaderCellDef> Cierre</mat-header-cell>
+            <mat-cell [ngClass]="''" *matCellDef="let personal">
+              <button mat-button (click)="cerrarCajaModal(personal)" *ngIf='personal.estado=="1" &&  personal.usuarioIns==codUsuario '>
+
+                <div class="example-tooltip-host"  matTooltip="Cerrar"
+                  [matTooltipPosition]="'above'">
+                  <span>
+                    <i class="material-icons" >play_circle_outline </i>
+                  </span>
+                </div>
+
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="aprobacion">
+
+            <mat-header-cell matTooltip="Aprobación" matTooltipPosition="above" *matHeaderCellDef [ngClass]="'anchoListado7'"> Apro</mat-header-cell>
+            <mat-cell [ngClass]="'anchoListado7'" *matCellDef="let personal">
+              <button mat-raised-button (click)="cerrarCajaModal(personal)" *ngIf='personal.estado=="2"'>Confirmar</button>
+            </mat-cell>
+          </ng-container>
+
+
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+      </div>
+    </div>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+    showFirstLastButtons></mat-paginator>
+
+
+
+</mat-card>

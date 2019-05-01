@@ -1,0 +1,573 @@
+<mat-card-content>
+  <mat-tab-group class="demo-tab-group">
+
+    <mat-tab label="Gestionar Personal">
+
+      <div class="demo-tab-content">
+
+
+        <mat-card tabindex="-1">
+
+
+          <mat-card-header class="sombreadoSubtitulos">
+            <mat-card-title class="subtitulo-seccion">Datos Personales</mat-card-title>
+
+          </mat-card-header>
+
+          <mat-card-content >
+            <form #mantenimientoPersonal="ngForm" novalidate name="mantenimientoPersonal">
+              <div class="card-body">
+                <!-- <div class="col-md-12"> -->
+
+                <!-- SOLO 3 -->
+                <div class="row">
+
+                  <!-- tipo Documento -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Tipo Doc</mat-label>
+                      <mat-select [disabled]="idPersonal!=''" #listaOpciones name="tipoDoc" #tipoDoc="ngModel" (selectionChange)="verificarTamanio(listaOpciones.value)"
+                        [(ngModel)]="personalRequest.idTipoDocumentoIdentidad" required>
+                        <mat-option *ngFor="let item of tipoDocumentos" [value]="item.id">{{item.valor}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="tipoDoc" labelName="Tipo Documento">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Nro Documento -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Nro Doc</mat-label>
+                      <input matInput minlength="{{tamDoc}}" [(ngModel)]="personalRequest.numeroDocuentoIdentidad" (input)="validarDocumentoExistente()"  name="nroDoc" #nroDoc="ngModel"
+                        maxlength="{{tamDoc}}" [disabled]="tamDoc=='?'||idPersonal!=''" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" required>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="nroDoc" labelName="Nro. Documento">
+                        </app-validators-messages>
+                      </mat-error>
+                      <mat-hint align="end">{{nroDoc.value?.length}} / {{tamDoc}}</mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Nro Colegiatura -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Nro Colegiatura</mat-label>
+                      <input [disabled]="personalRequest.idGrupoOcupacional!=1||personalRequest.idGrupoOcupacional==null" matInput minlength="6"
+                        maxlength="8" name="numeroCmp" [(ngModel)]="personalRequest.numeroCmp" #numeroCmp="ngModel" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" required>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="numeroCmp" labelName="Nro. Colegiatura">
+                        </app-validators-messages>
+                      </mat-error>
+                      <!-- <mat-hint align="end">{{numeroCmp.value?.length}} / 8</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+
+
+                  <!-- SOLO 3 -->
+
+                  <!-- Nro RNE -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Nro RNE</mat-label>
+                      <input [disabled]="personalRequest.idGrupoOcupacional!=1||personalRequest.idGrupoOcupacional==null" matInput maxlength="8"
+                        minlength="6" name="numeroRne" [(ngModel)]="personalRequest.numeroRne" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" #numeroRne="ngModel">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="numeroRne" labelName="Nro. RNE">
+                        </app-validators-messages>
+                      </mat-error>
+                      <!-- <mat-hint align="end">{{numeroRne.value?.length}} / 8</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+
+                  <!-- RUC -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>RUC</mat-label>
+                      <input matInput minlength="11" maxlength="11" name="ruc" [(ngModel)]="personalRequest.ruc" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" #ruc="ngModel">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="ruc" labelName="RUC">
+                        </app-validators-messages>
+                      </mat-error>
+                      <mat-hint align="end">{{ruc.value?.length}} / 11</mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Ape Paterno -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Ape Paterno</mat-label>
+                      <input matInput type="text" name="apePaterno" #apePaterno="ngModel" [(ngModel)]="personalRequest.apellidoPaternoPersonal"
+                        required>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="apePaterno" labelName="Apellido Paterno">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <!-- SOLO 3 -->
+
+                  <!-- Ape Materno -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Ape Materno</mat-label>
+                      <input matInput type="text" name="apeMaterno" [(ngModel)]="personalRequest.apellidoMaternoPersonal" #apeMaterno="ngModel"
+                        required>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="apeMaterno" labelName="Apellido Materno">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Nombres -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Nombres</mat-label>
+                      <input matInput type="text" name="nomPersonal" [(ngModel)]="personalRequest.nombrePersonal" #nomPersonal="ngModel" required>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="nomPersonal" labelName="Nombre">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Estado Civil -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label for="idEstadoCivil">Estado Civil</mat-label>
+                      <mat-select name="estCivil" [(ngModel)]="personalRequest.idEstadoCivil" #estCivil="ngModel" required>
+                        <mat-option *ngFor="let item of estadosCiviles" [value]="item.id">{{item.valor}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="estCivil" labelName="Estado Civil">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <!-- SOLO 3 -->
+
+                  <!-- Fecha Nac -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Fecha Nac</mat-label>
+                      <input matInput [matDatepicker]="dp" name="feNacForm" #feNacForm="ngModel" [(ngModel)]="feNacimiento" (dateChange)="getFecha($event)"
+                        disabled required>
+                      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                      <mat-datepicker #dp disabled="false"></mat-datepicker>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="feNacForm" labelName="Fecha Nacimiento">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Sexo -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Sexo</mat-label>
+                      <mat-select name="sexo" #sexo="ngModel" [(ngModel)]="personalRequest.idSexo" required>
+                        <mat-option *ngFor="let item of sexos" [value]="item.id">{{item.valor}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="sexo" labelName="Sexo">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Telf Fijo -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Telf Fijo</mat-label>
+                      <input matInput name="telFijo" maxlength="7" [(ngModel)]="personalRequest.telefonoFijo" #telFijo="ngModel" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier(7), true, true)">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="telFijo" labelName="Telf Fijo">
+                        </app-validators-messages>
+                      </mat-error>
+                      <mat-hint align="end">{{telFijo.value?.length}} / 7</mat-hint>
+                    </mat-form-field>
+                  </div>
+
+
+                  <!-- SOLO 3 -->
+
+                  <!-- Telf Movil -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Telf Móvil</mat-label>
+                      <input matInput maxlength="9" name="telMovil" [(ngModel)]="personalRequest.telefonoMovil" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier(9), true, true)" #telMovil="ngModel">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="telMovil" labelName="Telf Móvil">
+                        </app-validators-messages>
+                      </mat-error>
+                      <mat-hint align="end">{{telMovil.value?.length}} / 9</mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Email</mat-label>
+                      <input matInput name="email" #email="ngModel" [(ngModel)]="personalRequest.email" ngvemail required>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="email" labelName="Email">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Lugar Nac -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Lugar Nac</mat-label>
+                      <input matInput maxlength="8" name="lgNacim" #lgNacim="ngModel" [(ngModel)]="personalRequest.lugarNacimiento">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="lgNacim" labelName="Lugar Nacimiento">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+
+                  <!-- SOLO 1 -->
+
+                  <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Dirección</mat-label>
+                      <input matInput name="direc" #direc="ngModel" [(ngModel)]="personalRequest.direccion">
+                    </mat-form-field>
+                  </div>
+
+                  <!-- SOLO 3 -->
+
+                  <!-- Departamento -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Departamento</mat-label>
+                      <mat-select name="depa" [(ngModel)]="codDepartamento" (ngModelChange)="promiseProvinciaDistrito()">
+                        <mat-option *ngFor="let item of departamentos" [value]="item.id">{{item.nombre}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Provincia -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Provincia</mat-label>
+                      <mat-select name="prov" [(ngModel)]="codProvincia" (ngModelChange)="AuxiliarCombo()">
+                        <mat-option *ngFor="let item of provincias" [value]="item.id">{{item.nombre}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Distrito -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Distrito</mat-label>
+                      <mat-select name="dist" [(ngModel)]="codDistrito">
+                        <mat-option *ngFor="let item of distritos" [value]="item.id">{{item.nombre}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <!-- </div> -->
+              </div>
+
+              <!-- ESPACIo -->
+              <mat-card-header class="sombreadoSubtitulos">
+                <mat-card-title class="subtitulo-seccion">Datos Laborales</mat-card-title>
+              </mat-card-header>
+
+              <div class="card-body" >
+
+                <!-- SOLO 3 -->
+                <div class="row">
+
+                  <!-- Destacados -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Destacado</mat-label>
+                      <mat-select name="destac" #destac="ngModel" [(ngModel)]="personalRequest.personalDestacado" required>
+                        <mat-option [value]="0">Pertenece al mismo ES</mat-option>
+                        <mat-option [value]="1">Pertenece a otro ES</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="destac" labelName="Destacado">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Tipo Staff -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Tipo Staff</mat-label>
+                      <mat-select name="tStaff" #tStaff="ngModel" [(ngModel)]="personalRequest.tipoStaff" required>
+                        <mat-option [value]="1">Si</mat-option>
+                        <mat-option [value]="0">No</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="tStaff" labelName="Tipo Staff">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Condicion -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Condición</mat-label>
+                      <mat-select name="condic" #condic="ngModel" [(ngModel)]="personalRequest.idCondicionPersonal" required>
+                        <mat-option *ngFor="let item of condicionPersonal" [value]="item.id">{{item.valor}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="condic" labelName="Condición">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+                <!-- SOLO 3 -->
+                <div class="row">
+
+                  <!-- Tipo Profesional -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Tipo Profesional</mat-label>
+                      <mat-select name="tProf" #tProf="ngModel" [(ngModel)]="personalRequest.idTipoProfesional" (selectionChange)="getGruposOcupacionales(personalRequest.idTipoProfesional)" required>
+                        <mat-option *ngFor="let item of tipoProfesional" [value]="item.codigo">{{item.descripcion}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="tProf" labelName="Tipo Profesional">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Grupo Ocup -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Grupo Ocup</mat-label>
+                      <mat-select placeholfer="Seleccionar" name="gOcup" #gOcup="ngModel" [(ngModel)]="personalRequest.idGrupoOcupacional" (selectionChange)="olnyMedico()" required>
+                        <mat-option *ngFor="let item of grupoOcupacional" [value]="item.id">{{item.valor}}</mat-option>
+                      </mat-select>
+                      <mat-error>
+                        <app-validators-messages [controlVar]="gOcup" labelName="Grupo Ocupacional">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Cupos Adicionales -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Cupos Adicionales</mat-label>
+                      <input matInput min="0" name="cupAdic" #cupAdic="ngModel" [(ngModel)]="personalRequest.cuposAdicionales" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="cupAdic" labelName="Cupos Adicionales">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+                <!-- SOLO 3 -->
+                <div class="row">
+
+                  <!-- Tiempo Promedio Atención -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Tiempo Promedio Atención</mat-label>
+                      <input matInput min="0" name="tProm" #tProm="ngModel" [(ngModel)]="personalRequest.tiempoPromedioAtencion" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="tProm" labelName="Tiempo Promedio Atención">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Max Horas Normales -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Max Horas Normales</mat-label>
+                      <input matInput min="0" name="hoNormales" #hoNormales="ngModel" [(ngModel)]="personalRequest.maximoHorasNormales" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="hoNormales" labelName="Max Horas Normales">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Max Horas Extras -->
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Max Horas Extras</mat-label>
+                      <input matInput min="0" name="hoExtras" #hoExtras="ngModel" [(ngModel)]="personalRequest.maximoHorasExtras" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="hoExtras" labelName="Max Horas Extras">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+                <!-- SOLO 1  Max Horas Extras dias-->
+
+                <div class="row">
+                  <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <mat-label>Max Horas Extras Día</mat-label>
+                      <input matInput min="0" name="hoExtrasDia" #hoExtrasDia="ngModel" [(ngModel)]="personalRequest.maximoHorasExtrasDia" (keypress)="setInputPattern($event, 'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                      <mat-error>
+                        <app-validators-messages [controlVar]="hoExtrasDia" labelName="Max Horas Extras Día">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col text-right">
+                    <button type="submit" mat-raised-button *ngIf="flbotones == true" (click)="actualizarPersonal()" [disabled]="mantenimientoPersonal.invalid">Actualizar</button>
+                    <button type="submit" mat-raised-button *ngIf="flbotones == false" (click)="agregarPersonal()" [disabled]="mantenimientoPersonal.invalid">Agregar</button>
+                    <button type="reset" mat-raised-button (click)="sendData()">Cerrar</button>
+                    <!-- <button type="reset" mat-raised-button [routerLink]="['../']">Cerrar</button> -->
+
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+    </mat-tab>
+    <mat-tab label="Actividades por Personal"  *ngIf="idPersonal!=''">
+      <div class="demo-tab-content">
+
+        <mat-card tabindex="-1">
+
+          <mat-card-header class="sombreadoSubtitulos">
+            <mat-card-title class="subtitulo-seccion">Actividad por Personal</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <form #actividadPersonalForm="ngForm">
+
+
+              <div class="card-body">
+
+                <div class="col-md-12">
+
+                  <div class="row">
+
+                    <!-- Area -->
+                    <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                      <mat-form-field class="example-full-width ">
+                        <mat-label for="idArea">Área</mat-label>
+                        <mat-select name="idArea" id="idArea" [(ngModel)]="actividadesPersonalRequest.idArea" (ngModelChange)="getEspecialidadesXArea()"
+                          required #idArea="ngModel">
+                          <mat-option *ngFor="let item of areas" [value]="item.idArea">{{item.nomArea}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Especialidad -->
+                    <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                      <mat-form-field class="example-full-width ">
+                        <mat-label for="idEspecialidad">Especialidad</mat-label>
+                        <mat-select name="idEspecialidad" id="idEspecialidad" [(ngModel)]="actividadesPersonalRequest.idEspecialidad" (ngModelChange)="getActividadesXEspecialidadesXArea()"
+                          required #idEspecialidad="ngModel">
+                          <mat-option *ngFor="let item of especialidades" [value]="item.idEspecialidad">{{item.descripcionEspecialidad}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Actividad -->
+                    <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+                      <mat-form-field class="example-full-width ">
+                        <mat-label for="idActividad">Actividad</mat-label>
+                        <mat-select name="idActividad" id="idActividad" [(ngModel)]="actividadesPersonalRequest.idActividad" required #idActividad="ngModel">
+                          <mat-option *ngFor="let item of actividades" [value]="item.idActividad">{{item.nomActividad}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12 text-right espa mdl-input-group mdl-input-group__only">
+                      <button type="submit" mat-raised-button *ngIf="idPersonal!=''" [disabled]="actividadPersonalForm.invalid" (click)="agregarActividadPersonal()">Agregar</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </form>
+          </mat-card-content>
+          
+          <div class="row">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table" style="display: table;">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Área</th>
+                      <th class="text-center">Especialidad</th>
+                      <th class="text-center">Actividad</th>
+                      <th class="text-center">Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of actividadesPersonal">
+                      <td class="text-center">{{item.areaDescripcion}}</td>
+                      <td class="text-center">{{item.especialidadDescripcion}}</td>
+                      <td class="text-center">{{item.actividadDescripcion}}</td>
+                      <td class="{{item.delete}} text-center">
+                        <!-- <a (click)="modalActividadPersonalDelete(item.idPersonal,item.idActividad,item.idArea,item.idEspecialidad,item.idGrupoOcupacional)">
+                          <i class="fa fa-trash"></i>
+                        </a> -->
+                        <button mat-button (click)="modalActividadPersonalDelete(item.idPersonal,item.idActividad,item.idArea,item.idEspecialidad,item.idGrupoOcupacional)">
+                          <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                            <span>
+                              <i class="material-icons">delete</i>
+                            </span>
+                          </div>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card-content>

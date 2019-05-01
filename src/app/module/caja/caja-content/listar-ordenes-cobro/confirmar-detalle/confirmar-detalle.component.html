@@ -1,0 +1,62 @@
+<mat-card class="matCardMin">    
+    <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+        <mat-card-title class="subtitulo-seccion">Detalle de Ordenes</mat-card-title>
+        <div class="emp"> 
+          <button mat-button class="mat-button-icon" (click)="close()">
+            <div class="example-tooltip-host" matTooltip="Salir">
+              <span>
+                <i class="material-icons">close</i>
+              </span>
+            </div>
+          </button>
+        </div>
+      </mat-card-header>
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource3">
+      <ng-container matColumnDef="numeroDetalle">
+        <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.idDetalleOrdenPago}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="descripcionArea">
+        <mat-header-cell *matHeaderCellDef> Area </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.area}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="nombreItem">
+        <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+        <mat-cell *matCellDef="let element"  ngbPopover="{{element.nombreItem}}" triggers="mouseenter:mouseleave" popoverTitle="Descripción"> {{element.nombreItem | truncate: 50}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="cantidad">
+        <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="precioUnitario">
+        <mat-header-cell *matHeaderCellDef matTooltip="Precio Unitario" matTooltipPosition="above"> P. Unitario </mat-header-cell>
+        <mat-cell *matCellDef="let element"> S/{{element.precioUnitario}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="precioSubTotal">
+        <mat-header-cell *matHeaderCellDef> Monto Final </mat-header-cell>
+        <mat-cell *matCellDef="let element"> S/{{element.precioSubTotal}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+    </mat-table> 
+    
+  </mat-card-content>
+  <div class="col-sm-12 alinearBotones"> 
+  <button mat-raised-button class="border-botton botonFlotante" type="submit" (click)="insertarDetalle()">Confirmar</button>
+  <button mat-raised-button class="border-botton botonFlotante" type="submit" (click)="onNoClick()" >Cancelar</button>
+  <div>
+    <h6> <span class="negrita">Total:</span>S/{{decimal}} </h6>
+    <!-- <mat-list role="list">
+        <mat-list-item class="right" role="listitem"> <span class="negrita">Total:</span>S/{{total}}</mat-list-item>
+      </mat-list> -->
+    </div>
+    </div>
+<!-- </mat-card> -->
+
+
+</mat-card>

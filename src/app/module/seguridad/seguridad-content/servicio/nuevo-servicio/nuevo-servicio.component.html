@@ -1,0 +1,146 @@
+<div class="modal-header">
+  <h4 *ngIf="idServicio==null" class="modal-title">Nuevo Servicio</h4>
+  <h4 *ngIf="idServicio!=null" class="modal-title">Modificar Servicio</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>.
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-12 row">
+      <div class="col-sm-10">
+        <div class="form-grup form-group-sm row">
+          <label class="col-sm-4 col-form-label">Nombre del Servicio: </label>
+          <div class="col-sm-8">
+            <input class="form-control form-control-sm" placeholder="Nombre" [(ngModel)]="servicioRequest.descripcion">
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label class="col-sm-4 col-form-label">Componente: </label>
+          <div class="col-sm-8">
+            <select id="selectComponente" class="form-control form-control-sm" [(ngModel)]="servicioRequest.idComponente">
+              <option [value]="0" disabled>--- Seleccionar Componente ---</option>
+              <option *ngFor="let cv of componentes" [value]="cv.id">{{cv.valor}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label class="col-sm-4 col-form-label">Controladora: </label>
+          <div class="col-sm-8">
+            <input class="form-control form-control-sm" placeholder="Controladora" [(ngModel)]="servicioRequest.controladora">
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label class="col-sm-4 col-form-label">Método: </label>
+          <div class="col-sm-8">
+            <select id="selectMetodo" class="form-control form-control-sm" [(ngModel)]="servicioRequest.metodo">
+              <option [value]="0" disabled>--- Seleccionar Método ---</option>
+              <option *ngFor="let cv of metodos" [value]="cv.valor">{{cv.valor}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <label class="col-sm-4 col-form-label">Url: </label>
+          <div class="col-sm-8">
+            <input class="form-control form-control-sm" placeholder="Url" [(ngModel)]="servicioRequest.url">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-grup-form-group-sm-row">
+          <div class="col-sm-3 row">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" [value]="1">
+              <span>IPRESS</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="add()" *ngIf="tipoServicio==1">Guardar</button>
+  <button type="button" class="btn btn-primary" (click)="add()" *ngIf="tipoServicio==2">Guardar</button>
+  <!-- <button type="button" class="btn btn-primary" (click)="guardarServicio()">Guardar</button> -->
+  
+  <button type="button" class="btn btn-outline-dark" (click)="dismiss()">Cerrar</button>
+</div>
+
+<!--(click)="agregarPagina(pagHijo.idPagina)-->
+<!-- 
+  <div class="modal-body">
+    <div class="form-group form-inline">
+      <div class="col-4">
+        <label class="form-control-label">Nombre: </label>
+      </div>
+      <div class="col-8">
+        <input type="text" class="form-control" [(ngModel)]= "servicioRequest.servicio.nombreServicio" />
+      </div> 
+    </div>
+    <div class="form-group form-inline">
+      <div class="col-4">
+        <label class="form-control-label">Descripción: </label>
+      </div>
+      <div class="col-8">
+        <textarea class="form-control" [(ngModel)]= "servicioRequest.servicio.descripcionServicio" ></textarea>
+      </div> 
+    </div>
+    <div class="form-group form-inline">
+      <div class="col-4">
+        <label class="form-control-label">URI: </label>
+      </div>
+      <div class="col-8">
+        <input type="text" class="form-control"[(ngModel)]="servicioRequest.servicio.uri" />
+      </div> 
+    </div>
+
+    <div class="form-group form-inline">
+      <div class="col-4">
+        <label class="form-control-label">Método: </label>
+      </div>
+      <div class="col-8">
+        <select class="form-control" [(ngModel)]="servicioRequest.servicio.metodo">
+          <option >GET</option>
+          <option >POST</option>
+          <option >PUT</option>
+          <option >DELETE</option>
+        </select>
+      </div> 
+    </div>
+    <div class="form-group form-inline">
+      <div class="col-4">
+        <label class="form-control-label">Componente : </label>
+      </div>
+      <div class="col-8">
+        <select class="form-control" [(ngModel)]= "servicioRequest.servicio.idComponente">
+          <option value="0">
+
+          </option>
+          <option *ngFor="let com of componentes" [ngValue]="com.id" >
+            {{com.valor}}
+          </option>
+        </select>
+      </div> 
+    </div>
+
+     
+  </div> -->
+
+<!-- <div class="card">
+      <h4 class="card-header">Páginas</h4>
+        <div class="card-body">
+          <div class="col-12" *ngFor="let pag of servicioRequest.servicio.paginaList">
+            <h4 class="card-title">{{pag.nombrePagina}}</h4>   
+            <div class="col-12 form-inline">
+              <div class="col-4" *ngFor="let pagHijo of pag.hijosList">
+                <label class="custom-control custom-checkbox" style="float: left">
+                  <input class="custom-control-input" type="checkbox" [value]="pagHijo.idPagina" [(ngModel)] = "pagHijo.seleccionado" />
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">{{pagHijo.nombrePagina}}</span>          
+                </label>   
+              </div>
+            </div>
+          </div>
+        </div>
+    </div> -->

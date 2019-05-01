@@ -1,0 +1,34 @@
+.mat-tab-labels {
+  background: white !important;
+}
+/* label style */
+.mat-tab-label {
+  background: white;
+  color: black;
+  opacity: 0.6 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+
+/* label style */
+.mat-tab-label-active {
+  background: white;
+  color: #2e86de;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+  font-size: 14px !important;
+}
+
+/* focus style */
+.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
+.mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
+  background: white;
+  color: #2e86de;
+}
+/* ink bar style */
+/* .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+  background: yellow; 
+  height: 5px;
+}  */

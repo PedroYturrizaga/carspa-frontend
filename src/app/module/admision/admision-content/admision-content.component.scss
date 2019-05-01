@@ -1,0 +1,50 @@
+.mat-toolbar{
+  background-color: #fff;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+::ng-deep .links{
+    background: transparent  !important;
+    color:white  !important;
+    font-family:  sans-serif !important;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    overflow: hidden;
+    text-decoration: none !important;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+::ng-deep .activeLinks{
+    background: transparent  !important;
+    color: white !important;
+    font-family:  sans-serif !important;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    overflow: hidden;
+    text-decoration: none !important;
+    border-bottom: 2px solid #2e86de;
+    border-radius: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+mat-dialog-container >*{
+    overflow-y: auto;
+}
+
+
+// ::ng-deep .cdk-overlay-pane {
+//     overflow-y: auto;
+//     overflow-x: hidden;
+// }
+// ::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+//     background: rgba(0,0,0,.12);
+//     width: 100%;
+//     font-size: 14px;
+// }
+// ::ng-deep .mat-select-content, .mat-select-panel-done-animating {
+//     background: #fff;
+//     font-size: 14px;
+// }

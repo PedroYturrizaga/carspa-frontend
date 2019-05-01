@@ -1,0 +1,49 @@
+// ::-webkit-input-placeholder{
+//     font-weight: bold;
+//     font-size: 90%;
+// }
+// :-ms-input-placeholder{
+//     font-weight: bold;
+//     font-size: 90%;
+// }
+// input, select, table{
+//     font-size: 90%;
+// }.tabla{
+//     table-layout:fixed;
+//     width: 100%;
+// }input[type=number]::-webkit-inner-spin-button,
+//  input[type=number]::-webkit-outer-spin-button {
+//     -webkit-appearance: none;
+//     margin: 0;
+// }
+// input[type=date]::-webkit-inner-spin-button,
+//  input[type=date]::-webkit-outer-spin-button {
+//     -webkit-appearance: none;
+//     margin: 0;
+// }
+// .tabla-scroll{
+//     height: 200px;
+//     overflow-y: auto;
+// }
+
+// .mat-content{
+//     background: #FAFAFA;
+//     margin: auto;
+//     padding: 1px;
+//     padding-bottom: 45px;
+// }
+.mat-card-content{
+    padding-top: 5px;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 5px;
+}
+
+.marginLeftButton{
+    margin-left: -115px;
+    margin-top: 15px;
+}
+
+.negrita {
+    font-weight: bold;
+}

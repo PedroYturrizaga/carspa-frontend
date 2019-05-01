@@ -1,0 +1,34 @@
+<mat-card class="matCardMin">  
+    <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+        <mat-card-title class="subtitulo-seccion">Detalle de la programacion</mat-card-title>
+        <div class="emp"> 
+          <button mat-button class="mat-button-icon" (click)="onNoClick()">
+            <div class="example-tooltip-host" matTooltip="Salir">
+              <span>
+                <i class="material-icons">close</i>
+              </span>
+            </div>
+          </button>
+        </div>
+      </mat-card-header>
+
+
+<div class="modal-body text-center">
+  <div class=""> 
+    <div class="text-center">
+      <mat-label class="col-12 " *ngIf="estadoID =='A'" > ¿Desea confirmar la programación? </mat-label>
+    </div>
+    <div class="text-center">
+      <mat-label class="col-12 " *ngIf="estadoID =='B1'" >¿Desea Desbloquear la programación? </mat-label>
+    </div>
+    <div class="text-center">
+      <mat-label class="col-12  " *ngIf="estadoID =='B0'" >¿Desea Bloquear la programación? </mat-label>
+    </div>
+</div>
+</div>
+
+<div class="modal-footer text-center">
+    <button mat-raised-button class="border-buttom"  (click)="confirmarProgramacion()"> Aceptar </button>
+  <button mat-raised-button class="border-buttom"  (click)="onNoClick()"> Cerrar </button>
+</div>
+</mat-card>

@@ -1,0 +1,24 @@
+<div class="sombreadoSubtitulos">
+  <h2 mat-dialog-title class="subtitulo-seccion">Confirmar Reserva
+    <span class="example-spacer"></span>
+    <button mat-button class="mat-button-icon" (click)="dismiss()">
+      <div class="example-tooltip-host" matTooltip="Salir" [matTooltipPosition]="'above'">
+        <span>
+          <i class="material-icons">close</i>
+        </span>
+      </div>
+    </button>
+  </h2>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p> ¿Est&aacute; seguro que desea confirmar esta reserva?</p>
+    </div>
+  </div>
+</div>
+<div class="text-center">
+  <button mat-raised-button (click)="confirmarReserva()">SI</button>
+  <button mat-raised-button (click)="dismiss()">NO</button>
+</div>

@@ -1,0 +1,147 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Examen Físico</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+
+      <div class="form-grup form-group-sm row">
+
+        <div class="col-sm-12" id="idTable1">
+          <table id="ExFIs" class="table margenCero">
+            <!-- class="table-responsive"-->
+            <thead>
+              <th>Vacuna</th>
+              <th><span matTooltip="Presion Arterial">P°A</span></th>
+              <th><span matTooltip="Frecuencia Cardiaca">FC</span></th>
+              <th><span matTooltip="Frecuencia Respiratoria">FR</span></th>
+              <th *ngIf="param.idGrupoEtareo==1"><span matTooltip="Perimetro Cefálico">P°C</span></th>
+              <th><span matTooltip="Peso en kilogramas">Peso (Kg.)</span></th>
+              <th><span matTooltip="Talla en centímetros">Talla (cm.)</span> </th>
+              <th><span matTooltip="Indice de Masa Corporal">IMC</span></th>
+              <th>Estado Nutricional</th>
+              <th *ngIf="param.idGrupoEtareo==1"><span matTooltip="Peso/Edad">P/E</span></th>
+              <th *ngIf="param.idGrupoEtareo==1"><span matTooltip="Talla/Edad">T/E</span></th>
+              <th *ngIf="param.idGrupoEtareo==1"><span matTooltip="Peso/Talla">P/T</span></th>
+            </thead>
+            <tbody class="fondoTabla">
+              <tr>
+                <td>Signos Vitales</td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput [(ngModel)]="actoMedico.pa" type="number">
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput [(ngModel)]="actoMedico.fc" type="number">
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput [(ngModel)]="actoMedico.fr" type="number">
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td *ngIf="param.idGrupoEtareo==1">
+                  <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput [(ngModel)]="actoMedico.pC" type="number" (keypress)="setInputPattern($event,'positiveDigits')"
+                        [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput [(ngModel)]="param.peso" (keyup)="getExamenNutricional()" type="number"
+                        (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                        name="ef_peso" #ef_peso="ngModel">
+
+                      <mat-error>
+                        <app-validators-messages [controlVar]="ef_peso" labelName="Peso">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                      <input matInput [(ngModel)]="param.talla" (keyup)="getExamenNutricional()" type="number"
+                        (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                        name="ef_talla" #ef_talla="ngModel">
+
+                      <mat-error>
+                        <app-validators-messages [controlVar]="ef_talla" labelName="Talla">
+                        </app-validators-messages>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-label class="col-sm-12  "> {{actoMedico.imc}} </mat-label>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-grup form-group-sm row">
+                    <mat-label class="col-sm-12 "> {{actoMedico.examenNutricional}} </mat-label>
+                  </div>
+                </td>
+                <td *ngIf="param.idGrupoEtareo==1">
+                  <div class="form-grup form-group-sm row">
+                    <mat-label class="col-sm-12  "> {{actoMedico.pE}} </mat-label>
+                  </div>
+                </td>
+                <td *ngIf="param.idGrupoEtareo==1">
+                  <div class="form-grup form-group-sm row">
+                    <mat-label class="col-sm-12  "> {{actoMedico.tE}} </mat-label>
+                  </div>
+                </td>
+                <td *ngIf="param.idGrupoEtareo==1">
+                  <div class="form-grup form-group-sm row">
+                    <mat-label class="col-sm-12  "> {{actoMedico.pT}} </mat-label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-4 ">
+          <mat-label> Cabeza:</mat-label>
+          <textarea matInput [(ngModel)]="actoMedico.exfCabeza" (keyup)="send()" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="3"></textarea>
+        </mat-form-field>
+        <mat-form-field class="col-4"> 
+          <mat-label> Torax:</mat-label>
+          <textarea matInput [(ngModel)]="actoMedico.exfTorax" (keyup)="send()" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="3"></textarea> 
+        </mat-form-field>
+        <mat-form-field class="col-4">
+            <mat-label> Abdomen:</mat-label>
+          <textarea matInput  [(ngModel)]="actoMedico.exfAbdomen" (keyup)="send()" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="3"></textarea> 
+        </mat-form-field>
+        <mat-form-field class="col-4 ">
+            <mat-label> Sistema Osteoarticula:</mat-label>
+          <textarea matInput  [(ngModel)]="actoMedico.exfSoma" (keyup)="send()" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="3"></textarea> 
+        </mat-form-field>
+        <mat-form-field class="col-4">
+            <mat-label> Sistema Nervioso Central:</mat-label>
+            <textarea matInput  [(ngModel)]="actoMedico.exfSistemaNerviosoCentral" (keyup)="send()" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="3"></textarea> 
+        </mat-form-field>
+        <mat-form-field class="col-sm-4">
+            <mat-label> Examen Fisico:</mat-label>
+          <textarea matInput  [(ngModel)]="actoMedico.examenFisico"  matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="3" (keyup)="send()"></textarea>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>

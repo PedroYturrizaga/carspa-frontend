@@ -1,0 +1,111 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Busqueda Caja</mat-card-title>
+    <div class="emp">
+      <button class="enlace negrita" type="button" (click)="crearCaja()">
+        Registrar
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class=col-12>
+      <div class="row">
+        <div class="card-body sinRelleno">
+          <div class="row">
+
+            <div class="col-4">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Seleccione Nombre de Caja" [(ngModel)]="requestParam.idCaja">
+                  <mat-option>Seleccione Nombre de Caja</mat-option>
+                  <mat-option *ngFor="let ls of LsCajaDescripcion" [value]="ls.idCaja"> {{ls.descripcionCaja}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-4">
+
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Seleccione el Área Ubicación" [(ngModel)]="requestParam.idArea">
+                  <mat-option>Seleccione el Área Ubicación</mat-option>
+                  <mat-option *ngFor="let ls of LsAreaFisica" [value]="ls.idArea"> {{ls.descripcionArea}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-4">
+              <mat-form-field class="example-full-width">
+                <mat-select placeholder="Tipo Orden Pago: " [(ngModel)]="requestParam.tipoOrden" [formControl]="toppings"
+                  multiple>
+                  <mat-option *ngFor="let topping of LsTipoOrdenPago" [value]="topping.idTipoOrden">{{topping.descripciontipoOrden}}</mat-option>
+                </mat-select>
+
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row text-right emp">
+      <div class="col-12 ">
+
+        <button mat-raised-button (click)="obtenerCaja()">Buscar</button>
+      </div>
+    </div>
+
+
+    <br>
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="Nombre">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.descripcionCaja}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Area Fisica">
+        <mat-header-cell *matHeaderCellDef> Área Ubicación </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.descripcionAreaFisica}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Tipo Orden de Pago">
+        <mat-header-cell *matHeaderCellDef>Tipo de Orden de Pago </mat-header-cell>
+        <mat-cell *matCellDef="let element" ngbPopover="{{element.tipoOrdenListString}}"  triggers="mouseenter:mouseleave"
+        popoverTitle="Tipo de Orden de Pago"> {{element.tipoOrdenListString | truncate:40 }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef>Estado </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-mini-fab *ngIf="element.tipoestado==1" class="my-fab2" [disabled]="element.tipoestado==1"></button>
+          <button mat-mini-fab *ngIf="element.tipoestado==0" class="my-fab1" (click)="actualizar(element)"></button>
+        </mat-cell>
+
+      </ng-container>
+
+      <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-button (click)="editarCaja(element)">
+            <i class="material-icons" >create</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="eliminar">
+        <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-button (click)="eliminar(element)">
+            <i class="material-icons" >delete_forever</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+      showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

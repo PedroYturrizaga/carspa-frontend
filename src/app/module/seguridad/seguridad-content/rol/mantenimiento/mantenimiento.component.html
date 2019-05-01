@@ -1,0 +1,141 @@
+<div class="modal-header">
+  <h4 *ngIf="idRol==null">Rol > Nuevo Rol</h4>
+  <h4 *ngIf="idRol!=null">Rol > Editar Rol</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <!--<div class="col-12 form-control">-->
+      <div class="col-6">
+        <div class="form-group">
+          <label>Nombre del Rol :</label>
+          <input class="form-control" placeholder="Nombre del Rol"/>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label>Descripcion del Rol :</label>
+          <textarea rows="3" cols="50" class="form-control" placeholder="Descripcion del rol"></textarea>
+        </div>
+      </div>  
+    <!--</div>-->
+      <div class="col-12">
+        <div style="text-align:center; padding-bottom:20px"  >
+          <button class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+      
+  <div class="row" style="padding-bottom:20px">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          NIVEL
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Seleccionar Nivel :</label>
+                  <select class="form-control">
+                    <option value="null"> -------------------Seleccionar-------------------</option>
+                    <!--<option value="{{td.id}}" *ngFor="let td of tipoDoc">{{td.valor}}</option>-->
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div style="text-align:center">
+                  <button class="btn btn-primary">Agregar</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nivel</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="12" class="text-center">
+                      <ngb-pagination class="d-inline-block" [collectionSize]="paginationParameterNivel.total_rows" [(page)]="paginationParameterNivel.nuPagina"
+                        [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="changePage(paginationParameterNivel.nuPagina,1)"></ngb-pagination>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          GRUPO OCUPACIONAL
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Seleccionar Grupo Ocupacional :</label>
+                  <select class="form-control">
+                    <option value="null"> -------------------Seleccionar-------------------</option>
+                    <!--<option value="{{td.id}}" *ngFor="let td of tipoDoc">{{td.valor}}</option>-->
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div style="text-align:center">
+                  <button class="btn btn-primary">Agregar</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Grupo Ocupacional</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="12" class="text-center">
+                      <ngb-pagination class="d-inline-block" [collectionSize]="paginationParameterOcupacional.total_rows" [(page)]="paginationParameterOcupacional.nuPagina"
+                        [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="changePage(paginationParameterOcupacional.nuPagina,2)"></ngb-pagination>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>    
+</div>

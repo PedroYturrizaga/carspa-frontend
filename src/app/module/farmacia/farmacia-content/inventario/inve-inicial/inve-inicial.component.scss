@@ -1,0 +1,69 @@
+::-webkit-input-placeholder{
+    font-weight: bold;
+    font-size: 90%;
+}
+:-ms-input-placeholder{
+    font-weight: bold;
+    font-size: 90%;
+}
+input, select, table{
+    font-size: 90%;
+}.tabla{
+    table-layout:fixed;
+    width: 100%;
+}input[type=number]::-webkit-inner-spin-button,
+ input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.tabla-scroll{
+    height: 200px;
+    overflow-y: auto;
+}
+.mat-column-productFarma {
+  flex: 0 0 15%;
+}
+.mat-colum-espaciado{
+    margin-top: 17px;
+}
+.mat-colum-direccion{
+    margin-left: -13px;
+}
+
+.mat-button-right{
+    margin-top: -30px;
+    margin-left: 173%;
+    margin-bottom: 50px;
+}
+
+.mat-button-right1{
+    margin-top: -50px;
+    margin-left: 153%;
+    margin-bottom: 60px;
+}
+.mat-button-mis{
+    margin-left: 92px;    
+}
+.mat-button-mos{
+    margin-left: 837px;
+}
+.mat-button-lefttotal{
+    margin-left: 376px
+}
+.mat-button-leftlabeltotal{
+    margin-left: 709px;
+}
+.alinear-derecha {
+    padding-left: 625px;
+    margin-top: 15px;
+}
+.alinear-derecha2 {
+    margin-left: -125px;
+    margin-top: 15px;
+}
+.negrita {
+    font-weight: bold;
+}
+.guardar {
+    margin-left: -4px;
+}

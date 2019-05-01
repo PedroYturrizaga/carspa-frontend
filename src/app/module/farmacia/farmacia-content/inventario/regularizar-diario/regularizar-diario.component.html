@@ -1,0 +1,153 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion negrita2">Datos de ingreso</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content >
+    <div class="card-body">
+      <div class="row alinearCentro">
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex3">
+            <mat-label>Nro Doc. de compra: </mat-label>
+            <input matInput name="nroInventario" #nroDocCompra="ngModel" id="nroDocCompra" [(ngModel)]="DocCompra" (keypress)="setInputPattern($event, 'positiveDigits')"
+              [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" required/>
+            <mat-error>
+              <app-validators-messages [controlVar]="nroDocCompra" labelName="Nro Doc. de compra:">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex3">
+            <mat-label>Fecha de ingreso: </mat-label>
+            <input matInput value="{{date | date: 'dd/MM/yyyy'}}" disabled/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Datos extras</mat-card-title>
+  </mat-card-header>
+<mat-card-content style="margin:0 30px">
+  <div class="card-body">
+    <div class="row">
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label>Numero Inventario: </mat-label>
+               <input matInput value="{{inventarioList[0] ? inventarioList[0].numeroInventario : '-'}}"  disabled/> 
+              <!-- <input matInput value="({{inventarioList[0]}})?{{inventarioList[0].numeroInventario}}:-"  disabled/> -->
+            </mat-form-field>
+          </div>
+
+      <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+        <mat-form-field class="example-full-width mat-form-field-flex3">
+          <mat-label>Fecha: </mat-label>
+          <input matInput value="{{arrayFecha | date: 'dd/MM/yyyy'}}"  disabled/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex3">
+            <mat-label>Hora: </mat-label>
+            <input matInput value="{{arrayFecha | date: 'hh : mm :ss'   }}" disabled/>
+          </mat-form-field>
+        </div>
+
+
+      <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex3">
+            <mat-label>Turno: </mat-label>
+             <input matInput value="{{inventarioList[0] ? inventarioList[0].turno.descripcionTurno : '-'}}" disabled/> 
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label>Responsable: </mat-label>
+               <input matInput value="{{inventarioList[0] ? inventarioList[0].personalResponsable.nombrePersonal+' '+inventarioList[0].personalResponsable.apellidoPaternoPersonal+' '+inventarioList[0].personalResponsable.apellidoMaternoPersonal 
+              : '-'}}" disabled/> 
+            </mat-form-field>
+    
+          </div>
+       
+    </div>
+  </div>
+</mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- PARA EL GUARDADO -->
+      <ng-container matColumnDef="Item">
+        <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </mat-cell>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="Codigo">
+        <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.almacenMedicamento[medicamento].codigo}}
+        </mat-cell>
+      </ng-container> -->
+
+      <ng-container matColumnDef="Codigo">
+        <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.almacenMedicamento.medicamento.codigo != '' ? element.almacenMedicamento.medicamento.codigo : element.almacenMedicamento.dispMedicoProdSanitario.codigo}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ProducFarmaDisp">
+        <mat-header-cell  matTooltip=" Forma Farmaceutica/Tipo de dispositivo" matTooltipPosition="above" *matHeaderCellDef> P.F/D.M </mat-header-cell>
+        <mat-cell *matCellDef="let element"> 
+          {{element.almacenMedicamento.medicamento.dciProductoFarmaceutico != '' ? element.almacenMedicamento.medicamento.dciProductoFarmaceutico : element.almacenMedicamento.dispMedicoProdSanitario.dciDispMedicoProdSanitario}} 
+          {{ element.almacenMedicamento.medicamento.concentracion != '' ? element.almacenMedicamento.medicamento.concentracion :  element.almacenMedicamento.dispMedicoProdSanitario.viaAdministracion}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Marca">
+        <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.almacenMedicamento.medicamento.marca != '' ? element.almacenMedicamento.medicamento.marca : element.almacenMedicamento.dispMedicoProdSanitario.marca}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Presentacion">
+          <mat-header-cell *matHeaderCellDef> Presentacion </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.almacenMedicamento.medicamento.presentacionEnvase != '' ? element.almacenMedicamento.medicamento.presentacionEnvase : element.almacenMedicamento.dispMedicoProdSanitario.presentacion}}
+          </mat-cell>
+        </ng-container>
+
+        
+      <ng-container matColumnDef="Unidad de Medida">
+          <mat-header-cell  matTooltip="Unidad de medida" matTooltipPosition="above" *matHeaderCellDef> U.Medida </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.almacenMedicamento.medicamento.descpUnidad != '' ? element.almacenMedicamento.medicamento.descpUnidad : element.almacenMedicamento.dispMedicoProdSanitario.descpUnidad}}
+          </mat-cell>
+        </ng-container>
+      <!-- <ng-container matColumnDef="Lote">
+        <mat-header-cell *matHeaderCellDef> Lote </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.medicLote.valor}}</mat-cell>
+      </ng-container> -->
+
+      <ng-container matColumnDef="Diferencia">
+        <mat-header-cell *matHeaderCellDef> Diferencia </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.diferenciaCantidad * (-1)}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumnsIventarioDiferencia"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsIventarioDiferencia;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+
+  <div class="col-sm-12 text-right">
+    <button  mat-raised-button [disabled]="DocCompra==null" (click)="regularizarInventario()">Regularizar</button>
+  </div>
+  <br>
+</mat-card>
+

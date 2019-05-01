@@ -1,0 +1,192 @@
+<!-- *ngIf="flgView" -->
+<div class="moverX"> <button mat-button class="mat-button-icon" (click)="close()">
+    <div class="example-tooltip-host" matTooltip="Salir">
+      <span>
+        <i class="material-icons">close</i>
+      </span>
+    </div>
+  </button> </div>
+<div class="row">
+  <div class="col-5">
+    <mat-card class="matCardMin">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Búsqueda de Asegurado</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form name="searchForm" #searchForm="ngForm" novalidate>
+          <div class="card-body">
+            <div class="form-grup form-group-sm row">
+              <mat-form-field class="col">
+                <mat-select placeholder="Seleccionar Convenio" [(ngModel)]="params.codigoIafa" name="idIAFASModel"
+                  #idIAFASModel="ngModel" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let iaL of iafaList" [value]="iaL.codigo"> {{iaL.nombreIafaEmpresa}} </mat-option>
+
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="idIAFASModel" labelName="Select IAFAS">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col">
+                <mat-select #listaOpciones placeholder="Seleccionar Tipo de Documento:"
+                  [(ngModel)]="params.tipoDocumento" name="combo_tipoDocumento" #combo_tipoDocumento="ngModel"
+                  (selectionChange)="changeInput(listaOpciones.value)" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let td of tipoDocumento" [value]="td.id"> {{td.valor}} </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="combo_tipoDocumento" labelName="Tipo de Documento">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+
+              <!-- <div class="col"> -->
+              <mat-form-field class="col-6">
+                <input matInput placeholder="Numero de Documento" [(ngModel)]="params.numeroDocumento"
+                  name="numero_documento" #numero_documento="ngModel"
+                  (keypress)="setInputPattern($event, 'positiveDigits')"
+                  [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                  minlength="{{longitudDocumento}}" [disabled]="!params.tipoDocumento" maxlength="{{longitudDocumento}}"
+                  (keyup.enter)="searchAsegurado()" required>
+
+                <mat-error>
+                  <app-validators-messages [controlVar]="numero_documento" labelName="Numero de Documento">
+                  </app-validators-messages>
+                </mat-error>
+                <mat-hint align="end" class="longitudInforme">
+                  {{ params.numeroDocumento? params.numeroDocumento.length: '0' }} / {{longitudDocumento}}
+                </mat-hint>
+              </mat-form-field>
+              <!-- </div> -->
+              <div class="col-6 margenAuto">
+                <div class=" text-right ">
+               
+                    <!-- <div class="form-grup form-group-sm row justify-content-end"> -->
+                    <button mat-raised-button  [disabled]="isInvalid(searchForm) || flgviewB"
+                      (click)="searchAsegurado()"> Buscar </button>
+                    <!-- </div> -->
+                
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-7">
+    <mat-card *ngIf="lsProductos!=null" class="matCardMin">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Lista de Productos</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+   
+          <mat-table #table [dataSource]="dataSourceProducto">
+
+            <ng-container matColumnDef="nomProducto">
+              <mat-header-cell *matHeaderCellDef> Productos </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.coDescripcion}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="apellidoPaterno">
+              <mat-header-cell *matHeaderCellDef  matTooltip="Apellido Paterno" matTooltipPosition="above"> A.Paterno </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.apPaternoPaciente}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="apellidoMaterno">
+              <mat-header-cell *matHeaderCellDef  matTooltip="Apellido Materno" matTooltipPosition="above"> A.Materno </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.apMaternoPaciente}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nombres">
+              <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.noPaciente}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="parentesco">
+              <mat-header-cell *matHeaderCellDef> Parentesco </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.coParentesco == 1 ?'REGULAR': element.coParentesco==2 ? 'CONYUGUE':element.coParentesco==5?'COMPLEMENTARIO':'--'}}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="contratante">
+              <mat-header-cell *matHeaderCellDef> Contratante </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.noContratante}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+              <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.coEsPaciente==1? 'VIGENTE' : element.coEsPaciente==2 ? 'SIN COBERTURA': '--'}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="codAsegurado">
+              <mat-header-cell *matHeaderCellDef> Codigo de Asegurado </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.coReContratante}} </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumnProducto"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnProducto;" (click)="goToCobertura(row)"></mat-row>
+            <!-- [ngClass]="['row.estado']"-->
+
+          </mat-table>
+  
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+
+<br>
+<div class="row" >
+<div class="col-12">
+<mat-card *ngIf="lsCoberturas!=null" class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Lista de Coberturas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <mat-table #table [dataSource]="dataSourceCobertura">
+
+        <ng-container matColumnDef="codigo">
+          <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.coTiCobertura +'/'+ element.coSubTiCobertura}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="coberturas">
+          <mat-header-cell *matHeaderCellDef> Coberturas </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.desCobertura}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="copagoFijo">
+          <mat-header-cell *matHeaderCellDef> Copago Fijo </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.coPagoFijo}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CopagoVariable">
+          <mat-header-cell *matHeaderCellDef> Copago Variable </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{'Cubierto al '+element.coPagoVariable+'%'}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnCobertura"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnCobertura;" (click)="close(row)"></mat-row>
+
+      </mat-table>
+
+  </mat-card-content>
+</mat-card>
+</div>
+</div>
+
+
+
+
+
+<!-- <app-cobertura *ngIf="!flgView" (sendCobertura)="requestView($event)" [lsCoberturas]="lsCoberturas"></app-cobertura> -->

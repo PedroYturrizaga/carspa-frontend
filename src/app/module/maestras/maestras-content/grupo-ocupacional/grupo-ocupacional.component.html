@@ -1,0 +1,236 @@
+<mat-card>
+    <div class="col-sm-12">
+        <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+            <mat-card-title class="subtitulo-seccion">Grupo Ocupacional</mat-card-title>
+            <div class="emp">
+                <button class="enlace negrita " type="button" (click)="crearGrupoOcupacional()">Nuevo Grupo Ocupacional</button>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <form #insertActuGrupoOcupacional="ngForm" novalidate name="insertActuGrupoOcupacional">
+                <div class="margenArriba">
+                    <div class="row alinearJustificar">
+                        <div class="col-sm-3 ">
+                            <mat-form-field class="example-full-width">
+                                <mat-label for="descripcionGrupoOcupacional">Descripción Grupo Ocupacional: </mat-label>
+                                <input matInput name="descripcionGrupoOcupacional" #descripcionGrupoOcupacional="ngModel"
+                                    id="descripcionGrupoOcupacional" [(ngModel)]="request.descripcionGrupoOcupacional"
+                                    (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')" 
+                                    [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)" />
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="descripcionGrupoOcupacional" labelName="Descripcion Grupo Ocupacional "></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 ">
+                            <mat-form-field class="example-full-width">
+                                <mat-select #listaOpciones placeholder="Seleccione Tipo Profesional" [(ngModel)]="request.idTipoProfesional"
+                                    name="idTipoProfesional" #idTipoProfesional="ngModel"  id="idTipoProfesional">
+                                    <mat-option>--</mat-option>
+                                    <mat-option *ngFor="let tp of tipoProfesionalList" [value]="tp.id_tipo_profesional">
+                                        {{tp.descripcionTipoProfesional}} </mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idTipoProfesional" labelName="Tipo Profesional"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-2 ">
+                                    <button  mat-raised-button type="button" [disabled]="isInvalid2(insertActuGrupoOcupacional)"
+                                        (click)="obtenerGrupoOcupacional(1)">
+                                        Buscar
+                                    </button>
+                        </div>
+                    </div>
+                
+                  
+                    <!-- <div class="row" *ngIf="false">
+
+
+                        <div class="col-sm-3 separador2">
+                            <mat-form-field class="example-full-width mat-form-field-flex4">
+                                <mat-label for="abreviatura">Abreviatura: </mat-label>
+                                <input matInput name="abreviatura" #abreviatura="ngModel" id="abreviatura" [(ngModel)]="request.abreviatura"
+                                    required (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
+                                    [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)" />
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="abreviatura" labelName="Abreviatura"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col-sm-3 separador2">
+                            <mat-form-field class="example-full-width mat-form-field-flex4">
+                                <mat-select placeholder="Emite Recetas?" name="emitirReceta" #emitirReceta="ngModel"
+                                    [(ngModel)]="request.emitirReceta" id="emitirReceta" required>
+
+                                    <mat-option value="1">SI</mat-option>
+                                    <mat-option value="0">NO</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="emitirReceta" labelName="Emitir Receta"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 separador2">
+                            <mat-form-field class="example-full-width mat-form-field-flex4">
+                                <mat-select placeholder="Emite CITT's? " name="emitirCitt" #emitirCitt="ngModel"
+                                    [(ngModel)]="request.emitirCitt" id="emitirCitt" required>
+
+                                    <mat-option value="1">SI</mat-option>
+                                    <mat-option value="0">NO</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="emitirCitt" labelName="Emitir CITT's"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 separador2">
+                            <mat-form-field class="example-full-width mat-form-field-flex4">
+                                <mat-select placeholder="Emite Referencia? " name="emitirReferencia" #emitirReferencia="ngModel"
+                                    [(ngModel)]="request.emitirReferencia" id="emitirReferencia" required>
+
+                                    <mat-option value="1">SI</mat-option>
+                                    <mat-option value="0">NO</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="emitirReferencia" labelName="Emitir Referencia"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 separador2">
+                            <mat-form-field class="example-full-width mat-form-field-flex4">
+                                <mat-select placeholder="Otorga Solicitar Examen? " name="otorgarSolicitarExamen"
+                                    #otorgarSolicitarExamen="ngModel" [(ngModel)]="request.otorgarSolicitarExamen" id="otorgarSolicitarExamen"
+                                    required>
+                                    <mat-option value="1">SI</mat-option>
+                                    <mat-option value="0">NO</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="otorgarSolicitarExamen" labelName="Otorgar Solicitar Examen"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 separador3">
+                            <mat-form-field class="example-full-width mat-form-field-flex4">
+                                <mat-select placeholder="Otorga Material? " name="otorgarMateriales" #otorgarMateriales="ngModel"
+                                    [(ngModel)]="request.otorgarMateriales" id="otorgarMateriales" required>
+
+                                    <mat-option value="1">SI</mat-option>
+                                    <mat-option value="0">NO</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="otorgarMateriales" labelName="Otorgar Material"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 separador3">
+                            <mat-form-field class="example-full-width mat-form-field-flex2">
+                                <mat-select placeholder="Regula Antecedente? " name="regularAntecedente"
+                                    #regularAntecedente="ngModel" [(ngModel)]="request.regularAntecedente" id="regularAntecedente"
+                                    required>
+                                    <mat-option value="1">SI</mat-option>
+                                    <mat-option value="0">NO</mat-option>
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="regularAntecedente" labelName="Regular Antecedente"></app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3 agregar oculto">
+                            <button *ngIf="funcionActualizar == 0" mat-raised-button (click)="insertarGrupoOcupacional(insertActuGrupoOcupacional)"
+                                [disabled]="insertActuGrupoOcupacional.invalid">
+                                Agregar
+                            </button>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12 ocultarv2">
+
+                                    <button *ngIf="funcionActualizar == 1" mat-raised-button (click)="actualizarGrupoOcupacional(insertActuGrupoOcupacional)"
+                                        [disabled]="insertActuGrupoOcupacional.invalid">
+                                        Actualizar
+                                    </button>
+                                    <button *ngIf="funcionActualizar == 1" mat-raised-button (click)="cancelarActualizarGrupoOcupacional(insertActuGrupoOcupacional)">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </form>
+        </mat-card-content>
+    </div>
+    <mat-table #table [dataSource]="dataSource">
+
+
+        <ng-container matColumnDef="descripcionGrupoOcupacional" >
+            <mat-header-cell *matHeaderCellDef [ngClass]="'customWidthClass'" matTooltip="Descripcion Grupo Ocupacional" matTooltipPosition="above" > Desc. G. O.  
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element"  [ngClass]="'customWidthClass'"> {{element.descripcionGrupoOcupacional}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="abreviatura">
+            <mat-header-cell *matHeaderCellDef> Abreviatura </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.abreviatura ? element.abreviatura : '-'}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="descripcionTipoProfesional">
+            <mat-header-cell *matHeaderCellDef matTooltip="Tipo Profesional" matTooltipPosition="above"> T. Prof. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descripcionTipoProfesional}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="emiteReceta">
+            <mat-header-cell *matHeaderCellDef> Recetas </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.emitirReceta ? element.emitirReceta : '-' }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="otorgaSolicitudExamen">
+            <mat-header-cell *matHeaderCellDef> Examen </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.otorgarSolicitarExamen ? element.otorgarSolicitarExamen :
+                '-'}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="emiteCitt">
+            <mat-header-cell *matHeaderCellDef matTooltip="Certificado de Incapacidad Temporal para el Trabajo " matTooltipPosition="above"> CITT's </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.emitirCitt ? element.emitirCitt : '-'}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="otorgaMaterial">
+            <mat-header-cell *matHeaderCellDef> Materiales </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.otorgarMateriales ? element.otorgarMateriales : '-'}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="emiteReferencia">
+            <mat-header-cell *matHeaderCellDef> Referencia </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.emitirReferencia ? element.emitirReferencia :'-'}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="regulaAntecedente">
+            <mat-header-cell *matHeaderCellDef> Antecedente </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.regularAntecedente ? element.regularAntecedente:'-'}}
+            </mat-cell>
+        </ng-container>
+         <ng-container matColumnDef="editar">
+            <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="editar(element)">
+                <button mat-button>
+                    <i class="material-icons" >edit</i>
+                </button>
+            </mat-cell>
+        </ng-container> 
+        <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="eliminarGrupoOcupacional(element.idGrupoOcupacional, insertActuGrupoOcupacional)">
+                <button mat-button>
+                    <i class="material-icons" >delete_forever</i>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <!-- PAGINADOR -->
+    <mat-paginator [pageSizeOptions]="displayedSize" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+        showFirstLastButtons></mat-paginator>
+</mat-card>

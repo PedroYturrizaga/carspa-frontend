@@ -1,0 +1,158 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Editar Grupo Ocupacional</mat-card-title>
+    <div class="emp">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <form #FormEditarGrupoOcupacional="ngForm" novalidate name="FormEditarGrupoOcupacional">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" [value]="" placeholder=" Descripcion Grupo Ocupacional" [(ngModel)]="lsGrupoOcupacional.descripcionGrupoOcupacional"
+                name="descripcionGrupoOcupacional" #nombre="ngModel" required (keypress)="setInputPattern($event, 'soloUnEspacio')"
+                [pattern]="setValidatorPattern('soloUnEspacio', setQuantifier('+'), true, true)">
+              <mat-error>
+                <app-validators-messages [controlVar]="descripcionGrupoOcupacional" labelName=" Descripcion Grupo Ocupacional">
+                </app-validators-messages>
+
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select #listaOpciones placeholder="Seleccione Tipo Profesional" [(ngModel)]="lsGrupoOcupacional.idTipoProfesional"
+                name="idTipoProfesional" #idTipoProfesional="ngModel" id="idTipoProfesional">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let tp of tipoProfesionalList" [value]="tp.id_tipo_profesional">
+                  {{tp.descripcionTipoProfesional}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idTipoProfesional" labelName="Tipo Profesional"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+          <div class="col-sm-4">
+
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" [value]="" placeholder=" Abreviatura" [(ngModel)]="lsGrupoOcupacional.abreviatura"
+                name="abreviatura" #nombre="ngModel" required (keypress)="setInputPattern($event, 'soloUnEspacioLetra')"
+                [pattern]="setValidatorPattern('soloUnEspacioLetra', setQuantifier('+'), true, true)">
+              <mat-error>
+                <app-validators-messages [controlVar]="abreviatura" labelName=" Abreviatura">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+  </div>
+
+  <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Emite Recetas?" name="emitirReceta" #emitirReceta="ngModel" [(ngModel)]="lsGrupoOcupacional.emitirReceta"
+                id="emitirReceta" required>
+
+                <mat-option [value]="1">SI</mat-option>
+                <mat-option [value]="0">NO</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="emitirReceta" labelName="Emitir Receta"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Emite CITT's? " name="emitirCitt" #emitirCitt="ngModel" [(ngModel)]="lsGrupoOcupacional.emitirCitt"
+                id="emitirCitt" required>
+
+                <mat-option [value]="1">SI</mat-option>
+                <mat-option [value]="0">NO</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="emitirCitt" labelName="Emitir CITT's"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Emite Referencia? " name="emitirReferencia" #emitirReferencia="ngModel"
+                [(ngModel)]="lsGrupoOcupacional.emitirReferencia" id="emitirReferencia" required>
+
+                <mat-option [value]="1">SI</mat-option>
+                <mat-option [value]="0">NO</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="emitirReferencia" labelName="Emitir Referencia"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+        
+  <div class="row">
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Otorga Solicitar Examen? " name="otorgarSolicitarExamen" #otorgarSolicitarExamen="ngModel"
+                [(ngModel)]="lsGrupoOcupacional.otorgarSolicitarExamen" id="otorgarSolicitarExamen" required>
+                <mat-option [value]="1">SI</mat-option>
+                <mat-option [value]="0">NO</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="otorgarSolicitarExamen" labelName="Otorgar Solicitar Examen"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Otorga Material? " name="otorgarMateriales" #otorgarMateriales="ngModel"
+                [(ngModel)]="lsGrupoOcupacional.otorgarMateriales" id="otorgarMateriales" required>
+
+                <mat-option [value]="1">SI</mat-option>
+                <mat-option [value]="0">NO</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="otorgarMateriales" labelName="Otorgar Material"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Regula Antecedente? " name="regularAntecedente" #regularAntecedente="ngModel"
+                [(ngModel)]="lsGrupoOcupacional.regularAntecedente" id="regularAntecedente" required>
+                <mat-option [value]="1">SI</mat-option>
+                <mat-option [value]="0">NO</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="regularAntecedente" labelName="Regular Antecedente"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </div>
+        <div class="text-center">
+          <button type="submit" mat-raised-button (click)="confirmarEditar()" [disabled]="FormEditarGrupoOcupacional.invalid">Guardar</button>
+          <button type="button" mat-raised-button data-dismiss="modal" (click)="close()">Cancelar</button>
+        </div>
+
+      </div>
+    </form>
+  </mat-card-content>
+
+</mat-card>

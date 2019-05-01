@@ -1,0 +1,15 @@
+<div class="modal-header sombreadoSubtitulos" style="padding: initial;">
+  <h4 mat-dialog-title class="subtitulo-seccion text-center">
+    <span>Eliminar Cobertura</span>
+  </h4>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <p class="text-center">¿Está seguro que desea eliminar la cobertura '{{ noSubTipoCoberName }}' ?</p>
+
+  </div>
+</div>
+<mat-dialog-actions class="modal-footer">
+  <button type="button" mat-raised-button class="border-botton " (click)="eliminarCobertura()">Aceptar</button>
+  <button type="button" mat-raised-button class="border-botton" (click)="close()">Cancelar</button>
+</mat-dialog-actions>

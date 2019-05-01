@@ -1,0 +1,64 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Listado de Actividades</mat-card-title>
+    <div class="emp">
+        <button class="enlace negrita" type="button" (click)="crearActividad()">Nueva Actividad</button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="col-12 card-body text-center">
+      <mat-form-field class="col-sm-6 mat-form-field-flex1">
+        <input matInput placeholder="Descripción de Actividad" [(ngModel)]="Param.descripcionActividad" (input)="busqueda($event.target.value)">
+      </mat-form-field>
+      <!-- <button class="border-botton" mat-raised-button (click)="crearActividad()">Nueva Actividad</button> -->
+    </div>
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="numero">
+        <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.index}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="descripcionActividad">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado2'"> Descripción Actividad </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'anchoListado2'" ngbPopover="{{element.descripcionActividad}}" triggers="mouseenter:mouseleave" popoverTitle="Descripcion de la Actividad" > {{element.descripcionActividad  | truncate: 45}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="abreviatura">
+        <mat-header-cell *matHeaderCellDef> Abreviatura </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.abreviatura}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoProgramacion">
+        <mat-header-cell *matHeaderCellDef> Tipo de Programación </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tipoProgramacionDesc}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoActividad">
+        <mat-header-cell *matHeaderCellDef> Tipo de Actividad </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tipoActividadDesc}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="editar(element)">
+          <button mat-button>
+            <i class="material-icons" >create</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eliminar">
+        <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-button>
+            <i class="material-icons" (click)="eliminar(element.idActividad)">delete_forever</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{(element.flEstado==1 ? 'Disponible' : 'No Disponible')}}
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="paginator.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+      showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

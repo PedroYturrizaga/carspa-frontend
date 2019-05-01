@@ -1,0 +1,24 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="https://www.enriquedans.com/wp-content/uploads/2018/04/Cloud.jpg" id="icon" alt="User Icon" />
+        <h1> Logueo  </h1>
+      </div>
+  
+      <!-- Login Form -->
+      <form #loguearUsuario="ngForm" novalidate name="loguearUsuario" (submit)="getAccessToken(loguearUsuario)">
+        <input type="text" id="login" class="fadeIn second" name="login" placeholder="username" [(ngModel)]="usuarioID" ngvemail >
+        <input type="password" id="password" class="fadeIn third" name="login" placeholder="password" [(ngModel)]="contrasena" >
+        <input type="submit" class="fadeIn fourth" value="Log In">
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Acceso</a>
+      </div>
+  
+    </div>
+  </div>

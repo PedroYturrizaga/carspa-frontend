@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h4 class="modal-title">Buscar Medicamentos</h4>
+  <button type="button" class="close btn btn info" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="col-12">
+    <div class="card">
+      <h6 class="card-header">Medicinas y Material médico asignado</h6>
+      <div class="card-body">
+      
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Código(ATC):</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" [(ngModel)]="busquedaRequest[0].cum" />
+            </div>
+          </div>
+          
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label col-form-label-sm">Descripción:</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" [(ngModel)]="busquedaRequest[0].descripcionMedicamento" /> 
+                  </div>    
+            </div>
+            <div class="col-md-10 form-group">
+                <button type="button" class="btn btn-info" (click)="getMedicamentos()">Buscar</button> 
+            </div>          
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-12">
+    <div class="card">
+      <h6 class="card-header">Listado de medicamentos filtrado</h6>
+      <div class="card-body">
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Unidad</th>
+                <th>Disponible</th>
+                <th style="text-align: center">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of medicamentos; let i = index">
+                <td>{{item.cum}}</td>
+                <td>{{item.descripcionMedicamento}}</td>
+                <td>{{item.descripcionFormaPresentacion}}</td>
+                <td style="text-align: center" *ngIf="item.stock!=null">{{item.stock}}</td>
+                <td style="text-align: center" *ngIf="item.stock==null">-</td>
+                <td style="text-align: center">
+                  <div>
+                    <a class="text-info" (click)="addMedicamento(item.idMedicamento)"><i class="fa fa-plus"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="12" class="text-center">
+                  <ngb-pagination class="d-inline-block" [collectionSize]="paginationParameter.total_rows" [(page)]="paginationParameter.nuPagina"
+                    [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getMedicamentos()"></ngb-pagination>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Registrar Actividad</mat-card-title>
+    <div class="emp">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <form #FormCrearActividad="ngForm" novalidate name="FormCrearActividad">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" value="" style="text-transform:uppercase;" placeholder=" Nombre de Actividad"
+                [(ngModel)]="lsActividad.descripcionActividad" name="actividad" #actividad="ngModel" (keypress)="setInputPattern($event,'soloUnEspacio')"
+                required [pattern]="setValidatorPattern('soloUnEspacio', setQuantifier('+'), true, true)">
+              <mat-error>
+                <app-validators-messages [controlVar]="actividad" labelName="Nombre de Actividad">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" value="" placeholder="Abreviatura de Actividad" [(ngModel)]="lsActividad.abreviatura"
+                name="abreviatura" #abreviatura="ngModel" (keypress)="setInputPattern($event,'soloUnEspacio')" required
+                [pattern]="setValidatorPattern('soloUnEspacio', setQuantifier('+'), true, true)">
+              <mat-error>
+                <app-validators-messages [controlVar]="abreviatura" labelName="Nombre de abreviatura">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Seleccione tipo de programacion" [(ngModel)]="lsActividad.tipoProgramacion" name="tipoProgramacion"
+                #tipoProgramacion="ngModel" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let ls of listTipoProgramacion" [value]="ls.idTipoProgramacion">
+                  {{ls.nombreTipoProgramacion}}</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idTipoProgramacion" labelName="Nombre de Tipo Programacion">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Seleccione tipo de actividad" [(ngModel)]="lsActividad.tipoActividad" name="tipoActividad"
+                #tipoActividad="ngModel" required>
+
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let ls of listTipoActividad" [value]="ls.idTipoActividad">
+                  {{ls.nombreTipoActividad}}</mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idTipoActividad" labelName="Nombre de Actividad">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+
+            <div class="card-body">
+              <div class="row contenedorcomprobante">
+                <div class="col-12 alMedio">
+                  <!-- ¿<mat-error>
+                    <app-validators-messages style="color:black;" [controlVar]="ambiente" labelName="Ambiente">
+                    </app-validators-messages>
+                  </mat-error>? -->
+
+                  <h6>¿Ambiente es Requerido?</h6>
+                </div>
+                <div class="text-center">
+                  <mat-radio-group placeholder="Ambiente" [(ngModel)]="lsActividad.ambiente" name="ambiente" #ambiente="ngModel"
+                    required>
+                    <mat-radio-button *ngFor="let ls of listAmbiente" [value]="ls.idAmbiente" style="margin: 10px">
+                      {{ls.nombreAmbiente}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-grup form-group-sm row">
+        <button mat-raised-button class="col-sm-6" color="warn" (click)="  close()"> Cerrar </button>
+        <button mat-raised-button class="col-sm-6" color="primary" (click)="insertarActividad()" [disabled]="FormCrearActividad.invalid">
+          Aceptar </button>
+      </div> -->
+      <div class="col-sm-12 text-center">
+          <button type="submit" mat-raised-button (click)="insertarActividad()" [disabled]="FormCrearActividad.invalid">Guardar</button>
+          <button type="button" mat-raised-button data-dismiss="modal" (click)="close()">Cancelar</button>
+     
+      </div>
+            </div>
+    
+    </form>
+  </mat-card-content>
+</mat-card>

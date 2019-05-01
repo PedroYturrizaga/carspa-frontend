@@ -1,0 +1,49 @@
+<mat-card>
+    <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+        <mat-card-title class="subtitulo-seccion">Listado de Especialidades</mat-card-title>
+        <div class="emp">
+            <button class="enlace negrita" type="button" (click)="crearEspecialidad()">Nueva Especialidad</button>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="col-12 card-body text-center">
+            <mat-form-field class="col-sm-6 mat-form-field-flex1">
+                <input matInput placeholder="Descripción de Especialidad" [(ngModel)]="Param.descripcionEspecialidad"
+                    (input)="busqueda($event.target.value)">
+            </mat-form-field>
+            
+        </div>
+        <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.idEspecialidad}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="especialidad">
+                <mat-header-cell *matHeaderCellDef> Descripción Especialidad </mat-header-cell>
+                <mat-cell *matCellDef="let element" ngbPopover="{{element.descripcionEspecialidad}}" triggers="mouseenter:mouseleave" popoverTitle="Descripcion de la especialidad"> {{element.descripcionEspecialidad  | truncate: 35 }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="abreviatura">
+                <mat-header-cell *matHeaderCellDef> Abreviatura </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.abreviatura_espec}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="eliminar">
+                <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button mat-button>
+                        <i class="material-icons" (click)="eliminarEspecialidad(element.idEspecialidad)">delete_forever</i>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <!-- <ng-container matColumnDef="estado">
+  <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+  <mat-cell *matCellDef="let element"> {{(element.flEstado==1 ? 'Disponible' : 'No Disponible')}}
+  </mat-cell>
+  </ng-container> -->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="displayedSizes" [length]="paginator.numMostrarPagina" [pageSize]="pageSize"
+            (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
+
+    </mat-card-content>
+</mat-card>

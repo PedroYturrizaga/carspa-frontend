@@ -1,0 +1,146 @@
+<mat-card>
+  <mat-card-header class=" alinearCabecera sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Ambiente</mat-card-title>
+    <div class="emp">
+      <button class="enlace negrita" type="button" (click)="modalInsertarAmbiente()">
+        Nuevo Ambiente
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <form #ambienteForm="ngForm" novalidate name="ambienteForm">
+      <div class="card-body">
+
+        <div class="row">
+
+          <!-- AREA -->
+          <div class="col-3">
+            <mat-form-field class="example-full-width">
+              <mat-select #idArea="ngModel" id="idArea" name="idArea" placeholder="Seleccione Area" [(ngModel)]="requestParam.idArea" (selectionChange)="obtenerEspecialidadxArea();getListAmbiente(1);">
+                <mat-option [value]="null">--</mat-option>
+                <mat-option *ngFor="let area of areas" [value]="area.idArea"> {{ area.descripcionArea }} </mat-option>
+              </mat-select>
+              <!-- <mat-error>
+              <app-validators-messages [controlVar]="idArea" labelName="Area"></app-validators-messages>
+            </mat-error> -->
+            </mat-form-field>
+          </div>
+
+          <!-- AMBIENTE -->
+          <div class="col-3">
+            <mat-form-field class="example-full-width">
+              <mat-label for="descripcionAmbiente">Ambiente</mat-label>
+              <input matInput name="descripcionAmbiente" #descripcionAmbiente="ngModel" id="descripcionAmbiente" [(ngModel)]="requestParam.descripcionAmbiente"
+                (input)="busqueda($event.target.value)" />
+              <!-- <mat-error>
+              <app-validators-messages [controlVar]="descripcionAmbiente" labelName="Ambiente">
+              </app-validators-messages>
+            </mat-error> -->
+            </mat-form-field>
+          </div>
+
+          <!-- ESPECIALIDAD -->
+          <div class="col-3">
+            <mat-form-field class="example-full-width">
+              <mat-select #idEspecialidad="ngModel" id="idEspecialidad" name="idEspecialidad" placeholder="Seleccione Especialidad" [(ngModel)]="requestParam.idEspecialidad"
+                (selectionChange)="obtenerActividadxAreaEsp(); getListAmbiente(1)">
+                <mat-option [value]="null">--</mat-option>
+                <mat-option *ngFor="let e of especialidad" [value]="e.especialidad.id"> {{ e.especialidad.valor }} </mat-option>
+              </mat-select>
+              <!-- <mat-error>
+              <app-validators-messages [controlVar]="descripcionAmbiente" labelName="Ambiente">
+              </app-validators-messages>
+            </mat-error> -->
+            </mat-form-field>
+          </div>
+
+          <!-- ACTIVIDAD -->
+          <div class="col-3">
+            <mat-form-field class="example-full-width">
+              <mat-select #idActividad="ngModel" id="idActividad" name="idActividad" placeholder="Seleccione Actividad" [(ngModel)]="requestParam.idActividad"
+                (selectionChange)="getListAmbiente(1)">
+                <mat-option [value]="null">--</mat-option>
+                <mat-option *ngFor="let ac of actividad" [value]="ac.idActividad"> {{ ac.descripcionActividad }} </mat-option>
+              </mat-select>
+              <!-- <mat-error>
+              <app-validators-messages [controlVar]="descripcionAmbiente" labelName="Ambiente">
+              </app-validators-messages>
+            </mat-error> -->
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+
+      <mat-card-content>
+        <!-- INICIA TABLA -->
+
+        <div class="table responsive">
+
+          <mat-table #table [dataSource]="dataSource">
+
+            <!-- Descripcion Ambiente -->
+            <ng-container matColumnDef="descAmbiente">
+              <mat-header-cell *matHeaderCellDef> Descripción Ambiente </mat-header-cell>
+              <mat-cell *matCellDef="let ambiente"> {{ ambiente.descripcionAmbiente }} </mat-cell>
+            </ng-container>
+
+            <!-- Area -->
+            <ng-container matColumnDef="area">
+              <mat-header-cell *matHeaderCellDef>Área</mat-header-cell>
+              <mat-cell *matCellDef="let ambiente"> {{ ambiente.descripcionArea }} </mat-cell>
+            </ng-container>
+
+            <!-- Especialidad - Actividadd -->
+            <ng-container matColumnDef="especialidadActividad">
+              <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado4'" > Especialidad-Actividad </mat-header-cell>
+              <mat-cell *matCellDef="let ambiente" [ngClass]="'anchoListado4'" ngbPopover="{{ambiente.descripcionEspecialidadActividad}}" triggers="mouseenter:mouseleave"
+              popoverTitle="Especialidad/Actividad">{{ ambiente.descripcionEspecialidadActividad | truncate: 40}} </mat-cell>
+            </ng-container>
+
+            <!-- Editar -->
+            <ng-container matColumnDef="editar">
+              <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado7'"> Editar </mat-header-cell>
+              <mat-cell *matCellDef="let ambiente" [ngClass]="'anchoListado7'">
+                <button mat-button (click)="modalEditarAmbiente(ambiente)">
+                  <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">edit</i>
+                    </span>
+                  </div>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Eliminar -->
+            <ng-container matColumnDef="eliminar">
+              <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado7'"> Eliminar </mat-header-cell>
+              <mat-cell *matCellDef="let ambiente" [ngClass]="'anchoListado7'">
+
+                <button mat-button (click)="modalEliminarAmbiente(ambiente)">
+                  <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">delete</i>
+                    </span>
+                  </div>
+                </button>
+
+              </mat-cell>
+            </ng-container>
+
+            <!-- Header -->
+            <mat-header-row *matHeaderRowDef="displayedColumnsA"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsA;">
+            </mat-row>
+          </mat-table>
+
+          <!-- PAGINADOR -->
+          <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+            showFirstLastButtons></mat-paginator>
+          <!--  -->
+        </div>
+      </mat-card-content>
+
+    </form>
+  </mat-card-content>
+</mat-card>

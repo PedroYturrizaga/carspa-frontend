@@ -1,0 +1,85 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion"> {{flag == 1 ? 'Registrar Nuevo': 'Actualizar'}} Producto </mat-card-title>
+    <div class="emp">
+      <button class="mat-button-icon" mat-button (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+            <span>
+                <i class="material-icons">close</i>
+              </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form #registrarProducto="ngForm" novalidate name="registrarProducto">
+      <div class="card-body">
+
+        <div class="row">
+
+          <!-- Convenio -->
+          <div class="col-sm-12">
+            <mat-form-field class="example-full-width">
+              <mat-label>Convenios</mat-label>
+              <mat-select placeholder="Seleccionar" name="convenios" (selectionChange)="seleccionarConvenio(param.idConvenio)" [(ngModel)]="param.idConvenio"
+                [disabled]="flag==2" required>
+                <mat-option *ngFor="let co of convenio" [value]="co.idConvenio">
+                  {{co.nombreConvenio}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Codigo del Producto -->
+          <div class="col-sm-12">
+            <mat-form-field class="example-full-width">
+              <mat-label for="codProducto">Ingresar Codigo Producto</mat-label>
+              <input matInput type="text" name="codProducto" #codProducto="ngModel" id="codProducto" [(ngModel)]="param.coProdCode" (keypress)="setInputPattern($event, 'alfanumerics')"
+                [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)" [maxLength]="5" [disabled]="flag==2"
+                required />
+              <!-- <mat-error>
+                <app-validators-messages [controlVar]="codProducto" [labelName]="Codigo Producto">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Nombre del Producto -->
+          <div class="col-sm-12 ">
+            <mat-form-field class="example-full-width">
+              <mat-label for="nomProducto">Ingresar Nombre Producto</mat-label>
+              <input matInput type="text" name="nomProducto" #nomProducto="ngModel" id="nomProducto" [(ngModel)]="param.noProdName" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required />
+              <!-- <mat-error>
+                <app-validators-messages [controlVar]="nomProducto" [labelName]="Producto">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 contenedorcomprobante" *ngIf="flag==1">
+            <button mat-raised-button (click)="insertarNuevoProducto()" [disabled]="isInvalid(registrarProducto)">Registrar
+            </button>
+            <button mat-raised-button (click)="close(1)">Cancelar
+            </button>
+          </div>
+
+          <div class="col-sm-12 contenedorcomprobante " *ngIf="flag==2">
+            <button mat-raised-button (click)="actualizarNuevoProducto()" [disabled]="isInvalid(registrarProducto)">Actualizar
+            </button>
+            <button mat-raised-button (click)="close(1)">Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </mat-card-content>
+
+</mat-card>

@@ -1,0 +1,212 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Apertura y cierre de Caja</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #FormAperturarCierreCaja="ngForm" novalidate name="FormAperturarCierreCaja" *ngIf="programacionPersonal.mensaje==null">
+      <div class="card-body">
+        <label class="italica">Listado de Caja:</label>
+        <div class="row">
+          <div class="col-sm-3">
+            <label class="negrita">Nombre:</label>
+            <label>{{caja.descripcionCaja}}</label>
+            <br>
+            <label class="negrita">Abreviatura:</label>
+            <label>{{caja.abreviaturaAmbiente}}</label>
+
+          </div>
+          <div class="col-sm-3">
+            <label class="negrita">Turno:</label>
+            <label>{{programacionPersonal.descripcionTurno}}</label>
+            <br>
+            <label class="negrita">Horario:</label>
+            <label>{{programacionPersonal.horaInicio}} - {{programacionPersonal.horaFinal}}</label>
+          </div>
+          <div class="col-sm-3">
+            <div *ngIf="aperturaCaja.estadoCaja!=null">
+              <!-- <label class="col-6">Hora de Apertura: {{aperturaCaja.fechaApertura || date:'MMM d, y h:mm:ss a Z'}}</label> -->
+              <label class="negrita">Hora de Apertura:</label>
+              <label>{{aperturaCaja.fechaApertura | date:'hh'}}H {{aperturaCaja.fechaApertura | date:'mm'}}M
+                {{aperturaCaja.fechaApertura
+                | date:'ss'}}S</label>
+              <br>
+              <label class="negrita">Fecha de Apertura:</label>
+              <label>{{aperturaCaja.fechaApertura | date:'d/M/y'}}</label>
+            </div>
+          </div>
+          <div class="col-sm-3 tituloArriba">
+            <label class="italica">Apertura de Caja:</label>
+            <mat-form-field class="example-full-width">
+              <mat-label for="montoApertura">Monto Inicial: S/.</mat-label>
+              <input matInput type="number" name="montoApertura" #montoApertura="ngModel" id="montoApertura"
+                [(ngModel)]="aperturaCaja.montoApertura" [min]="1" [disabled]="aperturaCaja.estadoCaja!=null || aperturaCaja.cajaChica==true"
+                (input)="inputCajaChica()" required />
+              <mat-error>
+                <app-validators-messages [controlVar]="montoApertura" labelName="Monto Inicial"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+            <mat-checkbox name="cajaChica" #cajaChica="ngModel" id="cajaChica" [(ngModel)]="aperturaCaja.cajaChica"
+              [disabled]="aperturaCaja.estadoCaja!=null || aperturaCaja.montoApertura>0" (click)="sinCajaChica()">Sin
+              Caja Chica</mat-checkbox>
+
+          </div>
+        </div>
+
+
+
+        <div *ngIf="aperturaCaja.estadoCaja!=null">
+
+          <mat-card-header class="sombreadoSubtitulos">
+            <mat-card-title class="subtitulo-seccion">Cierre de Caja </mat-card-title>
+          </mat-card-header>
+
+          <div class="row espa">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width mat-form-field-flex33">
+                        <mat-label for="montoEfectivo">Monto Total Efectivo: S/.</mat-label>
+                        <input matInput type="number" name="montoEfectivo" #montoEfectivo="ngModel" id="montoEfectivo"
+                          [(ngModel)]="aperturaCaja.montoEfectivo" [disabled]="true" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="montoEfectivo" labelName="Monto Total Efectivo"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width mat-form-field-flex33">
+                        <mat-label for="montoTarjeta">Monto Total Tarjeta: S/.</mat-label>
+                        <input matInput type="number" name="montoTarjeta" #montoTarjeta="ngModel" id="montoTarjeta"
+                          [(ngModel)]="aperturaCaja.montoTarjeta" [disabled]="true" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="montoTarjeta" labelName="Monto Total Tarjeta"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width mat-form-field-flex33">
+                        <mat-label for="montoCierre">Monto Final: S/.</mat-label>
+                        <input matInput type="number" name="montoCierre" #montoCierre="ngModel" id="montoCierre"
+                          [(ngModel)]="aperturaCaja.montoCierre" [disabled]="true" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="montoCierre" labelName="Monto Final"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width mat-form-field-flex33">
+                        <mat-label for="saldoEfectivo">Monto Real Efectivo: S/.</mat-label>
+                        <input matInput type="number" name="saldoEfectivo" #saldoEfectivo="ngModel" id="saldoEfectivo"
+                          [(ngModel)]="aperturaCaja.saldoEfectivo" [disabled]="aperturaCaja.estadoCaja==2 || aperturaCaja.estadoCaja==0"
+                          required (input)="calcularFaltanteEfectivo()" [min]="0" />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="saldoEfectivo" labelName="Monto Real Efectivo"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width mat-form-field-flex33">
+                        <mat-label for="saldoTarjeta">Monto Real Tarjeta: S/.</mat-label>
+                        <input matInput type="number" name="saldoTarjeta" #saldoTarjeta="ngModel" id="saldoTarjeta"
+                          [(ngModel)]="aperturaCaja.saldoTarjeta" [disabled]="aperturaCaja.estadoCaja==2  || aperturaCaja.estadoCaja==0"
+                          required (input)="calcularFaltanteTarjeta()" [min]="0" />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="saldoTarjeta" labelName="Monto Real Tarjeta"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label for="faltanteEfectivo">Monto Faltante Efectivo: S/.</mat-label>
+                        <input matInput type="number" name="faltanteEfectivo" #faltanteEfectivo="ngModel" id="faltanteEfectivo"
+                          [(ngModel)]="aperturaCaja.faltanteEfectivo" [disabled]="true" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="faltanteEfectivo" labelName="Monto Faltante Efectivo"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label for="faltanteTarjeta">Monto Faltante Tarjeta: S/.</mat-label>
+                        <input matInput type="number" name="faltanteTarjeta" #faltanteTarjeta="ngModel" id="faltanteTarjeta"
+                          [(ngModel)]="aperturaCaja.faltanteTarjeta" [disabled]="true" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="faltanteTarjeta" labelName="Monto Faltante Tarjeta"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label for="saldoFaltante">Faltante Total: S/.</mat-label>
+                        <input matInput type="number" name="saldoFaltante" #saldoFaltante="ngModel" id="saldoFaltante"
+                          [(ngModel)]="aperturaCaja.saldoFaltante" [disabled]="true" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="saldoFaltante" labelName="Faltante"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12" *ngIf="aperturaCaja.estadoCaja==2  || aperturaCaja.estadoCaja==0">
+              <div class="row">
+                <div class="col-12 text-right">
+
+                  <label> <b> Hora de Cierre: </b> {{aperturaCaja.fechaCierre | date:'hh'}}H
+                    {{aperturaCaja.fechaCierre |
+                    date:'mm'}}M
+                    {{aperturaCaja.fechaCierre | date:'ss'}}S &nbsp;&nbsp; </label>
+
+                  <label> <b>Fecha de Cierre:</b> {{aperturaCaja.fechaCierre | date:'d/m/y'}} &nbsp;&nbsp;
+                  </label>
+
+                  <button class="border-botton" mat-raised-button (click)="imprimir()" *ngIf="aperturaCaja.estadoCaja==2  || aperturaCaja.estadoCaja==0">Visualizar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+
+          <div class="col-12 text-right">
+            <button mat-raised-button (click)="insertarAperturarCaja(FormAperturarCierreCaja)" *ngIf="aperturaCaja.estadoCaja==null"
+              [disabled]="FormAperturarCierreCaja.invalid">
+              Aperturar Caja</button>
+
+              <button class="border-botton" mat-raised-button (click)="actualizarCerrarCaja(FormAperturarCierreCaja)"
+                *ngIf="aperturaCaja.estadoCaja==1" [disabled]="FormAperturarCierreCaja.invalid">
+                Cerrar Caja</button>
+         
+
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+
+    <div class="card-body" *ngIf="programacionPersonal.mensaje!=null">
+      <div class="row">
+        <div class="col-12">
+          <h5>{{programacionPersonal.mensaje}}</h5>
+        </div>
+      </div>
+    </div>
+
+  </mat-card-content>
+
+</mat-card>

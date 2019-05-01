@@ -1,0 +1,105 @@
+
+<div class="container">
+  <div class="row" style="margin-top:3%;">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <mat-select placeholder="1. Situacion familiar" [(ngModel)]="valoracionGeriatrica.estadoSocioFamiliar.famiSituacion"  (change)="capturar()" requerid> 
+            <mat-option> -- </mat-option>
+            <mat-option [value]="1">Vive con familia, sin conflicto familiar</mat-option>
+            <mat-option [value]="2">Vive con familia, presenta algún grado de dependencia física/psíquica</mat-option>
+            <mat-option [value]="3">Vive con cónyuge de similar edad</mat-option>
+            <mat-option [value]="4">Vive solo y tiene hijos con vivienda proxima</mat-option>
+            <mat-option [value]="5">Vive solo y carece de hijos o viven lejos (interior del país o extranjero) </mat-option>
+
+            <!-- <mat-error>
+              <app-validators-messages [controlVar]="famisituacion" labelName="1. Situacion familiar" >
+              </app-validators-messages>
+            </mat-error> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <mat-select placeholder="2. Situacion Económica" [(ngModel)]="valoracionGeriatrica.estadoSocioFamiliar.famiEconomica"  (change)="capturar()" requerid> 
+            <mat-option> -- </mat-option>
+            <mat-option [value]="1"> Dos veces el salario mínimo vital</mat-option>
+            <mat-option [value]="2"> Menos de 2, pero más de 1, salarios mínimos vitales</mat-option>
+            <mat-option [value]="3"> Un salario mínimo vital</mat-option>
+            <mat-option [value]="4"> Ingreso irregular (menos del mínimo vital)</mat-option>
+            <mat-option [value]="5"> Sin pensión, sin otros ingresos </mat-option>
+
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <mat-select placeholder="3. Vivienda" [(ngModel)]="valoracionGeriatrica.estadoSocioFamiliar.famiVivienda"  name="fami_vivienda" #fami_vivienda="ngModel" (change)="capturar()" requerid> 
+            <mat-option> -- </mat-option>
+            <mat-option [value]="1">Adecuada a las necesidades </mat-option>
+            <mat-option [value]="2">Barreras arquitectónicas en la vivienda </mat-option>
+            <mat-option [value]="3">Mala conservación, humedad, mala higiene, equipamiento inadecuado </mat-option>
+            <mat-option [value]="4">Vivienda semi construida o de material rústico </mat-option>
+            <mat-option [value]="5">Asentamiento humano (Invasión) o sin vivienda </mat-option>
+            
+            <mat-error>
+              <app-validators-messages [controlVar]="fami_vivienda" labelName="3. Vivienda" >
+              </app-validators-messages>
+            </mat-error>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <mat-select placeholder="4. Relaciones Sociales" [(ngModel)]="valoracionGeriatrica.estadoSocioFamiliar.famiSocial" (change)="capturar()"requerid> 
+            <mat-option> -- </mat-option>
+            <mat-option [value]="1">Mantiene relaciones sociales en la comunidad </mat-option>
+            <mat-option [value]="2">Relación social sólo con familia y vecinos </mat-option>
+            <mat-option [value]="3">Relación social solo con la familia </mat-option>
+            <mat-option [value]="4">No sale del domicilio pero recibe visitas de familia </mat-option>
+            <mat-option [value]="5">No sale del domicilio y no recibe visitas </mat-option>
+            
+            <!-- <mat-error>
+              <app-validators-messages [controlVar]="fami_social" labelName="4. Relaciones Sociales" >
+              </app-validators-messages>
+            </mat-error> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <mat-select placeholder="5. APOYO DE LA RED SOCIAL (MUNICIPIO, CLUBES, ONG, SEGURO SOCIAL, VIVIENDA)"  [(ngModel)]="valoracionGeriatrica.estadoSocioFamiliar.famiRedSocial" (change)="capturar()" requerid> 
+            <mat-option> -- </mat-option>
+            <mat-option [value]="1">No necesita apoyo </mat-option>
+            <mat-option [value]="2">Requiere apoyo familiar o vecinal </mat-option>
+            <mat-option [value]="3">Tiene seguro, pero necesita mayor apoyo de éste o voluntariado social </mat-option>
+            <mat-option [value]="4">No cuenta con Seguro Social </mat-option>
+            <mat-option [value]="5">Situación de abandono familiar </mat-option>
+            
+            <!-- <mat-error>
+              <app-validators-messages [controlVar]="fami_redSocial" labelName="5. APOYO DE LA RED SOCIAL (MUNICIPIO, CLUBES, ONG, SEGURO SOCIAL, VIVIENDA)" >
+              </app-validators-messages>
+            </mat-error> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-4 centrarVertical">
+
+      <div class="form-grup form-group-sm row ">
+        <mat-form-field class="col-sm-12">
+          <input matInput placeholder="Situacion SOCIO-FAMILIAR" [(ngModel)]="valoracionGeriatrica.estadoSocioFamiliar.resultadoSocioFamiliar" disabled>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+  </div>
+</div>

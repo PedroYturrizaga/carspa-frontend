@@ -1,0 +1,140 @@
+<mat-card class="matCardMin"> 
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">{{flag == 1 ? 'Nuevo': 'Actualizar'}} Convenio</mat-card-title>
+    <div class="emp">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir" >
+          <span >
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+
+    <form #insertarEditarConvenioForm="ngForm" novalidate name="insertarEditarConvenioForm">
+
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-sm-6 ">
+            <mat-form-field class="example-full-width">
+              <mat-label for="nombreCodigo">Nombre Convenio</mat-label>
+              <input matInput type="text" name="nombre" #nombre="ngModel" id="nombre" [(ngModel)]="param.nombreConvenio" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
+                [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)" required />
+              <mat-error>
+                <app-validators-messages [controlVar]="nombre" labelName="Nombre Convenio">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-6 ">
+            <mat-form-field class="example-full-width">
+
+              <mat-select #listaOpciones name="torg" #torg="ngModel" id="torg" (change)="placeDesc(listaOpciones.value)" [(ngModel)]="flgIafaEmpresa"
+                placeholder="Tipo Organización" name="comboTipoMedic" [disabled]="flag==2" required disableRipple>
+                <mat-option *ngFor="let ie of iafaEmpresa" [value]="ie.id">
+                  {{ie.valor}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="torg" labelName="Tipo Organizacion">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" >
+          <div class="col-sm-6" *ngIf="param.fiTipo=='I'">
+            <mat-form-field class="example-full-width">
+
+              <mat-label>IAFA</mat-label>
+              <mat-select placeholder="Seleccionar" name="iafas" #iafas="ngModel" id="iafas" (selectionChange)="seleccionarIAFA(param.coIAFASCode)"
+                [(ngModel)]="param.coIAFASCode" [disabled]="flag==2" required>
+                <mat-option *ngFor="let ia of iafa" [value]="ia.codIafa">
+                  {{ia.nombre}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="iafas" labelName="IAFA">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-6" *ngIf="param.fiTipo=='E'">
+            <mat-form-field class="example-full-width">
+
+              <mat-label>Empresa Externa</mat-label>
+              <mat-select placeholder="Seleccionar" name="eex" #eex="ngModel" id="eex" (selectionChange)="seleccionarIAFA(param.idEmpresaExterna)"
+                [(ngModel)]="param.idEmpresaExterna" [disabled]="flag==2" required>
+                <mat-option *ngFor="let ee of empresaExternaList" [value]="ee.idEmpresaExterna">
+                  {{ee.nombreEmpresaExterna}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="eex" labelName="Empresa Externa">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 ">
+              <mat-form-field class="example-full-width">
+                <mat-label for="vauFSA">Valor Unidad FSA</mat-label>
+                <input matInput name="vufsa" #vufsa="ngModel" id="vufsa" [(ngModel)]="param.valorUnidadFSA" [maxLength]="8" (keypress)="setInputPattern($event, 'realPrices')"
+                  [pattern]="setValidatorPattern('realPrices', setQuantifier('+'), true, true)" required />
+                <mat-error>
+                  <app-validators-messages [controlVar]="vufsa" labelName="Valor Unidad FSA">
+                    <!-- [ngDirty]="true" [ngTouched]="true" -->
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+        </div>
+
+        <div class="row">
+
+          <div class="col-sm-6 ">
+            <mat-form-field class="example-full-width">
+              <mat-label for="vauFHA">Valor Unidad FHA</mat-label>
+              <input matInput name="vufha" #vufha="ngModel" id="vufha" [(ngModel)]="param.valorUnidadFHA" [maxLength]="8" (keypress)="setInputPattern($event, 'realPrices')"
+                [pattern]="setValidatorPattern('realPrices', setQuantifier('+'), true, true)" required />
+              <mat-error>
+                <app-validators-messages [controlVar]="vufha" labelName="Valor Unidad FHA">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ali"> 
+          <div class="col-sm-6" *ngIf="flag==1">
+            <button mat-raised-button (click)="insertarNuevoConvenio()" [disabled]="isInvalid(insertarEditarConvenioForm)">Guardar
+            </button>
+            <button mat-raised-button (click)="close(1)">Cancelar
+            </button>
+          </div>
+
+          <div class="col-sm-6" *ngIf="flag==2">
+            <button mat-raised-button (click)="actualizarConvenio()" [disabled]="isInvalid(insertarEditarConvenioForm)">Actualizar
+            </button>
+            <button mat-raised-button (click)="close(1)">Cancelar
+            </button>
+          </div>
+        </div>
+
+
+
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

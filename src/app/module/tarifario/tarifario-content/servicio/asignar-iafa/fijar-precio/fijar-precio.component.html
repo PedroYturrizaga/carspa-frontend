@@ -1,0 +1,97 @@
+<mat-card class="matCardMin">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">{{titulo}}</mat-card-title>
+      <div class="margenSuperior" style="padding-left: 5%;">
+        <button mat-button class="mat-button-icon" (click)="close()">
+          <div class="example-tooltip-host" matTooltip="Salir" aria-label="hola">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-body">
+          <form class="row" #formCrearEditarServicio="ngForm" novalidate name="formCrearEditarServicio">
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-6">
+              <mat-form-field class="col-sm-12">
+                <mat-select placeholder="Convenio:" name="insertServicios.servicioConvenio.idConvenio" #insertServicios.servicioConvenio.idConvenio="ngModel" [(ngModel)]="insertServicios.servicioConvenio.idConvenio"
+                  [disabled]="convenioServicio!=null" required>
+                  <mat-option>
+                    <strong>Seleccionar Convenio</strong>
+                  </mat-option>
+                  <mat-option *ngFor="let option of listConvenios; let i = index" [value]="option.idConvenio">
+                    {{option.nombreConvenio}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+              <mat-form-field class="col-sm-12">
+                <input matInput placeholder="Nombre Servicio" [formControl]="diagnosticoCtrl" [matAutocomplete]="auto" [(ngModel)]="descripcionServicio"
+                  (input)="busquedaServicioDescripcion($event.target.value)" matTooltip="minimio 2 palabras para realizar busqueda"
+                  [matTooltipPosition]="'above'" required>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let ld of listServ" [value]="ld.descripcionTarifario" (onSelectionChange)="seleccionarId(ld)">
+                    {{ ld.descripcionTarifario }}
+                    </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-4">
+                <mat-form-field class="col-sm-12">
+                    <input matInput placeholder="Precio" name="precio{{i}}" id="precio{{i}}" #precio="ngModel"
+                      [(ngModel)]="insertServicios.servicioConvenio.precio" (keypress)="setInputPattern($event, 'realPrices')" [pattern]="setValidatorPattern('realPrices', setQuantifier(''), true, true)"
+                      [min]="0.5" [maxlength]="8" [disabled]="op" type="text" required />
+                    <mat-error>
+                      <app-validators-messages [controlVar]="precio" labelName="Precio">
+                      </app-validators-messages>
+                    </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="col-sm-4">
+                <mat-form-field class="col-sm-12">
+                    <mat-select placeholder="Tipo Copago:" name="insertServicios.servicioConvenio.tipoCopago" #insertServicios.servicioConvenio.tipoCopago="ngModel" [(ngModel)]="insertServicios.servicioConvenio.tipoCopago"
+                      required>
+                      <mat-option>
+                        <strong>Seleccionar Tipo Copago</strong>
+                      </mat-option>
+                      <mat-option *ngFor="let option of grupoCopago; let i = index" [value]="option.id">
+                        {{option.valor}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+              <div class="col-sm-4">
+                  <mat-form-field class="col-sm-12">
+                      <mat-select placeholder="Tipo Moneda:" name="insertServicios.servicioConvenio.coMonecode" #insertServicios.servicioConvenio.coMonecode="ngModel" [(ngModel)]="insertServicios.servicioConvenio.coMonecode"
+                        required>
+                        <mat-option>
+                          <strong>Seleccionar Tipo Moneda</strong>
+                        </mat-option>
+                        <mat-option *ngFor="let option of listMoneda; let i = index" [value]="option.idMoneda">
+                          {{option.descripcionMoneda}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 text-right">
+              <button *ngIf="convenioServicio==null" mat-raised-button (click)="insert()" [disabled]="formCrearEditarServicio.invalid"> Guardar </button>
+              <button *ngIf="convenioServicio!=null" mat-raised-button (click)="editar()" [disabled]="formCrearEditarServicio.invalid"> Editar </button>
+            <button mat-raised-button (click)="dismiss()"> Cancelar </button>
+          </div>
+          </form>
+      </div>
+
+    </mat-card-content>
+  </mat-card>

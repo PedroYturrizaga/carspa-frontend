@@ -1,0 +1,80 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Listado de Iafas</mat-card-title>
+    <div class="emp">
+      <button class="enlace negrita " type="button" (click)="crearIafa()">Nueva IAFA</button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="col-12 card-body alinearCabecera2">
+      <mat-form-field class="col-sm-2 mat-form-field-flex1">
+        <input matInput placeholder="Codigo" [(ngModel)]="Param.codIafa" type="text" maxlength="8">
+      </mat-form-field>
+      <mat-form-field class="col-sm-2 mat-form-field-flex1">
+        <input matInput placeholder="Nombre" [(ngModel)]="Param.nombre">
+        <!-- (input)="busqueda($event.target.value)" -->
+      </mat-form-field>
+
+      <div class="col-sm-2 mat-form-field-flex1">
+        <mat-checkbox name="flagEnUso" #uso="ngModel" id="flagEnUso" [(ngModel)]="Param.flagEnUso" [disabled]="Param.flagTodos" (change)="changeNoTodos()">
+          En Uso</mat-checkbox>
+
+      </div>
+
+      <div class="col-sm-2 mat-form-field-flex1">
+        <mat-checkbox name="flagPropio" #propio="ngModel" id="flagPropio" [(ngModel)]="Param.flagPropio" [disabled]="Param.flagTodos"
+          (change)="changeNoTodos()">
+          Propio</mat-checkbox>
+
+      </div>
+      <div class="col-sm-2 mat-form-field-flex1">
+        <mat-checkbox name="flagTodos" #flagTodos="ngModel" id="flagTodos" [(ngModel)]="Param.flagTodos" (change)="changeTodo()">
+          Todos</mat-checkbox>
+
+      </div>
+      <button class="border-botton" mat-raised-button (click)="obtenerIafas(1)">Buscar</button>
+    </div>
+
+
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="codigoIafa">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado2'"> Codigo </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'anchoListado2'" > 
+          {{element.codIafa}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="flagEnUso">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado5'"> En Uso </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'anchoListado5'"> {{element.flagEnUso==1 ? 'Si':'No'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="flagPropio">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado5'"> Propio </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'anchoListado5'"> {{element.flagPropio==1 ? 'Si':'No'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado5'"> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let element"  [ngClass]="'anchoListado5'">
+          <button mat-button *ngIf="element.flagPropio==1" (click)="editar(element)">
+            <i class="material-icons" >create</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eliminar">
+        <mat-header-cell *matHeaderCellDef  [ngClass]="'anchoListado5'"> Eliminar </mat-header-cell>
+        <mat-cell *matCellDef="let element"  [ngClass]="'anchoListado5'">
+          <button mat-button *ngIf="element.flagPropio==1 " (click)="eliminar(element)">
+            <i class="material-icons" >delete_forever</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="paginator.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+      showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,60 @@
+#nuevoUsuario {
+  .tb-headerfied2 {
+    position: absolute;
+    left: 161px;
+    border-bottom: none;
+  }
+  .tb-headerfied3 {
+    position: absolute;
+    left: 377px;
+    border-bottom: none;
+  }
+  .tableC {
+    display: flex !important;
+    align-self: center;
+  }
+  .tableLine {
+    display: inline-block;
+    width: calc(100% - 167px);
+    align-self: center;
+  }
+  .middle {
+    align-self: center;
+  }
+  .tabletd {
+    border-top: none;
+    padding: 0;
+  }
+  .matardisabled {
+    pointer-events: none;
+    color: #b5b5b5;
+  }
+}
+html {
+  overflow-y: scroll;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+.titulos {
+  font-family: "Roboto", sans-serif !important;
+  position: relative;
+  font-size: 14px;
+  color: #3f51b5;
+  font-weight: bold;
+}
+.descripcion {
+  font-family: "Roboto", sans-serif !important;
+  position: relative;
+  font-size: 14px;
+  color: black;
+}
+.posicion{
+  position: absolute;
+    right: 0px;
+    margin-top: 1%;
+}
+.alinearBoton{
+  margin-top: -13px
+}

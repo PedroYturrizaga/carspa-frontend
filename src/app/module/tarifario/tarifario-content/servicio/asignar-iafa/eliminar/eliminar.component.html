@@ -1,0 +1,14 @@
+<div class="text-center sombreadoSubtitulos">
+    <h4 class="modal-title">Eliminar Servicio</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>¿Esta seguro que desea eliminar el servicio <b>{{nombre}}</b> ?</label>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="text-center">
+      <button mat-raised-button (click)="eliminar()" >SI</button>
+      <button mat-raised-button (click)="dismiss()">NO</button>
+    </div>

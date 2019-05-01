@@ -1,0 +1,55 @@
+<div class="modal-header sombreadoSubtitulos">
+  <h4 class="subtitulo-seccion ">Creaci&oacute;n de turno </h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+          <div class="col-md-6 flex1-modal" >
+              <h5 class=" text-center"> Hora Inicio </h5>
+              <ngb-timepicker  [(ngModel)]="horaInicio" [meridian]="meridian1"></ngb-timepicker>
+          </div>
+         
+          <div class="col-md-6 flex1-modal"> 
+            <h5 class=" text-center"> Hora Fin </h5>
+            <ngb-timepicker [(ngModel)]="horaFin" [meridian]="meridian2"></ngb-timepicker>
+          </div>
+    </div>
+  </div>
+
+
+<div class="modal-footer">
+  <div class="form-grup form-group-sm row">
+    <button mat-raised-button  class="col-sm-12 border-button"   (click)="agregarTurno()"> Guardar </button>
+  </div>
+  <div class="form-grup form-group-sm row">
+    <button mat-raised-button  class="col-sm-12 border-button"  (click)="onNoClick()" > Cancelar </button>
+  </div>
+
+</div>
+
+
+
+<!-- <div class="modal-header">
+  <h4 class="modal-title">Agregaci&oacute;n de turno</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-6" style="text-align:left">
+      Hora Inicio :
+    </div>
+    <div class="col-6"style="text-align:left">
+      Hora Fin :
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6" style="align-items: center">
+      <ngb-timepicker [(ngModel)]="horaInicio" [meridian]="meridian1"></ngb-timepicker>
+    </div>
+    <div class="col-6" align="center">
+      <ngb-timepicker [(ngModel)]="horaFin" [meridian]="meridian2"></ngb-timepicker>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="agregarTurno()">Guardar</button>
+  <button type="button" class="btn" (click)="close()">Cancelar</button>
+</div> -->

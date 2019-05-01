@@ -1,0 +1,794 @@
+<!-- <div class="col-lg-12">
+ <h2 mat-dialog-title> Registro - {{ grupoMedicamento.valor }}
+ <span class="example-spacer"></span>
+ <button mat-button mat-icon-button class="circleButtons" data-dismiss="modal" aria-label="Close" tabindex="-1" (click)="dismiss()"
+ matTooltip="Cerrar" matTooltipPosition="above">
+ <mat-icon aria-hidden="true">close</mat-icon>
+ </button>
+ </h2>
+</div> -->
+<!-- <h2 mat-dialog-title>Registro - {{ grupoMedicamento.valor }}
+  <span class="example-spacer"></span>
+  <button mat-button class="mat-button-icon" (click)="dismiss()" tabindex="-1">
+    <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+      <span>
+        <i class="material-icons">close</i>
+      </span>
+    </div>
+  </button>
+</h2> -->
+
+<!-- <div class="col-lg-12" *ngIf="grupoMedicamento !== null"> -->
+<div mat-dialog-content>
+  <form name="registrarMedicamentoMaterialForm" #registrarMedicamentoMaterialForm="ngForm" novalidate>
+    <mat-card tabindex="-1">
+  
+        <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+          <mat-card-title class="subtitulo-seccion">
+            Registro - {{ grupoMedicamento.valor }}
+          </mat-card-title>
+          <div class="emp"> 
+            <button mat-button class="mat-button-icon" (click)="close()">
+              <div class="example-tooltip-host" matTooltip="Salir">
+                <span>
+                  <i class="material-icons">close</i>
+                </span>
+              </div>
+            </button>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content> 
+        <!-- FILA 1 -->
+        <div class="card-body">
+        <div class="row">
+
+          <!-- 1 -->
+          <div class="col-4">
+            <mat-form-field class="example-full-width mat-form-field-flex2" hintLabel="Requeridos 12 caracteres">
+              <mat-label for="codigoForm">{{ paramsAccion.codigo.descripcion }}</mat-label>
+              <input matInput type="text" name="codigoForm" #codigoForm="ngModel" id="codigoForm" [(ngModel)]="paramsAccion.codigo.valor"
+                maxlength="12" (keypress)="setInputPattern($event, 'positiveDigits')" required [pattern]="setValidatorPattern('positiveDigits', setQuantifier(12), true, true)">
+              <button mat-button *ngIf="paramsAccion.codigo.valor" matSuffix mat-icon-button aria-label="Clear" (click)="codigoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="codigoForm" [labelName]="paramsAccion.codigo.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end">{{ codigoForm.value?.length || 0 }}/12</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- 2 -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="presentacionEnvaseForm">{{ paramsAccion.presentacionEnvase.descripcion }}</mat-label>
+              <input matInput type="text" name="presentacionEnvaseForm" #presentacionEnvaseForm="ngModel" id="presentacionEnvaseForm" [(ngModel)]="paramsAccion.presentacionEnvase.valor"
+                (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.presentacionEnvase.valor" matSuffix mat-icon-button aria-label="Clear" (click)="presentacionEnvaseForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="presentacionEnvaseForm" [labelName]="paramsAccion.presentacionEnvase.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="presentacionForm">{{ paramsAccion.presentacion.descripcion }}</mat-label>
+              <input matInput type="text" name="presentacionForm" #presentacionForm="ngModel" id="presentacionForm" [(ngModel)]="paramsAccion.presentacion.valor"
+                (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.presentacion.valor" matSuffix mat-icon-button aria-label="Clear" (click)="presentacionForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="presentacionForm" [labelName]="paramsAccion.presentacion.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 3 -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="dciProductoFarmaceuticoForm">{{ paramsAccion.dciProductoFarmaceutico.descripcion }}</mat-label>
+              <input matInput type="text" name="dciProductoFarmaceuticoForm" #dciProductoFarmaceuticoForm="ngModel" id="dciProductoFarmaceuticoForm"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                [(ngModel)]="paramsAccion.dciProductoFarmaceutico.valor" required />
+              <button mat-button *ngIf="paramsAccion.dciProductoFarmaceutico.valor" matSuffix mat-icon-button aria-label="Clear" (click)="dciProductoFarmaceuticoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="dciProductoFarmaceuticoForm" [labelName]="paramsAccion.dciProductoFarmaceutico.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="dciDispMedicoProdSanitarioForm">{{ paramsAccion.dciDispMedicoProdSanitario.descripcion }}</mat-label>
+              <input matInput type="text" name="dciDispMedicoProdSanitarioForm" #dciDispMedicoProdSanitarioForm="ngModel" id="dciDispMedicoProdSanitarioForm"
+                [(ngModel)]="paramsAccion.dciDispMedicoProdSanitario.valor" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required />
+              <button mat-button *ngIf="paramsAccion.dciDispMedicoProdSanitario.valor" matSuffix mat-icon-button aria-label="Clear" (click)="dciDispMedicoProdSanitarioForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="dciDispMedicoProdSanitarioForm" [labelName]="paramsAccion.dciDispMedicoProdSanitario.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <!-- FILA 2 -->
+        <div class="row">
+          <!-- 1 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="formaFarmaceuticaForm">{{ paramsAccion.formaFarmaceutica.descripcion }}</mat-label>
+              <input matInput type="text" name="formaFarmaceuticaForm" #formaFarmaceuticaForm="ngModel" id="formaFarmaceuticaForm" [(ngModel)]="paramsAccion.formaFarmaceutica.valor"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.formaFarmaceutica.valor" matSuffix mat-icon-button aria-label="Clear" (click)="formaFarmaceuticaForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="formaFarmaceuticaForm" [labelName]="paramsAccion.formaFarmaceutica.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- 2 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="concentracionForm">{{ paramsAccion.concentracion.descripcion }}</mat-label>
+              <input matInput type="text" name="concentracionForm" #concentracionForm="ngModel" id="concentracionForm" [(ngModel)]="paramsAccion.concentracion.valor"
+                (keypress)="setInputPattern($event, 'alfanumericsSpace')" [pattern]="setValidatorPattern('alfanumericsSpace', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.concentracion.valor" matSuffix mat-icon-button aria-label="Clear" (click)="concentracionForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="concentracionForm" [labelName]="paramsAccion.concentracion.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- 3 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="nombreComercialForm">{{ paramsAccion.nombreComercial.descripcion }}</mat-label>
+              <input matInput type="text" name="nombreComercialForm" #nombreComercialForm="ngModel" id="nombreComercialForm" [(ngModel)]="paramsAccion.nombreComercial.valor"
+                (keypress)="setInputPattern($event, 'letters')" required [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)">
+              <button mat-button *ngIf="paramsAccion.nombreComercial.valor" matSuffix mat-icon-button aria-label="Clear" (click)="nombreComercialForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="nombreComercialForm" [labelName]="paramsAccion.nombreComercial.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- 1 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="tipoDispositivoForm" #tipoDispositivoForm="ngModel" id="tipoDispositivoForm" [(ngModel)]="paramsAccion.tipoDispositivo.valor"
+                placeholder="{{ paramsAccion.tipoDispositivo.descripcion }}" disableRipple required>
+                <mat-option *ngFor="let tDM of combosLista.tipoDispositivo.list" [value]="tDM">
+                  {{ tDM.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.tipoDispositivo.valor" matSuffix mat-icon-button aria-label="Clear" (click)="tipoDispositivoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="tipoDispositivoForm" [labelName]="paramsAccion.tipoDispositivo.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- 2 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="paisOrigenForm">{{ paramsAccion.paisOrigen.descripcion }}</mat-label>
+              <input matInput type="text" name="paisOrigenForm" #paisOrigenForm="ngModel" id="paisOrigenForm" [(ngModel)]="paramsAccion.paisOrigen.valor"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.paisOrigen.valor" matSuffix mat-icon-button aria-label="Clear" (click)="paisOrigenForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="paisOrigenForm" [labelName]="paramsAccion.paisOrigen.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- 3 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="unidadVentaForm" #unidadVentaForm="ngModel" id="unidadVentaForm" [(ngModel)]="paramsAccion.unidadVenta.valor"
+                placeholder="{{ paramsAccion.unidadVenta.descripcion }}" disableRipple required>
+                <mat-option *ngFor="let uV of combosLista.unidadVenta.list" [value]="uV">
+                  {{ uV.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.unidadVenta.valor" matSuffix mat-icon-button aria-label="Clear" (click)="unidadVentaForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="unidadVentaForm" [labelName]="paramsAccion.unidadVenta.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <!-- FILA 3 -->
+        <div class="row">
+
+          <!-- 1 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2" hintLabel="Requeridos 9 caracteres">
+              <mat-label for="atcForm">{{ paramsAccion.atc.descripcion }}</mat-label>
+              <input matInput type="text" name="atcForm" #atcForm="ngModel" id="atcForm" [(ngModel)]="paramsAccion.atc.valor" maxlength="9"
+                (keypress)="setInputPattern($event, 'alfanumerics')" required [pattern]="setValidatorPattern('alfanumerics', setQuantifier(9), true, true)">
+              <button mat-button *ngIf="paramsAccion.atc.valor" matSuffix mat-icon-button aria-label="Clear" (click)="atcForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="atcForm" [labelName]="paramsAccion.atc.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end">{{ atcForm.value?.length || 0 }}/9</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- 2 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="tipoProductoFarmaceuticoForm" #tipoProductoFarmaceuticoForm="ngModel" id="tipoProductoFarmaceuticoForm"
+                [(ngModel)]="paramsAccion.tipoProductoFarmaceutico.valor" placeholder="{{ paramsAccion.tipoProductoFarmaceutico.descripcion }}"
+                disableRipple required>
+                <mat-option *ngFor="let tPF of combosLista.tipoProductoFarmaceutico.list" [value]="tPF.id">
+                  {{ tPF.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.tipoProductoFarmaceutico.valor" matSuffix mat-icon-button aria-label="Clear" (click)="tipoProductoFarmaceuticoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="tipoProductoFarmaceuticoForm" [labelName]="paramsAccion.tipoProductoFarmaceutico.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 3 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="productoControladoForm" #productoControladoForm="ngModel" id="productoControladoForm" [(ngModel)]="paramsAccion.productoControlado.valor"
+                placeholder="{{ paramsAccion.productoControlado.descripcion }}" disableRipple required>
+                <mat-option *ngFor="let pC of combosLista.productoControlado.list" [value]="pC.id">
+                  {{ pC.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.productoControlado.valor" matSuffix mat-icon-button aria-label="Clear" (click)="productoControladoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="productoControladoForm" [labelName]="paramsAccion.productoControlado.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 1 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="marcaForm">{{ paramsAccion.marca.descripcion }}</mat-label>
+              <input matInput type="text" name="marcaForm" #marcaForm="ngModel" id="marcaForm" [(ngModel)]="paramsAccion.marca.valor" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required />
+              <button mat-button *ngIf="paramsAccion.marca.valor" matSuffix mat-icon-button aria-label="Clear" (click)="marcaForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="marcaForm" [labelName]="paramsAccion.marca.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 2 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="altoCostoForm" #altoCostoForm="ngModel" id="altoCostoForm" [(ngModel)]="paramsAccion.altoCosto.valor" placeholder="{{ paramsAccion.altoCosto.descripcion }}"
+                disableRipple required>
+                <mat-option *ngFor="let aC of combosLista.altoCosto.list" [value]="aC.id">
+                  {{ aC.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.altoCosto.valor" matSuffix mat-icon-button aria-label="Clear" (click)="altoCostoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="altoCostoForm" [labelName]="paramsAccion.altoCosto.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 3 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2" hintLabel="Requeridos 13 caracteres">
+              <mat-label for="ean13Form">{{ paramsAccion.ean13.descripcion }}</mat-label>
+              <input matInput type="text" name="ean13Form" #ean13Form="ngModel" id="ean13Form" [(ngModel)]="paramsAccion.ean13.valor" maxlength="13"
+                (keypress)="setInputPattern($event, 'positiveDigits')" required [pattern]="setValidatorPattern('positiveDigits', setQuantifier(13), true, true)">
+              <button mat-button *ngIf="paramsAccion.ean13.valor" matSuffix mat-icon-button aria-label="Clear" (click)="ean13Form.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="ean13Form" [labelName]="paramsAccion.ean13.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end">{{ ean13Form.value?.length || 0 }}/13</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-6 form-group row">
+            <mat-form-field class="col-12">
+              <mat-label for="dciDispMedicoProdSanitarioForm">{{ paramsAccion.dciDispMedicoProdSanitario.descripcion }}</mat-label>
+              <input matInput type="text" name="dciDispMedicoProdSanitarioForm" #dciDispMedicoProdSanitarioForm="ngModel" id="dciDispMedicoProdSanitarioForm"
+                [(ngModel)]="paramsAccion.dciDispMedicoProdSanitario.valor" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required />
+              <button mat-button *ngIf="paramsAccion.dciDispMedicoProdSanitario.valor" matSuffix mat-icon-button aria-label="Clear" (click)="dciDispMedicoProdSanitarioForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="dciDispMedicoProdSanitarioForm" [labelName]="paramsAccion.dciDispMedicoProdSanitario.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+          <!--  <div class="col-6 form-group row">
+            <mat-form-field class="col-12">
+              <mat-select name="tipoDispositivoForm" #tipoDispositivoForm="ngModel" id="tipoDispositivoForm" [(ngModel)]="paramsAccion.tipoDispositivo.valor"
+                placeholder="{{ paramsAccion.tipoDispositivo.descripcion }}" disableRipple required>
+                <mat-option *ngFor="let tDM of combosLista.tipoDispositivo.list" [value]="tDM">
+                  {{ tDM.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.tipoDispositivo.valor" matSuffix mat-icon-button aria-label="Clear" (click)="tipoDispositivoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="tipoDispositivoForm" [labelName]="paramsAccion.tipoDispositivo.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+        </div>
+
+        <!-- FILA 4 -->
+        <div class="row">
+
+          <!-- 1 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="laboratorioForm">{{ paramsAccion.laboratorio.descripcion }}</mat-label>
+              <input matInput type="text" name="laboratorioForm" #laboratorioForm="ngModel" id="laboratorioForm" [(ngModel)]="paramsAccion.laboratorio.valor"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.laboratorio.valor" matSuffix mat-icon-button aria-label="Clear" (click)="laboratorioForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="laboratorioForm" [labelName]="paramsAccion.laboratorio.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 2 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="paisOrigenForm">{{ paramsAccion.paisOrigen.descripcion }}</mat-label>
+              <input matInput type="text" name="paisOrigenForm" #paisOrigenForm="ngModel" id="paisOrigenForm" [(ngModel)]="paramsAccion.paisOrigen.valor"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.paisOrigen.valor" matSuffix mat-icon-button aria-label="Clear" (click)="paisOrigenForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="paisOrigenForm" [labelName]="paramsAccion.paisOrigen.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 3 m -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="unidadVentaForm" #unidadVentaForm="ngModel" id="unidadVentaForm" [(ngModel)]="paramsAccion.unidadVenta.valor"
+                placeholder="{{ paramsAccion.unidadVenta.descripcion }}" disableRipple required>
+                <mat-option *ngFor="let uV of combosLista.unidadVenta.list" [value]="uV">
+                  {{ uV.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.unidadVenta.valor" matSuffix mat-icon-button aria-label="Clear" (click)="unidadVentaForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="unidadVentaForm" [labelName]="paramsAccion.unidadVenta.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 1 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="viaAdministracionForm">{{ paramsAccion.viaAdministracion.descripcion }}</mat-label>
+              <input matInput type="text" name="viaAdministracionForm" #viaAdministracionForm="ngModel" id="viaAdministracionForm" [(ngModel)]="paramsAccion.viaAdministracion.valor"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.viaAdministracion.valor" matSuffix mat-icon-button aria-label="Clear" (click)="viaAdministracionForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="viaAdministracionForm" [labelName]="paramsAccion.viaAdministracion.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 2 d -->
+          <div class="col-4" *ngIf="grupoMedicamento.id === 2">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="laboratorioForm">{{ paramsAccion.laboratorio.descripcion }}</mat-label>
+              <input matInput type="text" name="laboratorioForm" #laboratorioForm="ngModel" id="laboratorioForm" [(ngModel)]="paramsAccion.laboratorio.valor"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.laboratorio.valor" matSuffix mat-icon-button aria-label="Clear" (click)="laboratorioForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="laboratorioForm" [labelName]="paramsAccion.laboratorio.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-6 form-group row">
+            <mat-form-field class="col-12">
+              <mat-label for="concentracionForm">{{ paramsAccion.concentracion.descripcion }}</mat-label>
+              <input matInput type="text" name="concentracionForm" #concentracionForm="ngModel" id="concentracionForm" [(ngModel)]="paramsAccion.concentracion.valor"
+                (keypress)="setInputPattern($event, 'alfanumericsSpace')" [pattern]="setValidatorPattern('alfanumericsSpace', setQuantifier('+'), true, true)"
+                required />
+              <button mat-button *ngIf="paramsAccion.concentracion.valor" matSuffix mat-icon-button aria-label="Clear" (click)="concentracionForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="concentracionForm" [labelName]="paramsAccion.concentracion.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+          </app-validators-messages>
+          </mat-error>
+          </mat-form-field>
+        </div> -->
+          <!-- <div class="col-6 form-group row">
+          <mat-form-field class="col-12">
+            <mat-label for="nombreComercialForm">{{ paramsAccion.nombreComercial.descripcion }}</mat-label>
+            <input matInput type="text" name="nombreComercialForm" #nombreComercialForm="ngModel" id="nombreComercialForm" [(ngModel)]="paramsAccion.nombreComercial.valor"
+              (keypress)="setInputPattern($event, 'letters')" required [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)">
+            <button mat-button *ngIf="paramsAccion.nombreComercial.valor" matSuffix mat-icon-button aria-label="Clear" (click)="nombreComercialForm.reset()"
+              tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+              <mat-icon aria-hidden="true">close</mat-icon>
+            </button>
+            <mat-error>
+              <app-validators-messages [controlVar]="nombreComercialForm" [labelName]="paramsAccion.nombreComercial.descripcion">
+                [dirtyOption]="true" [touchedOption]="true"
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+        </div>
+
+        <!-- FILA 5 -->
+        <div class="row" *ngIf="grupoMedicamento.id === 1">
+
+          <!-- 1 m -->
+          <div class="col-4 ">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-label for="marcaForm">{{ paramsAccion.marca.descripcion }}</mat-label>
+              <input matInput type="text" name="marcaForm" #marcaForm="ngModel" id="marcaForm" [(ngModel)]="paramsAccion.marca.valor" (keypress)="setInputPattern($event, 'letters')"
+                [pattern]="setValidatorPattern('letters', setQuantifier('+'), true, true)" required />
+              <button mat-button *ngIf="paramsAccion.marca.valor" matSuffix mat-icon-button aria-label="Clear" (click)="marcaForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="marcaForm" [labelName]="paramsAccion.marca.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 2 m -->
+          <div class="col-4 ">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select name="altoCostoForm" #altoCostoForm="ngModel" id="altoCostoForm" [(ngModel)]="paramsAccion.altoCosto.valor" placeholder="{{ paramsAccion.altoCosto.descripcion }}"
+                disableRipple required>
+                <mat-option *ngFor="let aC of combosLista.altoCosto.list" [value]="aC.id">
+                  {{ aC.valor }}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="paramsAccion.altoCosto.valor" matSuffix mat-icon-button aria-label="Clear" (click)="altoCostoForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="altoCostoForm" [labelName]="paramsAccion.altoCosto.descripcion">
+                  <!-- [dirtyOption]="true" [touchedOption]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- 3 m -->
+          <div class="col-4">
+            <mat-form-field class="example-full-width mat-form-field-flex2" hintLabel="Requeridos 13 caracteres">
+              <mat-label for="ean13Form">{{ paramsAccion.ean13.descripcion }}</mat-label>
+              <input matInput type="text" name="ean13Form" #ean13Form="ngModel" id="ean13Form" [(ngModel)]="paramsAccion.ean13.valor" maxlength="13"
+                (keypress)="setInputPattern($event, 'positiveDigits')" required [pattern]="setValidatorPattern('positiveDigits', setQuantifier(13), true, true)">
+              <button mat-button *ngIf="paramsAccion.ean13.valor" matSuffix mat-icon-button aria-label="Clear" (click)="ean13Form.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="ean13Form" [labelName]="paramsAccion.ean13.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end">{{ ean13Form.value?.length || 0 }}/13</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- <div class="col-6 form-group row">
+            <mat-form-field class="col-12" hintLabel="Requeridos 9 caracteres">
+              <mat-label for="atcForm">{{ paramsAccion.atc.descripcion }}</mat-label>
+              <input matInput type="text" name="atcForm" #atcForm="ngModel" id="atcForm" [(ngModel)]="paramsAccion.atc.valor" maxlength="9"
+                (keypress)="setInputPattern($event, 'alfanumerics')" required [pattern]="setValidatorPattern('alfanumerics', setQuantifier(9), true, true)">
+              <button mat-button *ngIf="paramsAccion.atc.valor" matSuffix mat-icon-button aria-label="Clear" (click)="atcForm.reset()"
+                tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+              <mat-error>
+                <app-validators-messages [controlVar]="atcForm" [labelName]="paramsAccion.atc.descripcion">
+                  [dirtyOption]="true" [touchedOption]="true"
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end">{{ atcForm.value?.length || 0 }}/9</mat-hint>
+            </mat-form-field>
+          </div> -->
+          <!-- <div class="col-6 form-group row">
+  <mat-form-field class="col-12">
+  <mat-select name="altoCostoForm" #altoCostoForm="ngModel" id="altoCostoForm" [(ngModel)]="paramsAccion.altoCosto.valor" placeholder="{{ paramsAccion.altoCosto.descripcion }}"
+  disableRipple required>
+  <mat-option *ngFor="let aC of combosLista.altoCosto.list" [value]="aC.id">
+  {{ aC.valor }}
+  </mat-option>
+  </mat-select>
+  <button mat-button *ngIf="paramsAccion.altoCosto.valor" matSuffix mat-icon-button aria-label="Clear" (click)="altoCostoForm.reset()"
+  tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+  <mat-icon aria-hidden="true">close</mat-icon>
+  </button>
+  <mat-error>
+  <app-validators-messages [controlVar]="altoCostoForm" [labelName]="paramsAccion.altoCosto.descripcion">
+  </app-validators-messages>
+  </mat-error>
+  </mat-form-field>
+  </div> -->
+          <!-- <div class="col-6 form-group row">
+          <mat-form-field class="col-12">
+            <mat-select name="tipoProductoFarmaceuticoForm" #tipoProductoFarmaceuticoForm="ngModel" id="tipoProductoFarmaceuticoForm"
+              [(ngModel)]="paramsAccion.tipoProductoFarmaceutico.valor" placeholder="{{ paramsAccion.tipoProductoFarmaceutico.descripcion }}"
+              disableRipple required>
+              <mat-option *ngFor="let tPF of combosLista.tipoProductoFarmaceutico.list" [value]="tPF.id">
+                {{ tPF.valor }}
+              </mat-option>
+            </mat-select>
+            <button mat-button *ngIf="paramsAccion.tipoProductoFarmaceutico.valor" matSuffix mat-icon-button aria-label="Clear" (click)="tipoProductoFarmaceuticoForm.reset()"
+              tabindex="-1" [matTooltip]="toolTipClearOptions.text" [matTooltipPosition]="toolTipClearOptions.position">
+              <mat-icon aria-hidden="true">close</mat-icon>
+            </button>
+            <mat-error>
+              <app-validators-messages [controlVar]="tipoProductoFarmaceuticoForm" [labelName]="paramsAccion.tipoProductoFarmaceutico.descripcion">
+                [dirtyOption]="true" [touchedOption]="true"
+          </app-validators-messages>
+          </mat-error>
+          </mat-form-field>
+        </div> -->
+        </div>
+
+    
+        <!-- AQUI VA EQUIVALENCIAS -->
+
+        <div class="row">
+          <div class="col-sm-6 padCero1" >
+            <form #formUnidad="ngForm" name="formUnidad" novalidate>
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-11">
+                  <mat-select placeholder="Seleccionar Unidad de Medida" [(ngModel)]="idUnidadPadre" (change)="cambio()" name="idUnidadPadre1"
+                    #idUnidadPadre1="ngModel" [disabled]="lsUnidades.length>0" required>
+                    <!-- [disabled]="lsUnidades.length>0" -->
+                    <mat-option *ngFor="let lsu of lsUnidadPadre" [value]="lsu.idUnidad"> {{lsu.nombreUnidad}} </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    <app-validators-messages [controlVar]="idUnidadPadre1" labelName="Unidad Padre">
+                    </app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+                <mat-checkbox class="col-sm-1" [(ngModel)]="onlyDad" [value]="true" name="dad" matTooltip="Solo una única Unidad de Medida"
+                  [matTooltipPosition]="'above'"> </mat-checkbox>
+              </div>
+
+              <div class="form-grup form-group-sm row" *ngIf="unidad.length>0 && !onlyDad ">
+                <!-- -->
+                <!-- *ngIf="paramUni.idUnidadPadre!=null||paramUni.idUnidadPadre!=undefined" -->
+                <mat-form-field class="col-sm-12 col-md-3">
+                  <input matInput placeholder="Unidad de Medida Padre:" [(ngModel)]="paramUni.idUnidadPadre.nombreUnidad" name="idUnidadPadreNombreUnidad"
+                    #idUnidadPadreNombreUnidad="ngModel" readonly>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12 col-md-2">
+                  <input matInput placeholder="Cantidad:" [(ngModel)]="paramUni.cantidadUnidadHijo" name="cantidad" #cantidad="ngModel" [min]="1"
+                    (keypress)="setInputPattern($event, 'positiveDigits')" [maxLength]="10" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12 col-md-7">
+                  <mat-select placeholder="Seleccionar Unidad de Medida" [(ngModel)]="idUnidadHija" name="idUnidadHijo" #idUnidadHijo="ngModel"
+                    [disabled]="accion==2 && unidad.length == 0">
+                    <!-- [disabled]="accion==2" -->
+                    <mat-option [value]="null"> -- </mat-option>
+                    <mat-option *ngFor="let u of unidad" [value]="u.idUnidad" [disabled]="u.disabled"> {{u.nombreUnidad}} </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+              <div class="form-grup form-group-sm text-right" *ngIf="unidad.length>0 && !onlyDad">
+                <button mat-icon-button (click)="agregarEquivalencia()" [disabled]="paramUni.cantidadUnidadHijo==''||paramUni.cantidadUnidadHijo==null || idUnidadHija==null">
+                  <mat-icon aria-label="Example icon-button with a heart icon">add_circle_outline</mat-icon>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-sm-6" *ngIf="lsUnidades.length > 0 && !onlyDad ">
+            <mat-table #table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="padre">
+                <mat-header-cell *matHeaderCellDef> U.Medida </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.nombreUnidad}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="cantidad">
+                <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.cantidadUnidadHijo + ' ' + element.nombreUnidadHijo}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="eliminar">
+                <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <!-- *ngIf="accion==1" -->
+                  <button mat-button (click)="deleteUnidad(element)" [disabled]="element.flElimina">
+                    <i class="material-icons">restore_from_trash</i>
+                  </button>
+                  <!-- <button *ngIf="accion==2" mat-button (click)="updateUnidad(element)" [disabled]="element.flElimina|| dis">
+                    <i class="material-icons">edit</i>
+                  </button> -->
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+          </div>
+        </div>
+      </div>
+      </mat-card-content>
+
+        <!-- FIN EQUIVALENCIAS -->
+  
+      <mat-dialog-actions class="modal-footer">
+        <button mat-raised-button (click)="confirmDialog(registrarMedicamentoMaterialForm)" [disabled]="isInvalid(registrarMedicamentoMaterialForm)">
+          Guardar
+        </button>
+
+        <button mat-raised-button data-dismiss="modal" (click)="dismiss()">
+          Cancelar
+        </button>
+      </mat-dialog-actions>
+    </mat-card>
+  </form>
+</div>
+
+
+<!-- 
+ <div #ActualizarMedicamento class="modal fade" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <h4 class="modal-title">Aviso</h4>
+  </div>
+  <div class="modal-body">
+  <div class="row">
+  <mat-label>¿Está seguro que desea guardar el {{confirmacion}} </mat-label>
+  </div>
+  </div>
+  <div class="modal-footer">
+  <button mat-button data-dismiss="modal" (click)="saveMedicamento()">Guardar</button>
+  <button mat-button data-dismiss="modal" (click)="closeModalActualizarMedicamento()"> Cancelar </button>
+  </div>
+  </div>
+  </div>
+ </div> -->

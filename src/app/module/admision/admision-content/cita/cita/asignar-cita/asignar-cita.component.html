@@ -1,0 +1,287 @@
+<div class="row">
+  <div class="col-sm-12">
+    <mat-card>
+      <mat-card-header class="sombreadoSubtitulos" >
+        <mat-card-title class="subtitulo-seccion"> Datos del Paciente</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Apellidos y Nombres: " value="{{paciente[0].apellidoPaterno +' '+ paciente[0].apellidoMaterno +', '+ paciente[0].nombres}}"
+                    readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-6">
+                  <input matInput placeholder="Tipo de Documento: " value="{{paciente[0].descripcionTipoDocumentoIdentidad}}"
+                    readonly="true">
+                </mat-form-field>
+                <mat-form-field class="col-sm-6">
+                  <input matInput placeholder="N° de Documento: " value="{{paciente[0].numeroDocumentoIdentidad}}"
+                    readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-6">
+                  <input matInput placeholder="Edad: " value="{{paciente[0].edad}}" readonly="true">
+                </mat-form-field>
+                <mat-form-field class="col-sm-6">
+                  <input matInput placeholder="Sexo: " value="{{paciente[0].descripcionSexo}}" readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row" *ngIf="flgvigencia">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Dirección: " value="{{paciente[0].domicilioActual}}" readonly="true">
+                </mat-form-field>
+              </div>
+
+            </div>
+            <div class="col-sm-12 col-md-6">
+
+              <div class="form-grup form-group-sm row" *ngIf="flgvigencia==true">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Fecha de Vigencia: " value="{{paciente[0].vigenciaAcreditacion}}"
+                    readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="N° Historia Clinica: " value="{{paciente[0].idHistoria}}" readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row" *ngIf="flgvigencia==true">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="IAFAS: " value="{{paciente[0].descripcionIafas}}" readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Tipo de Paciente: " value="{{paciente[0].descripcionTipoPaciente}}"
+                    readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="form-grup form-group-sm row" *ngIf="flgvigencia==true">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Parentesco: " value="{{paciente[0].descripcionParentescoPlan}}" readonly="true">
+                </mat-form-field>
+              </div>
+
+              <div class="form-grup form-group-sm row" *ngIf="!flgvigencia">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Dirección: " value="{{paciente[0].domicilioActual}}" readonly="true">
+                </mat-form-field>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+  <div class="col-sm-12 text-center">
+    <div class="form-grup form-group-sm">
+      <mat-radio-group [(ngModel)]="checkTipo" name="check_tipoConsulta" #check_tipoConsulta="ngModel" disabled>
+        <mat-radio-button class="form-check-inline" [value]="0"> Cita Voluntaria </mat-radio-button>
+        <mat-radio-button class="form-check-inline" [value]="1"> Recita </mat-radio-button>
+        <mat-radio-button class="form-check-inline" [value]="2"> Interconsulta </mat-radio-button>
+        <mat-radio-button class="form-check-inline" [value]="3"> Referencia </mat-radio-button>
+        <mat-radio-button class="form-check-inline" [value]="4"> Reprogramación </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+  <div class="col-sm-6S col-md-6 margenIzquierdo6">
+    <mat-card>
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion"> Búsqueda de Médico</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="card-body">
+          <form #buscarCMedico="ngForm" novalidate name="buscarCMedico">
+            <div class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-12">
+                <mat-select placeholder="Area" [disabled]="vitionOperation" [(ngModel)]="Comboarea" name="area_medico"
+                  #area_medico="ngModel" (ngModelChange)="getEspecialidad()" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let ar of area" [value]="ar.id"> {{ar.valor}} </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="area_medico" labelName="area">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-12">
+                <mat-select placeholder="Especialidad" [disabled]="vitionEdition" [(ngModel)]="Comboespecialidad" name="especialidad_medico"
+                  #especialidad_medico="ngModel" (ngModelChange)="getActividad()" [disabled]="!Comboarea" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let ep of especialidad" [value]="ep.id"> {{ep.valor}} </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="especialidad_medico" labelName="Especialidad">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-12">
+                <mat-select placeholder="Actividad" [disabled]="vitionEdition" [(ngModel)]="Comboactividad" name="actuvudad_medico"
+                  #actuvudad_medico="ngModel" (ngModelChange)="getSubActividad()" [disabled]="!Comboespecialidad"
+                  required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let ac of actividad" [value]="ac.id"> {{ac.valor}} </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="actuvudad_medico" labelName="Actividad">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div *ngIf="visionSubActivdad==true" class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-12">
+                <mat-select placeholder=" Sub-Actividad" [disabled]="vitionEdition" [(ngModel)]="combosubactividad"
+                  name="subactividad_medico" #subactividad_medico="ngModel" (ngModelChange)="getListDaysProg(null,null,null,1)"
+                  [disabled]="!Comboactividad" required>
+                  <mat-option> -- </mat-option>
+                  <mat-option *ngFor="let sa of subactividad" [value]="sa.id"> {{sa.valor}} </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="subactividad_medico" labelName=" Sub-Actividad">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div *ngIf="visionFechaSearchTurnos==true && orejitas.length>0" class="form-grup form-group-sm row">
+              <mat-form-field class="col-sm-12">
+                <input matInput ng appAirdatepicker placeholder="Fecha de Cita" [envioPruebaFinal]="arregloFinal"
+                  (llenadoNew)="percyshi(orejitas)" [(ngModel)]="fechaSearch" id="fecha_medico" name="fecha_medico"
+                  #fecha_medico="ngModel">
+                <mat-error>
+                  <app-validators-messages [controlVar]="fecha_medico" labelName=" Fecha de Cita">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!--<mat-form-field class="col-sm-6">
+              
+            </mat-form-field>-->
+
+            <div class="row">
+              <div class="col-12 text-right">
+                <div class="form-grup form-group-sm">
+                  <button mat-raised-button (click)="searchTurnosMedicos()" [disabled]="isInvalid(buscarCMedico)">
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <div class="row" style="width:49%;">
+  <div class="col-sm-12 col-md-12 " *ngIf="flgMedicosTurnos==true">
+    <mat-card>
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Listado de Programaci&oacute;n</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table #table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="feProgramacion">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="openModalListaDetalleProgramacion(element)">
+              {{element.feProgramacion | date: 'dd/MM/yyyy'}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="nombreMedico">
+            <mat-header-cell *matHeaderCellDef> Nombre del Médico </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="openModalListaDetalleProgramacion(element)">
+              {{element.nombreMedico}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="turno">
+            <mat-header-cell *matHeaderCellDef> Turno </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="openModalListaDetalleProgramacion(element)">
+              {{element.turno.horaInicio}} - {{element.turno.horaFin}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="cupos">
+            <mat-header-cell *matHeaderCellDef> Cupos Disponibles </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <!--<div class="col-md-12">-->
+              <div class="col-md-12" style="text-align: center" (click)="openModalListaDetalleProgramacion(element)">{{element.cupos}}</div>
+              <div class="col-md-12" style="text-align: center" *ngIf="element.flAdicional==true">
+                <button mat-raised-button (click)="darAdicional(element)"> Adicional
+                </button>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row class="tablita" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+    <div class="row">
+        <div class="col-sm-12 col-md-12" *ngIf="flgCitaReady==true">
+          <mat-card>
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion"> Citas </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-table #table [dataSource]="dataSource3">
+      
+                <ng-container matColumnDef="fechaProgramacion">
+                  <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.fechaProgramacion | date: 'dd/MM/yyyy'}} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="horaI">
+                  <mat-header-cell *matHeaderCellDef>Hora Inicial</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.horaI}} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="horaF">
+                  <mat-header-cell *matHeaderCellDef>Hora Final</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.horaF}} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="descpEspecialida">
+                  <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.descpEspecialida}} </mat-cell>
+                </ng-container>
+      
+                <ng-container matColumnDef="nombreMedico">
+                  <mat-header-cell *matHeaderCellDef> M&eacute;dico </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.nombreMedico}} </mat-cell>
+                </ng-container>
+      
+                <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+      
+              </mat-table>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      
+      </div>
+  </div>
+  
+</div>
+
+
+  <div class="col-sm-12 text-right margenDerecho">
+    <div class="form-grup form-group-sm">
+      <button mat-raised-button (click)="insertaActualizaCita()" *ngIf="flgCitaReady==true"> Guardar </button>
+      <button mat-raised-button (click)="sendcitaEvent()"> Volver </button>
+    </div>
+  </div>
+</div>
+<br>

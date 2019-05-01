@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-9 espacioSuperior">
+      <div class="form-grup form-group-sm row filaSelect">
+        <mat-label class="col-sm-6"> 1. Lavarse </mat-label>
+
+        <mat-radio-group class="col-sm-6" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.funcLavarse" name="func_lavarse" #func_lavarse="ngModel" (change)="radioButom()">
+          <mat-radio-button class="form-check-inline" [value]="1"> Dependiente </mat-radio-button>
+          <mat-radio-button class="form-check-inline" [value]="0"> Independiente </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="form-grup form-group-sm row filaSelect">
+        <mat-label class="col-sm-6"> 2. Vestirse </mat-label>
+
+        <mat-radio-group class="col-sm-6" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.funcVestirse" name="func_vestirse" #func_vestirse="ngModel" (change)="radioButom()">
+          <mat-radio-button class="form-check-inline" [value]="1"> Dependiente </mat-radio-button>
+          <mat-radio-button class="form-check-inline" [value]="0"> Independiente </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="form-grup form-group-sm row filaSelect">
+        <mat-label class="col-sm-6"> 3. Usar el Servicio Higienico </mat-label>
+
+        <mat-radio-group class="col-sm-6" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.funcServHigienico" name="func_servicioHigienico" #func_servicioHigienico="ngModel" (change)="radioButom()">
+          <mat-radio-button class="form-check-inline" [value]="1"> Dependiente </mat-radio-button>
+          <mat-radio-button class="form-check-inline" [value]="0"> Independiente </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="form-grup form-group-sm row filaSelect">
+        <mat-label class="col-sm-6"> 4. Movilizarse </mat-label>
+
+        <mat-radio-group class="col-sm-6" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.funcMovilizarse" name="func_movilizarse" #func_movilizarse="ngModel" (change)="radioButom()">
+          <mat-radio-button class="form-check-inline" [value]="1"> Dependiente </mat-radio-button>
+          <mat-radio-button class="form-check-inline" [value]="0"> Independiente </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="form-grup form-group-sm row filaSelect">
+        <mat-label class="col-sm-6"> 5. Continencia </mat-label>
+        
+        <mat-radio-group class="col-sm-6" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.funContinencia" name="fun_continencia" #fun_continencia="ngModel" (change)="radioButom()">
+          <mat-radio-button class="form-check-inline" [value]="1"> Dependiente </mat-radio-button>
+          <mat-radio-button class="form-check-inline" [value]="0"> Independiente </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="form-grup form-group-sm row filaSelect">
+        <mat-label class="col-sm-6"> 6. Alimentarse </mat-label>
+        
+        <mat-radio-group class="col-sm-6" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.funcAlimentarse" name="func_alimentarse" #func_alimentarse="ngModel" (change)="radioButom()">
+          <mat-radio-button class="form-check-inline" [value]="1"> Dependiente </mat-radio-button>
+          <mat-radio-button class="form-check-inline" [value]="0"> Independiente </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-3 centrarVertical">
+      <div class="form-grup form-group-sm row">
+        <mat-form-field class="col-sm-12">
+          <input matInput placeholder="Diagnostico Funcional" [(ngModel)]="valoracionGeriatrica.valoracionFuncional.resultadoFuncional" disabled>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

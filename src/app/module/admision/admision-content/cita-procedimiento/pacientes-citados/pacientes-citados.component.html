@@ -1,0 +1,121 @@
+<mat-card class="matCardMin">
+<mat-card-header class="sombreadoSubtitulos alinearCabecera">
+  <mat-card-title class="subtitulo-seccion">Datos Generales</mat-card-title>
+  <button mat-button class="mat-button-icon" (click)="dismiss()" tabindex="-1">
+    <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+      <span>
+        <i class="material-icons">close</i>
+      </span>
+    </div>
+  </button>
+</mat-card-header>
+<mat-card-content>
+
+<div  class="card-body">
+  <div class="row">
+    <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Medico:" disabled value="{{medicojs.medico}}">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Consultorio:" disabled value="{{medicojs.consultorio}}">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Fecha de Citas:" disabled value="{{medicojs.feProgramacion | date: 'dd/MM/yyyy'}}">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Turno:" disabled value="{{medicojs.horario}}">
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+
+<mat-card *ngIf="showCitados==1">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Listado de Pacientes Citados</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="HIniTur">
+        <mat-header-cell *matHeaderCellDef  matTooltip="Hora de Inicio" matTooltipPosition="above"> Hora.I </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.hoInicio}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="HFinTur">
+        <mat-header-cell *matHeaderCellDef  matTooltip="Hora Fin" matTooltipPosition="above"> Hora.F </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.hoFin}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoDoc">
+        <mat-header-cell *matHeaderCellDef> T. Documento </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.doc}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="numDoc">
+        <mat-header-cell *matHeaderCellDef> N° Documento </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.numeroDoc}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Paciente">
+        <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.paciente}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Procedimiento">
+        <mat-header-cell *matHeaderCellDef> Procedimiento </mat-header-cell>
+        <mat-cell *matCellDef="let element" ngbPopover="{{element.procedimiento}}" triggers="mouseenter:mouseleave" popoverTitle="Procedimiento">
+          {{element.procedimientoRe}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsPacienteCitados"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsPacienteCitados;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="showCitaPaciente==1">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Reserva Cita</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource1">
+      <ng-container matColumnDef="HIniTur">
+        <mat-header-cell *matHeaderCellDef  matTooltip="Hora de Inicio" matTooltipPosition="above"> Hora.I </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.hoInicio}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="HFinTur">
+        <mat-header-cell *matHeaderCellDef  matTooltip="Hora Fin" matTooltipPosition="above"> Hora.F</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.hoFin}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoDoc">
+        <mat-header-cell *matHeaderCellDef> T. Documento </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.doc}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="numDoc">
+        <mat-header-cell *matHeaderCellDef> N° Documento </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.numeroDoc}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Paciente">
+        <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.paciente}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Procedimiento">
+        <mat-header-cell *matHeaderCellDef> Procedimiento </mat-header-cell>
+        <mat-cell *matCellDef="let element" ngbPopover="{{element.procedimiento}}" triggers="mouseenter:mouseleave" popoverTitle="Procedimiento">
+          {{element.procedimientoRe}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsPacienteCitados"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsPacienteCitados;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<div *ngIf="showBtConfirmar==0" class="col-12 text-right">
+  <button mat-raised-button (click)=" dismiss()">Cerrar</button>
+</div>
+<div *ngIf="showBtConfirmar==1" class="col-12 text-right">
+  <button mat-raised-button (click)="confirmarCita(requestInsertar)">Confirmar</button>
+</div>
+</mat-card-content>
+</mat-card>

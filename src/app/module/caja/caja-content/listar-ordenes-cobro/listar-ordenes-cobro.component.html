@@ -1,0 +1,227 @@
+<!--BUSCAR PACIENTE: -->
+<!-- <mat-card *ngIf="apertura.id==null">
+  <h1>{{apertura.mensajeBienvenida}}</h1>
+</mat-card> -->
+<div *ngIf="apertura.id!=null">
+
+  <div *ngIf="pago==false">
+      <div class="row tamano-contenedor">
+          <mat-card class="col-5 ">
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Buscar Paciente</mat-card-title>
+            </mat-card-header>
+        
+            <mat-card-content>
+              <form #busquedaPaciente="ngForm" novalidate name="busquedaPaciente">
+                <div class="card-body">
+                  <div class="row text-left">
+                    <div class="col-12 mdl-input-group mdl-input-group__only ">
+                      <mat-form-field class="example-full-width mat-form-field-flex3 ">
+                        <mat-select #listaOpciones placeholder="Tipo de Documento:" name="tipoDocumento" [(ngModel)]="tipoDoc" (selectionChange)="changeInput(listaOpciones.value)">
+                          <mat-option>
+                            <strong>Seleccionar Tipo de Documento</strong>
+                          </mat-option>
+                          <mat-option *ngFor="let option of tipoDocs; let i = index" [value]="option.idTipoDocumento">
+                            {{option.descripcionTipoDocumento}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12  mdl-input-group mdl-input-group__only">
+                      <mat-form-field class="example-full-width mat-form-field-flex3 ">
+                        <mat-label>N&ordm; de Documento de Identidad:</mat-label>
+                        <input matInput [(ngModel)]="nuDocumento" name="numDocumento" #numDocumento="ngModel" id="numDocumento" (keypress)="setInputPattern($event, 'positiveDigits')"
+                          [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="!tipoDoc" maxlength="{{longitudDocumento}}"
+                          required/>
+                        <mat-error>
+                          <app-validators-messages [controlVar]="numDocumento" labelName="N&ordm; de Documento de Identidad">
+                          </app-validators-messages>
+                        </mat-error>
+                        <!-- <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                  <div>
+                                    <mat-option (onSelectionChange)="getIdPersona(numDocs)" *ngFor="let numDocs of DocsIdentidad" [value]="numDocs.numeroDocumentoIdentidad">
+                                      <span>{{ numDocs.numeroDocumentoIdentidad }}</span>
+                                    </mat-option>
+                                  </div>
+                                </mat-autocomplete> -->
+                        <mat-hint align="end" class="longitudInforme">{{ nuDocumento.length? nuDocumento.length: '0' }} / {{longitudDocumento}} </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-11 text-right alinearBtn">
+                      <button mat-raised-button (click)="getNumeroABuscar(nuDocumento)" type="submit" [disabled]="nuDocumento.length!=longitudDocumento">buscar</button>
+                    </div>
+                  </div>
+                </div>
+        
+              </form>
+            </mat-card-content>
+          </mat-card>
+        
+          <!--DATOS DEL PACIENTE: -->
+          <mat-card class="col-6">
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Datos del Paciente</mat-card-title>
+            </mat-card-header>
+        
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-5 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Apellido y Nombre:" readonly value="{{nombreCompleto}}">
+                    </mat-form-field>
+                  </div>
+        
+                  <div class=" col-3 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="T. de Documento:" readonly value="{{datPaciente.tipoDocumentoIdentidad.descripcion}}">
+                    </mat-form-field>
+                  </div>
+        
+                  <div class=" col-4  mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="N&ordm; de Documento:" readonly value="{{datPaciente.numeroDocumentoIdentidad}}">
+                    </mat-form-field>
+                  </div>
+        
+                  <div class=" col-4 mdl-input-group mdl-input-group__only">
+                      <mat-form-field class="example-full-width mat-form-field-flex2">
+                        <input matInput placeholder="F. de Nacimiento:" readonly value="{{datPaciente.feNacimiento | date: 'dd/MM/yyyy'}}">
+                      </mat-form-field>
+                    </div>
+      
+                  <div class=" col-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="Edad:" readonly value="{{datPaciente.edad}}">
+                    </mat-form-field>
+                  </div>
+      
+        
+                  <div class="col-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="Sexo:" readonly value="{{datPaciente.sexo.valor}}">
+                    </mat-form-field>
+                  </div>  
+                </div>
+        
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+    <mat-card *ngIf="lsOrdenPago.length > 0">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Órdenes de Pago</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="numero">
+            <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+            <mat-cell *matCellDef="let e"> {{e.idOrdenPago}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let e"> {{e.fhIns}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="descripcionArea">
+            <mat-header-cell *matHeaderCellDef> Área </mat-header-cell>
+            <mat-cell *matCellDef="let e"> {{e.descripcionArea}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="descripcionTipoOrden">
+            <mat-header-cell *matHeaderCellDef> Tipo Orden </mat-header-cell>
+            <mat-cell *matCellDef="let e"> {{e.descripcionTipoOrden}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="totalGeneral">
+            <mat-header-cell *matHeaderCellDef> Monto Total</mat-header-cell>
+            <mat-cell *matCellDef="let e"> S/{{e.total}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="totalSinPagar">
+            <mat-header-cell *matHeaderCellDef> Monto por pagar </mat-header-cell>
+            <mat-cell *matCellDef="let e"> S/{{e.totalSinPagar}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="totalPagado">
+            <mat-header-cell *matHeaderCellDef> Monto Pagado </mat-header-cell>
+            <mat-cell *matCellDef="let e"> S/{{e.totalPagado}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="detalle">
+            <mat-header-cell *matHeaderCellDef> Detalle </mat-header-cell>
+            <mat-cell *matCellDef="let e"> {{e.detalle}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="seleccionar">
+            <mat-header-cell *matHeaderCellDef> Seleccionar </mat-header-cell>
+            <mat-cell *matCellDef="let e">
+              <mat-checkbox [(ngModel)]="e.seleccionar" [value]="true" (change)="checked($event.checked, e)"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="obtenerDetalleOrdenPago(row.detalleOrdenPagoList);selectedRow = row" [ngClass]="{selected : row === selectedRow}"></mat-row>
+
+        </mat-table>
+      </mat-card-content>
+       <mat-list role="list">
+       <mat-list-item class="right" role="listitem"> <span class="negrita">Total:</span>S/{{decimal}}</mat-list-item>
+  
+     </mat-list>
+    </mat-card>
+
+    <mat-card *ngIf="lsOrdenPagoDetalle.length > 0">
+      <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion">Detalle de ordenes</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-table #table [dataSource]="dataSource2">
+          <ng-container matColumnDef="numeroDetalle">
+            <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.idDetalleOrdenPago}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="descripcionArea">
+            <mat-header-cell *matHeaderCellDef> Área </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.area}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="nombreItem">
+            <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+            <mat-cell *matCellDef="let element" ngbPopover="{{element.nombreItem}}" triggers="mouseenter:mouseleave" popoverTitle="Descripción"> {{element.nombreItem | truncate: 50 }} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="precioUnitario">
+            <mat-header-cell *matHeaderCellDef> Precio Unitario </mat-header-cell>
+            <mat-cell *matCellDef="let element"> S/{{element.precioUnitario}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="precioSubTotal">
+            <mat-header-cell *matHeaderCellDef> Monto Final </mat-header-cell>
+            <mat-cell *matCellDef="let element"> S/{{element.precioSubTotal}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="seleccionar2">
+            <mat-header-cell *matHeaderCellDef> Seleccionar </mat-header-cell>
+            <mat-cell *matCellDef="let e;let i=index">
+              <mat-checkbox [(ngModel)]="e.seleccionar2" [value]="true" (change)="checked2($event.checked,i, e)" [disabled]="disabledGenerar(i)"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+
+        </mat-table>
+
+      </mat-card-content>
+    </mat-card>
+    <div class="col-12 text-right margenIzquierdo4" *ngIf="lsOrdenPago.length > 0">
+      <button class="border-botton" mat-raised-button type="submit" (click)="openModalPrevisualizar()" *ngIf="lsOrdenPagoDetalle.length > 0">Pre visualizar</button>
+      <button class="border-botton" mat-raised-button type="submit" (click)="openModalConfirmar()" *ngIf="lsOrdenPagoDetalle.length > 0">Guardar</button>
+      <button class="border-botton" mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+    </div>
+    <br>
+    
+  </div>
+
+  <app-realizar-pago [idComprobante]="idComprobante" (sendIdComprobante)="recive($event)" *ngIf="pago"></app-realizar-pago>

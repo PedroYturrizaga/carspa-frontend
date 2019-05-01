@@ -1,0 +1,295 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Filtrado de Usuarios</mat-card-title>
+  <div class="emp">
+    <button class="enlace negrita" type="button" (click)="modalNuevoUsuario()">Nuevo Usuario</button>
+  </div>
+  </mat-card-header>
+
+  <form name="BuscarUsuarioForm" #BuscarUsuarioForm="ngForm" novalidate>
+    <mat-card-content>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-select #listaOpciones placeholder="Tipo de Documento:" name="tipoDocumento" [(ngModel)]="UsuarioRequest.usuario.idTipoDocumento"
+                (selectionChange)="changeInput(listaOpciones.value)">
+                <mat-option>
+                  <strong>Seleccionar Tipo de Documento</strong>
+                </mat-option>
+                <mat-option *ngFor="let td of tipoDoc" [value]="td.id">
+                  {{td.valor}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label>N&ordm; de Documento:</mat-label>
+              <input matInput [(ngModel)]="UsuarioRequest.usuario.numeroDocumentoIdentidad" name="numDocumento" #numDocumento="ngModel"
+                id="numDocumento" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                [disabled]="!UsuarioRequest.usuario.idTipoDocumento" minlength="{{longitudDocumento}}" maxlength="{{longitudDocumento}}"
+                [required]="UsuarioRequest.usuario.idTipoDocumento" />
+              <mat-error>
+                <app-validators-messages [controlVar]="numDocumento" labelName="N&ordm; de Documento">
+
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end" class="longitudInforme">
+                {{ UsuarioRequest.usuario.numeroDocumentoIdentidad? UsuarioRequest.usuario.numeroDocumentoIdentidad.length: '0' }} / {{longitudDocumento}}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput placeholder="Apellido Paterno:" [(ngModel)]="UsuarioRequest.usuario.apellidoPaternoPersonal" name="apellidoPaterno"
+                #apellidoPaterno="ngModel" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="apellidoPaterno" labelName="Apellido Paterno">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only padTop2">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput placeholder="Apellido Materno:" [(ngModel)]="UsuarioRequest.usuario.apellidoMaterno" name="apellidoMaterno"
+                #apellidoMaterno="ngModel" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="apellidoMaterno" labelName="Apellido Materno">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only padTop2">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input type="text" matInput placeholder="Nombres:" [(ngModel)]="UsuarioRequest.usuario.nombre" name="nombres" #nombres="ngModel"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="nombres" labelName="Nombres">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-4 text-right alinear3x">
+            <button mat-raised-button type="button" (click)="cleanRegistro(BuscarUsuarioForm)">Limpiar</button>
+            <button mat-raised-button type="submit" (click)="getAllUsuarios(BuscarUsuarioForm)" [disabled]="isInvalid(BuscarUsuarioForm)">Buscar</button>
+          
+          </div>
+
+        </div>
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>
+
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Listado de Usuarios</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="table responsive">
+      <mat-table #table [dataSource]="dataSource">
+
+        <!-- N° -->
+        <!-- <ng-container matColumnDef="num">
+          <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.rowIndex }} </mat-cell>
+        </ng-container> -->
+
+        <!-- tipoDoc -->
+        <ng-container matColumnDef="tipoDoc">
+          <mat-header-cell *matHeaderCellDef> Documento </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.idTipoDocumentoIdentidad }} - {{ usuarios.numeroDocumentoIdentidad }}</mat-cell>
+        </ng-container>
+
+        <!-- numDoc -->
+        <!-- <ng-container matColumnDef="numDoc">
+          <mat-header-cell *matHeaderCellDef  matTooltip="N° Documento Identidad" matTooltipPosition="above"> Documento  </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.numeroDocumentoIdentidad }} </mat-cell>
+        </ng-container> -->
+
+        <!-- usuario -->
+        <ng-container matColumnDef="usuario">
+          <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.idUsuario }} </mat-cell>
+        </ng-container>
+
+        <!-- correo -->
+        <ng-container matColumnDef="correo">
+          <mat-header-cell *matHeaderCellDef> Correo </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.email }} </mat-cell>
+        </ng-container>
+
+        <!-- nombres -->
+        <ng-container matColumnDef="nombres">
+          <mat-header-cell *matHeaderCellDef> Nombres y Apellidos </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.nombre }} </mat-cell>
+        </ng-container>
+
+        <!-- estado -->
+        <ng-container matColumnDef="estado">
+          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.flEstado }} </mat-cell>
+        </ng-container>
+
+        <!-- editar -->
+        <ng-container matColumnDef="editar">
+          <mat-header-cell *matHeaderCellDef> Editar</mat-header-cell>
+          <mat-cell *matCellDef="let usuarios">
+            <!-- <a class="text-primary"><i class="fa fa-pencil" (click)="modalNuevoUsuario(usuarios.idPersonal)"></i></a> -->
+            <button mat-button (click)="modalNuevoUsuario(usuarios.idPersonal)">
+              <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons">edit</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- eliminar -->
+        <ng-container matColumnDef="eliminar">
+          <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios">
+            <!-- <a class="{{usuarios.eliminarButton}}"><i class="fa fa-trash" (click)="eliminarUsuarioIpress(usuarios.idUsuario)"></i></a> -->
+            <button mat-button (click)="eliminarUsuarioIpress(usuarios.idUsuario)">
+              <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons {{usuarios.eliminarButton}}">delete</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Header -->
+        <mat-header-row *matHeaderRowDef="displayedColumnsUsuarios"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsUsuarios;">
+        </mat-row>
+      </mat-table>
+
+      <!-- PAGINADOR -->
+      <mat-paginator #paginator [pageSizeOptions]="displayedSizes" [length]="longitud" [pageSize]="pageSize" (page)="pageEvent($event)"
+        [showFirstLastButtons]="true"></mat-paginator>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- 
+
+<h4>Gestión de Usuarios</h4>
+<div class="row">
+  <div class="col-4">
+    <div class="form-group">
+      <label>Tipo de Documento</label>
+      <select class="form-control" [(ngModel)]="UsuarioRequest.usuario.idTipoDocumento">
+        <option value="0">Seleccionar Tipo Documento</option>
+        <option *ngFor="let td of tipoDoc" [value]="td.id">{{td.valor}}</option>
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+      <label>Apellido Paterno</label>
+      <input type="text" class="form-control" placeholder="Apellido Paterno" [(ngModel)]="UsuarioRequest.usuario.apellidoPaternoPersonal"
+      />
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+      <div class="col-12">
+        <br>
+        <button class="btn btn-primary" (click)="modalNuevoUsuario()">Nuevo</button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="col-4">
+    <div class="form-group">
+      <label>N° Documento de Identidad</label>
+      <input type="text" class="form-control" placeholder="N° Documento Identidad" [(ngModel)]="UsuarioRequest.usuario.numeroDocumentoIdentidad"
+      />
+    </div>
+    <div class="form-group">
+      <label>Apellido Materno</label>
+      <input type="text" class="form-control" placeholder="Apellido Materno" [(ngModel)]="UsuarioRequest.usuario.apellidoMaterno"
+      />
+    </div>
+
+
+
+    <div class="row" style="margin-bottom: 20px">
+
+      <div class="col-12">
+        <br>
+        <button class="btn btn-primary" (click)="getAllUsuarios()">Buscar</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+
+    <br><br><br><br>
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="UsuarioRequest.usuario.nombre" />
+    </div>
+  </div>
+
+
+  <br>
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>Tipo Doc</th>
+          <th>N° Doc. Identidad</th>
+          <th>Usuario</th>
+          <th>Correo</th>
+          <th>Nombres y Apellidos</th>
+          <th>Estado</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of usuarioList">
+          <td>{{a.rowIndex}}</td>
+          <td>{{a.idTipoDocumentoIdentidad}}</td>
+          <td>{{a.numeroDocumentoIdentidad}}</td>
+          <td>{{a.idUsuario}}</td>
+          <td>{{a.email}}</td>
+          <td>{{a.nombre}}</td>
+          <td>{{a.flEstado}}</td>
+          <td><a class="text-primary"><i class="fa fa-pencil" (click)="modalNuevoUsuario(a.idPersonal)"></i></a></td>
+          <td><a class="{{a.eliminarButton}}"><i class="fa fa-trash" (click)="eliminarUsuarioIpress(a.idUsuario)"></i></a></td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12" class="text-center">
+            <ngb-pagination class="d-inline-block" [collectionSize]="paginationParameter.total_rows" [(page)]="paginationParameter.nuPagina"
+              [maxSize]="10" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="changePage(paginationParameter.nuPagina)"></ngb-pagination>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div> -->

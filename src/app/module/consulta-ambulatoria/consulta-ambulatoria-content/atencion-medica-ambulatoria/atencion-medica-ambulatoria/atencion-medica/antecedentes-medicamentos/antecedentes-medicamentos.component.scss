@@ -1,0 +1,29 @@
+.matardisabled{
+    pointer-events:none;
+    color:#b5b5b5;
+}
+
+textarea {
+    resize: none;
+    overflow: hidden
+}
+
+.bold-text{
+    font-weight: bold; 
+}
+.mat-card{
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.my-snack-bar {
+    background-color: #E8EAF6;
+    color: #3D5AFE;
+}
+.success-dialog {
+    color: green !important;
+    background-color: success !important;
+    .mat-simple-snackbar-action {
+        color: yellow !important;
+    }
+}

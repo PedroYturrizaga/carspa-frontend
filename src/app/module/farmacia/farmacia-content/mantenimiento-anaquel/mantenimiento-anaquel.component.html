@@ -1,0 +1,267 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Anaquel</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+
+        <!-- <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <mat-select id="almacen" [(ngModel)]="idAlmaTipoAlma" (change)="getAnaqueles()" (ngModelChange)="capturarTipoAlmacen()" placeholder="Seleccionar Almacen:"
+              disableRipple>
+              <mat-option *ngFor="let item of almacenes" value="{{item.idAlmacen}}">
+                {{item.descripcionAlmacen}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+            <mat-select #listaOpciones placeholder="Seleccionar" (change)="placeDesc(listaOpciones.value); getAnaqueles()" disableRipple>
+              <mat-option *ngFor="let gM of gruposMedicamentos" [value]="gM.id">
+                {{gM.valor}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only" *ngIf="isvalid == 1">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+            <mat-label>{{labelAutocomplete}}</mat-label>
+            <input matInput type="text" [matAutocomplete]="auto" [(ngModel)]="productoDisposiMedicamento" name="productoFarma" #productoFarma="ngModel"
+              id="productoFarma" (input)="auxFilter($event.target.value,listaOpciones.value)" />
+            <mat-error>
+              <app-validators-messages [controlVar]="productoFarma" [labelName]="labelAutocomplete">
+
+              </app-validators-messages>
+            </mat-error>
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="placeProdcutoFarma(producFarma,listaOpciones.value)" *ngFor="let producFarma of auxMedicamento"
+                [value]="producFarma.dispositivoMedicamento">
+                <span>{{ producFarma.dispositivoMedicamento }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <!-- AUTOCOMPLETE ANAQUELES -->
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only" *ngIf="isvalid == 1">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+            <mat-label>Anaquel</mat-label>
+            <input matInput type="text" [matAutocomplete]="auto" [(ngModel)]="anaquelBuscar" name="filtroAnaquel" #filtroAnaquel="ngModel"
+              minlength="0" maxlength="3" id="filtroAnaquel" (input)="filterAnaquel($event.target.value)" placeholder="Todos"
+              (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
+            />
+            <mat-error>
+              <app-validators-messages [controlVar]="filtroAnaquel" labelName="Anaquel">
+
+              </app-validators-messages>
+            </mat-error>
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let an of auxAnaqueles" [value]="an.anaquel">
+                <span>{{ an.anaquel }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 text-right margenSuperior3 oculto" *ngIf="isvalid == 1">
+          <button class="border-botton" type="submit" mat-raised-button (click)="buscarMD(listaOpciones.value)" [disabled]="!idAlmacen"> Buscar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </mat-card-content>
+
+  <div *ngIf="tvalid == 1">
+    <mat-card-content>
+      <!-- PRODUCTO FARMACEUTICOS -->
+      <div *ngIf="valid == 1">
+        <div class="table responsive">
+
+          <mat-table #table [dataSource]="dataSource">
+
+            <!-- CODIGO -->
+            <ng-container matColumnDef="codigo">
+              <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.medicamento.codigo }} </mat-cell>
+            </ng-container>
+
+            <!-- PROD. FARMACEUTICO -->
+            <ng-container matColumnDef="dciProductoFarmaceutico">
+              <mat-header-cell *matHeaderCellDef> Producto Farm. </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.medicamento.dciProductoFarmaceutico }} </mat-cell>
+            </ng-container>
+
+            <!-- FORMA FARMACEUTICA -->
+            <ng-container matColumnDef="formaFarmaceutica">
+              <mat-header-cell *matHeaderCellDef> Forma Farmacéutica </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.medicamento.formaFarmaceutica }} </mat-cell>
+            </ng-container>
+
+            <!-- NOMBRE COMERCIAL -->
+            <ng-container matColumnDef="nombreComercial">
+              <mat-header-cell *matHeaderCellDef> Nombre Comercial </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.medicamento.nombreComercial }} </mat-cell>
+            </ng-container>
+
+            <!-- MARCA -->
+            <ng-container matColumnDef="marca">
+              <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.medicamento.marca }} </mat-cell>
+            </ng-container>
+
+            <!-- LABORATORIO -->
+            <ng-container matColumnDef="laboratorio">
+              <mat-header-cell *matHeaderCellDef> Laboratorio </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.medicamento.laboratorio }} </mat-cell>
+            </ng-container>
+
+            <!-- ANAQUEL -->
+            <ng-container matColumnDef="anaquel">
+              <mat-header-cell *matHeaderCellDef> Anaquel </mat-header-cell>
+              <mat-cell *matCellDef="let medic; let i = index">
+                <div *ngIf="showInput[i] == 1">
+                  {{ medic.anaquel }}
+                </div>
+                <div *ngIf="showInput[i] == 2">
+                  <mat-form-field class="example-full-width">
+
+                    <input matInput type="text" name="nameAnaquel" #nameAnaquel="ngModel" [(ngModel)]="anaquel" [maxLength]="3" placeholder="Ingrese Anaquel"
+                      (keyup.enter)="pressEnter(medic.idMedicamentoAlmacen,$event.target.value,i,medic.medicamento.idMedicamento);asignarAnaquel(i)"
+                      (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)">
+                    <mat-error>
+                      <app-validators-messages [controlVar]="nameAnaquel" labelName="Anaquel">
+                      </app-validators-messages>
+                    </mat-error>
+                    <mat-hint align="start" class="mat-hint-mensaje">
+                      Ingrese y Enter
+                    </mat-hint>
+                    <mat-hint align="end"> {{nameAnaquel.value?.length}} / 3</mat-hint>
+                  </mat-form-field>
+                </div>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Editar -->
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef disabled> Editar </mat-header-cell>
+              <mat-cell *matCellDef="let medic; let i = index">
+                <button mat-button (click)="asignarAnaquel(i)">
+                  <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">edit</i>
+                    </span>
+                  </div>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Header -->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+        </div>
+      </div>
+
+      <!-- DISPOSITIVO MEDICO Y/O PROD. SANITARIO -->
+      <div *ngIf="valid == 2">
+        <div class="table responsive">
+
+          <mat-table #table [dataSource]="dataSource">
+
+            <!-- CODIGO -->
+            <ng-container matColumnDef="codigo">
+              <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.dispMedicoProdSanitario.codigo }} </mat-cell>
+            </ng-container>
+
+            <!-- PROD. FARMACEUTICO -->
+            <ng-container matColumnDef="dciDispMedicoProdSanitario">
+              <mat-header-cell *matHeaderCellDef> Disp. M. / Prod. S. </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.dispMedicoProdSanitario.dciDispMedicoProdSanitario }} </mat-cell>
+            </ng-container>
+
+            <!-- FORMA FARMACEUTICA -->
+            <ng-container matColumnDef="formaFarmaceutica">
+              <mat-header-cell *matHeaderCellDef> Forma Farmacéutica </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.dispMedicoProdSanitario.formaFarmaceutica ? medic.dispMedicoProdSanitario.formaFarmaceutica : ('—')}}
+              </mat-cell>
+            </ng-container>
+
+            <!-- NOMBRE COMERCIAL -->
+            <ng-container matColumnDef="nombreComercial">
+              <mat-header-cell *matHeaderCellDef> Nombre Comercial </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.dispMedicoProdSanitario.nombreComercial ? medic.dispMedicoProdSanitario.nombreComercial : ('—') }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- MARCA -->
+            <ng-container matColumnDef="marca">
+              <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.dispMedicoProdSanitario.marca }} </mat-cell>
+            </ng-container>
+
+            <!-- LABORATORIO -->
+            <ng-container matColumnDef="laboratorio">
+              <mat-header-cell *matHeaderCellDef> Laboratorio </mat-header-cell>
+              <mat-cell *matCellDef="let medic"> {{ medic.dispMedicoProdSanitario.laboratorio }} </mat-cell>
+            </ng-container>
+
+            <!-- ANAQUEL -->
+            <ng-container matColumnDef="anaquel">
+              <mat-header-cell *matHeaderCellDef> Anaquel </mat-header-cell>
+              <mat-cell *matCellDef="let medic; let i = index">
+                <div *ngIf="showInput[i] == 1">
+                  {{ medic.anaquel }}
+                </div>
+                <div *ngIf="showInput[i] == 2">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" name="nameAnaquel" #nameAnaquel="ngModel" [(ngModel)]="anaquel" [maxLength]="3" placeholder="Ingrese Anaquel"
+                      (keyup.enter)="pressEnter(medic.idMedicamentoAlmacen,$event.target.value,i,medic.dispMedicoProdSanitario.idDispMedicoProdSanitario);asignarAnaquel(i)"
+                      (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)">
+                    <mat-error>
+                      <app-validators-messages [controlVar]="nameAnaquel" labelName="Anaquel">
+                      </app-validators-messages>
+                    </mat-error>
+                    <mat-hint align="start" class="mat-hint-mensaje">
+                        Ingrese y Enter
+                      </mat-hint>
+                    <mat-hint align="end"> {{nameAnaquel.value?.length}} / 3</mat-hint>
+                  </mat-form-field>
+                </div>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Editar -->
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef disabled> Editar </mat-header-cell>
+              <mat-cell *matCellDef="let medic; let i = index">
+                <button mat-button (click)="asignarAnaquel(i)">
+                  <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="'above'">
+                    <span>
+                      <i class="material-icons">edit</i>
+                    </span>
+                  </div>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Header -->
+            <mat-header-row *matHeaderRowDef="displayedColumnsD"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsD;">
+            </mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </mat-card-content>
+    <label *ngIf="tvalid == 2">
+
+    </label>
+  </div>
+</mat-card>

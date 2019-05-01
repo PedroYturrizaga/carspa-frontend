@@ -1,0 +1,19 @@
+@import "./settings/variables";
+@import "./elements/todo";
+@import "./components/toastr";
+@import './components/sidebar';
+
+//material styles
+@import "./elements/mat-raised-button";
+@import "./elements/mat-card";
+@import "./elements/mat-table";
+@import "./elements/modal-dialog";
+@import "./elements/mat-tab";
+@import "./elements/mat-nav";
+@import "./elements/mat-form-field";
+@import "./elements/mat-radioBtn-chkBox";
+// @import "./elements/mat-form-field";
+
+
+//estilos nuevo diseño
+@import "./styles/main-styles.scss"

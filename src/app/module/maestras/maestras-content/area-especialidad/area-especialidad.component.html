@@ -1,0 +1,178 @@
+<mat-card>
+  
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Area por Especialidad:</mat-card-title>
+    </mat-card-header>
+    <div class="col-12">
+    <mat-card-content>
+      <form #insertActuAreaxEspecialidad="ngForm" novalidate name="insertActuAreaxEspecialidad">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select #listaOpciones placeholder="Seleccione Area" name="idArea" #idArea="ngModel" [(ngModel)]="request.idArea" [disabled]="areaSeleccionadaActualizar"
+                  id="idArea" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let a of areas" [value]="a.idArea">
+                    {{a.descripcionArea}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="idArea" labelName="Area"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select #listaOpciones placeholder="Seleccione Especialidad" [(ngModel)]="request.idEspecialidad" name="idEspecialidad"
+                  #idEspecialidad="ngModel" [disabled]="especialidadSeleccionadaActualizar" id="idEspecialidad" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let es of especialidades" [value]="es.idEspecialidad">
+                    {{es.descripcionEspecialidad}} </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="idEspecialidad" labelName="Especialidad"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <div class="row buttonaresp">
+                <div class="col-6">
+                  <button mat-raised-button type="button" (click)="obtenerAreaXEspecialidad(1)">Buscar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <mat-divider></mat-divider>
+          <div class="row">
+            <div class="col-sm-4 separador">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Permitir Programar Horas RPCT" name="rpct" #rpct="ngModel" [(ngModel)]="request.rpct" id="rpct"
+                  required >
+                  <mat-option value="1">SI</mat-option>
+                  <mat-option value="0">NO</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="rpct" labelName="RPCT"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 separador">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select placeholder="Especialidad puede Interconsultar" name="flag_interconsulta" #flag_interconsulta="ngModel" [(ngModel)]="request.flag_interconsulta"
+                  id="flag_interconsulta" required>
+                  <mat-option value="1">SI</mat-option>
+                  <mat-option value="0">NO</mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="flag_interconsulta" labelName="Interconsultar"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 separador">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-select #listaOpciones placeholder="Seleccione Sexo" name="idSexo" #idSexo="ngModel" [(ngModel)]="request.idSexo" id="idSexo"
+                  required>
+                  <mat-option *ngFor="let se of sexos" [value]="se.id"> {{se.valor}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+                  <app-validators-messages [controlVar]="idSexo" labelName="Sexo"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 separador">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-label for="edadMinima">Edad Mínima: </mat-label>
+                <input matInput type="number" name="edadMinima" #edadMinima="ngModel" id="edadMinima" [(ngModel)]="request.edadMinima" [min]="0"
+                  [max]="request.edadMaxima" required />
+                <mat-error>
+                  <app-validators-messages [controlVar]="edadMinima" labelName="Edad Minima"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 separador">
+              <mat-form-field class="example-full-width mat-form-field-flex2">
+                <mat-label for="edadMaxima">Edad Máxima: </mat-label>
+                <input matInput type="number" name="edadMaxima" #edadMaxima="ngModel" id="edadMaxima" [(ngModel)]="request.edadMaxima" [min]="request.edadMinima"
+                  [max]="200" required />
+                <mat-error>
+                  <app-validators-messages [controlVar]="edadMaxima" labelName="Edad Maxima"></app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="separador agregar">
+              <button *ngIf="funcionActualizar == 0" mat-raised-button (click)="insertarAreaxEspecialidad(insertActuAreaxEspecialidad)"
+                [disabled]="insertActuAreaxEspecialidad.invalid">
+                Agregar
+              </button>
+            </div>
+            <div class="text-right dosbotones">
+              <button *ngIf="funcionActualizar == 1" mat-raised-button (click)="actualizarAreaxEspecialidad(insertActuAreaxEspecialidad)"
+                [disabled]="insertActuAreaxEspecialidad.invalid">
+                Actualizar
+              </button>
+              <button *ngIf="funcionActualizar == 1" mat-raised-button (click)="cancelarActualizarAreaxEspecialidad(insertActuAreaxEspecialidad)">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </div>
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="area">
+      <mat-header-cell *matHeaderCellDef> Área
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.area.valor}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="especialidad">
+      <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.especialidad.valor}}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="rpct">
+      <mat-header-cell *matHeaderCellDef matTooltip="Programar Horas Regimen de Presentaciones Complementarias" matTooltipPosition="above"> P. Horas RPCT </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.rpct}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="interconsulta">
+      <mat-header-cell *matHeaderCellDef matTooltip="Especialidad interconsulta" matTooltipPosition="above"> Especial. Interc. </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.flag_interconsulta}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="sexo">
+      <mat-header-cell *matHeaderCellDef> Sexo </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.sexo.valor}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="emin">
+      <mat-header-cell *matHeaderCellDef matTooltip="Edad Mínima" matTooltipPosition="above"> Edad Min </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.edadMinima}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="emax">
+      <mat-header-cell *matHeaderCellDef matTooltip="Edad Máxima" matTooltipPosition="above"> Edad Max </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.edadMaxima}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="editar">
+      <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button>
+          <i class="material-icons" (click)="editarAreaEspecialidad(element)">edit</i>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="eliminar">
+      <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button>
+          <i class="material-icons" (click)="eliminarAreaEspecialidad(element.area.id, element.especialidad.id, insertActuAreaxEspecialidad)">delete_forever</i>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <!-- PAGINADOR -->
+  <mat-paginator [pageSizeOptions]="displayedSize" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+    showFirstLastButtons></mat-paginator>
+</mat-card>

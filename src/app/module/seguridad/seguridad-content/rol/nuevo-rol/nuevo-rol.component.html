@@ -1,0 +1,49 @@
+<br>
+<h1 *ngIf="id==null">Roles > Nuevo Rol</h1>
+<h1 *ngIf="id!=null">Roles > Editar Rol</h1>
+
+<div class="col-6 align-self-center">
+  <div class="card">
+    <h4 class="card-header">Rol</h4>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="nombreRol">Nombre de rol: </label>
+          <input type="text" class="form-control" [(ngModel)]="rolRequest.rol.nombreRol" />
+        </div>
+        <div class="col-sm-12">
+          <label for="txtDescripcionRol">Descripci&oacute;n: </label>
+          <textarea class="form-control" id="txtDescripcionRol" rows="3" [(ngModel)]="rolRequest.rol.descripcionRol"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="col-12">
+  <div class="card">
+    <h4 class="card-header">Páginas</h4>
+    <div class="card-body">
+      <div class="col-12" *ngFor="let page of paginas">
+        <div class="col-sm-12">
+          <label>{{page.nombrePagina}}</label>
+        </div>
+        <div class="col-sm-12 form-inline">
+          <div class="col-4" *ngFor="let pageHijo of page.hijosList">
+            <label class="custom-control custom-checkbox" style="float:left">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="pageHijo.seleccionado">
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">{{pageHijo.nombrePagina}}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div style="text-align:center">
+  <button class="btn btn-primary" (click)="regresaPagina()">Cancelar</button>&nbsp;&nbsp;
+  <button class="btn btn-primary" (click)="addRol()" *ngIf="id==undefined">Guardar</button>
+  <button class="btn btn-primary" (click)="updateRol()" *ngIf="id!=undefined">Guardar</button>
+</div>

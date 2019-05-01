@@ -1,0 +1,499 @@
+
+
+<mat-card-header class="sombreadoSubtitulos alinearCabecera">
+  <mat-card-title class="subtitulo-seccion negrita2" *ngIf="id==null" >Nuevo Usuario</mat-card-title>
+  <mat-card-title class="subtitulo-seccion negrita2" *ngIf="id!=null" >Editar Usuario</mat-card-title>
+  <div class="emp"> 
+    <button mat-button class="mat-button-icon" (click)="close()">
+      <div class="example-tooltip-host" matTooltip="Salir">
+        <span>
+          <i class="material-icons">close</i>
+        </span>
+      </div>
+    </button>
+  </div>
+</mat-card-header>
+
+
+<mat-card style="width:100%;max-width: 100% ; margin-top:10px;" *ngIf="id==null">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"> Datos de Búsqueda </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form name="BuscarPersonalForm" #BuscarPersonalForm="ngForm" novalidate>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-select #listaOpciones placeholder="Tipo de Documento:" name="tipoDocumento" [(ngModel)]="PersonalRequest.personal.tipoDocumentoIdentidad"
+                (selectionChange)="changeInput(listaOpciones.value)">
+                <mat-option>
+                  <strong>Seleccionar Tipo de Documento</strong>
+                </mat-option>
+                <mat-option *ngFor="let td of tipoDoc" [value]="td.id">
+                  {{td.valor}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <mat-label>N&ordm; de Documento:</mat-label>
+              <input matInput [(ngModel)]="PersonalRequest.personal.numeroDocumentoIdentidad" name="numDocumento" #numDocumento="ngModel"
+                id="numDocumento" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                [disabled]="!PersonalRequest.personal.tipoDocumentoIdentidad" minlength="{{longitudDocumento}}" maxlength="{{longitudDocumento}}"
+                [required]="PersonalRequest.personal.tipoDocumentoIdentidad" />
+              <mat-error>
+                <app-validators-messages [controlVar]="numDocumento" labelName="N&ordm; de Documento">
+
+                </app-validators-messages>
+              </mat-error>
+              <mat-hint align="end" class="longitudInforme">
+                {{ PersonalRequest.personal.numeroDocumentoIdentidad? PersonalRequest.personal.numeroDocumentoIdentidad.length: '0' }} /
+                {{longitudDocumento}}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput placeholder="Apellido Paterno:" [(ngModel)]="PersonalRequest.personal.apellidoPaternoPersonal" name="apellidoPaterno"
+                #apellidoPaterno="ngModel" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="apellidoPaterno" labelName="Apellido Paterno">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only padTop2">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput placeholder="Apellido Materno:" [(ngModel)]="PersonalRequest.personal.apellidoMaternoPersonal" name="apellidoMaterno"
+                #apellidoMaterno="ngModel" (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="apellidoMaterno" labelName="Apellido Materno">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only padTop2">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input type="text" matInput placeholder="Nombres:" [(ngModel)]="PersonalRequest.personal.nombre" name="nombres" #nombres="ngModel"
+                (keypress)="setInputPattern($event, 'letters')" [pattern]="setValidatorPattern('letters', setQuantifier(), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="nombres" labelName="Nombres">
+
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-4 text-right alinear33">
+            <button mat-raised-button type="button" (click)="cleanRegistro(BuscarPersonalForm)">Limpiar</button>
+            <button mat-raised-button type="submit" (click)="getAllPersonal(0)" [disabled]="isInvalid(BuscarPersonalForm)">Buscar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+
+  <mat-card-content *ngIf="id==null">
+    <div class="table responsive" *ngIf="flagidusuario==true">
+      <mat-table #table [dataSource]="dataSource">
+
+        <!-- N° -->
+        <ng-container matColumnDef="num">
+          <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.rowIndex }} </mat-cell>
+        </ng-container>
+
+        <!-- tipoDoc -->
+        <ng-container matColumnDef="tipoDoc">
+          <mat-header-cell *matHeaderCellDef> Tipo Documento </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.idTipoDocumentoIdentidad }} </mat-cell>
+        </ng-container>
+
+        <!-- numDoc -->
+        <ng-container matColumnDef="numDoc">
+          <mat-header-cell *matHeaderCellDef matTooltip="N° Documento de Identidad" matTooltipPosition="above"> Documento </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.numeroDocumentoIdentidad }} </mat-cell>
+        </ng-container>
+
+        <!-- apePaterno -->
+        <ng-container matColumnDef="apePaterno">
+          <mat-header-cell *matHeaderCellDef> Apellido Paterno </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.apellidoPaternoPersonal }} </mat-cell>
+        </ng-container>
+
+        <!-- apeMaterno -->
+        <ng-container matColumnDef="apeMaterno">
+          <mat-header-cell *matHeaderCellDef> Apellido Materno </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.apellidoMaternoPersonal }} </mat-cell>
+        </ng-container>
+
+        <!-- nombres -->
+        <ng-container matColumnDef="nombres">
+          <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.nombre }} </mat-cell>
+        </ng-container>
+
+        <!-- sexo -->
+        <ng-container matColumnDef="sexo">
+          <mat-header-cell *matHeaderCellDef> Sexo </mat-header-cell>
+          <mat-cell *matCellDef="let usuarios"> {{ usuarios.descripcionSexo }} </mat-cell>
+        </ng-container>
+
+        <!-- Header -->
+        <mat-header-row *matHeaderRowDef="displayedColumnsUsuarios"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsUsuarios;" (click)="choosePersonal(row.rowIndex)" [style.background]="highlightedRows.indexOf(row.rowIndex) != -1 ? 'lightblue' : ''"
+          style="cursor:pointer">
+        </mat-row>
+      </mat-table>
+
+      <!-- PAGINADOR -->
+      <mat-paginator #paginator [pageSizeOptions]="displayedSizes" [length]="longitud" [pageSize]="pageSize" (page)="pageEvent($event)"
+        [showFirstLastButtons]="true"></mat-paginator>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card-content *ngIf="flgOtrosDatos==1">
+  <!-- <div class="card-body"> -->
+  <div class="row">
+    <div class="col-xs-12 col-md-4 mdl-input-group mdl-input-group__only">
+      <mat-card style="width:100%;max-width: 100%">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion"> Personal Asistencial </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="card-body" *ngFor="let b of listPersonalDatos">
+            <div class="row">
+
+              <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2" matTooltip="Grupo Ocupacional" matTooltipPosition="above">G Ocupacional: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.descripcionGrupoOcupacional}}</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos" matTooltip="Tipo de Documento" matTooltipPosition="above">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">T Documento: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.idTipoDocumentoIdentidad}}</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">N° de Documento: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.numeroDocumentoIdentidad}}</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">Apellido Paterno: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.apellidoPaternoPersonal}} </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">Apellido Materno: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.apellidoMaternoPersonal}} </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">Nombres: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.nombre}}</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">Sexo: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.descripcionSexo}}</label>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="b.numeroCmp!=undefined">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">CMP: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.numeroCmp}}</label>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="b.numeroRne!=undefined">
+                  <div class="form-grup form-group-sm row sombreadoSubtitulos">
+                    <label class="col-sm-6 col-form-label subtitulo-seccion negrita2">RNE: </label>
+                    <label class="col-sm-6 col-form-label descripcion">{{b.numeroRne}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+    <div class="col-xs-12 col-md-8 mdl-input-group mdl-input-group__only">
+      <mat-card style="width:100%;max-width: 100%">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion"> Programación de Actividades </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <table id="nuevoUsuario" class="table table-hover">
+            <thead>
+              <tr style="display: flex; flex-direction: row; text-align: center;">
+                <th class="col">Area</th>
+                <th class="col">Especialidad</th>
+                <th class="col">Actividad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let l of tablitaDeMierda" style="display: flex;flex-direction: row; justify-content: space-around;">
+                <div class="tableC ">
+                  <div class="middle">
+                    <font>{{l.descripcionArea}}</font>
+                  </div>
+                  <div class="">
+                    <td class="">
+                      <tr *ngFor="let l1 of l.listEspecialidad">
+                        <div class="tableC bordesTablaSupInf">
+                          <div class="tableLine">
+                            <font>{{l1.descripcionEspecialidad}}</font>
+                          </div>
+                          <div>
+                            <td class="tabletd">
+                              <tr *ngFor="let l2 of l1.listActividad">
+                                <div>
+                                  <font>* {{l2.descripcionActividad}}</font>
+                                </div>
+                            </td>
+                          </div>
+                        </div>
+                        </tr>
+                    </td>
+                  </div>
+                </div>
+                </tr>
+            </tbody>
+          </table>
+
+
+
+          <!-- <mat-table #table [dataSource]="dataSource"   >
+              <ng-container matColumnDef="descripcionArea" *ngFor="let l of tablitaDeMierda">
+                <mat-header-cell mat-header-cell *matHeaderCellDef>Area</mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let l">{{l.descripcionArea}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="descripcionEspecialidad" *ngFor="let l1 of l.listEspecialidad">
+                <mat-header-cell mat-header-cell *matHeaderCellDef>Especialidad</mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let l1">{{l1.descripcionEspecialidad}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="descripcionActividad" *ngFor="let l2 of l1.listActividad">
+                <mat-header-cell mat-header-cell *matHeaderCellDef>Actividad</mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let l2">- {{l2.descripcionActividad}}</mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row class="" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table> -->
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card style="width:100%;max-width: 100%">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion"> Personal </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="card-body">
+            <div class="row" *ngFor="let l of listPersonalDatos">
+              <div class="col-12" style="margin-bottom: 10px">
+                <div class="form-grup form-group-sm row">
+                  <div class="col-sm-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{requestUsuario.usuario.idUsuario}}" disabled>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-12">
+                        <div class="form-grup form-group-sm row">
+                          <label class="col-sm-3 col-form-label">Contraseña: </label>
+                          <div class="col-sm-6">
+                            <input class="form-control form-control-sm" placeholder="{{requestUsuario.usuario.contrasena}}" disabled>
+                          </div>
+                        </div>
+                      </div>           -->
+
+                  <div class="col-sm-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{requestUsuario.usuario.contrasena}}" disabled>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-3 text-right empujar" *ngIf="flgBotonGenerar==true">
+                    <button type="button" mat-raised-button (click)="buildUsuario(l.nombre,l.apellidoPaternoPersonal,l.apellidoMaternoPersonal)">Generar</button>
+                  </div>
+                  <div class="col-sm-3 text-right empujar" *ngIf="flgBotonGenerar==false && flgBotonAsignar==true">
+                    <button type="button" mat-raised-button (click)="asignarUsuarioIpress()">Asignar</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-12 mdl-input-group mdl-input-group__only" *ngIf="flgVisitionRol != false">
+      <mat-card style="width:100%;max-width: 100%">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion"> Usuario y Roles </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Rol: " name="rol" [(ngModel)]="comboRol" (selectionChange)="buildComboOcupacion()">
+                    <mat-option value="null">
+                      <strong>Seleccionar Rol</strong>
+                    </mat-option>
+                    <mat-option *ngFor="let s of roles" [value]="s.idRol">
+                      {{s.nombreRol}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-3 mdl-input-group mdl-input-group__only" *ngIf="visibleListArea != false">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Area: " name="comboArea" [(ngModel)]="comboArea" (selectionChange)="buildforArea()">
+                    <!--[disabled]="visibleListArea == false">-->
+                    <mat-option value="null">
+                      <strong>Seleccionar Area</strong>
+                    </mat-option>
+                    <mat-option *ngFor="let a of listArea" [value]="a.idArea">
+                      {{a.descripcionArea}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-3 mdl-input-group mdl-input-group__only" *ngIf="visibleListEspecialidad != false">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Especialidad: " name="especialidad" [(ngModel)]="comboEspecialidad" (selectionChange)="buildforEspecialidad()">
+                    <!--[disabled]="visibleListEspecialidad == false">-->
+                    <mat-option value="null">
+                      <strong>Seleccionar Especialidad</strong>
+                    </mat-option>
+                    <mat-option *ngFor="let e of listEspecialidad" [value]="e.idEspecialidad">
+                      {{e.descripcionEspecialidad}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-3 mdl-input-group mdl-input-group__only" *ngIf="visibleListAmbiente != false">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Ambiente: " name="ambiente" [(ngModel)]="comboAmbiente">
+                    <!--[disabled]="visibleListAmbiente == false">-->
+                    <mat-option value="null">
+                      <strong>Seleccionar Ambiente</strong>
+                    </mat-option>
+                    <mat-option *ngFor="let am of listAmbiente" [value]="am.idAmbiente">
+                      {{am.descripcionAmbiente}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-12 text-right">
+                <button type="button" mat-raised-button [disabled]="flgAgregarButton" (click)="agregarThreeOfActividades()">Agregar</button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-content *ngIf="flgVisitionTablaAcargo ==true">
+
+          <div class="table responsive">
+            <mat-table #table [dataSource]="dataSource2">
+
+              <!-- N° -->
+              <ng-container matColumnDef="num">
+                <mat-header-cell *matHeaderCellDef> N° </mat-header-cell>
+                <mat-cell *matCellDef="let usuarios"> {{ usuarios.index }} </mat-cell>
+              </ng-container>
+
+              <!-- Rol -->
+              <ng-container matColumnDef="rol">
+                <mat-header-cell *matHeaderCellDef> Rol </mat-header-cell>
+                <mat-cell *matCellDef="let usuarios"> {{ usuarios.rol.valor }} </mat-cell>
+              </ng-container>
+
+              <!-- area -->
+              <ng-container matColumnDef="area">
+                <mat-header-cell *matHeaderCellDef> Área </mat-header-cell>
+                <mat-cell *matCellDef="let usuarios"> {{ usuarios.area.valor }} </mat-cell>
+              </ng-container>
+
+              <!-- especialidad -->
+              <ng-container matColumnDef="especialidad">
+                <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+                <mat-cell *matCellDef="let usuarios"> {{ usuarios.especialidad.valor }} </mat-cell>
+              </ng-container>
+
+              <!-- ambiente -->
+              <ng-container matColumnDef="ambiente">
+                <mat-header-cell *matHeaderCellDef> Ambiente </mat-header-cell>
+                <mat-cell *matCellDef="let usuarios"> {{ usuarios.ambiente.valor }} </mat-cell>
+              </ng-container>
+
+              <!-- eliminar -->
+              <ng-container matColumnDef="eliminar">
+                <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                <mat-cell *matCellDef="let usuarios">
+                  <button mat-button (click)="deleteAcargoUsuario(usuarios)">
+                    <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                      <span>
+                        <i class="material-icons">delete</i>
+                      </span>
+                    </div>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Header -->
+              <mat-header-row *matHeaderRowDef="displayedCargos"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedCargos;">
+              </mat-row>
+            </mat-table>
+
+            <!-- PAGINADOR -->
+            <mat-paginator #paginator2 [pageSizeOptions]="displayedSizes2" [length]="longitud2" [pageSize]="pageSize2" (page)="pageEvent2($event)"
+              [showFirstLastButtons]="true"></mat-paginator>
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+      <button class="posicion alinearBoton" mat-raised-button (click)="endSeason()">Terminar</button>
+    </div>
+
+  </div>
+
+</mat-card-content>
+

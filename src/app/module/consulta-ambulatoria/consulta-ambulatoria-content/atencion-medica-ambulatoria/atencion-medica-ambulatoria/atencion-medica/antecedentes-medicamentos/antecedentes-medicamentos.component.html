@@ -1,0 +1,296 @@
+<mat-card>
+ <mat-card-header class="sombreadoSubtitulos" >
+   <mat-card-title class="subtitulo-seccion" >Medicamentos</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-grup form-group-sm row">
+            <mat-label class="col-auto mr-auto"> Medicamentos Frecuentes </mat-label>
+            <div class="col-auto">
+                <button  mat-raised-button  (click)="agregarMedicamento()" > Agregar </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Descripcion de Medicamento" [(ngModel)]="medicFrecuente.medicamento.dciProductoFarmaceutico">
+                  <!-- <input matInput [matAutocomplete]="automf" placeholder="Descripcion de Medicamento" [formControl]="medicFrecCtrl" [(ngModel)]="medicFrecuente.medicamento.dciProductoFarmaceutico" (input)="busquedaMedicamentoDescripcion($event.target.value)"> -->
+
+                  <!-- <mat-autocomplete #automf="matAutocomplete">
+                    <mat-option *ngFor="let ld of listaAntecedenteMedicamentoDescripcion" [value]="ld.dciProductoFarmaceutico" (onSelectionChange)="selectDescripcion(1, ld.idMedicamento, ld.dciProductoFarmaceutico)">
+                      {{ ld.dciProductoFarmaceutico }}
+                    </mat-option>
+                  </mat-autocomplete> -->
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Dosis" [(ngModel)]="medicFrecuente.dosis" >
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Observaciones" [(ngModel)]="medicFrecuente.observaciones" >
+                </mat-form-field>
+              </div>
+            </div>
+            
+   
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <mat-card>
+          <mat-card-header class="sombreadoSubtitulos"   >
+            <mat-card-title   class="subtitulo-seccion" >Listado de Medicamentos</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <mat-table #table [dataSource]="dataSource">
+
+                  <ng-container matColumnDef="Nombre">
+                    <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Dosis">
+                    <mat-header-cell *matHeaderCellDef> Dosis </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.dosis}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Observaciones">
+                    <mat-header-cell *matHeaderCellDef>Observ.</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.observaciones}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="eliminar">
+                    <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <button mat-button>
+                        <i class="material-icons" (click)="eliminarMedicFrecuen(element.nombre)">restore_from_trash</i>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                </mat-table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-grup form-group-sm row">
+            <mat-label class="col-sm-8 font"> Reaccion adversa a Medicamentos </mat-label>
+
+            <mat-radio-group class="col-sm-4" [(ngModel)]="listaAntecedenteMedicamento.reaccionAdversa" name="reaccion" #reaccion="ngModel"
+              (change)="send()">
+              <mat-radio-button class="form-check-inline" [value]="0"> No </mat-radio-button>
+              <mat-radio-button class="form-check-inline" [value]="1"> Si </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div class="col-md-12" *ngIf="listaAntecedenteMedicamento.reaccionAdversa==1">
+          <div class="form-grup form-group-sm row">
+            <mat-label class="col-sm-12 font bold-text"> Cuales? </mat-label>
+          </div>
+
+          <div class="row">
+
+            <div class="col-auto mr-auto">
+              <div class="form-grup form-group-sm row">
+                <mat-form-field class="col-sm-12">
+                  <input matInput placeholder="Descripcion de Medicamento" [(ngModel)]="medicReacAdver.medicamento.dciProductoFarmaceutico">
+                  <!-- <input matInput [matAutocomplete]="auto" placeholder="Descripcion de Medicamento" [(ngModel)]="medicReacAdver.medicamento.dciProductoFarmaceutico" (input)="busquedaDiagnosticoDescripcion($event.target.value)" [formControl]="medicamentoCtrl" required> -->
+    
+                  <!-- <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let ld of listaAntecedenteMedicamentoDescripcion" [value]="ld.dciProductoFarmaceutico" (onSelectionChange)="selectDescripcion(2, ld.idMedicamento, ld.dciProductoFarmaceutico)">
+                      {{ ld.dciProductoFarmaceutico }}
+                    </mat-option>
+                  </mat-autocomplete> -->
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-auto">
+             <button mat-raised-button  (click)="agregarMedicReacAdver()"> Agregar </button>
+            </div>
+
+          </div>
+
+          <div class="form-grup form-group-sm">
+            <mat-card>
+            <mat-card-header class="sombreadoSubtitulos"   >
+              <mat-card-title  class="subtitulo-seccion" >Listado de Medicamentos de Reaccion Adversa</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="card-body">
+                  <mat-table #table [dataSource]="dataSource1">
+                    
+                    <ng-container matColumnDef="medicamento">
+                      <mat-header-cell *matHeaderCellDef> Nombre de Medicamento </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.medicamento}} </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="eliminar">
+                      <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> 
+                        <button mat-button>
+                          <i class="material-icons" (click)="eliminarMedicReacAdver(element.medicamento)">restore_from_trash</i>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+                    
+                  </mat-table>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<!-- 
+
+<div class="card">
+  <div class="card-header">Medicamentos</div>
+  <div class="card-body">
+    <div class="form-grup form-group-sm row" *ngIf="listaDisabled.medicamentoFrecuente">
+      <label for="" class="col-sm-12 col-form-label">Medicamentos de uso Frecuente: </label>
+      <div class="col-sm-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Dosis</th>
+              <th>Observaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div>
+                  <ng-template #rt let-r="result" let-t="term">
+                    {{r.dciProductoFarmaceutico}}
+                  </ng-template>
+
+                  <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="medicFrecuente.medicamento.dciProductoFarmaceutico" [ngbTypeahead]="search"
+                    [resultTemplate]="rt" [inputFormatter]="formatter">
+                </div>
+              </td>
+              <td>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="medicFrecuente.dosis" placeholder="Nombre">
+              </td>
+              <td>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="medicFrecuente.observaciones" placeholder="Observaciones">
+              </td>
+              <td>
+                <button type="button" class="btn btn-default" (click)="agregarMedicamento()" [disabled]="flg_agregarMedFrec">Agregar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Dosis</th>
+              <th>Observaciones</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cv of lsmedicamento">
+              <td>{{cv.nombre}}</td>
+              <td>{{cv.dosis}}</td>
+              <td>{{cv.observaciones}}</td>
+              <td>
+                <button type="button" class="btn btn-default" (click)="eliminarMedicFrecuen(cv.nombre)">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-grup form-group-sm row">
+      <div class="col-md-12 row">
+        <label class="col-sm-7 col-form-label">Reaccion adversa a Medicamentos: </label>
+        <div class="col-sm-5">
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" [(ngModel)]="listaAntecedenteMedicamento.reaccionAdversa" type="radio" name="inlineRadioOptions3"
+                id="inlinRadio1" [value]="1" (change)="send()"> Si
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" [(ngModel)]="listaAntecedenteMedicamento.reaccionAdversa" type="radio" name="inlineRadioOptions3"
+                id="inlinRadio2" [value]="0" (change)="send()"> No
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="listaAntecedenteMedicamento.reaccionAdversa==1">
+        <div class="form-grup form-group-sm row">
+          <label class="col-sm-2 col-form-label">cuales? </label>
+          <div class="col-sm-8 form-group form-group-sm">
+            <ng-template #rt let-r="result" let-t="term">
+              {{r.dciProductoFarmaceutico}}
+            </ng-template>
+
+            <input id="typeahead-templat" type="text" class="form-control" [(ngModel)]="medicReacAdver.medicamento" [ngbTypeahead]="search"
+              [resultTemplate]="rt" [inputFormatter]="formatter">
+          </div>
+          <div class="col-sm-2 form-group form-group-sm">
+            <button type="button" class="btn btn-default" (click)="agregarMedicReacAdver()">Agregar</button>
+          </div>
+        </div>
+        <div class="form-grup form-group-sm row">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Medicamento</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lsreacAdver">
+                <td>{{item.medicamento}}</td>
+                <td>
+                  <button type="button" class="btn btn-default" (click)="eliminarMedicReacAdver(item.medicamento)">
+                    <i class="fas fa-minus-circle"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

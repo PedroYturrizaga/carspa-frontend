@@ -1,0 +1,34 @@
+.titulo{
+    color: white !important;
+    font-family: 'Roboto', sans-serif !important;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    overflow: hidden;
+    text-decoration: none !important;
+    padding: 0 10px;
+}
+.tituloActivo{
+    color: yellow !important;
+    font-family: 'Roboto', sans-serif !important;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    overflow: hidden;
+    text-decoration: none !important;
+    padding: 0 10px;
+}
+.mat-toolbar{
+    //background-color: #2962B8;
+    background-color: #666d6e;
+}
+.example-spacer {
+    flex: 1 1 auto;
+}
+a:link { 
+    text-decoration: none !important; 
+} 
+.mat-toolbar{
+  //background-color: #2962B8;
+  background-color: #666d6e;
+   }

@@ -1,0 +1,331 @@
+<form #FormAreaxEspecxActividad="ngForm" novalidate name="FormAreaxEspecxActividad">
+<mat-card class="matCardMin">
+  <mat-card-header  class="sombreadoSubtitulos alinearCabecera">
+      <mat-card-title class="subtitulo-seccion">Area Especialidad Actividad</mat-card-title>
+      <div class="emp">
+        <button mat-button class="mat-button-icon" (click)="close()">
+          <div class="example-tooltip-host" matTooltip="Salir">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </div>
+  </mat-card-header>
+<mat-card-content>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <mat-form-field class="example-full-width">
+            <mat-select #listaOpciones placeholder="Areas" [(ngModel)]="AreaEspActRequest.idArea" name="area_serch" #area_serch="ngModel"
+              (selectionChange)="getAllEspecialidades()" id="area_serch" [disabled]="variable==1" required>
+              <mat-option> -- </mat-option>
+              <mat-option *ngFor="let area of ls_Areas" [value]="area.idArea"> {{area.descripcionArea}}
+              </mat-option>
+            </mat-select>
+            <mat-error>
+              <app-validators-messages [controlVar]="area_serch" labelName="Area"></app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field class="example-full-width">
+            <mat-select #listaOpciones placeholder="Especialidad" [(ngModel)]="AreaEspActRequest.idEspecialidad" name="especialidad_serch"
+              #especialidad_serch="ngModel" id="especialidad_serch" [disabled]="AreaEspActRequest.idArea==null||variable==1"
+              required>
+              <mat-option> -- </mat-option>
+              <mat-option *ngFor="let especialidad of ls_Especialidades" [value]="especialidad.especialidad.id">
+                {{especialidad.especialidad.valor}} </mat-option>
+            </mat-select>
+            <mat-error>
+              <app-validators-messages [controlVar]="especialidad_serch" labelName="Especialidad">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3">
+          <mat-form-field class="example-full-width">
+            <mat-select #listaOpciones placeholder="Actividad" [(ngModel)]="AreaEspActRequest.idActividad" name="actividad_serch" #actividad_serch="ngModel"
+              (selectionChange)="getTipoProgramacion($event.value)" id="actividad_serch" [disabled]="AreaEspActRequest.idEspecialidad==null||variable==1"
+              required>
+
+              <mat-option> -- </mat-option>
+              <mat-option *ngFor="let actividad of lsActividad" [value]="actividad.idActividad">
+                {{actividad.descripcionActividad}} </mat-option>
+            </mat-select>
+            <mat-error>
+              <app-validators-messages [controlVar]="actividad_serch" labelName="Actividad">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-3 alinearBotones">
+        <div>
+          <button *ngIf="variabletipo == 0" mat-raised-button (click)="insertarAreaEspAct(FormAreaxEspecxActividad)" [disabled]="FormAreaxEspecxActividad.invalid">
+                    Agregar
+                  </button>  
+        </div>
+        <div>
+           <button mat-raised-button (click)="close()">
+              Cancelar
+            </button> 
+        </div>                       
+                       
+
+
+      </div>
+    </div>
+</div>
+
+</mat-card-content>
+</mat-card>
+
+<mat-card style="width:100%; max-width:100%;" *ngIf="variabletipo == 1 ">
+  <div class="card-body padd">
+    <div>
+      <div class="row">
+        <div class="col-9">
+          <mat-card>
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Actividad Médica:</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Actividad Medica" [(ngModel)]="AreaEspActRequest.actMedica" #actMedica="ngModel" id="actMedica"
+                          name="actMedica" required>
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let d of actMeds" [value]="d.id"> {{d.valor}} </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          <app-validators-messages [controlVar]="actMedica" labelName="Actividad Medica">
+                          </app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+
+                      <mat-form-field class="col-sm-12">
+                        <input matInput type="number" #pacienteHora="ngModel" name="pacienteHora" id="pacienteHora" placeholder="Paciente por Hora:"
+                          [(ngModel)]="AreaEspActRequest.pacienteHora" (keypress)="setInputPattern($event, 'positiveDigits')"
+                          (focusout)="verificarPacienteHora('pacienteHora')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                          (change)="cambioVacioC()" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="pacienteHora" labelName="Paciente por Hora">
+                          </app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Ambiente" #ambiente="ngModel" [(ngModel)]="AreaEspActRequest.ambiente" name="ambiente" id="ambiente"
+                          required>
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let e of ambientes" [value]="e.id"> {{e.valor}} </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          <app-validators-messages [controlVar]="ambiente" labelName="Ambiente">
+                          </app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+
+                    </div>
+
+                  </div>
+                </div>
+         
+                    <div class="row alinearlosInput">
+                      <div class="col-sm-4">
+                        <div class="row">
+
+                            <mat-form-field>
+                                <input [disabled]="!AreaEspActRequest.pacienteHora || habilitaInput.prioVolu" (focusout)="verificaSuma('cCitasVoluntarias')"
+                                  matInput  #cCitasVoluntarias="ngModel" name="cCitasVoluntarias" id="cCitasVoluntarias"
+                                  placeholder="Cupos Citas Voluntarias(%)" [(ngModel)]="AreaEspActRequest.cCitasVoluntarias" (keyup)="onKey('cCitasVoluntarias')"
+                                  (keypress)="setInputPattern($event,'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                                  required />
+                                <mat-error>
+                                  <app-validators-messages [controlVar]="cCitasVoluntarias" labelName="Cupo Citas Voluntarias"></app-validators-messages>
+                                </mat-error>
+                              </mat-form-field>
+                              <mat-checkbox #prioVolu="ngModel" name="prioVolu" class="viñeta" id="prioVolu" [disabled]="!AreaEspActRequest.cCitasVoluntarias || habilitaCheck.prioVolu"
+                              (change)="validarPrioridad($event,'prioVolu')" [checked]="checkeds.prioVolu" [(ngModel)]="AreaEspActRequest.prioVolu"></mat-checkbox>
+                          </div>
+                      </div>
+                      <div class="col-sm-4">
+                          <div class="row">
+                              <mat-form-field>
+                                  <input  #cRecitas="ngModel" name="cRecitas" id="cRecitas" [disabled]="!AreaEspActRequest.pacienteHora  || habilitaInput.prioRecita"
+                                    (focusout)="verificaSuma('cRecitas')" matInput placeholder="Cupos Recitas(%)" [(ngModel)]="AreaEspActRequest.cRecitas"
+                                    (keypress)="setInputPattern($event, 'positiveDigits')" (keyup)="onKey('cRecitas')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                                    required />
+                                  <mat-error>
+                                    <app-validators-messages [controlVar]="cRecitas" labelName="Cupos Recitas">
+                                    </app-validators-messages>
+                                  </mat-error>
+                                </mat-form-field>
+                                <mat-checkbox #prioRecita="ngModel" class="viñeta"  name="prioRecita" id="prioRecita" [disabled]="!AreaEspActRequest.cRecitas || habilitaCheck.prioRecita"
+                                (change)="validarPrioridad($event,'prioRecita')" [checked]="checkeds.prioRecita" [(ngModel)]="AreaEspActRequest.prioRecita"></mat-checkbox>
+                              
+
+                          </div>
+                      </div>
+                      <div class="col-sm-4">
+                          <div class="row">
+                              <mat-form-field>
+                                  <input  #cInterconsultas="ngModel" name="cInterconsultas" id="cInterconsultas" [disabled]="!AreaEspActRequest.pacienteHora || habilitaInput.prioInter"
+                                    (focusout)="verificaSuma('cInterconsultas')" matInput placeholder="Cupos Interconsultas(%)" [(ngModel)]="AreaEspActRequest.cInterconsultas"
+                                    (keypress)="setInputPattern($event, 'positiveDigits')" (keyup)="onKey('cInterconsultas')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                                    required />
+                                  <mat-error>
+                                    <app-validators-messages [controlVar]="cInterconsultas" labelName="Cupos Interconsultas">
+                                    </app-validators-messages>
+                                  </mat-error>
+                                </mat-form-field>
+                                <mat-checkbox class="viñeta" #prioInter="ngModel" name="prioInter" id="prioInter" [disabled]="!AreaEspActRequest.cInterconsultas || habilitaCheck.prioInter"
+                                (change)="validarPrioridad($event,'prioInter')" [checked]="checkeds.prioInter" [(ngModel)]="AreaEspActRequest.prioInter"></mat-checkbox>                             
+                          </div>
+                      </div>
+                    </div>
+           
+                    <div class="row alinearlosInput">
+                      <div class="col-sm-4">
+                        <div class="row">
+                            <mat-form-field>
+                                <input  #cCitarReferido="ngModel" name="cCitarReferido" id="cCitarReferido" [disabled]="!AreaEspActRequest.pacienteHora || habilitaInput.prioReferidos"
+                                  (focusout)="verificaSuma('cCitarReferido')" matInput placeholder="Cupos Citas Referidos(%)" [(ngModel)]="AreaEspActRequest.cCitarReferido"
+                                  (keypress)="setInputPattern($event, 'positiveDigits')" (keyup)="onKey('cCitarReferido')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                                  required />
+                                <mat-error>
+                                  <app-validators-messages [controlVar]="cCitarReferido" labelName="Cupos Citas Referidos">
+                                  </app-validators-messages>
+                                </mat-error>
+                              </mat-form-field>
+                              <mat-checkbox class="viñeta" #prioReferidos="ngModel" name="prioReferidos" id="prioReferidos" [disabled]="!AreaEspActRequest.cCitarReferido || habilitaCheck.prioReferidos"
+                              (change)="validarPrioridad($event,'prioReferidos')" [checked]="checkeds.prioReferidos" [(ngModel)]="AreaEspActRequest.prioReferidos"></mat-checkbox>                            
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                          <div class="row">
+                              
+                              <mat-form-field>
+                                  <input #cCitasDias="ngModel" name="cCitasDias" id="cCitasDias" [disabled]="!AreaEspActRequest.pacienteHora || habilitaInput.prioDias"
+                                    (focusout)="verificaSuma('cCitasDias')" matInput placeholder="Cupos Citas Dias(%)" [(ngModel)]="AreaEspActRequest.cCitasDias"
+                                    (keypress)="setInputPattern($event, 'positiveDigits')" (keyup)="onKey('cCitasDias')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+                                    required />
+                                  <mat-error>
+                                    <app-validators-messages [controlVar]="cCitasDias" labelName="Cupos Citas Dias">
+                                    </app-validators-messages>
+                                  </mat-error>
+                                </mat-form-field>                       
+                                <mat-checkbox class="viñeta" #prioDias="ngModel" name="prioDias" id="prioDias" [disabled]="!AreaEspActRequest.cCitasDias || habilitaCheck.prioDias"
+                                  (change)="validarPrioridad($event,'prioDias')" [checked]="checkeds.prioDias" [(ngModel)]="AreaEspActRequest.prioDias"></mat-checkbox>                                                                                           
+                          </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                          <div class="row">                             
+                              <mat-checkbox class="viñeta2" #flgAmb="ngModel" name="flgAmb" id="flgAmb" [(ngModel)]="AreaEspActRequest.flgAmb"></mat-checkbox>
+                              <label class="alinearLabel">Dar cita de consulta ambultaria</label>
+                            </div>
+                      </div>
+                    </div>
+                </div>
+            </mat-card-content>
+
+  
+
+          </mat-card>
+        </div>
+
+
+
+        <div class="col-3 padCero">
+          <mat-card>
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Cupos:</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-6">
+                        <input type="number" #tCuposNuevos="ngModel" name="tCuposNuevos" id="tCuposNuevos" matInput placeholder="Tope Cupos Nuevos:"
+                          [(ngModel)]="AreaEspActRequest.tCuposNuevos" (keypress)="setInputPattern($event, 'positiveDigits')"
+                          [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="tCuposNuevos" labelName="Tope Cupos Nuevos">
+                          </app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field class="col-sm-6">
+                        <input matInput #dAdeLiberaCupos="ngModel" type="number" name="dAdeLiberaCupos" id="dAdeLiberaCupos" placeholder="Dias Adelanto Libera Cupos:"
+                          [(ngModel)]="AreaEspActRequest.dAdeLiberaCupos" (keypress)="setInputPattern($event, 'positiveDigits')"
+                          [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="dAdeLiberaCupos" labelName="Dias Adelanto Liber Cupos"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field class="col-sm-12">
+                        <input matInput #tCuposAdicionales="ngModel" name="tCuposAdicionales" id="tCuposAdicionales" type="number" placeholder="Tope Cupos Adicionales:"
+                          [(ngModel)]="AreaEspActRequest.tCuposAdicionales" (keypress)="setInputPattern($event, 'positiveDigits')"
+                          [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" required />
+                        <mat-error>
+                          <app-validators-messages [controlVar]="tCuposAdicionales" labelName="Tope Cupos Adicionales"></app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field class="col-sm-12">
+                        <mat-select #idFormImpre="ngModel" name="idFormImpre" id="idFormImpre" placeholder="Formato Imp. Hora Citas" [(ngModel)]="AreaEspActRequest.idFormImpre"
+                          required>
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let f of formImps" [value]="f.idFormImpre"> {{f.valor}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          <app-validators-messages [controlVar]="idFormImpre" labelName="Formato Imp. Hora Citas">
+                          </app-validators-messages>
+                        </mat-error>
+                      </mat-form-field>
+
+                    </div>
+                    <div class="col-sm-12">
+                      
+                      <div class="text-right">
+                        <div class="row">
+                        <button mat-raised-button (click)="insertarAreaEspAct(FormAreaxEspecxActividad)" *ngIf="elementaea == null" [disabled]="FormAreaxEspecxActividad.invalid">
+                          Agregar
+                        </button>
+                        <button mat-raised-button (click)="editAreaEspAct(FormAreaxEspecxActividad)" *ngIf="elementaea != null " [disabled]="FormAreaxEspecxActividad.invalid">
+                          Editar</button>
+                        <button mat-raised-button (click)="cancelarAreaEspAct(FormAreaxEspecxActividad)">
+                          Cancelar
+                        </button>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+</form>

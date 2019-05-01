@@ -1,0 +1,20 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">Eliminar Usuario</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label>¿Desea eliminar Registro?</label>
+     
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" style="width:64px" class="btn btn-danger" (click)="eliminarOrdenExamenesDetalle()">Sí</button>
+   
+  <button type="button" style="width:64px" class="btn btn-outline-dark" (click)="close()" >No</button>
+ 
+</div>
+

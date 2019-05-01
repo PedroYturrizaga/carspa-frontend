@@ -1,0 +1,373 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos"  >
+    <mat-card-title class="subtitulo-seccion" > Destino </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <div class="form-grup form-group-sm row">
+            <mat-form-field class="example-full-width mat-form-field-flex3 margenAuto">
+              <mat-select placeholder="Resultado de Atención" [(ngModel)]="param.idDestino"  name="id_destino" #id_destino="ngModel" (ngModelChange)="resultadoAtencion()"> 
+                <mat-option> -- </mat-option>
+                <mat-option *ngFor="let da of destinosAtencion" [value]="da.id"> {{da.valor}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="col-sm-12">
+
+          <mat-card *ngIf="param.idDestino == 7">
+            <mat-card-header class="sombreadoSubtitulos" >
+              <mat-card-title class="subtitulo-seccion" > Datos para Solicitud de Operaciones </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Servicio de Hospitalización Internamiento"  id="comboServicioHopsInternamiento" [(ngModel)]="comboServicioHopsInternamiento"  name="servicio_hospInternamiento" #servicio_hospInternamiento="ngModel" (ngModelChange)="resultadoAtencion()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let e of especialidad" [value]="e.id"> {{e.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <input matInput placeholder="Fecha de Internamiento" id="fechaInternamiento" [matDatepicker]="picker" [(ngModel)]="fechaInternamiento"   name="fecha_Internamiento" #fecha_Internamiento="ngModel"  (change)="resultadoAtencion()"> 
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        
+                        <!-- <mat-error>
+                          <app-validators-messages [controlVar]="fecha_Internamiento" labelName="Fecha de Internamiento" >
+                          </app-validators-messages>
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <textarea matInput placeholder="Motivo de Hospitalización" id="motivoHospi" [(ngModel)]="motivoHospi" class="form-control" rows="3" (keyup)="resultadoAtencion()"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </div>              
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card *ngIf="param.idDestino == 8">
+            <mat-card-header class="sombreadoSubtitulos" >
+              <mat-card-title class="subtitulo-seccion" >Datos para la Interconsulta</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6- col-lg-6">
+
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Servicio Relacionado" id="comboEspecialidad" [(ngModel)]="comboEspecialidad"  name="servicio_relacionado"  #servicio_relacionado="ngModel" (ngModelChange)="getActividad()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let e of especialidad" [value]="e.id"> {{e.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Actividad Especifica" [(ngModel)]="comboActividad"  name="actividad_especifica" #actividad_especifica="ngModel" (ngModelChange)="getSubActividad()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let ac of actividad" [value]="ac.id"> {{ac.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    
+
+                  </div>
+                  <div class="col-sm-12 col-md-6- col-lg-6">
+
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="SubActividad" id="comboSubActividad" [(ngModel)]="comboSubActividad" name="sub_actividad" #sub_actividad="ngModel"   (ngModelChange)="resultadoAtencion()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let sa of subActividad" [value]="sa.id"> {{sa.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <input matInput placeholder="N° de dias para la siguiente Interconsulta" id="diasProximaInterconsulta" [(ngModel)]="diasProximaInterconsulta" (keyup)="resultadoAtencion()">
+                      </mat-form-field>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card *ngIf="param.idDestino == 11">
+            <mat-card-header class="sombreadoSubtitulos" >
+              <mat-card-title class="subtitulo-seccion" > Datos para la Recita </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                
+                <div class="form-grup form-group-sm row">
+                  <mat-form-field class="col-sm-12">
+                    <input matInput placeholder="Nro. Dias para la Proxima Recita: "  id="numeroDiasProximaRecita" [(ngModel)]="numeroDiasProximaRecita" (keyup)="resultadoAtencion()">
+                  </mat-form-field>
+                </div>
+
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card *ngIf="param.idDestino == 12">
+            <mat-card-header class="sombreadoSubtitulos" >
+              <mat-card-title class="subtitulo-seccion" > Datos para la Recita / Interconsulta </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6- col-lg-6">
+
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Servicio Relacionado" id="comboEspecialidad" [(ngModel)]="comboEspecialidad"  name="servicio_relacionado"  #servicio_relacionado="ngModel" (ngModelChange)="getActividad()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let e of especialidad" [value]="e.id"> {{e.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Actividad Especifica" [(ngModel)]="comboActividad"  name="actividad_especifica" #actividad_especifica="ngModel" (ngModelChange)="getSubActividad()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let ac of actividad" [value]="ac.id"> {{ac.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="SubActividad" id="comboSubActividad" [(ngModel)]="comboSubActividad" name="sub_actividad" #sub_actividad="ngModel"   (ngModelChange)="resultadoAtencion()"> 
+                          <mat-option> -- </mat-option>
+                          <mat-option *ngFor="let sa of subActividad" [value]="sa.id"> {{sa.valor}} </mat-option>
+                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-12 col-md-6- col-lg-6">
+
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <input matInput placeholder="N° de dias para la siguiente Interconsulta" id="diasProximaInterconsulta" [(ngModel)]="diasProximaInterconsulta" (keyup)="resultadoAtencion()">
+                      </mat-form-field>
+                    </div>
+                    <div class="form-grup form-group-sm row">
+                      <mat-form-field class="col-sm-12">
+                        <input matInput placeholder="Nro. Dias para la Proxima Recita: "  id="numeroDiasProximaRecita" [(ngModel)]="numeroDiasProximaRecita" (keyup)="resultadoAtencion()">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<!-- <div class="container-fluid">
+  <br>
+  <div class="row">
+    <div class="col-2" style="text-align: center">
+      <label>Resultado de Atención :</label>
+    </div>
+    <div class="col-3">
+      <select [(ngModel)]="param.idDestino" id="param.idDestino" class="form-control custom-select" (ngModelChange)="getEspecialidad()">
+        <option value="0"> Seleccionar Destinos Atención</option>
+        <option *ngFor="let a of destinosAtencion" [value]="a.id">{{a.valor}}</option>
+      </select>
+    </div>
+  </div>
+  <br> -->
+
+<!--HOSPITALIZACION-->
+    <!-- <div *ngIf="param.idDestino == 7" class="card">
+      <div class="card-header">
+        Datos para Solicitud de Operaciones
+      </div>
+      <div class="container">
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <label>Servicio Hosp.Internamiento:</label>
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="comboServicioHopsInternamiento" id="comboServicioHopsInternamiento" class="form-control custom-select" (ngModelChange)="resultadoAtencion()">
+              <option value="0"> Seleccionar Especialidad {{comboServicioHopsInternamiento}}</option>
+              <option *ngFor="let a of especialidad" [value]="a.id">{{ a.id}}{{ a.valor}}</option>
+            </select>
+          </div>
+          <div class="col-3" style="text-align: center">
+            <label>Fecha Internamiento Solicitada : </label>
+          </div>
+          <div class="col-3">
+            <input id="fechaInternamiento" class="form-control" type="date" [(ngModel)]="fechaInternamiento" (change)="resultadoAtencion()"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2" style="text-align: center">
+            <label>Motivo de Hospitalización :</label>
+          </div>
+          <div  class="col-10">
+             <textarea [(ngModel)]="motivoHospi" id="motivoHospi" class="form-control" rows="3" (keyup)="resultadoAtencion()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!--INTERCONSULTA    -->
+    <!-- <div *ngIf="param.idDestino == 8" class="card">
+      <div class="card-header">
+        Datos para la Interconsulta
+      </div>
+      <div class="container">
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <label>Servicio Relacionado :</label>
+          </div>
+          <div  class="col-3">
+            <select [(ngModel)]="comboEspecialidad" id="comboEspecialidad" class="form-control custom-select" (ngModelChange)="getActividad()" >
+              <option value="0"> Seleccionar Especialidad</option>
+              <option *ngFor="let a of especialidad" [value]="a.id">{{a.valor}}</option>
+            </select>
+          </div>
+          <div class="col-3" style="text-align: center">
+            <label>Actividad Especifica : </label>
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="comboActividad" id="comboActividad" class="form-control custom-select" (ngModelChange)="getSubActividad()">
+              <option value="0"> Seleccionar Actividad</option>
+              <option *ngFor="let a of actividad" [value]="a.id">{{a.valor}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <label>Nro Dias para la Proxima Interconsulta :</label>
+          </div>
+          <div  class="col-3">
+            <input class="form-control" id="diasProximaInterconsulta" type="text" [(ngModel)]="diasProximaInterconsulta" (keyup)="resultadoAtencion()"/>
+          </div>
+          <div class="col-3" style="text-align: center">
+            <label>SubActividad : </label>
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="comboSubActividad"  id="comboSubActividad"  class="form-control custom-select" (ngModelChange)="resultadoAtencion()" >
+              <option value="0"> Seleccionar Sub Actividad</option>
+              <option *ngFor="let a of subActividad" value="{{a.id}}">{{a.valor}}</option>
+            </select>
+          </div>
+        </div>
+      </div>  
+    </div> -->
+<!--RECITA-->
+    <!-- <div *ngIf="param.idDestino == 11" class="card">
+      <div class="card-header">
+        Datos para la Recita
+      </div>
+      <div class="container">
+        <br>
+        <div class="row">
+          <div class="col-3" style="text-align: center">
+            <label>Nro. Dias para la Proxima Recita :</label>
+          </div>
+          <div class="col-3">
+            <input class="form-control" id="numeroDiasProximaRecita" type="text" [(ngModel)]="numeroDiasProximaRecita" (keyup)="resultadoAtencion()"/>
+          </div>
+        </div>
+      </div>  
+    </div> -->
+<!--RECITA/INTERCONSULTA-->
+    <!-- <div *ngIf="param.idDestino == 12" class="card">
+      <div class="card-header">
+        Datos para la Recita / Interconsulta
+      </div>
+      <div class="container">
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <label>Servicio Relacionado :</label>
+          </div>
+          <div  class="col-3">
+            <select [(ngModel)]="comboEspecialidad" id="comboEspecialidad" class="form-control custom-select" (ngModelChange)="getActividad();" >
+              <option value="0"> Seleccionar Especialidad</option>
+              <option *ngFor="let a of especialidad" value="{{a.id}}">{{a.valor}}</option>
+            </select>
+          </div>
+          <div class="col-3" style="text-align: center">
+            <label>Actividad Especifica : </label>
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="comboActividad" id="comboActividad" class="form-control custom-select" (ngModelChange)="getSubActividad();">
+              <option value="0"> Seleccionar Actividad</option>
+              <option *ngFor="let a of actividad" value="{{a.id}}">{{a.valor}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <label>Nro Dias para la Proxima Interconsulta :</label>
+          </div>
+          <div  class="col-3">
+            <input class="form-control" id="diasProximaInterconsulta" type="text" [(ngModel)]="diasProximaInterconsulta" (keyup)="resultadoAtencion()"/>
+          </div>
+          <div class="col-3" style="text-align: center">
+            <label>SubActividad : </label>
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="comboSubActividad" id="comboSubActividad" class="form-control custom-select" (ngModelChange)="resultadoAtencion()">
+              <option value="0"> Seleccionar Sub Actividad</option>
+              <option *ngFor="let a of subActividad" value="{{a.id}}">{{a.valor}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <label>Nro. Dias para la Proxima Recita :</label>
+          </div>
+          <div class="col-3">
+            <input class="form-control" id="numeroDiasProximaRecita" type="text" [(ngModel)]="numeroDiasProximaRecita" (keyup)="resultadoAtencion()"/>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div> -->

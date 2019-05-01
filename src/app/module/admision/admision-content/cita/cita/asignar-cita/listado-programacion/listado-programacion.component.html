@@ -1,0 +1,158 @@
+<!--<h2 mat-dialog-title>
+  Listado de Cupos
+  <span class="example-spacer"></span>
+  <button mat-button class="mat-button-icon" (click)="onNoClick()">
+    <div class="example-tooltip-host" matTooltip="Salir" [matTooltipPosition]="'above'">
+      <span>
+        <i class="material-icons">close</i>
+      </span>
+    </div>
+  </button>
+</h2>-->
+
+
+    
+        
+           
+
+      
+ 
+
+
+
+
+
+<div mat-dialog-content>
+  <!--<mat-card-content>
+    <div class="modal-body">
+      <div class="row">
+
+        <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Fecha: " value="{{fechaProgramacion | date: 'dd/MM/yyyy'}}" readonly />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>-->
+  
+  <mat-card class="matCardMin">
+    <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+      <mat-card-title class="subtitulo-seccion">Listado de Cupos</mat-card-title>
+      <div class="emp"> 
+        <button mat-button class="mat-button-icon" (click)="onNoClick()">
+          <div class="example-tooltip-host" matTooltip="Salir">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </div>
+    </mat-card-header>
+
+  <div class="row alinearLabel">
+        <div class="col"><h6><b>Medico:</b> <span>{{nombreMedico}}</span> </h6></div>
+        <div class="col"><h6><b>Especialidad:</b> <span> {{descpEspecialida}}</span> </h6></div>
+        <div class="col"><h6> <b>Fecha:</b> <span>{{fechaProgramacion}}</span> </h6></div>
+  </div>
+  <div class="row alinearLabel">
+      
+        <div class="col"><h6> <b>Horario:</b> <span>{{turnoIni}} - {{turnoFin}}</span> </h6>  </div>           
+  </div>
+
+</mat-card> 
+
+  <mat-card>
+    <mat-card-content>
+      <div class="table responsive">
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="cupos">
+            <mat-header-cell *matHeaderCellDef> N&uacute;mero Cupo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cupos}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="horaI">
+            <mat-header-cell *matHeaderCellDef> Hora de Cita </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.horaI}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="descripcionyNumeroDocumento">
+            <mat-header-cell *matHeaderCellDef> Tipo/Numero Doc </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descripcionyNumeroDocumento? element.descripcionyNumeroDocumento: '-'}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="nombres">
+            <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.nombres? element.nombres: '-'}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="seleccionar">
+            <mat-header-cell *matHeaderCellDef> Seleccionar </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a (click)="preInsercionCita(element)">
+                <i *ngIf="element.botonSeleccion" class="fa fa-plus-square"></i>
+              </a>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!--<mat-dialog-actions class="modal-footer">
+  <button mat-button (click)="onNoClick()"> Cerrar </button>
+</mat-dialog-actions>-->
+
+
+
+<!-- <div class="modal-header">
+  <h6 class="modal-title text-center">Listado de Cupos</h6>
+  <button type="button" class="close" aria-h6="Close" (click)="onNoClick()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-grup form-group-sm row">
+    <mat-h6 class="col-sm-6  bold-text"> Fecha: </mat-h6>
+    <mat-h6 class="col-sm-6"> {{fechaProgramacion}} </mat-h6>
+  </div>
+  <div class="form-grup form-group-sm row">
+    <div class="col-sm-12">
+      <mat-table #table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="cupos">
+          <mat-header-cell *matHeaderCellDef> N&uacute;mero Cupo </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.cupos}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="horaI">
+          <mat-header-cell *matHeaderCellDef> Hora de Cita </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.horaI}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="descripcionyNumeroDocumento">
+          <mat-header-cell *matHeaderCellDef> Tipo/Numero Doc </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.descripcionyNumeroDocumento}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombres">
+          <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nombres}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="seleccionar">
+          <mat-header-cell *matHeaderCellDef> Seleccionar </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a (click)="preInsercionCita(element)">
+              <i *ngIf="element.botonSeleccion" class="fa fa-plus-square"></i>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      </mat-table>
+    </div>
+  </div>
+  <div class="form-grup form-group-sm row">
+    <div class="col-sm-12 text-right">
+      <button mat-raised-button color="primary" (click)="onNoClick()"> Cerrar </button>
+    </div>
+  </div>
+</div> -->

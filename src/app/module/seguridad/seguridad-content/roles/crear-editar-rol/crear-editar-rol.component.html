@@ -1,0 +1,130 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Agregar Rol:</mat-card-title>
+    <div class="margenSuperior" style="padding-left: 28%;">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir" aria-label="hola">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <form class="row" #formCrearRolGrupOcup="ngForm" novalidate name="formCrearRolGrupOcup">
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="col-sm-12">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Nombre Rol:" [(ngModel)]="rol.nombreRol" name="nombreRol"
+                  #nombreRol="ngModel" required>
+                <mat-error>
+                  <app-validators-messages [controlVar]="nombreRol" labelName="Nombre Rol">
+                  </app-validators-messages>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12">
+              <mat-card>
+                <mat-card-header class="sombreadoSubtitulos">
+                  <mat-card-title class="subtitulo-seccion">Alcance:</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="card-body">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <mat-checkbox matInput [(ngModel)]="rol.areaFlag" name="areaFlag" #areaFlag="ngModel">Area
+                          </mat-checkbox>
+                        </div>
+                        <div class="col-sm-4">
+                          <mat-checkbox matInput [(ngModel)]="rol.especFlag" name="especFlag" #especFlag="ngModel">
+                            Especialidad</mat-checkbox>
+                        </div>
+                        <div class="col-sm-4">
+                          <mat-checkbox matInput [(ngModel)]="rol.ambienteFlag" name="ambienteFlag"
+                            #ambienteFlag="ngModel">Ambiente</mat-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Descripcion:" [(ngModel)]="rol.descripcion" name="descripcion"
+              #descripcion="ngModel" matTextareaAutosize matAutosizeMinRows="6" matAutosizeMaxRows="12"
+              required></textarea>
+            <mat-error>
+              <app-validators-messages [controlVar]="descripcion" labelName="Descripcion"></app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-12">
+          <mat-card>
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Grupo Ocupacional:</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder=" Nombre Grupo Ocupacional:" name="grupOcup" [(ngModel)]="grupOcup">
+                        <mat-option>Seleccionar</mat-option>
+                        <mat-option *ngFor="let go of grupOcupList" [value]="go"> {{go.descripcionGrupoOcupacional}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-6">
+                    <button mat-raised-button type="button" (click)="addGrupoOcupacional()" [disabled]="grupOcup==null">
+                      Agregar </button>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="row">
+                      <div class="table responsive">
+                        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                          <ng-container matColumnDef="nombreGrupOcup">
+                            <mat-header-cell *matHeaderCellDef>Nombre Grupo Ocupacional</mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nombreGrupOcup}} </mat-cell>
+                          </ng-container>
+
+                          <ng-container matColumnDef="eliminar">
+                            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i = index">
+                              <button mat-button>
+                                <i class="material-icons" (click)="deleteGrupoOcupacional(i)">delete_forever</i>
+                              </button>
+                            </mat-cell>
+                          </ng-container>
+
+                          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                        </mat-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-sm-12 text-center">
+          <button mat-raised-button *ngIf="rol.idRol==null" (click)="insertarActualizarRolGrupOcup(1)"
+            [disabled]="formCrearRolGrupOcup.invalid"> Guardar </button>
+          <button mat-raised-button *ngIf="rol.idRol!=null" (click)="insertarActualizarRolGrupOcup(2)"
+            [disabled]="formCrearRolGrupOcup.invalid"> Editar </button>
+          <button mat-raised-button (click)="close()"> Cancelar </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

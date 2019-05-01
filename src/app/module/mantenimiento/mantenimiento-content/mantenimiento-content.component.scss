@@ -1,0 +1,37 @@
+.mat-toolbar{
+    background-color: #fff;
+  }
+  a:hover {
+      text-decoration: none;
+  }
+  // ::ng-deep .cdk-overlay-pane {
+  //     overflow-y: auto;
+  //     overflow-x: hidden;
+  // }
+  // mat-dialog-container >*{
+  //     overflow-y: auto;
+  //     padding: 0px !important;
+  // }
+
+.links {
+    background: transparent  !important;
+    color: white  !important;
+    font-family: sans-serif !important;
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    font-weight: 500;
+    overflow: hidden;
+}
+
+.activeLinks {
+    color: white !important;
+    font-family:  sans-serif !important;
+    font-size: 14x;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    font-weight: 600;
+    overflow: hidden;
+}

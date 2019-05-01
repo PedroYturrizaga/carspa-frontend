@@ -1,0 +1,526 @@
+<!-- <mat-card>
+    <app-persona-datos [idCita]="idCita"></app-persona-datos>
+</mat-card>
+
+<mat-card>
+    <app-acto-medico-cita [idCita]="idCita" (enviarFechaHijoPadre)="getFechaActoMedico($event)"></app-acto-medico-cita>
+</mat-card> -->
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Referencia de Diagnosticos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="card-body">
+            <div class="form-grup form-group-sm row">
+                <div class="col-sm-12" *ngIf="diagnosticoListR.length > 0">
+                    <mat-table #table [dataSource]="dataSourceDiagnosticos">
+
+                        <ng-container matColumnDef="codigoDiagnostico">
+                            <mat-header-cell *matHeaderCellDef> Codigo de Diagnostico </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.codigoDiagnostico}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="descripcionDiagnostico">
+                            <mat-header-cell *matHeaderCellDef> Descripcion de Diagnostico </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.descripcionDiagnostico}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="idDiagnosticoCaso">
+                            <mat-header-cell *matHeaderCellDef> Tipo de Diagnostico </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{element.calificacionDiagnostico == 'P' ? 'Presuntivo' :
+                                element.calificacionDiagnostico == 'D' ? 'Definitivo' : 'Reiterativo'}}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="altaDiagnostico">
+                            <mat-header-cell *matHeaderCellDef> Alta de Diagnostico </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                {{element.altaDiagnostico == 0 ? 'No' : 'Si'}}
+                            </mat-cell>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="editar">
+                            <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button class="col-sm-12" color="primary">
+                                    <i class="fa fa-pencil" (click)="obtenerReferencia(element)"></i>
+                                </button>
+                            </mat-cell>
+                        </ng-container> -->
+                        <ng-container matColumnDef="eliminar">
+                            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button class="col-sm-12" color="primary">
+                                    <i class="fa fa-trash" (click)="modaConfirmacion(element)"></i>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsDiagnosticos"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsDiagnosticos;" readonly="true"></mat-row>
+
+                    </mat-table>
+                </div> 
+            </div>
+            <div class="form-grup form-group-sm" *ngIf="diagnosticoListNR.length > 0">
+                <mat-label class="bold-text"> Lista de Diagnosticos A Referenciar: </mat-label>
+                <mat-form-field class="col-sm-5">
+                    <mat-select placeholder="Diagnosticos: " [(ngModel)]="referenciaJson.referencia.idDiagnostico"
+                        (change)="obtenerIpressPromise()" [formControl]="toppings" multiple>
+                        <!-- <mat-option> -- </mat-option> -->
+                        <mat-option *ngFor="let ls of diagnosticoListNR" [value]="ls.idDiagnostico">
+                            {{ls.descripcionDiagnostico}} </mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<form #referenciaForm="ngForm" name="referenciaForm" novalidate *ngIf="diagnosticoListNR.length > 0">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title> Responsabilidad Médica</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <mat-select placeholder="Red Asistencial Destino: " [(ngModel)]="referenciaJson.referencia.idIPRESSDestino"
+                                    (change)="obtenerAreasPromise()" name="idIPRESSDestino" #idIPRESSDestino="ngModel"
+                                    required>
+                                    <mat-option> -- </mat-option>
+                                    <mat-option *ngFor="let ls of ipressList" [value]="ls.idIPRESS">
+                                        {{ls.nombreComercial}} </mat-option>
+
+                                </mat-select>
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idIPRESSDestino" labelName="Red Asistencial Destino">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <mat-select placeholder="Areas: " [(ngModel)]="referenciaJson.referencia.idArea"
+                                    (change)="obtenerEspecialidadesPromise()" name="idArea" #idArea="ngModel" required>
+                                    <mat-option> -- </mat-option>
+                                    <mat-option *ngFor="let ls of areaList" [value]="ls.idArea"> {{ls.nomArea}}
+                                    </mat-option>
+                                </mat-select>
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idArea" labelName="Area">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <mat-select placeholder="Especialidades: " [(ngModel)]="referenciaJson.referencia.idEspecialidad"
+                                    (change)="obtenerActividadesPromise()" name="idEspecialidad" #idEspecialidad="ngModel"
+                                    required>
+                                    <mat-option> -- </mat-option>
+                                    <mat-option *ngFor="let ls of especialidadList" [value]="ls.idEspecialidad">
+                                        {{ls.descripcionEspecialidad}} </mat-option>
+                                </mat-select>
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idEspecialidad" labelName="Especialidad">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <mat-select placeholder="Actividades: " [(ngModel)]="referenciaJson.referencia.idActividad"
+                                    (change)="obtenerSubActividadesPromise()" name="idActividad" #idActividad="ngModel"
+                                    required>
+                                    <mat-option> -- </mat-option>
+                                    <mat-option *ngFor="let ls of actividadList" [value]="ls.idActividad">
+                                        {{ls.nomActividad}} </mat-option>
+                                </mat-select>
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idActividad" labelName="Actividades">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-grup form-group-sm row" *ngIf="_params.flidSubActividad">
+                            <mat-form-field class="col-sm-12">
+                                <mat-select placeholder="Sub - Actividades: " [(ngModel)]="referenciaJson.referencia.idSubActividad"
+                                    name="idSubActividad" #idSubActividad="ngModel" required>
+                                    <mat-option> -- </mat-option>
+                                    <mat-option *ngFor="let ls of subActividadList" [value]="ls.idSubActividad">
+                                        {{ls.nomSubActividad}} </mat-option>
+                                </mat-select>
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idSubActividad" labelName="subActividades">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-grup form-group-sm row">
+                            <mat-label class="col-sm-6 bold-text"> N° de Solicitud: </mat-label>
+                            <mat-label class="col-sm-6 "> {{contador}} </mat-label>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-label class="col-sm-6 bold-text"> Fecha de Refrencia: </mat-label>
+                            <mat-label class="col-sm-6 "> {{ referenciaJson.referencia.fhReferenciaCompleto |
+                                date:'dd-MM-yyyy'}} </mat-label>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <mat-select placeholder="Prioridad" [(ngModel)]="referenciaJson.referencia.idPrioridad"
+                                    name="idPrioridad" #idPrioridad="ngModel" required>
+                                    <mat-option> -- </mat-option>
+                                    <mat-option [value]="1"> Prioridad I </mat-option>
+                                    <mat-option [value]="2"> Prioridad II </mat-option>
+                                    <mat-option [value]="3"> Prioridad III </mat-option>
+                                </mat-select>
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="idPrioridad" labelName="Prioridad">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <input matInput placeholder="Telefono Fijo: " [(ngModel)]="referenciaJson.referencia.telefonoFijo"
+                                    name="telefonoFijo" #telefonoFijo="ngModel" (keypress)="setInputPattern($event, 'positiveDigits')"
+                                    [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="telefonoFijo" labelName="TelefonoFijo ">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <input matInput placeholder="Telefono Celular: " [(ngModel)]="referenciaJson.referencia.telefonoCelular"
+                                    name="telefonoCelular" #telefonoCelular="ngModel" (keypress)="setInputPattern($event, 'positiveDigits')"
+                                    [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="telefonoCelular" labelName="Telefono Celular ">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-grup form-group-sm row">
+                            <mat-form-field class="col-sm-12">
+                                <input matInput placeholder="Correo Electronico: " [(ngModel)]="referenciaJson.referencia.email"
+                                    name="email" #email="ngModel" ngvemail>
+
+                                <mat-error>
+                                    <app-validators-messages [controlVar]="email" labelName="Correo Electrónico ">
+                                    </app-validators-messages>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title> Resumen de la Historia Clínica</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-body">
+                <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                        <textarea matInput placeholder="Resumen Historia" [(ngModel)]="referenciaJson.referencia.resumenHistoria"
+                            name="resumenHistoria" #resumenHistoria="ngModel" matTextareaAutosize matAutosizeMinRows="2"
+                            matAutosizeMaxRows="4"></textarea>
+
+                        <mat-error>
+                            <app-validators-messages [controlVar]="resumenHistoria" labelName="Resumen Historia ">
+                            </app-validators-messages>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                        <mat-select placeholder="Motivo: " [(ngModel)]="referenciaJson.referencia.idMotivoReferencia"
+                            name="idMotivo" #idPrioridad="ngModel" required>
+                            <mat-option> -- </mat-option>
+                            <mat-option [value]="1"> Otro - OTRO/DETALLE </mat-option>
+                            <mat-option [value]="2"> Motivo - Motivo/DETALLE </mat-option>
+                        </mat-select>
+
+                        <mat-error>
+                            <app-validators-messages [controlVar]="idMotivo" labelName="Motivo">
+                            </app-validators-messages>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-grup form-group-sm row">
+                    <mat-form-field class="col-sm-12">
+                        <input matInput placeholder="Otro(Detalle): " [(ngModel)]="referenciaJson.referencia.observacion"
+                            name="observacion" #observacion="ngModel">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="form-grup form-group-sm" style="text-align:center; padding-bottom: 10px;">
+        <button mat-raised-button color="primary" [disabled]="isInvalid(referenciaForm)" (click)="registrarReferencia()">
+            {{txtButton}} </button>
+    </div>
+</form>
+
+<!-- 
+<mat-card class="mat-card-main">
+    <mat-card-header>
+        <mat-card-title>De Responsabilidad M&eacute;dica</mat-card-title>
+    </mat-card-header>
+
+    <form #registrarReferencia="ngForm" novalidate name="registrarReferencia">
+        <mat-card-content>
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Red Asistencial Destino:" disabled value="{{listRedAsistencial ? listRedAsistencial[0].nombreRedAsistencial : '-'}}">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Número de solicitud:" disabled value="{{jsonInsert.referencia.numeroSolicitud}}">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Centro Destino:" name="centroDestino" #centroDestino="ngModel"
+                                [(ngModel)]="jsonInsert.referencia.idIPRESSDestino" (selectionChange)="getArea()"
+                                required>
+                                <mat-option [value]="">
+                                    <strong>Seleccionar</strong>
+                                </mat-option>
+                                <mat-option *ngFor="let row of listCentrosMedicos" [value]="row.idIpress">
+                                    {{row.nombreComercial}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="centroDestino" labelName="Centro Destino">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Fecha de Referencia:" disabled value="{{jsonInsert.referencia.feReferencia? (jsonInsert.referencia.feReferencia | date: 'dd/MM/yyyy') : '-' }}">
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="&Aacute;rea Destino:" name="areaDestino" #areaDestino="ngModel"
+                                [(ngModel)]="jsonInsert.referencia.idArea" (selectionChange)="obtenerActividades()"
+                                required>
+                                <mat-option [value]="">
+                                    <strong>Seleccionar</strong>
+                                </mat-option>
+                                <mat-option *ngFor="let row of lsComboArea" [value]="row.idArea">
+                                    {{row.nomArea}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="areaDestino" labelName="&Aacute;rea Destino">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Prioridad:" name="prioridad" #prioridad="ngModel" [(ngModel)]="jsonInsert.referencia.prioridad"
+                                required>
+                                <mat-option [value]="">
+                                    <strong>Seleccionar</strong>
+                                </mat-option>
+                                <mat-option *ngFor="let prioridad of lsComboGeneral.prioridad" [value]="prioridad.idOpcion">
+                                    {{prioridad.valorOpcion}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="prioridad" labelName="Prioridad">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-select required placeholder="Actividad Destino:" name="actividadDestino"
+                                #actividadDestino="ngModel" [(ngModel)]="jsonInsert.referencia.idActividad"
+                                (selectionChange)="obtenerSubActividades()">
+                                <mat-option [value]="">
+                                    <strong>Seleccionar</strong>
+                                </mat-option>
+                                <mat-option *ngFor="let actividad of listActividades" [value]="actividad.id">
+                                    {{actividad.valor}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="actividadDestino" labelName="Actividad Destino">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <span matPrefix>(01) &nbsp;</span>
+                            <input matInput [(ngModel)]="jsonInsert.referencia.telefonoFijo" required maxlength="7"
+                                name="telFijo" #telFijo="ngModel" id="telFijo" (keypress)="setInputPattern($event, 'positiveDigits')"
+                                [pattern]="setValidatorPattern('positiveDigits', setQuantifier(7), true, true)"
+                                placeholder="Tel&eacute;fono Fijo" />
+                            <mat-error>
+                                <app-validators-messages [controlVar]="telFijo" labelName="Tel&eacute;fono Fijo">
+
+                                </app-validators-messages>
+                            </mat-error>
+                            <mat-hint align="end">{{ jsonInsert.referencia.telefonoFijo?
+                                jsonInsert.referencia.telefonoFijo.length:
+                                '0' }} / 7
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <span matPrefix>(+51) &nbsp;</span>
+                            <input matInput [(ngModel)]="jsonInsert.referencia.telefonoCelular" required maxlength="9"
+                                name="telCelular" #telCelular="ngModel" (keypress)="setInputPattern($event, 'cellPhone')"
+                                [pattern]="setValidatorPattern('cellPhone', setQuantifier(), true, true)" placeholder="Tel&eacute;fono Celular" />
+                            <mat-error>
+                                <app-validators-messages [controlVar]="telCelular" labelName="Tel&eacute;fono Celular">
+
+                                </app-validators-messages>
+                            </mat-error>
+                            <mat-hint align="end">{{ jsonInsert.referencia.telefonoCelular?
+                                jsonInsert.referencia.telefonoCelular.length:
+                                '0' }} / 9 </mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Sub-Actividad Destino:" required name="subactividadDestino"
+                                #subactividadDestino="ngModel" [(ngModel)]="jsonInsert.referencia.idSubActividad">
+                                <mat-option [value]="">
+                                    <strong>Seleccionar</strong>
+                                </mat-option>
+                                <mat-option *ngFor="let subAct of listSubActividades" [value]="subAct.id">
+                                    {{subAct.valor}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="subactividadDestino" labelName="Sub-Actividad Destino">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="E-Mail" type="email" name="emailUsuario" #emailUsuario="ngModel"
+                                id="emailUsuario" required [(ngModel)]="jsonInsert.referencia.email" ngvemail />
+                            <mat-error>
+                                <app-validators-messages [controlVar]="emailUsuario" labelName="E-mail">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-header>
+            <mat-card-title>Resumen de la Historia cl&iacute;nica</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Resumen Historia:</mat-label>
+                            <textarea matInput type="text" matTextareaAutosize matAutosizeMinRows="1"
+                                matAutosizeMaxRows="3" [(ngModel)]="jsonInsert.referencia.resumenHistoria" name="resumenHistoria"
+                                #resumenHistoria="ngModel" required></textarea>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="resumenHistoria" labelName="Resumen Historia">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Motivo:" name="motivo" #motivo="ngModel" [(ngModel)]="jsonInsert.referencia.motivo"
+                                required>
+                                <mat-option [value]="">
+                                    <strong>Seleccionar</strong>
+                                </mat-option>
+                                <mat-option *ngFor="let motivo of lsComboGeneral.motivo" [value]="motivo.idOpcion">
+                                    {{motivo.valorOpcion}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="motivo" labelName="Motivo">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <input matInput type="text" [(ngModel)]="jsonInsert.referencia.otroDetalle" required name="otroDetalle"
+                                #otroDetalle="ngModel" placeholder="Otro (Detalle)" />
+                            <mat-error>
+                                <app-validators-messages [controlVar]="otroDetalle" labelName="Otro (Detalle)">
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Diagn&oacute;sticos:</mat-label>
+                            <textarea matInput matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="3"
+                                [(ngModel)]="jsonInsert.referencia.diagnostico" name="diagnosticos" #diagnosticos="ngModel"
+                                required></textarea>
+                            <mat-error>
+                                <app-validators-messages [controlVar]="diagnosticos" labelName="Diagn&oacute;sticos">
+
+                                </app-validators-messages>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                <button mat-raised-button (click)="insertReferencia(registrarReferencia)" type="submit" [disabled]="isInvalid(registrarReferencia)">Grabar</button>
+            </div><br>
+        </mat-card-content>
+    </form>
+</mat-card> -->

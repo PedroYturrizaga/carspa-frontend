@@ -1,0 +1,68 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Cita por Acto M&eacute;dico</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Número:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.idActoMedico}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Profesional:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.profesional}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Hora de Atención:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.hoCita}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-8 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Área Hospitalaria:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.descripcionArea}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Especialidad:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.descripcionEspecialidad}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-8 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Actividad Hospitalaria:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.descripcionActividad}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Fecha de Atenci&oacute;n:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.feCita | date: 'dd/MM/yyyy'}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-8 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Actividad Específica:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.descripcionSubActividad}}">
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-4 mdl-input-group mdl-input-group__only" >
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Edad de Atenci&oacute;n:" readonly value="{{cabeceraActoMedico.lsActoMedicoAtencion.edad}}">
+          </mat-form-field>
+        </div>       
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+

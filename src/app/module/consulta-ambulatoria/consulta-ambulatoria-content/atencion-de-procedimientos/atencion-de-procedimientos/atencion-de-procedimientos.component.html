@@ -1,0 +1,321 @@
+<!--FORMULARIO ACTO MEDICO: -->
+<!--<br>
+<div class="card" id="card">
+  <div class="card-header">
+    <h5>Atenci&oacute;n de Procedimientos de Apoyo</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-group-sm row">
+          <label for="" class="col-sm-6 col-form-label">Fecha: </label>
+          <div class="col-sm-6">
+            <input class="form-control" type="date" [(ngModel)]="fechaFiltro" (change)="getFecha()">
+          </div>
+        </div>
+        <div class="form-group form-group-sm row">
+          <label class="col-sm-3 col-form-label">Tipo de Documento: </label>
+          <label class="col-sm-3 col-form-label text-secondary">{{datosPersonal.descripcionTipoDocumentoIdentidad}}</label>
+          <label class="col-sm-3 col-form-label">N&ordm; de Documento: </label>
+          <label class="col-sm-3 col-form-label text-secondary">{{datosPersonal.numeroDocuentoIdentidad}}</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group form-group-sm row">
+          <label for="" class="col-sm-6 col-form-label">&Aacute;rea Hospitalaria: </label>
+          <label class="col-sm-6 col-form-label text-secondary">Consulta Externa</label>
+        </div>
+        <div class="form-group form-group-sm row">
+          <label for="" class="col-sm-6 col-form-label">Apellidos y Nombres: </label>
+          <label class="col-sm-6 col-form-label text-secondary">{{datosPersonal.apellidoPaternoPersonal}} {{datosPersonal.apellidoMaternoPersonal}} {{datosPersonal.nombrePersonal}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<div *ngIf="showCitados==2">
+  <div class="card" id="card">
+    <div class="card-header">
+      <h5>Relaci&oacute;n de Pacientes Citados</h5>
+    </div>
+    <br>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive table-bordered">
+            <table class="table table-bordered table-hover table-sm">
+              <thead>
+                <tr id="titulo">
+                  <th>N&deg; de Cita de Procedimiento</th>
+                  <th>Apellidos y Nombre Paciente</th>
+                  <th>Historia Cl&iacute;nica</th>
+                  <th>Acto M&eacute;dico Origen</th>
+                  <th>Estado</th>
+                  <th *ngIf="atendidoFecha==1">Atender</th>
+                  <th *ngIf="noSePresentoFecha==1">No se Present&oacute;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of pacientesCitados; let i = index">
+                  <td scope="row">{{p.idCitaProcedimiento}}</td>
+                  <td scope="row">{{p.apellidoPaterno}} {{p.apellidoMaterno}} {{p.nombrePaciente}}</td>
+                  <td scope="row">{{p.idHistoria}}</td>
+                  <td scope="row">{{p.idActoMedico}}</td>
+                  <td scope="row">{{p.estadoCita}}</td>
+                  <td scope="row" align="center" *ngIf="atendido1[i]==1">
+                    <button *ngIf="atendido[i]==1" type="button" class="btn" (click)="atenderPaciente(p.idCitaProcedimientoEncrip)">Ingresar</button>
+                  </td>
+                  <td scope="row" align="center" *ngIf="noSePresento1[i]==1">
+                    <button *ngIf="noSePresento[i]==1" type="button" class="btn" (click)="nosePresento(p)">No se Presento</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<main *ngIf="showformProcedimiento==false">
+
+
+  <mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Atenci&oacute;n de Procedimientos de Apoyo</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="card-body" >
+        <div class="row">
+          <!--FECHA DESDE-->
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input id="fecha" matInput [matDatepicker]="dp" name="fecha" #fecha="ngModel" [(ngModel)]="_params.feProgramacion" (dateInput)="getListaCitaxProgramacion()" placeholder="Fecha:" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput name="tipoDoc" placeholder="Tipo de Documento:" disabled value="{{datosPersonal.descripcionTipoDocumentoIdentidad ? datosPersonal.descripcionTipoDocumentoIdentidad : '-' }}">
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput name="numDoc" placeholder="N° de Documento:" disabled value="{{datosPersonal.numeroDocuentoIdentidad ? datosPersonal.numeroDocuentoIdentidad : '-'}}">
+            </mat-form-field>
+          </div>
+
+          <!--{{datosPersonal.apellidoPaternoPersonal}} {{datosPersonal.apellidoMaternoPersonal}} {{datosPersonal.nombrePersonal}}-->
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only padTop2" >
+              <mat-form-field class="example-full-width mat-form-field-flex3">
+                <input matInput name="areaHospi" placeholder="&Aacute;rea Hospitalaria:" disabled value="Consulta Externa">
+              </mat-form-field>
+            </div>
+
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only padTop2" >
+            <mat-form-field class="example-full-width mat-form-field-flex3">
+              <input matInput name="apeNombres" placeholder="Apellidos y Nombres:" disabled value="{{datosPersonal.apellidoPaternoPersonal? ( datosPersonal.apellidoPaternoPersonal+' '+datosPersonal.apellidoMaternoPersonal+' '+datosPersonal.nombrePersonal) : '-'}}">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="lsProgramacionCitaPorPersonal!=null">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Listado de Atenciones</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    
+        <mat-table #table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="especialidad">
+            <mat-header-cell *matHeaderCellDef> Servicio Hospitalario </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.especialidad}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="descActividad">
+            <mat-header-cell *matHeaderCellDef> Actividad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descActividad}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="hoInicio">
+            <mat-header-cell *matHeaderCellDef> Hora Inicio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.hoInicio}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="hoFinal">
+            <mat-header-cell *matHeaderCellDef> Hora Final </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.hoFinal}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="descAmbiente">
+            <mat-header-cell *matHeaderCellDef> Ambiente </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descAmbiente}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{(element.flEstado==1 ? 'Disponible' : 'No Disponible')}}
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns;" (click)="tablePacientesCitados(row.idProgramacion)"></mat-row>
+
+        </mat-table>
+      
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="lsProgramacionCitaPorProgramacion!==null">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion">Listado de Pacientes Citados</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <mat-table #table [dataSource]="dataSource1">
+
+          <ng-container matColumnDef="ordenAtencion">
+            <mat-header-cell *matHeaderCellDef> Orden de Atención </mat-header-cell>
+            <mat-cell *matCellDef="let element;let i=index"> {{i+1}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nombreCompleto">
+            <mat-header-cell *matHeaderCellDef> Orden de Atención </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.apePaterno}} {{element.apeMaterno}}
+              {{element.noNombre}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="edad">
+            <mat-header-cell *matHeaderCellDef> Edad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.edad == 0 ? element.edadLetras : element.edad +
+              ' años'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="historiaClinica">
+            <mat-header-cell *matHeaderCellDef> Historia Clinica </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.idHistoria}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="grupoEtareo">
+            <mat-header-cell *matHeaderCellDef> Grupo Etareo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.grupoEtareo}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.estadoCita}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="atender">
+            <mat-header-cell *matHeaderCellDef> Atender </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-button *ngIf='element.idEstadoCita=="R"'>
+                <i class="material-icons" (click)="ingresar(element)">assignment</i>
+              </button>
+              <!-- <button *ngIf='element.idEstadoCita=="R"' mat-raised-button value="ingresar" (click)="ingresar(element.idCitaEncrip, element.idGrupoEtarioEncrip, element.idPersona)">Ingresar</button> -->
+              <p *ngIf="element.idEstadoCita!='R'"> -- </p>
+            </mat-cell>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="verAM">
+            <mat-header-cell *matHeaderCellDef> Ver Acto Medico </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-button *ngIf="element.idEstadoCita=='A'">
+                <i class="material-icons" (click)="openModal(element)">remove_red_eye</i>
+              </button>
+              <p *ngIf="element.idEstadoCita!='A'"> -- </p> -->
+              <!-- <button mat-raised-button value="Falta" id="{{element.idCitaEncrip}}" (click)="openModalCancelar(element.idCitaEncrip)">No se Presento</button> -->
+            <!-- </mat-cell>
+          </ng-container> -->
+
+          <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns1;" readonly="row.idEstadoCita=='S'"></mat-row>
+
+        </mat-table>
+   
+    </mat-card-content>
+  </mat-card>
+</main>
+<app-registrar-procedimiento *ngIf="showformProcedimiento" [citaParam]="citaParam" (sendDataProcedimiento)="requestProcedimiento($event)"></app-registrar-procedimiento>
+
+<!-- <mat-tab-group>
+  <mat-tab label="Atencion de Procedimiento">
+  </mat-tab>
+  <mat-tab label="Registrar Resceta">
+ <app-receta></app-receta> 
+  </mat-tab>
+</mat-tab-group> -->
+
+
+<!-- <mat-card *ngIf="showCitados==2">
+  <mat-card-header>
+    <mat-card-title>Relaci&oacute;n de Pacientes Citados</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="table responsive">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="numeroCita">
+          <mat-header-cell *matHeaderCellDef> N&deg; de Cita de Procedimiento </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.idCitaProcedimiento}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombreCompleto">
+          <mat-header-cell *matHeaderCellDef> Apellidos y Nombre Paciente </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.apellidoPaterno}} {{element.apellidoMaterno}} {{element.nombrePaciente}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="historiaClinica">
+          <mat-header-cell *matHeaderCellDef> Historia Cl&iacute;nica </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.idHistoria}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actoMedico">
+          <mat-header-cell *matHeaderCellDef> Acto M&eacute;dico Origen </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.idActoMedico}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Estado">
+          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.estadoCita}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Atender" *ngIf="atender==2">
+          <mat-header-cell *matHeaderCellDef> Atender </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index">
+             <button mat-raised-button (click)="atenderPaciente(element.idCitaProcedimientoEncrip)" *ngIf="atendido[i]==1">
+              Ingresar
+            </button> 
+
+            <button mat-button (click)="atenderPaciente(element.idCitaProcedimientoEncrip)" *ngIf="atendido[i]==1">
+              <div class="example-tooltip-host" matTooltip="Atender Cita" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons">local_hospital</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="noPresento" *ngIf="noPresento==2">
+          <mat-header-cell *matHeaderCellDef> No Se Present&oacute; </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index">
+            <button mat-button (click)="nosePresento(element)" *ngIf="noSePresento[i]==1">
+              <div class="example-tooltip-host" matTooltip="Anular Cita" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons" style="font-weight: 600;">not_interested</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumnsPacientesCitados"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsPacientesCitados;"></mat-row>
+      </mat-table>
+    </div> 
+  </mat-card-content>
+</mat-card> -->

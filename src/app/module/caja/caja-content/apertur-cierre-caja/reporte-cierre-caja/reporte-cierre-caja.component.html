@@ -1,0 +1,218 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Reporte Cierre de Caja</mat-card-title>
+    <div class="emp">
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <div class="card-body">
+    <div class="col-12">
+      <div class="row">
+
+        <div class="col-12">
+          <div class="row">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-3">
+                  <label ngbPopover="{{cabecera.cajero}}" triggers="mouseenter:mouseleave" popoverTitle="Nombre del cajero"><b>
+                      Cajero:</b>{{cabecera.cajero | truncate:15}}</label>
+                </div>
+                <div class="col-3">
+                  <label ngbPopover="{{cabecera.areaFisica}}" triggers="mouseenter:mouseleave" popoverTitle="Descripcion de la área">
+                    <b> Área FÍsica:</b> {{cabecera.areaFisica | truncate:8}}</label>
+                </div>
+                <div class="col-3">
+                  <label> <b> Caja: </b> {{cabecera.nombreCaja}}</label>
+
+                </div>
+                <div class="col-3">
+                  <label> <b> Hora de Cierre:</b> {{cabecera.horaCierre}}</label>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row">
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-3">
+                  <label> <b> Turno: </b> {{cabecera.turno}}</label>
+
+                </div>
+                <div class="col-3">
+                  <label> <b> Abreviatura: </b> {{cabecera.abreviaturaAmbiente}}</label>
+
+                </div>
+
+                <div class="col-3">
+                  <label> <b> Fecha de Cierre: </b> {{cabecera.fechaCierre}}</label>
+
+                </div>
+                <div class="col-3">
+                  <label><b> Horario: </b> {{cabecera.horario}}</label>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12" *ngIf="pagoEfectivoList.length != 0">
+          <div class="row">
+            <div class="col-12">
+              <h6 class="negrita">Medio de Pago Efectivo</h6>
+
+              <mat-table #table [dataSource]="dsPagoEfectivo">
+
+                <ng-container matColumnDef="descripcionTipoComprobantePago">
+                  <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.descripcionTipoComprobantePago}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="numeroComprobante">
+                  <mat-header-cell *matHeaderCellDef matTooltip="Número de Comprobante " matTooltipPosition="above"> N°
+                    Comprobante </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.numeroComprobante}} </mat-cell>
+                </ng-container>
+                <!--   
+                <ng-container matColumnDef="idOrdenPago">
+                  <mat-header-cell *matHeaderCellDef> N° Orden </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.idOrdenPago}} </mat-cell>
+                </ng-container> -->
+
+                <ng-container matColumnDef="idCliente">
+                  <mat-header-cell *matHeaderCellDef matTooltip="Identificador del paciente " matTooltipPosition="above">
+                    ID Paciente </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.idCliente}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paciente">
+                  <mat-header-cell *matHeaderCellDef> Nombre Paciente </mat-header-cell>
+                  <mat-cell *matCellDef="let element" ngbPopover="{{element.paciente}}" triggers="mouseenter:mouseleave"
+                    popoverTitle="Nombre del Paciente"> {{element.paciente | truncate: 15 }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="montoPago">
+                  <mat-header-cell *matHeaderCellDef> Total (S/.) </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> S/{{element.montoPagoDecimal==undefined ? element.montoPagoDecimal:'--'}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="dispColPagoEfectivo"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: dispColPagoEfectivo;"></mat-row>
+              </mat-table>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12" *ngIf="pagoTarjetaCreditoList.length != 0">
+          <div class="row">
+            <div class="card-body">
+              <h6 class="negrita">Medio de Pago Tarjeta de Crédito/Débito</h6>
+              <mat-table #table [dataSource]="dsPagoTarjetaCredito">
+
+                <ng-container matColumnDef="descripcionTipoComprobantePago">
+                  <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.descripcionTipoComprobantePago}} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="numeroComprobante">
+                  <mat-header-cell *matHeaderCellDef  matTooltip="Número de Comprobante " matTooltipPosition="above"> N° Comprobante </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.numeroComprobante}} </mat-cell>
+                </ng-container>
+                <!--   
+                <ng-container matColumnDef="idOrdenPago">
+                  <mat-header-cell *matHeaderCellDef> N° Orden </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.idOrdenPago}} </mat-cell>
+                </ng-container> -->
+
+                <ng-container matColumnDef="idCliente">
+                  <mat-header-cell *matHeaderCellDef> ID Paciente </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.idCliente}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paciente">
+                  <mat-header-cell *matHeaderCellDef> Nombre Paciente </mat-header-cell>
+                  <mat-cell *matCellDef="let element" ngbPopover="{{element.paciente}}" triggers="mouseenter:mouseleave"
+                  popoverTitle="Nombre del Paciente"> {{element.paciente | truncate: 15}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="montoPago">
+                  <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> S/{{element.montoPagoDecimal==undefined ? element.montoPagoDecimal:'--'}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="dispColPagoEfectivo"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: dispColPagoEfectivo;"></mat-row>
+              </mat-table>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="col-12">
+          <div class="row">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-3">
+                  <label> <b> Monto Total Efectivo: </b>S/{{ cabeceraDecimal.montoEfectivoDecimal==undefined ?  cabeceraDecimal.montoEfectivoDecimal:'--'}}</label>
+                </div>
+                <div class="col-3">
+                  <label> <b> Monto Real Efectivo: </b>S/{{ cabeceraDecimal.saldoEfectivoDecimal==undefined ? cabeceraDecimal.saldoEfectivoDecimal:'--'}}</label>
+                </div>
+                <div class="col-3">
+                  <label> <b> Monto Faltante Efectivo: </b>S/{{ cabeceraDecimal.faltanteEfectivoDecimal==undefined ? cabeceraDecimal.faltanteEfectivoDecimal:'--'}}</label>
+                </div>
+                <div class="col-3">
+                  <label> <b>Monto Total Tarjeta:</b>S/{{ cabeceraDecimal.montoTarjetaDecimal==undefined ? cabeceraDecimal.montoTarjetaDecimal:'--' }}</label>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-12">
+          <div class="row">
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-3">
+                  <label> <b>   Monto Real Tarjeta:   </b> S/{{ cabeceraDecimal.saldoTarjetaDecimal==undefined ? cabeceraDecimal.saldoTarjetaDecimal : '--' }}</label>
+                </div>
+                <div class="col-3">
+                  <label> <b>  Monto Faltante Tarjeta:   </b>S/{{ cabeceraDecimal.faltanteTarjetaDecimal== undefined ?  cabeceraDecimal.faltanteTarjetaDecimal : '--' }}</label>
+                </div>
+                <div class="col-6 alinearBotones">
+                  <button mat-raised-button (click)="imprimePDF(2)">Imprimir</button>
+
+                  <button mat-raised-button (click)="close(add)">Cancelar</button>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</mat-card>

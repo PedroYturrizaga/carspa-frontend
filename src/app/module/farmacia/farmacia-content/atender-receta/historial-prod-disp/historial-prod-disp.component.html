@@ -1,0 +1,44 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Historial Producto Farmacéutico / Dispositivo Médico:</mat-card-title>
+    <div >
+      <button mat-button class="mat-button-icon" (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir" aria-label="hola">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+  
+      <div class="table responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="text-center">Nro. Receta</th>
+              <th class="text-center">Producto Farmacéutico / Dispositivo Médico</th>
+              <th class="text-center">Forma Farmacéutica / Tipo de Dispositivo</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-center" style="width: 15%;">Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let rc of historialReceta">
+              <tr *ngFor="let rd of rc.recetaDetalleList">
+                <td scope="row" class="text-center">{{rc.idReceta}}</td>
+                <td scope="row" class="text-center">{{rd.medicamento? rd.medicamento.dciProductoFarmaceutico:
+                                    rd.dispMedicoProdSanitario.dciDispMedicoProdSanitario}}</td>
+                <td scope="row" class="text-center">{{rd.medicamento? rd.medicamento.formaFarmaceutica :
+                                    rd.dispMedicoProdSanitario.presentacion}}</td>
+                <td scope="row" class="text-center">{{rd.cantidadAtendida}}</td>
+                <td scope="row" class="text-center">{{rc.fhReceta}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+ 
+  </mat-card-content>
+</mat-card>

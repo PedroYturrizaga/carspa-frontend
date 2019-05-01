@@ -1,0 +1,121 @@
+
+    <mat-card class="matCardMin">
+    <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+          <mat-card-title class="subtitulo-seccion"> 
+              Historial de Citas
+          </mat-card-title>
+          <div class="emp"> 
+            <button mat-button class="mat-button-icon" (click)="onNoClick()">
+              <div class="example-tooltip-host" matTooltip="Salir">
+                <span>
+                  <i class="material-icons">close</i>
+                </span>
+              </div>
+            </button>
+          </div>
+    </mat-card-header>
+<div mat-dialog-content>
+  <mat-card-content>
+    <div class="modal-body">
+      <div class="row" *ngFor="let p of paciente">
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Apellidos y Nombres: " value="{{p.apellidoPaterno +' '+ p.apellidoMaterno +' '+ p.nombres}}"
+              readonly>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Tipo Documento de Identidad: " value="{{p.descripcionTipoDocumentoIdentidad}}" readonly>
+          </mat-form-field>
+
+        </div>
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Edad: " value="{{p.edad}}" readonly>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="N° Documento de Identidad: " value="{{p.numeroDocumentoIdentidad}}" readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Sexo: " value="{{p.descripcionSexo}}" readonly>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Establecimiento M&eacute;dico: " value="{{p.descripcionIPRESS}}" readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm-3 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Tipo de Paciente: " value="{{p.descripcionTipoPaciente}}" readonly>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Nro Historia Clinica: " value="{{p.idHistoria}}" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+
+  
+    <mat-card-content >
+      <div class="table responsive">
+        <mat-table #table [dataSource]="dataSourceH">
+
+          <ng-container matColumnDef="idCita">
+            <mat-header-cell *matHeaderCellDef  matTooltip="Numero de Cita" matTooltipPosition="above"> N° Cita </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.idCita}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="fechaCita">
+            <mat-header-cell *matHeaderCellDef> Fecha de Cita </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fechaCita}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="horaAtencion">
+            <mat-header-cell *matHeaderCellDef  matTooltip="Hora de Atencion" matTooltipPosition="above" > Hora de A.</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.horaAtencion}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="servicio">
+            <mat-header-cell *matHeaderCellDef> Servicio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.servicio}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actividad">
+            <mat-header-cell *matHeaderCellDef> Actividad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.actividad}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="medicoTratante">
+            <mat-header-cell *matHeaderCellDef> M&eacute;dico </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.medicoTratante}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="consultorio">
+            <mat-header-cell *matHeaderCellDef> Consultorio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.consultorio}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="tipoCita">
+            <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.tipoCita}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.tipoCita}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsH"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsH;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+ 
+</div>
+
+<div class="col-12 text-right margenIzquierdo5" style="    padding: 15px;">
+    <button mat-raised-button  (click)="imprimirHistorialCita()">Imprimir</button>
+    <button mat-raised-button  (click)="onNoClick()">Cerrar</button>
+  </div>
+</mat-card>

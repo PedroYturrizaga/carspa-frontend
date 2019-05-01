@@ -1,0 +1,117 @@
+<mat-card class="matCardMin">
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Previsualización de la Orden</mat-card-title>
+  
+      <button mat-button class="mat-button-icon" (click)="onNoClick()">
+        <div class="example-tooltip-host" matTooltip="Salir" aria-label="hola">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    
+  </mat-card-header>
+  <mat-card-content>
+    <div class="">
+
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="dciProductoFarmaceutico">
+          <mat-header-cell *matHeaderCellDef>
+            <div class="example-tooltip-host" matTooltip="Producto Farmacéutico / Dispositivo Médico"
+              [matTooltipPosition]="position">
+              <span>P. Farm. / Disp. Méd.</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <!-- {{element.medicamento.dciProductoFarmaceutico}} -->
+            <div *ngIf="request==null">
+              {{element.medicamento ?
+                    element.medicamento.dciProductoFarmaceutico
+                    : (element.dispMedicoProdSanitario ?
+                    element.dispMedicoProdSanitario.dciDispMedicoProdSanitario:'-')}}</div>
+            <div *ngIf="request!=null">
+              {{element.nombreMedicamento ?
+                        element.nombreMedicamento : (element.nombreDispMedicoProdSanitario ?
+                        element.nombreDispMedicoProdSanitario:'-')}}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="formaFarmaceutica">
+          <mat-header-cell *matHeaderCellDef>
+            <div class="example-tooltip-host" matTooltip="Forma Farmacéutica / Tipo Dispositivo"
+              [matTooltipPosition]="position">
+              <span>F. Farm. / T. Disp.</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <!-- {{element.medicamento.formaFarmaceutica}} -->
+            <div *ngIf="request==null">
+              {{element.medicamento ? element.medicamento.formaFarmaceutica :
+                        (element.dispMedicoProdSanitario
+                        ? element.dispMedicoProdSanitario.tipoDispositivo.valor: '-')}}
+            </div>
+            <div *ngIf="request!=null">
+              {{element.formaFarmaceutica ? element.formaFarmaceutica :
+                        (element.tipoDispositivo
+                        ? element.tipoDispositivo: '-')}}
+            </div>
+
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cantidadAtendida">
+          <mat-header-cell *matHeaderCellDef> Cant. a Atender </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="request==null">
+              {{element.cantidadAtendidaActual}}
+            </div>
+            <div *ngIf="request!=null">
+              {{element.cantidadAtendida}}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="unidad">
+          <mat-header-cell *matHeaderCellDef> Unidad </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="request==null">
+              {{element.nombreUnidad}}
+            </div>
+            <div *ngIf="request!=null">
+              {{element.unidad}}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="precioDescuento">
+          <mat-header-cell *matHeaderCellDef> Precio Unitario </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div>
+              S/. {{element.medicamento ? element.medicamento.precioVenta :
+                        (element.dispMedicoProdSanitario
+                        ? element.dispMedicoProdSanitario.precioVenta: '-')}}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="total">
+          <mat-header-cell *matHeaderCellDef> Sub Total </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="request==null">
+              S/. {{element.total}}
+            </div>
+            <div *ngIf="request!=null">
+              S/. {{element.precioSubTotal}}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+      
+    </div>
+
+    <div class="col-12 text-right"  *ngIf="request!=null" style="padding-bottom:1%;">
+        <span > <b>Total: S/.</b>  {{total}}</span>
+      <button mat-raised-button (click)="confirmar()">Confirmar</button>
+      <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+    </div>
+  </mat-card-content>
+</mat-card>

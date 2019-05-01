@@ -1,0 +1,111 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos alinearCabecera">
+    <mat-card-title class="subtitulo-seccion">Búsqueda CPT-Especialidad</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #cptForm="ngForm" novalidate name="cptForm">
+      <div class="card-body">
+        <div class="row">
+          <!-- ESPECIALIDAD -->
+          <div class="col-4">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select #listaOpciones placeholder="Seleccione Especialidad" [(ngModel)]="request.idEspecialidad"
+                name="idEspecialidad" #idEspecialidad="ngModel"  id="idEspecialidad" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let es of especialidades" [value]="es.idEspecialidad">
+                  {{es.descripcionEspecialidad}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="idEspecialidad" labelName="Especialidad">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-3">
+            <mat-form-field class="example-full-width">
+              <mat-label >C&oacute;digo:</mat-label>
+              <input matInput type="text" maxlength="8" [(ngModel)]="codigoProcedimiento" (input)="onSearchChange($event.target.value)" name="codigoProcs" #codigoProcs="ngModel" id="codigoProcs" [disabled]="!request.idEspecialidad" matTooltip="Escribir Codigo de 5 dígitos"
+                [matTooltipPosition]="'above'" />
+              <mat-error>
+                <app-validators-messages [controlVar]="codigoProcs" labelName="C&oacute;digo">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>Descripci&oacute;n De Procedimiento:</mat-label>
+              <textarea matInput type="text" [matAutocomplete]="auto" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="3" [(ngModel)]="descripcionProcedimiento" name="DescripcionProcs" #DescripcionProcs="ngModel"
+                id="DescripcionProcs" (input)="getProcedimientos($event.target.value)" [disabled]="!request.idEspecialidad"></textarea>
+              <mat-error>
+                <app-validators-messages [controlVar]="DescripcionProcs" labelName="Descripci&oacute;n De Procedimiento">
+
+                </app-validators-messages>
+              </mat-error>
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <div>
+                  <mat-option (onSelectionChange)="placeNumDesc(numDocs)" *ngFor="let numDocs of lsNombreProcedimiento"
+                    [value]="numDocs.descripcionCpt">
+                    <span>{{ numDocs.descripcionCpt}}</span>
+                  </mat-option>
+                </div>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="col-2">
+              <div class="col-6 buttonaresp">
+                <button mat-raised-button type="button"  [disabled]="!request.idEspecialidad" (click)="obtenerCptEspecialidad(1)" > Buscar</button>
+              </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+    <div class="col-12" *ngIf="showTabla==1">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="especialidad">
+        <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.descripcionEspecialidad}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="codigo">
+        <mat-header-cell *matHeaderCellDef>Código </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.codigoCpt}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="cpt">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'anchoListado2'">Nombre CPT </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'anchoListado2'" ngbPopover="{{element.descripcionCpt}}" triggers="mouseenter:mouseleave" popoverTitle="Descripcion del CPT" > {{element.descripcionCpt  | truncate: 50}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tiempo">
+        <mat-header-cell *matHeaderCellDef> Tiempo</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-form-field style="text-align: center;" [floatLabel]="'never'" class="example-full-width">
+            <input matInput placeholder="Ingrese" name="conteoFisico{{element.i}}" #conteoFisico="ngModel" [(ngModel)]="element.tiempo"
+              (keypress)="setInputPattern($event, 'positiveDigits')" required [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+              (keyup.enter)="actualizarCpt(element)" (keydown.tab)="actualizarCpt(element)"  [min]="0">
+            <mat-error>
+              <app-validators-messages [controlVar]="tiempo" labelName="Tiempo">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="asignar">
+        <mat-header-cell *matHeaderCellDef > Asignar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-button (click)="openModal(element);actualizar(element)">
+            <i class="material-icons" >arrow_forward</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="displayedSize" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+    showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
