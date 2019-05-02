@@ -2,20 +2,21 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { ToastsManager } from 'ng2-toastr';
 import { Router } from '@angular/router';
-import { AdministrarMaterialService } from '../../administrar-material.service';
 import { Observable } from 'rxjs';
+import { AdministrarMaterialService } from '../../../administrar-material.service';
+
 
 @Component({
-  selector: 'app-administrar-material',
-  templateUrl: './administrar-material.component.html',
-  styleUrls: ['./administrar-material.component.scss']
+  selector: 'app-materiales-inactivo',
+  templateUrl: './materiales-inactivo.component.html',
+  styleUrls: ['./materiales-inactivo.component.scss']
 })
-export class AdministrarMaterialComponent implements OnInit {
+export class MaterialesInactivoComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['codigo', 'material','marca','stock','proveedor','ver','edit' ,'eliminar'];
+  displayedColumns = ['codigo', 'material','marca','proveedor','activar'];
   dataSource = new MatTableDataSource();
   private lsMateriales = [];
-  private requestListar = { nombre: null ,estado:1}
+  private requestListar = { nombre: null ,estado:0}
   private displayedSizes: number[];
   private pageSize: number;
   private pagination: any;
@@ -27,8 +28,7 @@ export class AdministrarMaterialComponent implements OnInit {
       this.displayedSizes = [10, 15, 25, 100];
       this.pageSize = this.displayedSizes[0];
      }
-
-    private getMateriales(nuPagina?: number) {
+     private getMateriales(nuPagina?: number) {
       this.pagination.numPagina = (nuPagina) ? nuPagina : this.pagination.numPagina;
 
       Object.keys(this.requestListar).forEach(key => {
@@ -63,11 +63,11 @@ export class AdministrarMaterialComponent implements OnInit {
         err => console.error(err),
         () => console.log('Request Complete');
     }
-    private anularMaterial() {
+    private activarMaterial() {
       let idMaterial;
-      this._materialService.anularMaterial(idMaterial).subscribe(data => {
+      this._materialService.activarMaterial(idMaterial).subscribe(data => {
           if (data.estado == 1) {
-            this.toastr.success("Se anuló el material");
+            this.toastr.success("Se activó el material");
   
           } else {
             this.toastr.error(data.mensaje);
@@ -82,6 +82,7 @@ export class AdministrarMaterialComponent implements OnInit {
         err => console.error(err),
         () => console.log('Request Complete');
     }
+
 
   ngOnInit() {
     this.getMateriales();

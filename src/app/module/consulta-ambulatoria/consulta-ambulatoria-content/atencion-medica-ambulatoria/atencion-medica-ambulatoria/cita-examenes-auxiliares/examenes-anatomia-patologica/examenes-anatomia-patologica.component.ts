@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { CitaExamenesAuxiliaresService } from '../../../../../services/cita-examenes-auxiliares.service';
 import { ExamenesAnatomiaPatologicaDeleteComponent } from './examenes-anatomia-patologica-delete/examenes-anatomia-patologica-delete.component';
-import { ExamenesAnatomiaPatologicaActualizaComponent } from './examenes-anatomia-patologica-actualiza/examenes-anatomia-patologica-actualiza.component';
+// import { ExamenesAnatomiaPatologicaActualizaComponent } from './examenes-anatomia-patologica-actualiza/examenes-anatomia-patologica-actualiza.component';
 import { ToastsManager } from 'ng2-toastr';
 import { SesionService } from "../../../../../../../shared/services/sesion.service";
 import { ReporteService } from '../../../../../../../shared/services/reporte.service';
@@ -216,20 +216,20 @@ export class ExamenesAnatomiaPatologicaComponent implements OnInit {
   //   });
   // }
 
-  modalActualizarOrdExaDetalle(idOrdenExamenDetalle){
-    const dialogRef = this.dialog.open(ExamenesAnatomiaPatologicaActualizaComponent, {
-      autoFocus: false,
-      hasBackdrop: true,
-      minWidth: '70%',
-      width: '1400px',
-      maxHeight: '80%',
-      height: '700px',
-      disableClose: true 
-    });
-    dialogRef.componentInstance.idOrdenExamenDetalle = idOrdenExamenDetalle;
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  }
+  // modalActualizarOrdExaDetalle(idOrdenExamenDetalle){
+  //   const dialogRef = this.dialog.open(ExamenesAnatomiaPatologicaActualizaComponent, {
+  //     autoFocus: false,
+  //     hasBackdrop: true,
+  //     minWidth: '70%',
+  //     width: '1400px',
+  //     maxHeight: '80%',
+  //     height: '700px',
+  //     disableClose: true 
+  //   });
+  //   dialogRef.componentInstance.idOrdenExamenDetalle = idOrdenExamenDetalle;
+  //   dialogRef.afterClosed().subscribe(result => {
+  //   });
+  // }
   
   private getObtenerImpresionExamenes() {
     if (this.ordenExamenDetalle == null) {
