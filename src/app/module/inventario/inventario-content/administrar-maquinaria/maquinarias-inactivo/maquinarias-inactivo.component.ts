@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
-import { AdministrarMaquinariaService } from '../../administrar-maquinaria.service';
 import { ToastsManager } from 'ng2-toastr';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AdministrarMaquinariaService } from '../../../administrar-maquinaria.service';
 
 @Component({
-  selector: 'app-administrar-maquinaria',
-  templateUrl: './administrar-maquinaria.component.html',
-  styleUrls: ['./administrar-maquinaria.component.scss']
+  selector: 'app-maquinarias-inactivo',
+  templateUrl: './maquinarias-inactivo.component.html',
+  styleUrls: ['./maquinarias-inactivo.component.scss']
 })
-export class AdministrarMaquinariaComponent implements OnInit {
+export class MaquinariasInactivoComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
   displayedColumns = ['material','marca','cantidad','fecha','ver','edit' ,'eliminar'];
   dataSource = new MatTableDataSource();
   private lsmaquinarias = [];
-  private requestListar = { nombre: null ,estado:1}
+  private requestListar = { nombre: null ,estado:0}
   private displayedSizes: number[];
   private pageSize: number;
   private pagination: any;
@@ -63,9 +63,9 @@ export class AdministrarMaquinariaComponent implements OnInit {
         err => console.error(err),
         () => console.log('Request Complete');
     }
-    private anularMaquinaria() {
+    private activarMaquinaria() {
       let idMaquinaria;
-      this._maquinariaService.anularMaquinaria(idMaquinaria).subscribe(data => {
+      this._maquinariaService.activarMaquinaria(idMaquinaria).subscribe(data => {
           if (data.estado == 1) {
             this.toastr.success("Se anuló la maquinaria");
   

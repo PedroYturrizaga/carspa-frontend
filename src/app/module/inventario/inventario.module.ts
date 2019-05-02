@@ -7,12 +7,13 @@ import { AdministrarMaquinariaComponent } from './inventario-content/administrar
 import { AdministrarMaterialComponent } from './inventario-content/administrar-material/administrar-material.component';
 import { RegistrarActualizarComponent } from './inventario-content/administrar-material/registrar-actualizar/registrar-actualizar.component';
 import { MaterialesInactivoComponent } from './inventario-content/administrar-material/materiales-inactivo/materiales-inactivo.component';
+import { MaquinariasInactivoComponent } from './inventario-content/administrar-maquinaria/maquinarias-inactivo/maquinarias-inactivo.component';
 
 @NgModule({
   imports: [
     ModuleModule,
     InventarioRoutingModule
   ],
-  declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent]
+  declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent, MaquinariasInactivoComponent]
 })
 export class InventarioModule { }
