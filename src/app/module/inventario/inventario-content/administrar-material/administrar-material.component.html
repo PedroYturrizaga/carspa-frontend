@@ -1,3 +1,100 @@
-<p>
-  administrar-material works!
-</p>
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">MATERIALES</mat-card-title>
+   <div class="margenSuperior2"> <button class="enlace negrita text-right hover"  type="button" (click)="modalEdit(0)">Registrar</button>
+   <button class="enlace negrita text-center hover{  "  type="button" (click)="modalInactivos()">Inactivos</button></div>
+  </mat-card-header>
+    <mat-card-content>
+        
+        <div class="col-12 card-body text-center">
+            <mat-form-field class="col-sm-6 mat-form-field-flex1">
+                <input matInput placeholder="Nombre del material" [(ngModel)]="requestListar.nombre"
+                    (input)="busqueda($event.target.value)">
+            </mat-form-field>    
+        </div>
+
+    <div class="table responsive">
+      <mat-table #table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="codigo">
+          <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.codigo }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="material">
+          <mat-header-cell *matHeaderCellDef>Material</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.nombre }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="marca">
+          <mat-header-cell *matHeaderCellDef>Marca </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.marca }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="stock">
+          <mat-header-cell *matHeaderCellDef> Stock </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.stock }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="proveedor">
+          <mat-header-cell *matHeaderCellDef> Proveedor </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.nombreProveedor }} </mat-cell>
+        </ng-container>
+
+
+        <!-- VER -->
+        <ng-container matColumnDef="ver">
+          <mat-header-cell *matHeaderCellDef> Ver </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-button>
+              <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons">visibility</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- EDITAR -->
+        <ng-container matColumnDef="edit">
+          <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+          <mat-cell *matCellDef="let element" (click)="modalEdit(1,element)" >
+            <button mat-button>
+              <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons">edit</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- ELIMINAR -->
+        <ng-container matColumnDef="eliminar">
+          <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+          <mat-cell *matCellDef="let element" (click)="modalelementDelete(element.idMaterial)">
+            <button mat-button>
+              <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons">delete</i>
+                </span>
+              </div>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Header -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+      </mat-table>
+      <!-- PAGINADOR -->
+      <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+        showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+
+
+</mat-card>
+

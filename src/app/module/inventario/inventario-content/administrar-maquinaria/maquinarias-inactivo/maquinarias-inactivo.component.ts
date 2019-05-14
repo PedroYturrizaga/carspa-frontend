@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { ToastsManager } from 'ng2-toastr';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { AdministrarMaquinariaService } from '../../../administrar-maquinaria.se
 })
 export class MaquinariasInactivoComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['material','marca','cantidad','fecha','ver','edit' ,'eliminar'];
+  displayedColumns = ['material','marca','cantidad','fecha','activar'];
   dataSource = new MatTableDataSource();
   private lsmaquinarias = [];
   private requestListar = { nombre: null ,estado:0}
@@ -22,14 +22,15 @@ export class MaquinariasInactivoComponent implements OnInit {
   constructor(private _maquinariaService: AdministrarMaquinariaService,
     private toastr: ToastsManager,
     private dialog: MatDialog,
-    private router: Router) {
+    private router: Router,
+    public dialogRef: MatDialogRef<MaquinariasInactivoComponent>) {
       this.pagination = { nuPagina: 1, nuRegisMostrar: 0 };
       this.displayedSizes = [10, 15, 25, 100];
       this.pageSize = this.displayedSizes[0];
      }
 
-    private getMaquinarias(nuPagina?: number) {
-      this.pagination.numPagina = (nuPagina) ? nuPagina : this.pagination.numPagina;
+     private getMaquinarias(nuPagina?: number) {
+      this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
 
       Object.keys(this.requestListar).forEach(key => {
         this.requestListar[key] = (this.requestListar[key] === '') ? null : this.requestListar[key];
@@ -37,17 +38,17 @@ export class MaquinariasInactivoComponent implements OnInit {
       this.requestListar = {
         ...this.requestListar,
         ...this.pagination,
-        numRegistroMostrar: this.pageSize
+        nuRegisMostrar: this.pageSize
       };
       this._maquinariaService.getMaquinarias(this.requestListar).subscribe(data => {
           if (data.estado == 1) {
-            this.lsmaquinarias = data.proveedor;
+            this.lsmaquinarias = data.maquinarias;
             this.dataSource = new MatTableDataSource(this.lsmaquinarias);
             if (this.matPag) {
               this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
             }
             if (this.lsmaquinarias.length > 0) {
-              this.pagination.numRegistroMostrar = this.lsmaquinarias[0].nuTotalReg;
+              this.pagination.nuRegisMostrar = this.lsmaquinarias[0].nuTotalReg;
             }  
   
           } else {
@@ -63,11 +64,15 @@ export class MaquinariasInactivoComponent implements OnInit {
         err => console.error(err),
         () => console.log('Request Complete');
     }
-    private activarMaquinaria() {
-      let idMaquinaria;
-      this._maquinariaService.activarMaquinaria(idMaquinaria).subscribe(data => {
+    close(add) {
+      this.dialogRef.close(add);
+    }
+    private activarMaquinaria(e) {
+      let request={idMaquinaria:e};
+      this._maquinariaService.activarMaquinaria(request).subscribe(data => {
           if (data.estado == 1) {
-            this.toastr.success("Se anuló la maquinaria");
+            this.toastr.success("Se activó la maquinaria");
+            this.close(1);
   
           } else {
             this.toastr.error(data.mensaje);

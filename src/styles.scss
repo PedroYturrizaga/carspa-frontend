@@ -722,6 +722,11 @@ margin: 0 0 0 auto;
   margin-top: 15px;
   margin-left: 76.5%;
 }
+.margenSuperior22{
+  text-align: center;
+  margin-top: 15px;
+  margin-left: 76.5%;
+}
 .margenSuperior6{
   margin-top: -60px;
 }
@@ -968,4 +973,17 @@ align-items: baseline;
 }
 .eliPaddRight{
   padding-right: 0px !important;
+}
+
+
+ .toast-success{
+  background-color: green !important; 
+ } 
+ .hover:hover{
+  color: white;
+  background-color: #2dacd1;
+}
+.modalaling{
+  display: inline-flex;
+
 }

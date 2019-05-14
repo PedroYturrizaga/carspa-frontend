@@ -13,7 +13,7 @@ export class AdministrarMaquinariaService extends BaseService{
   constructor(public _http: Http, public _configuration: Configuration) 
   {
     super();
-    this.urlMaquinaria = this._configuration.Server + "maquinaria/";
+    this.urlMaquinaria = this._configuration.Server + "sigs-commons-ws/maquinaria/";
    }
 
    public getMaquinarias (_params){
@@ -29,7 +29,8 @@ export class AdministrarMaquinariaService extends BaseService{
 
     return this._http.get(this.urlMaquinaria+"listarMaquinarias", options).map((res: Response) => res.json());
    }
-   public anularMaquinaria(data: any) {
+   public anularMaquinaria(data: any)
+    {
     return this._http.put(this.urlMaquinaria  + "eliminarMaquinaria", data).map((res: Response) => res.json());
   }
   public activarMaquinaria(data: any) {

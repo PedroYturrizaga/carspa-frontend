@@ -1,3 +1,99 @@
-<p>
-  registrar-actualizar works!
-</p>
+<mat-card class="col-12">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion">Datos de la Maquinaria</mat-card-title>
+        </mat-card-header>
+    
+        <mat-card-content>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4 mdl-input-group mdl-input-group__only">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Código:" [(ngModel)]="request.material.codigo">
+                </mat-form-field>
+              </div>
+              <div class="col-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Nombre:" [(ngModel)]="request.material.nombre">
+                    </mat-form-field>
+                  </div>
+    
+              <div class=" col-4 mdl-input-group mdl-input-group__only">
+                <mat-form-field class="example-full-width mat-form-field-flex2">
+                  <input matInput placeholder="Marca:" [(ngModel)]="request.material.marca">
+                </mat-form-field>
+              </div>
+    
+            </div>
+            <div class="row">
+                <div class=" col-4  mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="Cantidad:" [(ngModel)]="request.material.stock">
+                    </mat-form-field>
+                  </div>
+        
+        
+                  <div class=" col-4 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo">
+                    </mat-form-field>
+                  </div>
+                          
+                  <div class=" col-4 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width mat-form-field-flex2">
+                          <input matInput placeholder="Stock Mínimo:" [(ngModel)]="request.material.stockMinimo">
+                        </mat-form-field>
+                      </div>
+            </div>
+            <div class="row">
+                    <div class=" col-4  mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width mat-form-field-flex2">
+                          <input matInput placeholder="Punto Pedido:" [(ngModel)]="request.material.puntoPedido">
+                        </mat-form-field>
+                      </div>
+            
+            
+                      <div class=" col-4 mdl-input-group mdl-input-group__only">
+                        <mat-form-field class="example-full-width mat-form-field-flex2">
+                          <input matInput placeholder="Precio Compra:" [(ngModel)]="request.material.precioCompra">
+                        </mat-form-field>
+                      </div>
+                              
+                      <div class=" col-4 mdl-input-group mdl-input-group__only">
+                            <mat-form-field class="example-full-width mat-form-field-flex2">
+                              <input matInput placeholder="Precio Venta:" [(ngModel)]="request.material.precioVenta">
+                            </mat-form-field>
+                          </div>
+                </div>
+    
+            <div class="row">
+                    <div class=" col-6 mdl-input-group mdl-input-group__only">
+                            <mat-form-field class="example-full-width mat-form-field-flex2">
+                                    <mat-select #listaOpciones placeholder="Seleccione Proveedor" name="request.material.idProveedor" #request.material.idProveedor="ngModel" [(ngModel)]="request.material.idProveedor" 
+                                      id="request.material.idProveedor" required>
+                                      <mat-option>--</mat-option>
+                                      <mat-option *ngFor="let a of lsProveedor" [value]="a.idProveedor">
+                                        {{a.nombreProveedor}}
+                                      </mat-option>
+                                    </mat-select>
+                                    <mat-error>
+                                      <app-validators-messages [controlVar]="request.material.idProveedor" labelName="request.material.idProveedor"></app-validators-messages>
+                                    </mat-error>
+                                  </mat-form-field>          
+                          </div>
+                <div class=" col-6 mdl-input-group mdl-input-group__only">
+                    <mat-form-field class="example-full-width mat-form-field-flex2">
+                      <input matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion">
+                    </mat-form-field>
+                  </div>
+            </div>
+    
+            
+            <div class="col-11 text-right alinearBtn">
+    
+                <button mat-raised-button (click)="insertMaterial()">Insertar</button>
+    
+              </div>
+    
+          </div>
+        </mat-card-content>
+      </mat-card>

@@ -4,6 +4,10 @@ import { AdministrarMaquinariaService } from '../../administrar-maquinaria.servi
 import { ToastsManager } from 'ng2-toastr';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ModalConfirmacionComponent } from '../../../../shared/others/modal-confirmacion/modal-confirmacion.component';
+import { MaquinariasInactivoComponent } from './maquinarias-inactivo/maquinarias-inactivo.component';
+import { RegistrarActualizarComponent } from '../administrar-material/registrar-actualizar/registrar-actualizar.component';
+import { RegistActuaComponent } from './regist-actua/regist-actua.component';
 
 @Component({
   selector: 'app-administrar-maquinaria',
@@ -27,9 +31,15 @@ export class AdministrarMaquinariaComponent implements OnInit {
       this.displayedSizes = [10, 15, 25, 100];
       this.pageSize = this.displayedSizes[0];
      }
+     busqueda(target) {
+      if (target.length % 2 == 0) {
+        this.getMaquinarias(1);
+      }
+    }
+
 
     private getMaquinarias(nuPagina?: number) {
-      this.pagination.numPagina = (nuPagina) ? nuPagina : this.pagination.numPagina;
+      this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
 
       Object.keys(this.requestListar).forEach(key => {
         this.requestListar[key] = (this.requestListar[key] === '') ? null : this.requestListar[key];
@@ -37,17 +47,17 @@ export class AdministrarMaquinariaComponent implements OnInit {
       this.requestListar = {
         ...this.requestListar,
         ...this.pagination,
-        numRegistroMostrar: this.pageSize
+        nuRegisMostrar: this.pageSize
       };
       this._maquinariaService.getMaquinarias(this.requestListar).subscribe(data => {
           if (data.estado == 1) {
-            this.lsmaquinarias = data.proveedor;
+            this.lsmaquinarias = data.maquinarias;
             this.dataSource = new MatTableDataSource(this.lsmaquinarias);
             if (this.matPag) {
               this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
             }
             if (this.lsmaquinarias.length > 0) {
-              this.pagination.numRegistroMostrar = this.lsmaquinarias[0].nuTotalReg;
+              this.pagination.nuRegisMostrar = this.lsmaquinarias[0].nuTotalReg;
             }  
   
           } else {
@@ -63,11 +73,13 @@ export class AdministrarMaquinariaComponent implements OnInit {
         err => console.error(err),
         () => console.log('Request Complete');
     }
-    private anularMaquinaria() {
-      let idMaquinaria;
-      this._maquinariaService.anularMaquinaria(idMaquinaria).subscribe(data => {
+    private anularMaquinaria(e) {
+      let request={idMaquinaria:e};
+      this._maquinariaService.anularMaquinaria(request).subscribe(data => {
+        console.log(data);
           if (data.estado == 1) {
             this.toastr.success("Se anuló la maquinaria");
+            this.getMaquinarias();
   
           } else {
             this.toastr.error(data.mensaje);
@@ -82,6 +94,59 @@ export class AdministrarMaquinariaComponent implements OnInit {
         err => console.error(err),
         () => console.log('Request Complete');
     }
+    private modalelementDelete(e){
+      const dialogRef = this.dialog.open(ModalConfirmacionComponent, {
+        autoFocus: false,
+        maxWidth: '40%',
+        width: '40%',
+        maxHeight: '50%',
+        height: '30%',
+        disableClose: true,
+        hasBackdrop: true
+      });
+      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular la maquinaria?";
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == 1) {
+          this.anularMaquinaria(e);
+        }
+      });
+
+  }
+private modalInactivos(){
+  const dialogRef = this.dialog.open(MaquinariasInactivoComponent, {
+    autoFocus: false,
+    maxWidth: '60%',
+    width: '60%',
+    maxHeight: '80%',
+    height: '80%',
+    disableClose: false,
+    hasBackdrop: true
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result == 1) {
+   this.getMaquinarias();
+    }
+  });
+
+}
+private modalabrir(op,e?){
+  const dialogRef = this.dialog.open(RegistActuaComponent, {
+    autoFocus: false,
+    maxWidth: '50%',
+    width: '70%',
+    maxHeight: '60%',
+    height: '60%',
+    disableClose: false,
+    hasBackdrop: true
+  });
+  dialogRef.componentInstance.e = e;
+  dialogRef.componentInstance.op =op;
+  dialogRef.afterClosed().subscribe(result => {
+    if (result == 1) {
+   this.getMaquinarias();
+    }
+  });
+}
 
   ngOnInit() {
     this.getMaquinarias();
