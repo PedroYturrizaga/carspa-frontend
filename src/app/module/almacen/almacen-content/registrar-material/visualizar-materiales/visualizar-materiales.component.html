@@ -1,0 +1,111 @@
+<mat-card class="ag">
+  <mat-card-header class="sombreadoSubtitulos">
+
+    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title>
+    <div class="colocar-left">
+      <button class="mat-button-icon" mat-button (click)="close()">
+        <div class="example-tooltip-host" matTooltip="Salir">
+          <span>
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+
+      <div class="row">
+
+        <div class="col-4" align="center">
+
+          <mat-form-field class="example-full-width">
+            <mat-label for="codMovimientos">Codigo Movimiento</mat-label>
+            <input matInput name="codMovimiento" #codMovimiento="ngModel" id="codMovimiento" [(ngModel)]="row.idAlmacenOrdenCompra" disabled
+            />
+            <!-- AHORA SI ESTA BIEN, NO ME DEJA INGRESAR LETRAS PORQUE ES TYPE NUMBER, LA VALIDACION DICE QUE MIN = 0ok -->
+          </mat-form-field>
+
+        </div>
+
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource" *ngIf="almacenOrdenCompraMateriales.length!=0">
+
+      <ng-container matColumnDef="codigo">
+        <mat-header-cell *matHeaderCellDef> Código Producto </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.idMaterial}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="producto">
+        <mat-header-cell *matHeaderCellDef> Producto </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.nombreMaterial}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="marca">
+        <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.marca}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidad">
+        <mat-header-cell *matHeaderCellDef>Cantidad </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.cantidad }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidadFisica">
+        <mat-header-cell *matHeaderCellDef>Cantidad Física </mat-header-cell>
+        <mat-cell *matCellDef="let e; let i = index">
+          <div *ngIf="showInput[i] == 1">
+            {{ e.cantidadFisica }}
+          </div>
+
+          <div *ngIf="showInput[i] == 2">
+            <mat-form-field class="example-full-width">
+
+              <input matInput type="text" name="nameCantidadFisica" #nameCantidadFisica="ngModel" [(ngModel)]="cantidadFisica" placeholder="Ingrese Cantidad Fisica"
+                (keyup.enter)="pressEnter(e.idAlmacenOrdenCompraMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenCompra);asignarCantidadFisica(i)">
+              <mat-hint align="start" class="mat-hint-mensaje">
+                Ingrese y Enter
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+        <mat-cell *matCellDef="let e; let i = index">
+
+          <button mat-button (click)="asignarCantidadFisica(i)">
+            <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+              <span>
+                <i class="material-icons">edit</i>
+              </span>
+            </div>
+          </button>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <br>
+    <div class="row">
+      <div class="col-4" align="center">
+        <button mat-raised-button (click)="actualizarEstado()" [disabled]="cont==1">
+          Insertar Cantidad
+        </button>
+      </div>
+    </div>
+    <br>
+  </mat-card-content>
+
+
+</mat-card>
