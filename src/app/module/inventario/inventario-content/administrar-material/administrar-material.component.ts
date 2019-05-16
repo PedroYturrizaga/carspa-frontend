@@ -77,7 +77,6 @@ export class AdministrarMaterialComponent implements OnInit {
     }
     private anularMaterial(e) {
       this.request.idMaterial=e;
-      console.log(this.request);
       this._materialService.anularMaterial(this.request).subscribe(data => {
           if (data.estado == 1) {
             this.toastr.success("Se anuló el material");
@@ -132,7 +131,7 @@ export class AdministrarMaterialComponent implements OnInit {
     dialogRef.componentInstance.op =op;
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
-        this.anularMaterial(e);
+        this.getMateriales();
       }
     });
 

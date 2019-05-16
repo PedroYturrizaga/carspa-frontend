@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { log } from 'util';
+import { setInputPattern, setValidatorPattern, setQuantifier } from '../../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
 
 @Component({
   selector: 'app-regist-actua',
@@ -24,6 +25,8 @@ export class RegistActuaComponent implements OnInit {
     detalle:null
     }
   }
+  private requestnew={fecha: null};
+  private today: Date = new Date();
   private disabled: boolean = true;
   private show=0;
   constructor(private _maquinariaService: AdministrarMaquinariaService,
@@ -37,29 +40,50 @@ private inicial(){
 close(add) {
   this.dialogRef.close(add);
 }
-public getDatos(){
-  console.log(this.e);
+public getDatos(){ 
   
   if(this.op==1){
+    // let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    // this.requestnew.fecha =((this.e.fechaMantenimiento).toLocaleDateString('es-PE', options)).split('/').join('-'); 
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
     this.request.maquinaria.cantidad=this.e.cantidad;
-    this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
+    this.requestnew.fecha=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
     this.disabled=true;
   }
   if(this.op==0){
     this.show=1;
+    this.disabled=false;
   }
   if(this.op==2){
+    // let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    // this.requestnew.fecha = ((this.e.fechaMantenimiento).toLocaleDateString('es-PE', options)).split('/').join('-'); 
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
     this.request.maquinaria.cantidad=this.e.cantidad;
-    this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
+    this.requestnew.fecha=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
     this.disabled=false;
     this.show=3;
   }
+}
+private setInputPattern(_event: any, _pattern: any): void {
+  setInputPattern(_event, _pattern);
+}
+private setValidatorPattern(_pattern: string, _quantifier: any,
+  _exactStart?: boolean, _exactEnd?: boolean, _regexFlags?: string): RegExp {
+
+  return setValidatorPattern(_pattern, _quantifier,
+    _exactStart, _exactEnd, _regexFlags);
+}
+private setQuantifier(_quantifier1?: null | number | string, _quantifier2?: null | number): {} {
+  return setQuantifier(_quantifier1, _quantifier2);
+}
+onDateChangee(date) {
+  let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  date = ((date).toLocaleDateString('es-PE', options)).split('/').join('-');  
+  this.request.maquinaria.fechaMantenimiento=date;
 }
 private update(){
   this.request.maquinaria.idMaquinaria=this.e.idMaquinaria;

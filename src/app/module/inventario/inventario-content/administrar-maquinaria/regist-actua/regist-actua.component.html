@@ -1,58 +1,75 @@
 <mat-card class="col-12">
-    <mat-card-header class="sombreadoSubtitulos">
-      <mat-card-title class="subtitulo-seccion">Datos de la Maquinaria</mat-card-title>
-    </mat-card-header>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Datos de la Maquinaria</mat-card-title>
+    <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
+      <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+        <span>
+          <i class="material-icons">close</i>
+        </span>
+      </div>
+    </button>
+  </mat-card-header>
 
-    <mat-card-content>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-6 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabled"> 
-            </mat-form-field>
-          </div>
-
-          <div class=" col-6 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca"[disabled]="disabled">
-            </mat-form-field>
-          </div>
-
-        </div>
-        <div class="row">
-            <div class=" col-6  mdl-input-group mdl-input-group__only">
-                <mat-form-field class="example-full-width mat-form-field-flex2">
-                  <input matInput placeholder="Cantidad:" [(ngModel)]="request.maquinaria.cantidad" [disabled]="disabled">
-                </mat-form-field>
-              </div>
-    
-    
-              <div class=" col-6 mdl-input-group mdl-input-group__only">
-                <mat-form-field class="example-full-width mat-form-field-flex2">
-                  <input matInput placeholder="Fecha de Mantenimiento:" [(ngModel)]="request.maquinaria.fechaMantenimiento" [disabled]="disabled">
-                </mat-form-field>
-              </div>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabled">
+          </mat-form-field>
         </div>
 
-        <div class="row">
-            <div class=" col-12 mdl-input-group mdl-input-group__only">
-                <mat-form-field class="example-full-width mat-form-field-flex2">
-                  <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled">
-                </mat-form-field>
-              </div>
+        <div class=" col-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+            <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabled">
+          </mat-form-field>
         </div>
 
-        <div class="modalaling">
-          <div *ngIf="show==1"class="col-11 text-right alinearBtn">
-            <button mat-raised-button (click)="insert()">Insertar</button>
-          </div>
-          <div  class="col-11 text-right alinearBtn">
-            <button mat-raised-button (click)="close(1)">Regresar</button>
-          </div>
-          <div *ngIf="show==3"class="col-11 text-right alinearBtn">
-            <button mat-raised-button (click)="update()">Editar</button>
-          </div>
+      </div>
+      <div class="row">
+        <div class=" col-6  mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+            <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.cantidad" [disabled]="disabled"
+              (keypress)="setInputPattern($event, 'positiveDigits')"
+              [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+          </mat-form-field>
+        </div>
+
+
+        <div class=" col-6 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="col">
+            <input matInput placeholder="Fecha" [matDatepicker]="picker" [(ngModel)]="requestnew.fecha" [min]="today"
+              [minDate]="today" name="requestnew.fecha" #requestnew.fecha="ngModel"
+              (dateInput)="onDateChangee($event.target.value)" [disabled]="disabled">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>
+              <app-validators-messages [controlVar]="requestnew.fecha" labelName="Fecha">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+
+      <div class="row">
+        <div class=" col-12 mdl-input-group mdl-input-group__only">
+          <mat-form-field class="example-full-width mat-form-field-flex2">
+            <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="modalaling">
+        <div *ngIf="show==1" class="col-11 text-right alinearBtn">
+          <button mat-raised-button (click)="insert()">Insertar</button>
+        </div>
+        <div class="col-11 text-right alinearBtn">
+          <button mat-raised-button (click)="close(1)">Regresar</button>
+        </div>
+        <div *ngIf="show==3" class="col-11 text-right alinearBtn">
+          <button mat-raised-button (click)="update()">Editar</button>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -30,7 +30,7 @@ export class MaterialesInactivoComponent implements OnInit {
       this.pageSize = this.displayedSizes[0];
      }
      private getMateriales(nuPagina?: number) {
-      this.pagination.numPagina = (nuPagina) ? nuPagina : this.pagination.numPagina;
+      this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
 
       Object.keys(this.requestListar).forEach(key => {
         this.requestListar[key] = (this.requestListar[key] === '') ? null : this.requestListar[key];
@@ -38,7 +38,7 @@ export class MaterialesInactivoComponent implements OnInit {
       this.requestListar = {
         ...this.requestListar,
         ...this.pagination,
-        numRegistroMostrar: this.pageSize
+        nuRegisMostrar: this.pageSize
       };
       console.log(this.requestListar);
       this._materialService.getMateriales(this.requestListar).subscribe(data => {
@@ -51,7 +51,10 @@ export class MaterialesInactivoComponent implements OnInit {
               this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
             }
             if (this.lsMateriales.length > 0) {
-              this.pagination.numRegistroMostrar = this.lsMateriales[0].nuTotalReg;
+              this.pagination.nuRegisMostrar = this.lsMateriales[0].nuTotalReg;
+            }  
+            if (this.lsMateriales.length == 0) {
+              this.toastr.info("No hay materiales inactivos");
             }  
   
           } else {

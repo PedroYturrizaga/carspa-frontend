@@ -1,6 +1,13 @@
 <mat-card class="col-12">
         <mat-card-header class="sombreadoSubtitulos">
           <mat-card-title class="subtitulo-seccion">Datos de la Maquinaria</mat-card-title>
+          <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
+            <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+              <span>
+                <i class="material-icons">close</i>
+              </span>
+            </div>
+          </button>
         </mat-card-header>
     
         <mat-card-content>
@@ -27,27 +34,35 @@
             <div class="row">
                 <div class=" col-4  mdl-input-group mdl-input-group__only">
                     <mat-form-field class="example-full-width mat-form-field-flex2">
-                      <input matInput placeholder="Cantidad:" [(ngModel)]="request.material.stock">
+                      <input matInput placeholder="Cantidad:" [(ngModel)]="request.material.stock"
+                      (keypress)="setInputPattern($event, 'positiveDigits')"
+                      [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
                     </mat-form-field>
                   </div>
         
         
                   <div class=" col-4 mdl-input-group mdl-input-group__only">
                     <mat-form-field class="example-full-width mat-form-field-flex2">
-                      <input matInput placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo">
+                      <input matInput placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo"
+                      (keypress)="setInputPattern($event, 'positiveDigits')"
+                      [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
                     </mat-form-field>
                   </div>
                           
                   <div class=" col-4 mdl-input-group mdl-input-group__only">
                         <mat-form-field class="example-full-width mat-form-field-flex2">
-                          <input matInput placeholder="Stock Mínimo:" [(ngModel)]="request.material.stockMinimo">
+                          <input matInput placeholder="Stock Mínimo:" [(ngModel)]="request.material.stockMinimo"
+                          (keypress)="setInputPattern($event, 'positiveDigits')"
+                          [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
                         </mat-form-field>
                       </div>
             </div>
             <div class="row">
                     <div class=" col-4  mdl-input-group mdl-input-group__only">
                         <mat-form-field class="example-full-width mat-form-field-flex2">
-                          <input matInput placeholder="Punto Pedido:" [(ngModel)]="request.material.puntoPedido">
+                          <input matInput placeholder="Punto Pedido:" [(ngModel)]="request.material.puntoPedido"
+                          (keypress)="setInputPattern($event, 'positiveDigits')"
+                          [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
                         </mat-form-field>
                       </div>
             

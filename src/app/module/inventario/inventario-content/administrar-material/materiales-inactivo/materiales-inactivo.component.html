@@ -1,7 +1,13 @@
 <mat-card>
   <mat-card-header class="sombreadoSubtitulos">
     <mat-card-title class="subtitulo-seccion">MATERIALES INACTIVOS</mat-card-title>
-
+    <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
+      <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+        <span>
+          <i class="material-icons">close</i>
+        </span>
+      </div>
+    </button>
   </mat-card-header>
     <mat-card-content>
         <div class="col-12 card-body text-center">
@@ -42,12 +48,12 @@
 
         <!-- EDITAR -->
         <ng-container matColumnDef="activar">
-          <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Activar </mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="activarMaterial()" >
             <button mat-button>
               <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
                 <span>
-                  <i class="material-icons">edit</i>
+                  <i class="material-icons">add_circle</i>
                 </span>
               </div>
             </button>
