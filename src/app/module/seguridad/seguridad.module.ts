@@ -39,7 +39,7 @@ import { ServicioService } from './services/servicio.service';
 import { UsuarioService } from './services/usuario.service';
 import { RolesComponent } from './seguridad-content/roles/roles.component';
 import { CrearEditarRolComponent } from './seguridad-content/roles/crear-editar-rol/crear-editar-rol.component';
-import { GrupoOcupacionalService } from '../maestras/services/grupo-ocupacional.service';
+// import { GrupoOcupacionalService } from '../maestras/services/grupo-ocupacional.service';
 import { ModalConfirmacionComponent } from '../../shared/others/modal-confirmacion/modal-confirmacion.component';
 import { PaginasComponent } from './seguridad-content/roles/paginas/paginas.component';
 import { PaginaService } from './services/pagina.service';
@@ -69,7 +69,7 @@ import { PaginaService } from './services/pagina.service';
               RolService,
               ServicioService,
               UsuarioService,
-              GrupoOcupacionalService,
+              // GrupoOcupacionalService,
               PaginaService
             ]
 })

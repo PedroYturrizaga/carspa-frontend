@@ -1,7 +1,6 @@
 import { AlmacenService } from './../../../services/almacen.service';
 import { MatTableDataSource, MatDialogRef, MatPaginator, MatSort } from '@angular/material';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { S_IFIFO } from 'constants';
 import { ToastsManager } from 'ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 

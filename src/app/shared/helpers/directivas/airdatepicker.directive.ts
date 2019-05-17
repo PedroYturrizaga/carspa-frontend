@@ -1,4 +1,4 @@
-import { CitaProcedimientoComponent } from './../../../module/admision/admision-content/cita-procedimiento/cita-procedimiento.component';
+// import { CitaProcedimientoComponent } from './../../../module/admision/admision-content/cita-procedimiento/cita-procedimiento.component';
 import { Input, Output, EventEmitter, ViewChild, ElementRef, Directive, Renderer } from '@angular/core';
 
 @Directive({
@@ -76,12 +76,12 @@ export class AirdatepickerDirective {
     diasfin[1] = esBisiesto(2018) ? 29 : 28;
     //console.log(numberDays);
 
-    var fechaFiltro=function(fecha){
-    CitaProcedimientoComponent.selecFecha(fecha);
-    };
-    var mesFiltro=function(fecha){
-      CitaProcedimientoComponent.mes(fecha);
-      };
+    // var fechaFiltro=function(fecha){
+    // CitaProcedimientoComponent.selecFecha(fecha);
+    // };
+    // var mesFiltro=function(fecha){
+    //   CitaProcedimientoComponent.mes(fecha);
+    //   };
 
     $(this.el.nativeElement).datepicker({
       inline: true,
@@ -189,12 +189,12 @@ export class AirdatepickerDirective {
       ,
       onChangeMonth: function (month, year) {
         this.devMonth= "02"+ "/" + ((month)+1) + "/" + year;
-        return mesFiltro(this.devMonth);
+        // return mesFiltro(this.devMonth);
       },
      
       onSelect: function(selectedDate) {
         // alert(selectedDate);
-         return fechaFiltro(selectedDate);
+        //  return fechaFiltro(selectedDate);
       }
 
     });

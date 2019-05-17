@@ -1,5 +1,5 @@
 import { MatTableDataSource, MatDialogRef } from '@angular/material';
-import { GrupoOcupacionalService } from './../../../../maestras/services/grupo-ocupacional.service';
+// import { GrupoOcupacionalService } from './../../../../maestras/services/grupo-ocupacional.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ export class CrearEditarRolComponent implements OnInit {
 
   @Input() rolGrupOcupEdit;
 
-  constructor(private _grupoOcupacionalService: GrupoOcupacionalService,
+  constructor(//private _grupoOcupacionalService: GrupoOcupacionalService,
     private _rolService: RolService,
     private toastr: ToastsManager,
     public dialogRef: MatDialogRef<CrearEditarRolComponent>) { }
@@ -29,29 +29,29 @@ export class CrearEditarRolComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   ngOnInit() {
-    this.getGrupoOcupacional();
+    // this.getGrupoOcupacional();
   }
 
-  private getGrupoOcupacional() {
-    let params = { nuPagina: 1, nuRegisMostrar: 10000 }
-    this._grupoOcupacionalService.obtenerGrupoOcupacional(params)
-      .subscribe(data => {
-        if (data.estado == 1) {
-          this.grupOcupList = data.grupoOcupacionalList;
-          this.setRolGrupOcup();
+  // private getGrupoOcupacional() {
+  //   let params = { nuPagina: 1, nuRegisMostrar: 10000 }
+  //   this._grupoOcupacionalService.obtenerGrupoOcupacional(params)
+  //     .subscribe(data => {
+  //       if (data.estado == 1) {
+  //         this.grupOcupList = data.grupoOcupacionalList;
+  //         this.setRolGrupOcup();
 
-        } else {
-          this.toastr.warning(data.mensaje, "No se encontraron Grupos Ocupacionales");
-          this.grupOcupList = [];
-        }
-      },
-        error => {
-          this.toastr.error("Error al listar los Grupos Ocupacionales");
-          return Observable.throw(error);
-        }),
-      err => this.toastr.error(err),
-      () => this.toastr.success('Request Complete');
-  }
+  //       } else {
+  //         this.toastr.warning(data.mensaje, "No se encontraron Grupos Ocupacionales");
+  //         this.grupOcupList = [];
+  //       }
+  //     },
+  //       error => {
+  //         this.toastr.error("Error al listar los Grupos Ocupacionales");
+  //         return Observable.throw(error);
+  //       }),
+  //     err => this.toastr.error(err),
+  //     () => this.toastr.success('Request Complete');
+  // }
 
   private addGrupoOcupacional() {
 
