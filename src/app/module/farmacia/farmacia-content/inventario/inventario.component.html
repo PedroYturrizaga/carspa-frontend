@@ -1,6 +1,0 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <a mat-button disableRipple = "true" class="mat-button {{activo[uri]}}" *ngFor="let uri of arrayUris" (click)="goToModulo(uri)">{{jsonUris[uri]}}</a>
-  </mat-toolbar-row>
-</mat-toolbar>
-<router-outlet></router-outlet>
