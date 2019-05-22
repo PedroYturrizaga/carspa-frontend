@@ -4,7 +4,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { setInputPattern, setValidatorPattern, setQuantifier } from '../../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
+import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '../../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
 
 @Component({
   selector: 'app-registrar-actualizar',
@@ -15,6 +15,9 @@ export class RegistrarActualizarComponent implements OnInit {
   
   @Input() e;
   @Input() op;
+  private show=0;
+  private disabled: boolean = true;
+  private disabledEdit: boolean = true;
   private lsProveedor = [];
   private request={
     material:{
@@ -34,8 +37,10 @@ export class RegistrarActualizarComponent implements OnInit {
 
   };
   private inicial(){
-
+    console.log(this.op);
+    
     if(this.op==1){
+      this.show=3;
       this.request.material.idMaterial=this.e.idMaterial;
       this.request.material.stockMaximo=this.e.stockMaximo;
       this.request.material.precioVenta=this.e.precioVenta;
@@ -49,7 +54,35 @@ export class RegistrarActualizarComponent implements OnInit {
       this.request.material.descripcion=this.e.descripcion;
       this.request.material.descripcion=this.e.descripcion;
       this.request.material.idProveedor=this.e.idProveedor;
+      this.disabled=false;
+      this.disabledEdit=true;
+      
     }
+    
+    if(this.op==2){
+      this.request.material.idMaterial=this.e.idMaterial;
+      this.request.material.stockMaximo=this.e.stockMaximo;
+      this.request.material.precioVenta=this.e.precioVenta;
+      this.request.material.stockMinimo=this.e.stockMinimo;
+      this.request.material.puntoPedido=this.e.puntoPedido;
+      this.request.material.codigo=this.e.codigo;
+      this.request.material.stock=this.e.stock;
+      this.request.material.nombre=this.e.nombre;
+      this.request.material.marca=this.e.marca;
+      this.request.material.precioCompra=this.e.precioCompra;
+      this.request.material.descripcion=this.e.descripcion;
+      this.request.material.descripcion=this.e.descripcion;
+      this.request.material.idProveedor=this.e.idProveedor;
+      this.disabled=true;
+      this.disabledEdit=true;
+
+    }
+   if(this.op==0)  {
+     this.show=1;
+     this.disabled=false;
+     this.disabledEdit=false;
+    }
+
 
   }
 
@@ -112,6 +145,9 @@ export class RegistrarActualizarComponent implements OnInit {
       () => console.log('Request Complete');
 
   }
+  private isInvalid(_ngForm: any): boolean {
+    return isInvalid(_ngForm);
+  }
   private getProveedor() {
     this._materialService.getProveedores().subscribe(data => {
         if (data.estado == 1) {
@@ -142,8 +178,10 @@ export class RegistrarActualizarComponent implements OnInit {
   private setQuantifier(_quantifier1?: null | number | string, _quantifier2?: null | number): {} {
     return setQuantifier(_quantifier1, _quantifier2);
   }
+  
   ngOnInit() {
     this.getProveedor();
+    this.inicial();
   }
 
 }

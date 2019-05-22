@@ -25,9 +25,11 @@ export class RegistActuaComponent implements OnInit {
     detalle:null
     }
   }
-  private requestnew={fecha: null};
+  private requestnew={fecha: ""};
   private today: Date = new Date();
   private disabled: boolean = true;
+  private disabledEdit: boolean = true;
+
   private show=0;
   constructor(private _maquinariaService: AdministrarMaquinariaService,
     private toastr: ToastsManager,
@@ -41,16 +43,16 @@ close(add) {
   this.dialogRef.close(add);
 }
 public getDatos(){ 
-  
   if(this.op==1){
     // let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     // this.requestnew.fecha =((this.e.fechaMantenimiento).toLocaleDateString('es-PE', options)).split('/').join('-'); 
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
     this.request.maquinaria.cantidad=this.e.cantidad;
-    this.requestnew.fecha=this.e.fechaMantenimiento;
+    this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
     this.disabled=true;
+    this.disabledEdit=false;
   }
   if(this.op==0){
     this.show=1;
@@ -62,10 +64,11 @@ public getDatos(){
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
     this.request.maquinaria.cantidad=this.e.cantidad;
-    this.requestnew.fecha=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
+    this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
     this.disabled=false;
     this.show=3;
+    this.disabledEdit=true;    
   }
 }
 private setInputPattern(_event: any, _pattern: any): void {
@@ -87,9 +90,9 @@ onDateChangee(date) {
 }
 private update(){
   this.request.maquinaria.idMaquinaria=this.e.idMaquinaria;
-  console.log(this.request);
   this._maquinariaService.updateMaquinaria(this.request).subscribe(data => {
       if (data.estado == 1) {
+        console.log(data);        
         this.toastr.success("Se actualizó la maquinaria");
         this.close(1);
       } else {
@@ -106,7 +109,6 @@ private update(){
     () => console.log('Request Complete');
 }
 private insert(){
-  console.log(this.request);
   this._maquinariaService.insertMaquinaria(this.request).subscribe(data => {
     console.log(data);
       if (data.estado == 1) {

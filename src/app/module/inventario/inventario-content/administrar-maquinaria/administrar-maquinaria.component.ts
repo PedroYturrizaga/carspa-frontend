@@ -139,6 +139,8 @@ private modalabrir(op,e?){
     disableClose: false,
     hasBackdrop: true
   });
+  console.log(e);
+  
   dialogRef.componentInstance.e = e;
   dialogRef.componentInstance.op =op;
   dialogRef.afterClosed().subscribe(result => {

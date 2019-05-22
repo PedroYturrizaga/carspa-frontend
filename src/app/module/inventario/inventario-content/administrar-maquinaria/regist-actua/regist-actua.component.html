@@ -15,48 +15,49 @@
       <div class="row">
         <div class="col-6 mdl-input-group mdl-input-group__only">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabled">
+            <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabledEdit">
           </mat-form-field>
         </div>
 
         <div class=" col-6 mdl-input-group mdl-input-group__only">
-          <mat-form-field class="example-full-width mat-form-field-flex2">
-            <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabled">
+          <mat-form-field class="">
+            <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabledEdit">
           </mat-form-field>
         </div>
 
       </div>
       <div class="row">
         <div class=" col-6  mdl-input-group mdl-input-group__only">
-          <mat-form-field class="example-full-width mat-form-field-flex2">
+          <mat-form-field class="">
             <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.cantidad" [disabled]="disabled"
               (keypress)="setInputPattern($event, 'positiveDigits')"
               [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
           </mat-form-field>
         </div>
 
-
-        <div class=" col-6 mdl-input-group mdl-input-group__only">
-          <mat-form-field class="col">
-            <input matInput placeholder="Fecha" [matDatepicker]="picker" [(ngModel)]="requestnew.fecha" [min]="today"
-              [minDate]="today" name="requestnew.fecha" #requestnew.fecha="ngModel"
-              (dateInput)="onDateChangee($event.target.value)" [disabled]="disabled">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-error>
-              <app-validators-messages [controlVar]="requestnew.fecha" labelName="Fecha">
-              </app-validators-messages>
-            </mat-error>
-          </mat-form-field>
-        </div>
+        <!-- <mat-form-field class="col-6">
+          <input matInput placeholder="Fecha" [matDatepicker]="picker22" [(ngModel)]="requestnew.fecha"
+            [min]="today" [minDate]="today" name="requestnew_fecha" #requestnew_fecha="ngModel"
+            (dateInput)="onDateChangee($event.target.value)" [disabled]="disabled">
+          <mat-datepicker-toggle matSuffix [for]="picker22"></mat-datepicker-toggle>
+          <mat-datepicker #picker22></mat-datepicker>
+        </mat-form-field>
+      </div> -->
+      <div class=" col-6 mdl-input-group mdl-input-group__only">
+        <mat-form-field class="">
+          <input matInput placeholder="Fecha:" [(ngModel)]="request.maquinaria.fechaMantenimiento"
+            [disabled]="disabled" type="date" [minDate]="today">
+        </mat-form-field>
       </div>
-
+      </div>
       <div class="row">
         <div class=" col-12 mdl-input-group mdl-input-group__only">
-          <mat-form-field class="example-full-width mat-form-field-flex2">
+          <mat-form-field class="">
             <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled">
           </mat-form-field>
         </div>
+
+
       </div>
 
       <div class="modalaling">
