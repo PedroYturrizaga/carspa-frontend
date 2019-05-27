@@ -19,25 +19,24 @@
   
       <div class="table responsive">
         <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="codigo">
+            <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.codigo }} </mat-cell>
+          </ng-container>
   
           <ng-container matColumnDef="material">
-            <mat-header-cell *matHeaderCellDef>Material</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Maquinaria</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element.nombre }} </mat-cell>
           </ng-container>
   
           <ng-container matColumnDef="marca">
             <mat-header-cell *matHeaderCellDef>Marca </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element.marca }} </mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="cantidad">
-            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.cantidad }} </mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="fecha">
-            <mat-header-cell *matHeaderCellDef> Fecha Mantenimiento </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.fechaMantenimiento }} </mat-cell>
+          </ng-container>  
+          
+          <ng-container matColumnDef="ubicacion">
+            <mat-header-cell *matHeaderCellDef> Ubicación </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.ubicacion }} </mat-cell>
           </ng-container>
   
   

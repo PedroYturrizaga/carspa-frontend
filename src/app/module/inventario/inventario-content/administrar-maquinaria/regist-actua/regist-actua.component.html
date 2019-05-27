@@ -11,66 +11,67 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-6 mdl-input-group mdl-input-group__only">
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabledEdit">
+    <form #FormCrearActividad="ngForm" novalidate name="FormCrearActividad">
+      <div class="modal-body">
+        <div class="row">
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.codigo" [disabled]="disabled"
+                required>
+            </mat-form-field>
+          </div>
+
+          <div class="col-6 ">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabledEdit"
+                required>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabledEdit"
+                required>
+            </mat-form-field>
+          </div>
+          <mat-form-field class="col-6">
+            <input matInput placeholder="Fecha" [matDatepicker]="picker22" [(ngModel)]="requestnew.fecha" [min]="today"
+              [minDate]="today" name="requestnew_fecha" #requestnew_fecha="ngModel"
+              (dateInput)="onDateChangee($event.target.value)" [disabled]="disabled" required>
+            <mat-datepicker-toggle matSuffix [for]="picker22"></mat-datepicker-toggle>
+            <mat-datepicker #picker22></mat-datepicker>
           </mat-form-field>
         </div>
-
-        <div class=" col-6 mdl-input-group mdl-input-group__only">
-          <mat-form-field class="">
-            <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabledEdit">
-          </mat-form-field>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class=" col-6  mdl-input-group mdl-input-group__only">
-          <mat-form-field class="">
-            <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.cantidad" [disabled]="disabled"
-              (keypress)="setInputPattern($event, 'positiveDigits')"
-              [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
-          </mat-form-field>
-        </div>
-
-        <!-- <mat-form-field class="col-6">
-          <input matInput placeholder="Fecha" [matDatepicker]="picker22" [(ngModel)]="requestnew.fecha"
-            [min]="today" [minDate]="today" name="requestnew_fecha" #requestnew_fecha="ngModel"
-            (dateInput)="onDateChangee($event.target.value)" [disabled]="disabled">
-          <mat-datepicker-toggle matSuffix [for]="picker22"></mat-datepicker-toggle>
-          <mat-datepicker #picker22></mat-datepicker>
-        </mat-form-field>
-      </div> -->
-      <div class=" col-6 mdl-input-group mdl-input-group__only">
+        <!-- <div class=" col-6 mdl-input-group mdl-input-group__only">
         <mat-form-field class="">
           <input matInput placeholder="Fecha:" [(ngModel)]="request.maquinaria.fechaMantenimiento"
             [disabled]="disabled" type="date" [minDate]="today">
         </mat-form-field>
-      </div>
-      </div>
-      <div class="row">
-        <div class=" col-12 mdl-input-group mdl-input-group__only">
-          <mat-form-field class="">
-            <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled">
-          </mat-form-field>
-        </div>
+      </div> -->
+        <div class="row">
+          <div class=" col-12">
+            <mat-form-field class="">
+              <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled">
+            </mat-form-field>
+          </div>
 
 
-      </div>
+        </div>
 
-      <div class="modalaling">
-        <div *ngIf="show==1" class="col-11 text-right alinearBtn">
-          <button mat-raised-button (click)="insert()">Insertar</button>
-        </div>
-        <div class="col-11 text-right alinearBtn">
-          <button mat-raised-button (click)="close(1)">Regresar</button>
-        </div>
-        <div *ngIf="show==3" class="col-11 text-right alinearBtn">
-          <button mat-raised-button (click)="update()">Editar</button>
+        <div class="modalaling">
+          <div *ngIf="show==1" class="col-11 text-right alinearBtn">
+            <button mat-raised-button (click)="insert()" [disabled]="FormCrearActividad.invalid">Insertar</button>
+          </div>
+          <div class="col-11 text-right alinearBtn">
+            <button mat-raised-button (click)="close(1)">Regresar</button>
+          </div>
+          <div *ngIf="show==3" class="col-11 text-right alinearBtn">
+            <button mat-raised-button (click)="update()" [disabled]="FormCrearActividad.invalid">Editar</button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </mat-card-content>
 </mat-card>

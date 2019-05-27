@@ -16,7 +16,7 @@ import { RegistActuaComponent } from './regist-actua/regist-actua.component';
 })
 export class AdministrarMaquinariaComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['material','marca','cantidad','fecha','ver','edit' ,'eliminar'];
+  displayedColumns = ['codigo','material','marca','fecha','ubicacion','ver','edit' ,'eliminar'];
   dataSource = new MatTableDataSource();
   private lsmaquinarias = [];
   private requestListar = { nombre: null ,estado:1}
@@ -104,10 +104,10 @@ export class AdministrarMaquinariaComponent implements OnInit {
         disableClose: true,
         hasBackdrop: true
       });
-      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular la maquinaria?";
+      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular la maquinaria "+"'e.nombre' ?";
       dialogRef.afterClosed().subscribe(result => {
         if (result == 1) {
-          this.anularMaquinaria(e);
+          this.anularMaquinaria(e.idMaquinaria);
         }
       });
 
@@ -132,10 +132,6 @@ private modalInactivos(){
 private modalabrir(op,e?){
   const dialogRef = this.dialog.open(RegistActuaComponent, {
     autoFocus: false,
-    maxWidth: '50%',
-    width: '70%',
-    maxHeight: '60%',
-    height: '60%',
     disableClose: false,
     hasBackdrop: true
   });

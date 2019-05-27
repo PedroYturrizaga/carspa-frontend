@@ -14,6 +14,10 @@
 
     <div class="table responsive">
       <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="codigo">
+          <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.codigo }} </mat-cell>
+        </ng-container>
 
         <ng-container matColumnDef="material">
           <mat-header-cell *matHeaderCellDef>Maquinaria</mat-header-cell>
@@ -25,16 +29,16 @@
           <mat-cell *matCellDef="let element"> {{ element.marca }} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="cantidad">
-          <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.cantidad }} </mat-cell>
-        </ng-container>
-
         <ng-container matColumnDef="fecha">
           <mat-header-cell *matHeaderCellDef> Próximo Mantenimiento </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{ element.fechaMantenimiento }} </mat-cell>
         </ng-container>
 
+        
+        <ng-container matColumnDef="ubicacion">
+          <mat-header-cell *matHeaderCellDef> Ubicación </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.ubicacion }} </mat-cell>
+        </ng-container>
 
         <!-- VER -->
         <ng-container matColumnDef="ver">
@@ -67,7 +71,7 @@
         <!-- ELIMINAR -->
         <ng-container matColumnDef="eliminar">
           <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="modalelementDelete(element.idMaquinaria)">
+          <mat-cell *matCellDef="let element" (click)="modalelementDelete(element)">
             <button mat-button>
               <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
                 <span>

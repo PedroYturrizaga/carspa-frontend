@@ -20,7 +20,7 @@ export class RegistActuaComponent implements OnInit {
     idMaquinaria:null,
     nombre:null,
     marca:null,
-    cantidad:null,
+    codigo:null,
     fechaMantenimiento:null,
     detalle:null
     }
@@ -48,7 +48,7 @@ public getDatos(){
     // this.requestnew.fecha =((this.e.fechaMantenimiento).toLocaleDateString('es-PE', options)).split('/').join('-'); 
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
-    this.request.maquinaria.cantidad=this.e.cantidad;
+    this.request.maquinaria.codigo=this.e.codigo;
     this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
     this.disabled=true;
@@ -63,7 +63,7 @@ public getDatos(){
     // this.requestnew.fecha = ((this.e.fechaMantenimiento).toLocaleDateString('es-PE', options)).split('/').join('-'); 
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
-    this.request.maquinaria.cantidad=this.e.cantidad;
+    this.request.maquinaria.codigo=this.e.codigo;
     this.request.maquinaria.detalle=this.e.detalle;
     this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
     this.disabled=false;
@@ -83,6 +83,7 @@ private setValidatorPattern(_pattern: string, _quantifier: any,
 private setQuantifier(_quantifier1?: null | number | string, _quantifier2?: null | number): {} {
   return setQuantifier(_quantifier1, _quantifier2);
 }
+
 onDateChangee(date) {
   let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   date = ((date).toLocaleDateString('es-PE', options)).split('/').join('-');  
@@ -96,7 +97,7 @@ private update(){
         this.toastr.success("Se actualizó la maquinaria");
         this.close(1);
       } else {
-        this.toastr.error(data.mensaje);
+        this.toastr.info(data.mensaje);
       }
       return true;
     },
@@ -115,7 +116,7 @@ private insert(){
         this.toastr.success("Se insertó la maquinaria");
         this.close(1);
       } else {
-        this.toastr.error(data.mensaje);
+        this.toastr.info(data.mensaje);
       }
       return true;
     },
