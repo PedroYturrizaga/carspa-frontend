@@ -11,20 +11,20 @@
   </mat-card-header>
 
   <mat-card-content>
-    <form #FormCrearActividad="ngForm" novalidate name="FormCrearActividad">
-      <div class="modal-body">
+      <form #FormCrearArea="ngForm" novalidate name="FormCrearArea">
+          <div class="modal-body">
         <div class="row">
           <div class=" col-6">
             <mat-form-field class="">
               <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.codigo" [disabled]="disabled"
-                required>
+                maxlength="8" name="request.maquinaria.codigo" #request.maquinaria.codigo="ngModel" required>
             </mat-form-field>
           </div>
 
           <div class="col-6 ">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabledEdit"
-                required>
+              <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabled"
+              name="request.maquinaria.nombre" #request.maquinaria.nombre="ngModel" required>
             </mat-form-field>
           </div>
 
@@ -32,8 +32,8 @@
         <div class="row">
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabledEdit"
-                required>
+              <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabled"
+              name="request.maquinaria.marca" #request.maquinaria.marca="ngModel" required>
             </mat-form-field>
           </div>
           <mat-form-field class="col-6">
@@ -53,7 +53,7 @@
         <div class="row">
           <div class=" col-12">
             <mat-form-field class="">
-              <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled">
+              <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled" name="request.maquinaria.detalle" #request.maquinaria.detalle="ngModel">
             </mat-form-field>
           </div>
 
@@ -61,15 +61,16 @@
         </div>
 
         <div class="modalaling">
-          <div *ngIf="show==1" class="col-11 text-right alinearBtn">
-            <button mat-raised-button (click)="insert()" [disabled]="FormCrearActividad.invalid">Insertar</button>
+            <div *ngIf="show==3" class="col-11 text-right">
+                <button mat-raised-button (click)="update()" [disabled]="!request.maquinaria.codigo || !request.maquinaria.nombre||!request.maquinaria.marca||!requestnew.fecha">Editar</button>
+            </div>
+          <div *ngIf="show==1" class="col-11 text-right ">
+            <button mat-raised-button (click)="insert()" [disabled]="FormCrearArea.invalid">Insertar</button>
           </div>
-          <div class="col-11 text-right alinearBtn">
+          <div class="col-11 text-left ">
             <button mat-raised-button (click)="close(1)">Regresar</button>
           </div>
-          <div *ngIf="show==3" class="col-11 text-right alinearBtn">
-            <button mat-raised-button (click)="update()" [disabled]="FormCrearActividad.invalid">Editar</button>
-          </div>
+
         </div>
       </div>
     </form>

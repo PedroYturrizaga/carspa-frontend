@@ -12,7 +12,7 @@ import { AdministrarMaquinariaService } from '../../../administrar-maquinaria.se
 })
 export class MaquinariasInactivoComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['codigo','material','marca','ubicacion','activar'];
+  displayedColumns = ['codigo','material','marca','activar'];
   dataSource = new MatTableDataSource();
   private lsmaquinarias = [];
   private requestListar = { nombre: null, estado: 0 }

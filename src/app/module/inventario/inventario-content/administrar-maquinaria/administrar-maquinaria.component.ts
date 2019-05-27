@@ -8,6 +8,7 @@ import { ModalConfirmacionComponent } from '../../../../shared/others/modal-conf
 import { MaquinariasInactivoComponent } from './maquinarias-inactivo/maquinarias-inactivo.component';
 import { RegistrarActualizarComponent } from '../administrar-material/registrar-actualizar/registrar-actualizar.component';
 import { RegistActuaComponent } from './regist-actua/regist-actua.component';
+import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-administrar-maquinaria',
@@ -19,6 +20,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
   displayedColumns = ['codigo','material','marca','fecha','ubicacion','ver','edit' ,'eliminar'];
   dataSource = new MatTableDataSource();
   private lsmaquinarias = [];
+  private today = new Date();
   private requestListar = { nombre: null ,estado:1}
   private displayedSizes: number[];
   private pageSize: number;
@@ -26,7 +28,8 @@ export class AdministrarMaquinariaComponent implements OnInit {
   constructor(private _maquinariaService: AdministrarMaquinariaService,
     private toastr: ToastsManager,
     private dialog: MatDialog,
-    private router: Router) {
+    private router: Router,
+    private calendar: NgbCalendar,) {
       this.pagination = { nuPagina: 1, nuRegisMostrar: 0 };
       this.displayedSizes = [10, 15, 25, 100];
       this.pageSize = this.displayedSizes[0];
@@ -39,6 +42,11 @@ export class AdministrarMaquinariaComponent implements OnInit {
 
 
     private getMaquinarias(nuPagina?: number) {
+      let fecha;
+      let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      fecha = ((this.today).toLocaleDateString('zh-Hans-CN', options)).split('/').join('-');  
+      console.log(fecha);
+      
       this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
 
       Object.keys(this.requestListar).forEach(key => {
@@ -53,6 +61,13 @@ export class AdministrarMaquinariaComponent implements OnInit {
           if (data.estado == 1) {
             this.lsmaquinarias = data.maquinarias;
             this.dataSource = new MatTableDataSource(this.lsmaquinarias);
+            this.lsmaquinarias.forEach(element => {
+              if(element["fechaMantenimiento"] == fecha){              
+                let maquina=element["nombre"];
+                let marca=element["marca"];
+                this.toastr.info("El mantenimiento de la máquina "+maquina+" de la marca "+marca+" es hoy") 
+                ;}
+           });
             if (this.matPag) {
               this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
             }
@@ -104,7 +119,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
         disableClose: true,
         hasBackdrop: true
       });
-      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular la maquinaria "+"'e.nombre' ?";
+      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular la maquinaria '"+e.nombre+"' ?";
       dialogRef.afterClosed().subscribe(result => {
         if (result == 1) {
           this.anularMaquinaria(e.idMaquinaria);
