@@ -12,14 +12,16 @@ import { AdministrarMaterialService } from './administrar-material.service';
 import { AdministrarMaquinariaService } from './administrar-maquinaria.service';
 import { ModalConfirmacionComponent } from '../../shared/others/modal-confirmacion/modal-confirmacion.component';
 import { RegistActuaComponent } from './inventario-content/administrar-maquinaria/regist-actua/regist-actua.component';
+import { ControlarStockComponent } from './inventario-content/controlar-stock/controlar-stock.component';
+import { OrdenPedidoComponent } from './inventario-content/controlar-stock/orden-pedido/orden-pedido.component';
 
 @NgModule({
   imports: [
     ModuleModule,
     InventarioRoutingModule
   ],
-  declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent, MaquinariasInactivoComponent, RegistActuaComponent],
-  entryComponents:[ModalConfirmacionComponent,MaterialesInactivoComponent,MaquinariasInactivoComponent,RegistrarActualizarComponent,RegistActuaComponent],
+  declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent, MaquinariasInactivoComponent, RegistActuaComponent, ControlarStockComponent, OrdenPedidoComponent],
+  entryComponents:[ModalConfirmacionComponent,MaterialesInactivoComponent,MaquinariasInactivoComponent,RegistrarActualizarComponent,RegistActuaComponent,OrdenPedidoComponent],
   providers:[AdministrarMaquinariaService,AdministrarMaterialService]
 })
 export class InventarioModule { }

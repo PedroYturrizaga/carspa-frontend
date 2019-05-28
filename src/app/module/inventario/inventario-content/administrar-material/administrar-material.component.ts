@@ -15,7 +15,7 @@ import { MaterialesInactivoComponent } from './materiales-inactivo/materiales-in
 })
 export class AdministrarMaterialComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['codigo', 'material','marca','stock','proveedor','ver','edit' ,'eliminar'];
+  displayedColumns = ['codigo', 'material','marca','cantidad','sm','smi','pp','ver','edit' ,'eliminar'];
   dataSource = new MatTableDataSource();
   private lsMateriales = [];
   private requestListar = { nombre: null ,estado:1}
@@ -37,6 +37,12 @@ export class AdministrarMaterialComponent implements OnInit {
         this.getMateriales(1);
       }
     }
+      private pageEvent($event) {
+    // this.paginationParameter.numPagina = event.pageIndex;
+    this.pagination.numPagina = $event.pageIndex + 1;
+    this.pageSize = $event.pageSize;
+    this.getMateriales();
+  }
 
     private getMateriales(nuPagina?: number) {
       this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
@@ -109,10 +115,10 @@ export class AdministrarMaterialComponent implements OnInit {
         disableClose: true,
         hasBackdrop: true
       });
-      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular el material?";
+      dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular el material '"+e.nombre+"' ?";
       dialogRef.afterClosed().subscribe(result => {
         if (result == 1) {
-          this.anularMaterial(e);
+          this.anularMaterial(e.idMaterial);
         }
       });
 
@@ -120,10 +126,6 @@ export class AdministrarMaterialComponent implements OnInit {
   private modalEdit(op,e){
     const dialogRef = this.dialog.open(RegistrarActualizarComponent, {
       autoFocus: false,
-      maxWidth: '70%',
-      width: '70%',
-      maxHeight: '80%',
-      height: '80%',
       disableClose: false,
       hasBackdrop: true
     });

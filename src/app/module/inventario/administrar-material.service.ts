@@ -42,6 +42,22 @@ export class AdministrarMaterialService  extends BaseService{
   public insertMaterial(data) {
     return this._http.post(this.urlMaterial + "insertarMaterial", data, { headers: this.obtenerHeaders() }).map((res: Response) => res.json());
   }
+     public getMaterialesAlerta(_params){
+    let queryParams = new URLSearchParams();
+    queryParams.append("nombre", _params.nombre);
+    queryParams.append("idAlerta1", _params.idAlerta1);
+    queryParams.append("idAlerta2", _params.idAlerta2);
+    queryParams.append("nuPagina", _params.nuPagina);
+    queryParams.append("nuRegisMostrar", _params.nuRegisMostrar);
+
+    let options = new RequestOptions({
+      search: queryParams
+    })
+    return this._http.get(this.urlMaterial+"listarMaterialesAlertas", options).map((res: Response) => res.json());
+   }
+     public ordenPedido(data) {
+    return this._http.post(this.urlMaterial + "ordenPedido", data, { headers: this.obtenerHeaders() }).map((res: Response) => res.json());
+  }
 
 
 }

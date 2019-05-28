@@ -42,6 +42,9 @@ export class AdministrarMaquinariaService extends BaseService{
   public insertMaquinaria(data) {
     return this._http.post(this.urlMaquinaria  + "insertarMaquinaria", data).map((res: Response) => res.json());
   }
+   public getUbicacion (){
+    return this._http.get(this.urlMaquinaria+"listarUbicacion").map((res: Response) => res.json());
 
+   }
 
 }

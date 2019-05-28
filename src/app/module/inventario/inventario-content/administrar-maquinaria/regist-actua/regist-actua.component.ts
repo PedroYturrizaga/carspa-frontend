@@ -15,6 +15,7 @@ import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '
 export class RegistActuaComponent implements OnInit {
   @Input() e;
   @Input() op;
+  private lsUbicacion = [];
   private request={    
     maquinaria:{    
     idMaquinaria:null,
@@ -22,11 +23,12 @@ export class RegistActuaComponent implements OnInit {
     marca:null,
     codigo:null,
     fechaMantenimiento:null,
-    detalle:null
+    detalle:null,
+    idUbicacion:1,
     }
   }
-  private requestnew={fecha: ""};
   private today: Date = new Date();
+   private fecha: Date;
   private disabled: boolean = true;
   private disabledEdit: boolean = true;
 
@@ -36,19 +38,19 @@ export class RegistActuaComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     public dialogRef: MatDialogRef<RegistActuaComponent>) { }
-private inicial(){
 
-}
 close(add) {
   this.dialogRef.close(add);
 }
 public getDatos(){ 
   if(this.op==1){
+    console.log(this.e.fechaMantenimiento);
+    
     this.request.maquinaria.nombre=this.e.nombre;
     this.request.maquinaria.marca=this.e.marca;
     this.request.maquinaria.codigo=this.e.codigo;
     this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
-    this.requestnew.fecha=this.e.fechaMantenimiento;
+    this.fecha=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
     this.disabled=true;
     this.disabledEdit=false;
@@ -63,7 +65,6 @@ public getDatos(){
     this.request.maquinaria.codigo=this.e.codigo;
     this.request.maquinaria.detalle=this.e.detalle;
     this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
-    this.requestnew.fecha=this.e.fechaMantenimiento;
     this.disabled=false;
     this.show=3;
     this.disabledEdit=true;    
@@ -85,20 +86,38 @@ private setQuantifier(_quantifier1?: null | number | string, _quantifier2?: null
   return setQuantifier(_quantifier1, _quantifier2);
 }
 
-onDateChangee(date) {
-  let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  date = ((date).toLocaleDateString('es-PE', options)).split('/').join('-');  
-  this.request.maquinaria.fechaMantenimiento=date;
+// onDateChangee(date) {
+  // let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  // date = ((date).toLocaleDateString('es-PE', options)).split('/').join('-');  
+  // this.request.maquinaria.fechaMantenimiento=date;
+// }
+private getUbicacion(){
+  this._maquinariaService.getUbicacion().subscribe(data => {
+      if (data.estado == 1) {
+        this.lsUbicacion=data.listmaquinarias;
+      } else {
+        this.toastr.info(data.mensaje);
+      }
+      return true;
+    },
+      error => {
+        console.error(error);
+        return Observable.throw(error);
+      }
+    ),
+    err => console.error(err),
+    () => console.log('Request Complete');
 }
+
 private update(){
-  this.request.maquinaria.idMaquinaria=this.e.idMaquinaria;
-  this._maquinariaService.updateMaquinaria(this.request).subscribe(data => {
+     this.request.maquinaria.idMaquinaria=this.e.idMaquinaria;
+      this._maquinariaService.updateMaquinaria(this.request).subscribe(data => {
       if (data.confirmacion.id == 1) {
         console.log(data);        
         this.toastr.success("Se actualizó la maquinaria");
         this.close(1);
       } else {
-        this.toastr.info(data.confirmacion.mensaje);
+        this.toastr.warning(data.confirmacion.mensaje);
       }
       return true;
     },
@@ -118,7 +137,7 @@ private insert(){
         this.toastr.success("Se insertó la maquinaria");
         this.close(1);
       } else {
-        this.toastr.info(data.confirmacion.mensaje);
+        this.toastr.warning(data.confirmacion.mensaje);
       }
       return true;
     },
@@ -133,6 +152,7 @@ private insert(){
 }
   ngOnInit() {
     this.getDatos();
+    this.getUbicacion();
   }
 
 }

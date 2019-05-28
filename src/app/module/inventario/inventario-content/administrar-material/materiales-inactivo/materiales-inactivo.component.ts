@@ -13,7 +13,7 @@ import { AdministrarMaterialService } from '../../../administrar-material.servic
 })
 export class MaterialesInactivoComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['codigo', 'material','marca','proveedor','activar'];
+  displayedColumns = ['codigo', 'material','marca','activar'];
   dataSource = new MatTableDataSource();
   private lsMateriales = [];
   private requestListar = { nombre: null ,estado:0}

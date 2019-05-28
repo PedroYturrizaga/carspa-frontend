@@ -8,7 +8,7 @@
         <div class="col-12 card-body text-center">
             <mat-form-field class="col-sm-6 mat-form-field-flex1">
                 <input matInput placeholder="Nombre de la maquinaria" [(ngModel)]="requestListar.nombre"
-                    (input)="busqueda($event.target.value)">
+                    (input)="busqueda($event.target.value)" matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'"s>
             </mat-form-field>    
         </div>
 

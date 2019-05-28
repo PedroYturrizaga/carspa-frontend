@@ -1,6 +1,6 @@
 <mat-card class="col-12">
   <mat-card-header class="sombreadoSubtitulos">
-    <mat-card-title class="subtitulo-seccion">Datos de la Maquinaria</mat-card-title>
+    <mat-card-title class="subtitulo-seccion">Datos del Material</mat-card-title>
     <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
       <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
         <span>
@@ -11,115 +11,90 @@
   </mat-card-header>
 
   <mat-card-content>
-
-    <div class="card-body">
+    <form #FormCrearArea="ngForm" novalidate name="FormCrearArea">
+      <div class="modal-body">
         <div class="row">
-          <div class="col-4 mdl-input-group mdl-input-group__only">
+          <div class="col-4">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Código:" [(ngModel)]="request.material.codigo" [disabled]="disabledEdit">
+              <input matInput placeholder="Código:" [(ngModel)]="request.material.codigo" [disabled]="disabled"
+              maxlength="8" name="request.material.codigo" #request.material.codigo="ngModel" required >
             </mat-form-field>
           </div>
-          <div class="col-4 mdl-input-group mdl-input-group__only">
+          <div class="col-4">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Nombre:" [(ngModel)]="request.material.nombre" [disabled]="disabled">
+              <input matInput placeholder="Nombre:" [(ngModel)]="request.material.nombre" [disabled]="disabled"
+              name="request.material.nombre" #request.material.nombre="ngModel" required>
             </mat-form-field>
           </div>
 
-          <div class=" col-4 mdl-input-group mdl-input-group__only">
+          <div class=" col-4">
             <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Marca:" [(ngModel)]="request.material.marca" [disabled]="disabled">
+              <input matInput placeholder="Marca:" [(ngModel)]="request.material.marca" [disabled]="disabled"
+              name="request.material.marca" #request.material.marca="ngModel" required>
             </mat-form-field>
           </div>
 
         </div>
         <div class="row">
-          <div class=" col-4  mdl-input-group mdl-input-group__only">
+          <div class=" col-4">
             <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Cantidad:" [(ngModel)]="request.material.stock"
-                (keypress)="setInputPattern($event, 'positiveDigits')"
-                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled">
+              <input matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion" [disabled]="disabled"
+              name="request.material.descripcion" #request.material.descripcion="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class=" col-4" *ngIf="showIf==1">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <input matInput placeholder="Último Proveedor:" [(ngModel)]="request.material.proveedor" [disabled]="disabled"
+              name="request.material.proveedor" #request.material.proveedor="ngModel" required>
             </mat-form-field>
           </div>
 
-
-          <div class=" col-4 mdl-input-group mdl-input-group__only">
+          <div class=" col-4 ">
             <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo"
-                (keypress)="setInputPattern($event, 'positiveDigits')"
-                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled">
-            </mat-form-field>
-          </div>
-
-          <div class=" col-4 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Stock Mínimo:" [(ngModel)]="request.material.stockMinimo"
-                (keypress)="setInputPattern($event, 'positiveDigits')"
-                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled">
+              <input matInput type="number" placeholder="Cantidad:" [(ngModel)]="request.material.stock" (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
+                name="request.material.stock" #request.material.stock="ngModel" required >
             </mat-form-field>
           </div>
         </div>
         <div class="row">
-          <div class=" col-4  mdl-input-group mdl-input-group__only">
+          <div class=" col-4">
             <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Punto Pedido:" [(ngModel)]="request.material.puntoPedido"
-                (keypress)="setInputPattern($event, 'positiveDigits')"
-                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled">
+              <input  matInput type="number" placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo" (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
+                name="request.material.stockMaximo" #request.material.stockMaximo="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class=" col-4 ">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <input matInput type="number" placeholder="Punto Pedido:" [(ngModel)]="request.material.puntoPedido" (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
+                name="request.material.puntoPedido" #request.material.puntoPedido="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class=" col-4">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <input matInput type="number" placeholder="Stock Mínimo:" [(ngModel)]="request.material.stockMinimo" (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
+                name="request.material.stockMinimo" #request.material.stockMinimo="ngModel" required>
             </mat-form-field>
           </div>
 
+        </div>
 
-          <div class=" col-4 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Precio Compra:" [(ngModel)]="request.material.precioCompra"
-                [disabled]="disabled" type="number" [min]="0.01">
-            </mat-form-field>
+        <div class="modalaling">
+          <div *ngIf="show==1" class="col-11 text-right ">
+            <button mat-raised-button (click)="insertMaterial()" [disabled]="FormCrearArea.invalid">Insertar</button>
           </div>
-
-          <div class=" col-4 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Precio Venta:" [(ngModel)]="request.material.precioVenta"
-                [disabled]="disabled" type="number" [min]="0.01">
-            </mat-form-field>
+          <div class="col-11 text-left ">
+            <button mat-raised-button (click)="close(1)">Regresar</button>
+          </div>
+          <div *ngIf="show==3" class="col-11 text-right">
+            <button mat-raised-button (click)="updateMaterial()" [disabled]="FormCrearArea.invalid">Editar</button>
           </div>
         </div>
 
-        <div class="row">
-          <div class=" col-6 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <mat-select #listaOpciones placeholder="Seleccione Proveedor" name="request.material.idProveedor"
-                #request.material.idProveedor="ngModel" [(ngModel)]="request.material.idProveedor"
-                id="request.material.idProveedor" [disabled]="disabled" required>
-                <mat-option>--</mat-option>
-                <mat-option *ngFor="let a of lsProveedor" [value]="a.idProveedor">
-                  {{a.nombreProveedor}}
-                </mat-option>
-              </mat-select>
-              <mat-error>
-                <app-validators-messages [controlVar]="request.material.idProveedor"
-                  labelName="request.material.idProveedor"></app-validators-messages>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class=" col-6 mdl-input-group mdl-input-group__only">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion" [disabled]="disabled">
-            </mat-form-field>
-          </div>
-        </div>
-
-      <div class="modalaling">
-        <div *ngIf="show==1" class="col-11 text-right alinearBtn">
-          <button mat-raised-button (click)="insert()" [disabled]="!request.material.descripcion" >Insertar</button>
-        </div>
-        <div class="col-11 text-right alinearBtn">
-          <button mat-raised-button (click)="close(1)">Regresar</button>
-        </div>
-        <div *ngIf="show==3" class="col-11 text-right alinearBtn">
-          <button mat-raised-button (click)="updateMaterial()">Editar</button>
-        </div>
       </div>
-
-    </div>
-
+    </form>
   </mat-card-content>
 </mat-card>

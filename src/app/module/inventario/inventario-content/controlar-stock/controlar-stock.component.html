@@ -1,8 +1,9 @@
 <mat-card>
   <mat-card-header class="sombreadoSubtitulos">
     <mat-card-title class="subtitulo-seccion">MATERIALES</mat-card-title>
-    <div class="margenSuperior2"> <button class="enlace negrita text-right hover" type="button" (click)="modalEdit(0)">Registrar</button>
-      <button class="enlace negrita text-center hover{  " type="button" (click)="modalInactivos()">Inactivos</button></div>
+    <div class="linkOrden"  *ngIf="show==1"> 
+      <button class="enlace negrita text-right hover" type="button" (click)="modalEdit()">Generar Orden de Pedido</button>
+      </div>
   </mat-card-header>
   <mat-card-content>
 
@@ -51,46 +52,9 @@
           <mat-cell *matCellDef="let element"> {{ element.stockMinimo }} </mat-cell>
         </ng-container>
 
-        <!-- VER -->
-        <ng-container matColumnDef="ver">
-          <mat-header-cell *matHeaderCellDef> Ver </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="modalEdit(2,element)">
-            <button mat-button>
-              <div class="example-tooltip-host" matTooltip="Ver" [matTooltipPosition]="'above'">
-                <span>
-                  <i class="material-icons">visibility</i>
-                </span>
-              </div>
-            </button>
-          </mat-cell>
-        </ng-container>
-
-        <!-- EDITAR -->
-        <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="modalEdit(1,element)">
-            <button mat-button>
-              <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
-                <span>
-                  <i class="material-icons">edit</i>
-                </span>
-              </div>
-            </button>
-          </mat-cell>
-        </ng-container>
-
-        <!-- ELIMINAR -->
-        <ng-container matColumnDef="eliminar">
-          <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="modalelementDelete(element)">
-            <button mat-button>
-              <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
-                <span>
-                  <i class="material-icons">delete</i>
-                </span>
-              </div>
-            </button>
-          </mat-cell>
+        <ng-container matColumnDef="alerta">
+          <mat-header-cell *matHeaderCellDef> Alerta</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.alerta }} </mat-cell>
         </ng-container>
 
         <!-- Header -->
