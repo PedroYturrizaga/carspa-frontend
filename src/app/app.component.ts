@@ -24,8 +24,8 @@ export class AppComponent {
     //   }
     // });
     if (getCodUsuario() == null && getIpress() == null && getToken() == null) {
-      this._router.navigate(['login']);
-    } else {
+    //   this._router.navigate(['login']);
+    // } else {
       this._router.navigate(['principal']);
     }
   }

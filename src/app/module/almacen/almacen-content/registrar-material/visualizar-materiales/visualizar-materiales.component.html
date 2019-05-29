@@ -1,7 +1,15 @@
 <mat-card class="ag">
   <mat-card-header class="sombreadoSubtitulos">
-
-    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title>
+    <mat-card-title class="subtitulo-seccion"></mat-card-title>
+    <div class="container">
+      <div class="seccion-title">
+        <h5>Registrar Materiales</h5>
+      </div>
+      <div class="margenSuperior2">
+          <!-- <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalabrir(0)">Registrar</a>
+          <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalInactivos()">Inactivos</a> -->
+      </div>
+    </div>
     <div class="colocar-left">
       <button class="mat-button-icon" mat-button (click)="close()">
         <div class="example-tooltip-host" matTooltip="Salir">
@@ -17,7 +25,7 @@
 
       <div class="row">
 
-        <div class="col-4" align="center">
+        <div class="col-4">
 
           <mat-form-field class="example-full-width">
             <mat-label for="codMovimientos">Codigo Movimiento</mat-label>

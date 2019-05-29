@@ -30,6 +30,10 @@ body {
   font-weight: 400px;
   font-size: 14px!important;
 }
+$color-back:#17275B !important;
+$color-primer:#233C7C !important;
+$color-segun:#4F6597 !important;
+$color-font:#FFFFFF !important;
 
 a {
   cursor: pointer !important;
@@ -329,7 +333,9 @@ margin: 0 0 0 auto;
 
 
 /* aplicar tamaño y separacion de elementos input en formularios con 1 columna */
+
 .mat-form-field-flex1{
+  color: $color-segun;
   display: inline-flex;
     align-items: baseline;
     width: 22.2% !important;
@@ -548,7 +554,7 @@ margin: 0 0 0 auto;
 }
 /* color de fondo para el menu de 2do nivel */
 .colorMenu3{
-  background-color: #2e86de!important;
+  background-color: $color-segun;
   height: 40px!important;
 }
 .menu3Nivel{
@@ -718,9 +724,8 @@ margin: 0 0 0 auto;
   margin-left: 57%;
 }
 .margenSuperior2{
+  justify-content:space-between;
   text-align: right;
-  margin-top: 15px;
-  margin-left: 76.5%;
 }
 .margenSuperior22{
   text-align: center;
@@ -991,5 +996,101 @@ align-items: baseline;
 }
 .modalaling{
   display: inline-flex;
+  // color:;
+  // border-bottom-left-radius:7px;
+}
+@mixin radius{
+  border-bottom-left-radius:8px !important; 
+  border-bottom-right-radius:8px !important;
+  border-top-left-radius:8px !important;
+  border-top-right-radius:8px !important;
+}
+.menuPrincipal{
+ background-color:$color-back;
+ color:$color-font;
+}
 
+.module{
+  background-color:$color-primer;
+  .mat-button{
+    margin-right: 4px;
+  }
+  .mat-button:hover{
+    @include radius;
+  }
+}
+.colorMenu3{
+  color:$color-font;
+  margin-right: 4px;
+  .mat-button{
+    margin-right: 4px;
+  }
+  .mat-button:hover{
+    @include radius;
+  }
+}
+
+.colorMenu3{
+  .mat-button:hover {
+    background-color:$color-back;
+    color:$color-font;
+  }
+}
+.tituloActivo{
+  @include radius;
+  background-color: $color-back;
+  color:$color-font;
+}
+    
+
+.ModalTitle{
+  align-items: center;
+}
+
+
+.container{
+  display: inline-flex;
+  justify-content: space-between;
+  padding-right: 0px;
+  .seccion-title{
+    padding-top: 7px;
+    display:inline-block;
+    color: $color-segun;
+  }
+  .margenSuperior2{
+    display: inline-flex;
+    .mat-button{
+      @include radius;
+    }
+    .mat-button:hover{
+      i{
+        color:$color-font;
+      }
+      
+      background-color:$color-segun;
+      @include radius;
+    }
+  }
+}
+  .table{
+    .mat-header-row{
+      background-color: $color-segun;
+      border-top-left-radius:8px !important; 
+      border-top-right-radius:8px !important;
+    }
+    .mat-header-cell{
+      padding: 0px 2px !important;
+    }
+  }
+  
+.mat-raised-button{
+  color: $color-font;
+  background-color: $color-segun;
+  border: 2px solid #4F6597 !important;
+  border-color: $color-segun !important;
+}
+.mat-raised-button:hover{
+  color: $color-segun;
+  border: 2px solid #4F6597 !important;
+  border-color: #4F6597 !important;
 }

@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header class="sombreadoSubtitulos">
-    <mat-card-title class="subtitulo-seccion">Registrar Ingreso de Materiales</mat-card-title>
+    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title> 
   </mat-card-header>
   <mat-card-content>
     <form #registrarMaterialForm="ngForm" novalidate name="registrarMaterialForm">
@@ -31,7 +31,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-4 " align="center ">
+          <div class="col-4 ">
             <button mat-raised-button (click)="buscarListaOrdenCompraAlmacen(1)" [disabled]="isInvalid(registrarMaterialForm)">
               Buscar
             </button>
