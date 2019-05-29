@@ -81,7 +81,8 @@
             <mat-form-field class="example-full-width">
 
               <input matInput type="text" name="nameCantidadFisica" #nameCantidadFisica="ngModel" [(ngModel)]="cantidadFisica" placeholder="Ingrese Cantidad Fisica"
-                (keyup.enter)="pressEnter(e.idAlmacenOrdenCompraMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenCompra);asignarCantidadFisica(i)">
+                (keyup.enter)="pressEnter(e.idAlmacenOrdenCompraMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenCompra);asignarCantidadFisica(i)"
+                (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
               <mat-hint align="start" class="mat-hint-mensaje">
                 Ingrese y Enter
               </mat-hint>

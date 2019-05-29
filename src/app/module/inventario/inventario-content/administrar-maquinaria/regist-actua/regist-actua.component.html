@@ -23,13 +23,15 @@
           <div class=" col-6">
             <mat-form-field class="">
               <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.codigo" [disabled]="disabled" maxlength="8" name="request.maquinaria.codigo"
-                #request.maquinaria.codigo="ngModel" required>
+                #request.maquinaria.codigo="ngModel" (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
+                required>
             </mat-form-field>
           </div>
 
           <div class="col-6 ">
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Nombre:" [(ngModel)]="request.maquinaria.nombre" [disabled]="disabled" name="request.maquinaria.nombre"
+                (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)"
                 #request.maquinaria.nombre="ngModel" required>
             </mat-form-field>
           </div>
@@ -38,14 +40,15 @@
         <div class="row">
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" [disabled]="disabled" name="request.maquinaria.marca"
-                #request.maquinaria.marca="ngModel" required>
+              <input matInput placeholder="Marca:" [(ngModel)]="request.maquinaria.marca" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')"
+                [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)" [disabled]="disabled"
+                name="request.maquinaria.marca" #request.maquinaria.marca="ngModel" required>
             </mat-form-field>
           </div>
           <div class=" col-6">
             <mat-form-field class="">
               <input matInput placeholder="Fecha:" [(ngModel)]="request.maquinaria.fechaMantenimiento" [disabled]="disabled" type="date"
-                name="request.maquinaria.fechaMantenimiento" #request.maquinaria.fechaMantenimiento="ngModel" required> 
+                name="request.maquinaria.fechaMantenimiento" #request.maquinaria.fechaMantenimiento="ngModel" required>
             </mat-form-field>
           </div>
         </div>
@@ -74,8 +77,9 @@
           </div>
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" [disabled]="disabled" name="request.maquinaria.detalle"
-                #request.maquinaria.detalle="ngModel">
+              <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')"
+                [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)" [disabled]="disabled"
+                name="request.maquinaria.detalle" #request.maquinaria.detalle="ngModel">
             </mat-form-field>
           </div>
 
