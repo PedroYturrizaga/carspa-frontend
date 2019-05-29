@@ -26,18 +26,14 @@ export class VisualizarMaterialesComponent implements OnInit {
     private toastr: ToastsManager,
     private _almacenService: AlmacenService
   ) { }
-  displayedColumns = ['codigo', 'producto', 'marca', 'cantidad', 'cantidadFisica', 'editar'];
+  displayedColumns = ['codigo', 'producto', 'marca', 'cantidad', 'cantidadFaltante', 'cantidadFisica', 'editar'];
 
   ngOnInit() {
-    console.log(this.row);
     this.listarMaterialesxOrdenCompra();
     this.asignarCantidadFisica(1);
   }
 
   private pressEnter(idAlmacenOrdenCompraMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenCompra) {
-
-
-
     if (cantidadFisica == "") {
       cantidadFisica = null;
       return;
@@ -48,18 +44,18 @@ export class VisualizarMaterialesComponent implements OnInit {
         return;
       } else {
         this.cont = 0;
+
+        this.almacenOrdenCompraMateriales[i].cantidadFaltante = this.almacenOrdenCompraMateriales[i].cantidadFaltante - (+(cantidadFisica));
+        if (this.almacenOrdenCompraMateriales[i].cantidadFaltante == 0) {
+          cantidadFisica = this.almacenOrdenCompraMateriales[i].cantidad;
+        }
         this.almacenOrdenCompraMateriales[i].cantidadFisica = +cantidadFisica;
       }
     }
-    console.log(idAlmacenOrdenCompraMaterial);
-    console.log(cantidadFisica);
-    console.log(idMaterial);
-    console.log(idAlmacenOrdenCompra);
     this.upCantidadFisica(idAlmacenOrdenCompraMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenCompra);
   }
 
   private asignarCantidadFisica(indice1) {
-    console.log(indice1);
     if (this.showInput[indice1] == 1) {
       this.cantidadFisica = "";
       this.showInput[indice1] = 2;
@@ -79,7 +75,6 @@ export class VisualizarMaterialesComponent implements OnInit {
     par.idAlmacenOrdenCompra = idAlmacenOrdenCompra;
     par.idMaterial = idMaterial;
     par.cantidadFisica = +cantidadFisica;
-    console.log(par);
     this._almacenService.actualizarCantidadFisica(par)
       .subscribe(data => {
         if (data.estado == 1) {
@@ -100,10 +95,8 @@ export class VisualizarMaterialesComponent implements OnInit {
   private actualizarEstado() {
     let paramAct = { idAlmacenOrdenCompra: null };
     paramAct.idAlmacenOrdenCompra = this.row.idAlmacenOrdenCompra;
-    console.log(paramAct);
     this._almacenService.actualizarEstado(paramAct)
       .subscribe(data => {
-        console.log(data);
         if (data.estado == 1) {
           this.toastr.success("Materiales ingresados correctamente al Almacén");
           this.close(1);
@@ -130,10 +123,16 @@ export class VisualizarMaterialesComponent implements OnInit {
     this.param.idAlmacenOrdenCompra = this.row.idAlmacenOrdenCompra;
     this._almacenService.getAlmacenOrdenCompraMaterial(this.param)
       .subscribe(data => {
-        console.log(data);
         if (data.estado == 1) {
           this.almacenOrdenCompraMateriales = data.almacenOrdenCompraMaterialList;
-          console.log(this.almacenOrdenCompraMateriales);
+          for (let x of this.almacenOrdenCompraMateriales) {
+
+            x.cantidadFaltante = x.cantidad;
+            if (x.cantidadFisica > 0) {
+              x.cantidadFaltante = x.cantidad - x.cantidadFisica;
+            }
+            console.log("lista materiales ", x);
+          }
           this.dataSource = new MatTableDataSource(this.almacenOrdenCompraMateriales);
 
           this.dataSource.sort = this.matSort;

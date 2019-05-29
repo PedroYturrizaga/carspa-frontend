@@ -7,19 +7,25 @@ import { AlmacenContentComponent } from './almacen-content/almacen-content.compo
 import { RegistrarMaterialComponent } from './almacen-content/registrar-material/registrar-material.component';
 import { ModuleModule } from '../module.module';
 import { VisualizarMaterialesComponent } from './almacen-content/registrar-material/visualizar-materiales/visualizar-materiales.component';
+import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/registrar-anaquel/registrar-anaquel.component';
 
 @NgModule({
   imports: [
     ModuleModule,
     AlmacenRoutingModule
   ],
-  // DENTRO DE DECLARATIONS VAN TUS COMPONENTES PRINCIPALES Y MODALES
-  declarations: [AlmacenContentComponent, RegistrarMaterialComponent, VisualizarMaterialesComponent],
-  // DENTRO DE ENTRY COMPOMENTS VAN SOLO MODALES
-  entryComponents: [
-    VisualizarMaterialesComponent
+  declarations: [
+    AlmacenContentComponent,
+    RegistrarMaterialComponent,
+    VisualizarMaterialesComponent,
+    RegistrarAnaquelComponent
   ],
-  // DENTRO DE PROVIDERS VAN SOLO SERVICES
+
+  entryComponents: [
+    VisualizarMaterialesComponent,
+    RegistrarAnaquelComponent
+  ],
+
   providers: [
     AlmacenService
   ]

@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header class="sombreadoSubtitulos">
-    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title>
+    <mat-card-title class="subtitulo-seccion">Registrar Ingreso de Materiales</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <form #registrarMaterialForm="ngForm" novalidate name="registrarMaterialForm">
@@ -74,6 +74,21 @@
         <mat-header-cell *matHeaderCellDef> Nombre Proveedor </mat-header-cell>
         <mat-cell *matCellDef="let e">
           {{ e.nombreProveedor }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="anaquel">
+        <mat-header-cell *matHeaderCellDef> Registrar Anaquel </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+
+          <button mat-button (click)="modalRegistrarAnaquel(e)" [disabled]="e.estado=='P'">
+            <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+              <span>
+                <i class="material-icons">edit</i>
+              </span>
+            </div>
+          </button>
+
         </mat-cell>
       </ng-container>
 

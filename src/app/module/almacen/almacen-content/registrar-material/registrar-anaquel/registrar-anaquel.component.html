@@ -1,7 +1,7 @@
 <mat-card class="ag">
   <mat-card-header class="sombreadoSubtitulos">
 
-    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title>
+    <mat-card-title class="subtitulo-seccion">Ingresar Anaquel</mat-card-title>
     <div class="colocar-left">
       <button class="mat-button-icon" mat-button (click)="close()">
         <div class="example-tooltip-host" matTooltip="Salir">
@@ -21,9 +21,8 @@
 
           <mat-form-field class="example-full-width">
             <mat-label for="codMovimientos">Codigo Movimiento</mat-label>
-            <input matInput name="codMovimiento" #codMovimiento="ngModel" id="codMovimiento" [(ngModel)]="row.idAlmacenOrdenCompra" disabled
-            />
-            <!-- AHORA SI ESTA BIEN, NO ME DEJA INGRESAR LETRAS PORQUE ES TYPE NUMBER, LA VALIDACION DICE QUE MIN = 0ok -->
+            <input matInput name="codMovimiento" #codMovimiento="ngModel" id="codMovimiento" [(ngModel)]="materialList.idAlmacenOrdenCompra"
+              disabled />
           </mat-form-field>
 
         </div>
@@ -51,30 +50,30 @@
       </ng-container>
 
       <ng-container matColumnDef="cantidad">
-        <mat-header-cell *matHeaderCellDef>Cantidad </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
         <mat-cell *matCellDef="let e">
           {{ e.cantidad }} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="cantidadFaltante">
-        <mat-header-cell *matHeaderCellDef>Cantidad Faltante</mat-header-cell>
-        <mat-cell *matCellDef="let e">
-          {{ e.cantidadFaltante }} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="cantidadFisica">
-        <mat-header-cell *matHeaderCellDef>Cantidad Física </mat-header-cell>
+      <ng-container matColumnDef="anaquel">
+        <mat-header-cell *matHeaderCellDef> Anaquel </mat-header-cell>
         <mat-cell *matCellDef="let e; let i = index">
           <div *ngIf="showInput[i] == 1">
-            {{ e.cantidadFisica }}
+            {{ e.nombreAnaquel }}
           </div>
 
           <div *ngIf="showInput[i] == 2">
             <mat-form-field class="example-full-width">
 
-              <input matInput type="text" name="nameCantidadFisica" #nameCantidadFisica="ngModel" [(ngModel)]="cantidadFisica" placeholder="Ingrese Cantidad Fisica"
-                (keyup.enter)="pressEnter(e.idAlmacenOrdenCompraMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenCompra);asignarCantidadFisica(i)">
-              <mat-hint align="start" class="mat-hint-mensaje">
+              <mat-select placeholder="Seleccione Anaquel" name="anaquel" [(ngModel)]="paramM.idAnaquel">
+                <mat-option>Seleccione Anaquel</mat-option>
+                <mat-option *ngFor="let ls of anaquelList" [value]="ls.idAnaquel" (click)="seleccionarAnaquel(e.idAlmacenOrdenCompraMaterial, ls.idAnaquel);asignarAnaquel(i)">
+                  {{ls.nombreAnaquel}}</mat-option>
+              </mat-select>
+              <!-- <input matInput type=" text " name="nameCantidadFisica " #nameCantidadFisica="ngModel " [(ngModel)]="cantidadFisica
+                  " placeholder="Ingrese Cantidad Fisica "
+                (keyup.enter)="pressEnter(e.idAlmacenOrdenCompraMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenCompra);asignarAnaquel(i) "> -->
+              <mat-hint align="start " class="mat-hint-mensaje ">
                 Ingrese y Enter
               </mat-hint>
             </mat-form-field>
@@ -85,10 +84,10 @@
 
       <ng-container matColumnDef="editar">
         <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
-        <mat-cell *matCellDef="let e; let i = index">
+        <mat-cell *matCellDef="let e; let i=index">
 
-          <button mat-button (click)="asignarCantidadFisica(i)">
-            <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+          <button mat-button (click)="asignarAnaquel(i)">
+            <div class="example-tooltip-host " matTooltip="Editar" [matTooltipPosition]="'above'">
               <span>
                 <i class="material-icons">edit</i>
               </span>
@@ -105,8 +104,8 @@
     <br>
     <div class="row">
       <div class="col-4" align="center">
-        <button mat-raised-button (click)="actualizarEstado()" [disabled]="cont==1">
-          Insertar Cantidad
+        <button mat-raised-button (click)="insertar()">
+          Agregar Anaqueles
         </button>
       </div>
     </div>

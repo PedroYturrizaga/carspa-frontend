@@ -9,10 +9,12 @@ import { BaseService } from '../../../shared/services/base.service';
 export class AlmacenService extends BaseService {
 
   private UrlAlmacen: string;
+  private UrlAnaquel: string;
 
   constructor(public _http: Http, public _configuration: Configuration) {
     super();
     this.UrlAlmacen = this._configuration.Server + 'sigs-commons-ws/almacenOrdenCompra';
+    this.UrlAnaquel = this._configuration.Server + 'sigs-commons-ws/anaquel';
   }
 
   public getAlmacenOrdenCompra(_params: any) {
@@ -55,6 +57,20 @@ export class AlmacenService extends BaseService {
 
   public actualizarEstado(data) {
     return this._http.put(this.UrlAlmacen + "/actualizarEstado", data).map((res: Response) => res.json());
+  }
+
+  public actualizarAnaquel(data) {
+    return this._http.put(this.UrlAnaquel + "/actualizarAnaquel", data).map((res: Response) => res.json());
+  }
+
+  public listarAnaquel() {
+    let queryParams: URLSearchParams = new URLSearchParams();
+
+    let options = new RequestOptions({
+      search: queryParams
+    });
+    console.log(options);
+    return this._http.get(this.UrlAnaquel + "/listarAnaquel", options).map((res: Response) => res.json());
   }
 
 }

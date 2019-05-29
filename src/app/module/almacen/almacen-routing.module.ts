@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AlmacenContentComponent } from './almacen-content/almacen-content.component';
 import { RegistrarMaterialComponent } from './almacen-content/registrar-material/registrar-material.component';
+import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/registrar-anaquel/registrar-anaquel.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
       {
         path: 'registrar-material', component: RegistrarMaterialComponent, children:
           [
-            { path: 'visualizar-materiales', component: VisualizarMaterialesComponent }
+            { path: 'visualizar-materiales', component: VisualizarMaterialesComponent },
+            { path: 'registrar-anaquel', component: RegistrarAnaquelComponent }
           ]
       },
     ]

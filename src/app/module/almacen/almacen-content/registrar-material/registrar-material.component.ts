@@ -5,6 +5,8 @@ import { MatTableDataSource, MatDialog, MatPaginator, MatSort } from '@angular/m
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { isInvalid, setQuantifier, setValidatorPattern, setInputPattern } from '../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
+import { copyConfig } from '@angular/router/src/config';
+import { RegistrarAnaquelComponent } from './registrar-anaquel/registrar-anaquel.component';
 
 @Component({
   selector: 'app-registrar-material',
@@ -16,7 +18,7 @@ export class RegistrarMaterialComponent implements OnInit {
   @ViewChild(MatSort) matSort: MatSort;
   private paramsBusqueda = { idAlmacenOrdenCompra: null, estado: null };
   private lsEstado: any = [];
-  displayedColumns = ['codMov', 'descAlm', 'fecha', 'estado', 'nomProv'];
+  displayedColumns = ['codMov', 'descAlm', 'fecha', 'estado', 'nomProv', 'anaquel'];
   private almacenOrdenesCompraAUX: any = [];
   dataSource = new MatTableDataSource();
   private pageSize: number;
@@ -118,6 +120,23 @@ export class RegistrarMaterialComponent implements OnInit {
 
   verificarIdEstado(idestado) {
     console.log(idestado);
+  }
+
+  modalRegistrarAnaquel(lista) {
+    console.log(lista);
+    if (lista.estado == "P") {
+      return;
+    }
+    const dialogRef = this._modalDialog.open(RegistrarAnaquelComponent, {
+      autoFocus: false,
+      disableClose: true
+    });
+    dialogRef.componentInstance.materialList = lista;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        this.buscarListaOrdenCompraAlmacen();
+      }
+    });
   }
 
   private isInvalid(_ngForm: any): boolean {
