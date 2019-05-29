@@ -84,7 +84,7 @@
 
         <div class="modalaling">
           <div *ngIf="show==3" class="col-11 text-right">
-            <button mat-raised-button (click)="update()" [disabled]="!request.maquinaria.codigo || !request.maquinaria.nombre||!request.maquinaria.marca||!requestnew.fecha || !request.maquinaria.idUbicacion ">Editar</button>
+            <button mat-raised-button (click)="update()" [disabled]="!request.maquinaria.codigo || !request.maquinaria.nombre||!request.maquinaria.marca||!request.maquinaria.fechaMantenimiento || !request.maquinaria.idUbicacion ">Editar</button>
           </div>
           <div *ngIf="show==1" class="col-11 text-right ">
             <button mat-raised-button (click)="insert()" [disabled]="FormCrearArea.invalid">Insertar</button>
