@@ -24,12 +24,12 @@ export class AppComponent {
     //   }
     // });
     if (getCodUsuario() == null && getIpress() == null && getToken() == null) {
-    //   this._router.navigate(['login']);
+      // this._router.navigate(['login']);
     // } else {
-      this._router.navigate(['principal']);
+      // this._router.navigate(['principal']);
     }
   }
   ngOnInit() {   
-   
+   this._router.navigate(['principal']);
   }
 }

@@ -77,9 +77,9 @@
           </div>
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')"
+              <textarea matInput placeholder="Detalle:" [(ngModel)]="request.maquinaria.detalle" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')"
                 [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)" [disabled]="disabled"
-                name="request.maquinaria.detalle" #request.maquinaria.detalle="ngModel">
+                name="request.maquinaria.detalle" #request.maquinaria.detalle="ngModel"></textarea>
             </mat-form-field>
           </div>
 
@@ -88,7 +88,7 @@
 
         <div class="modalaling">
           <div *ngIf="show==3" class="col-11 text-right">
-            <button mat-raised-button (click)="update()" [disabled]="!request.maquinaria.codigo || !request.maquinaria.nombre||!request.maquinaria.marca||!request.maquinaria.fechaMantenimiento || !request.maquinaria.idUbicacion ">Editar</button>
+            <button mat-raised-button (click)="update()" [disabled]="FormCrearArea.invalid">Editar</button>
           </div>
           <div *ngIf="show==1" class="col-11 text-right ">
             <button mat-raised-button (click)="insert()" [disabled]="FormCrearArea.invalid">Insertar</button>

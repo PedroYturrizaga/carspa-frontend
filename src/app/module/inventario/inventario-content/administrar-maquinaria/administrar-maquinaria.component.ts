@@ -175,7 +175,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
       width: '60%',
       maxHeight: '80%',
       height: '80%',
-      disableClose: false,
+      disableClose: true,
       hasBackdrop: true
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -188,7 +188,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
   private modalabrir(op, e?) {
     const dialogRef = this.dialog.open(RegistActuaComponent, {
       autoFocus: false,
-      disableClose: false,
+      disableClose: true,
       hasBackdrop: true
     });
     console.log(e);

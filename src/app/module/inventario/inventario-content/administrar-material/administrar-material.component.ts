@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ModalConfirmacionComponent } from '../../../../shared/others/modal-confirmacion/modal-confirmacion.component';
 import { RegistrarActualizarComponent } from './registrar-actualizar/registrar-actualizar.component';
 import { MaterialesInactivoComponent } from './materiales-inactivo/materiales-inactivo.component';
+import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
 
 @Component({
   selector: 'app-administrar-material',
@@ -126,7 +127,7 @@ export class AdministrarMaterialComponent implements OnInit {
   private modalEdit(op,e){
     const dialogRef = this.dialog.open(RegistrarActualizarComponent, {
       autoFocus: false,
-      disableClose: false,
+      disableClose: true,
       hasBackdrop: true
     });
     dialogRef.componentInstance.e = e;
@@ -145,7 +146,7 @@ private modalInactivos(){
     width: '60%',
     maxHeight: '80%',
     height: '80%',
-    disableClose: false,
+    disableClose: true,
     hasBackdrop: true
   });
   dialogRef.afterClosed().subscribe(result => {
@@ -155,5 +156,21 @@ private modalInactivos(){
   });
 
 }
+ private setInputPattern(_event: any, _pattern: any): void {
+    setInputPattern(_event, _pattern);
+  }
+  private setValidatorPattern(_pattern: string, _quantifier: any,
+    _exactStart?: boolean, _exactEnd?: boolean, _regexFlags?: string): RegExp {
+
+    return setValidatorPattern(_pattern, _quantifier,
+      _exactStart, _exactEnd, _regexFlags);
+  }
+  private setQuantifier(_quantifier1?: null | number | string, _quantifier2?: null | number): {} {
+    return setQuantifier(_quantifier1, _quantifier2);
+  }
+
+  private isInvalid(_ngForm: any): boolean {
+    return isInvalid(_ngForm);
+  }
 
 }

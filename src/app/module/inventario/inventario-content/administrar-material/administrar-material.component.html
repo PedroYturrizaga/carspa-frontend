@@ -15,7 +15,8 @@
     <div class="col-12 card-body text-center">
       <mat-form-field class="col-sm-6 mat-form-field-flex1">
         <input matInput placeholder="Nombre del material" [(ngModel)]="requestListar.nombre" (input)="busqueda($event.target.value)"
-         matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'">
+         matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
+          [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)">
       </mat-form-field>
     </div>
     <div class="table responsive">

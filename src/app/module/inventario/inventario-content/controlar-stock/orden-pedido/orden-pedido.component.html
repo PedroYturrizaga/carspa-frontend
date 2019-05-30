@@ -14,7 +14,8 @@
     <div class="col-12 card-body text-center">
       <mat-form-field class="col-sm-6 mat-form-field-flex1">
         <input matInput placeholder="Nombre del material" [(ngModel)]="requestListar.nombre" (input)="busqueda($event.target.value)"
-          matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'">
+          matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
+          [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)">
       </mat-form-field>
     </div>
 
@@ -65,7 +66,7 @@
           <mat-cell *matCellDef="let element"> {{element.stockMaximo-element.stock}}  </mat-cell>
         </ng-container>
         <ng-container matColumnDef="orden">
-          <mat-header-cell *matHeaderCellDef> Generar Orden </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Generar     Orden </mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="generarOrden(element)">
             <button mat-button>
               <div class="example-tooltip-host" matTooltip="Generar Orden de Pedido" [matTooltipPosition]="'above'">

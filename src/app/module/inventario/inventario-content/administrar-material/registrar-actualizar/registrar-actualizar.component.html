@@ -2,18 +2,18 @@
   <mat-card-header class="sombreadoSubtitulos">
     <mat-card-title class="subtitulo-seccion"></mat-card-title>
     <div class="container">
-        <div class="seccion-title">
-          <h5>Datos del Material</h5>
-        </div>
-        <div class="margenSuperior2"> 
-          <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
+      <div class="seccion-title">
+        <h5>Datos del Material</h5>
+      </div>
+      <div class="margenSuperior2">
+        <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
             <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
               <span>
                 <i class="material-icons">close</i>
               </span>
             </div>
           </button>
-        </div>
+      </div>
     </div>
   </mat-card-header>
   <mat-card-content>
@@ -22,64 +22,45 @@
         <div class="row">
           <div class="col-4">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Código:" [(ngModel)]="request.material.codigo" [disabled]="disabled"
-              maxlength="8" name="request.material.codigo" #request.material.codigo="ngModel" required >
+              <input matInput placeholder="Código:" [(ngModel)]="request.material.codigo" [disabled]="disabled" maxlength="8" name="request.material.codigo"
+                #request.material.codigo="ngModel" (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
+                required>
             </mat-form-field>
           </div>
           <div class="col-4">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Nombre:" [(ngModel)]="request.material.nombre" [disabled]="disabled"
-              name="request.material.nombre" #request.material.nombre="ngModel" required>
+              <input matInput placeholder="Nombre:" [(ngModel)]="request.material.nombre" [disabled]="disabled" name="request.material.nombre"
+                #request.material.nombre="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)"
+                required>
             </mat-form-field>
           </div>
 
           <div class=" col-4">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Marca:" [(ngModel)]="request.material.marca" [disabled]="disabled"
-              name="request.material.marca" #request.material.marca="ngModel" required>
+            <mat-form-field class="example-full-width ">
+              <input matInput placeholder="Marca:" [(ngModel)]="request.material.marca" [disabled]="disabled" name="request.material.marca"
+                #request.material.marca="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)"
+                required>
             </mat-form-field>
           </div>
 
         </div>
         <div class="row">
           <div class=" col-4">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion" [disabled]="disabled"
-              name="request.material.descripcion" #request.material.descripcion="ngModel" required>
-            </mat-form-field>
-          </div>
-          <div class=" col-4" *ngIf="showIf==1">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput placeholder="Último Proveedor:" [(ngModel)]="request.material.proveedor" [disabled]="disabled"
-              name="request.material.proveedor" #request.material.proveedor="ngModel" required>
-            </mat-form-field>
-          </div>
-
-          <div class=" col-4 ">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input matInput type="number" placeholder="Cantidad:" [(ngModel)]="request.material.stock" (keypress)="setInputPattern($event, 'positiveDigits')"
-                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
-                name="request.material.stock" #request.material.stock="ngModel" required >
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class=" col-4">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
-              <input  matInput type="number" placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo" (keypress)="setInputPattern($event, 'positiveDigits')"
+            <mat-form-field class="example-full-width ">
+              <input matInput type="number" placeholder="Stock Máximo:" [(ngModel)]="request.material.stockMaximo" (keypress)="setInputPattern($event, 'positiveDigits')"
                 [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
                 name="request.material.stockMaximo" #request.material.stockMaximo="ngModel" required>
             </mat-form-field>
           </div>
           <div class=" col-4 ">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
+            <mat-form-field class="example-full-width ">
               <input matInput type="number" placeholder="Punto Pedido:" [(ngModel)]="request.material.puntoPedido" (keypress)="setInputPattern($event, 'positiveDigits')"
                 [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
                 name="request.material.puntoPedido" #request.material.puntoPedido="ngModel" required>
             </mat-form-field>
           </div>
           <div class=" col-4">
-            <mat-form-field class="example-full-width mat-form-field-flex2">
+            <mat-form-field class="example-full-width ">
               <input matInput type="number" placeholder="Stock Mínimo:" [(ngModel)]="request.material.stockMinimo" (keypress)="setInputPattern($event, 'positiveDigits')"
                 [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
                 name="request.material.stockMinimo" #request.material.stockMinimo="ngModel" required>
@@ -87,6 +68,29 @@
           </div>
 
         </div>
+        <div class="row">
+          <div class=" col-4 ">
+            <mat-form-field class="example-full-width ">
+              <input matInput type="number" placeholder="Stock Actual:" [(ngModel)]="request.material.stock" (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" [disabled]="disabled" [min]="1"
+                name="request.material.stock" #request.material.stock="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class=" col-4">
+            <mat-form-field class="example-full-width ">
+              <input matInput placeholder="Último Proveedor:" [(ngModel)]="request.material.proveedor" [disabled]="disabled" name="request.material.proveedor"
+                #request.material.proveedor="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)"
+                >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class=" col-12">
+          <mat-form-field class="example-full-width ">
+            <textarea matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion" [disabled]="disabled" name="request.material.descripcion"
+              #request.material.descripcion="ngModel" ></textarea>
+          </mat-form-field>
+        </div>
+
 
         <div class="modalaling">
           <div *ngIf="show==1" class="col-11 text-right ">
