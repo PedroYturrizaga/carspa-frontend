@@ -70,7 +70,7 @@ export class ControlarStockComponent implements OnInit {
           }
         });
         if (b > 0) {
-          this.toastr.info("Hay " + b + " material(es) con Bajo Stock.");
+          this.toastr.warning("Hay " + b + " material(es) con Bajo Stock.");
           this.show = 1;
         }
         if (p > 0) {
