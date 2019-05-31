@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 export class CompraContentComponent implements OnInit {
 
   private activado: any = {
-    registrarProveedor: "titulo"
+    'listar-proveedor': "titulo" ,
+    'listar-material-proveedor': "titulo"
+  
   }
   constructor(private _router: Router) { }
 

@@ -1,32 +1,30 @@
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
-import { AlmacenService } from './../../services/almacen.service';
-import { VisualizarMaterialesComponent } from './visualizar-materiales/visualizar-materiales.component';
+import { CompraService } from './../services/compra.service';
 import { MatTableDataSource, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { isInvalid, setQuantifier, setValidatorPattern, setInputPattern } from '../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
-import { copyConfig } from '@angular/router/src/config';
-import { RegistrarAnaquelComponent } from './registrar-anaquel/registrar-anaquel.component';
+import { InsertarProveedorComponent } from './insertar-proveedor/insertar-proveedor.component';
 
 @Component({
-  selector: 'app-registrar-material',
-  templateUrl: './registrar-material.component.html',
-  styleUrls: ['./registrar-material.component.scss']
+  selector: 'app-listar-proveedor',
+  templateUrl: './listar-proveedor.component.html',
+  styleUrls: ['./listar-proveedor.component.scss']
 })
-export class RegistrarMaterialComponent implements OnInit {
+export class ListarProveedorComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
   @ViewChild(MatSort) matSort: MatSort;
-  private paramsBusqueda = { idAlmacenOrdenCompra: null, estado: null };
+  private paramsBusqueda = { idProveedor: null, nombreProveedor: null };
   private lsEstado: any = [];
-  displayedColumns = ['codMov', 'descAlm', 'fecha', 'estado', 'nomProv', 'anaquel'];
-  private almacenOrdenesCompraAUX: any = [];
+  displayedColumns = [ 'nombProv', 'direcc', 'telef','email'];
+  private proveedoresAUX: any = [];
   dataSource = new MatTableDataSource();
   private pageSize: number;
   private pagination: any;
   private displayedSizes: number[];
 
   constructor(private _modalDialog: MatDialog,
-    private _almacenService: AlmacenService,
+    private _compraService: CompraService,
     private toastr: ToastsManager) {
     this.pagination = { nuPagina: 1, nuRegisMostrar: 0 };
     this.displayedSizes = [5, 10, 25, 100];
@@ -36,28 +34,21 @@ export class RegistrarMaterialComponent implements OnInit {
   private llenar = { id: null, nom: null };
 
   ngOnInit() {
-    this.llenarLista();
-    this.buscarListaOrdenCompraAlmacen(1);
-  }
 
-  private llenarLista() {
-    this.lsEstado = [
-      { idEstado: 'P', descripcionEstado: "Pendiente" },
-      { idEstado: 'E', descripcionEstado: "Entregado" }
-    ];
+    this.buscarListaProveedor(1);
   }
-
 
   private pageEvent($event: any) {
     this.pagination.nuPagina = $event.pageIndex + 1;
     this.pageSize = $event.pageSize;
-    this.buscarListaOrdenCompraAlmacen();
+    this.buscarListaProveedor();
+
   }
 
-  private buscarListaOrdenCompraAlmacen(numPagina?: number) {
+  private buscarListaProveedor(numPagina?: number) {
 
-    if (this.paramsBusqueda.idAlmacenOrdenCompra == "" || this.paramsBusqueda.idAlmacenOrdenCompra == undefined || this.paramsBusqueda.idAlmacenOrdenCompra == null) {
-      this.paramsBusqueda.idAlmacenOrdenCompra = null;
+    if (this.paramsBusqueda.nombreProveedor== "" || this.paramsBusqueda.nombreProveedor == undefined || this.paramsBusqueda.nombreProveedor == null) {
+      this.paramsBusqueda.nombreProveedor = null;
     }
 
     this.pagination.nuPagina = (numPagina) ? numPagina : this.pagination.nuPagina;
@@ -72,25 +63,25 @@ export class RegistrarMaterialComponent implements OnInit {
       nuRegisMostrar: this.pageSize
     };
     console.log(this.paramsBusqueda);
-    this._almacenService.getAlmacenOrdenCompra(this.paramsBusqueda)
+    this._compraService.getProveedor(this.paramsBusqueda)
       .subscribe(data => {
         console.log(data);
         if (data.estado == 1) {
-          this.almacenOrdenesCompraAUX = data.almacenOrdenCompraList;
-          console.log(this.almacenOrdenesCompraAUX);
-          this.dataSource = new MatTableDataSource(this.almacenOrdenesCompraAUX);
+          this.proveedoresAUX = data.proveedorList;
+          console.log(this.proveedoresAUX);
+          this.dataSource = new MatTableDataSource(this.proveedoresAUX);
           if (this.matPag) {
             this.matPag._pageIndex = (numPagina) ? numPagina - 1 : this.matPag._pageIndex;
           }
           this.dataSource.sort = this.matSort;
-          if (this.almacenOrdenesCompraAUX.length > 0) {
-            this.pagination.nuRegisMostrar = this.almacenOrdenesCompraAUX[0].nuTotalReg;
+          if (this.proveedoresAUX.length > 0) {
+            this.pagination.nuRegisMostrar = this.proveedoresAUX[0].nuTotalReg;
           }
-        } else if (this.almacenOrdenesCompraAUX == []) {
+        } else if (this.proveedoresAUX == []) {
           this.toastr.error("No se encontraron datos");
         } else {
           this.toastr.error(data.mensaje);
-          this.almacenOrdenesCompraAUX = [];
+          this.proveedoresAUX = [];
         }
       },
         error => {
@@ -101,44 +92,15 @@ export class RegistrarMaterialComponent implements OnInit {
       () => this.toastr.success('Request Complete');
   }
 
-
-
-
-  
-  abrirModalVerificarMateriales(row) {
-    if (row.estado == "E") {
-      return;
-    }
-    console.log(row);
-    const dialogRef = this._modalDialog.open(VisualizarMaterialesComponent, {
+  insertarProveedor() {
+    const dialogRef = this._modalDialog.open(InsertarProveedorComponent, {
       autoFocus: false,
       disableClose: true
     });
-    dialogRef.componentInstance.row = row;
+
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
-        this.buscarListaOrdenCompraAlmacen();
-      }
-    });
-  }
-
-  verificarIdEstado(idestado) {
-    console.log(idestado);
-  }
-
-  modalRegistrarAnaquel(lista) {
-    console.log(lista);
-    if (lista.estado == "P") {
-      return;
-    }
-    const dialogRef = this._modalDialog.open(RegistrarAnaquelComponent, {
-      autoFocus: false,
-      disableClose: true
-    });
-    dialogRef.componentInstance.materialList = lista;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 1) {
-        this.buscarListaOrdenCompraAlmacen();
+        this.buscarListaProveedor(1);
       }
     });
   }

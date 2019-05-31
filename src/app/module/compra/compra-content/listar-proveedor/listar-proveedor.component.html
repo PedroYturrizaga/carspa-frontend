@@ -1,0 +1,93 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Listar Proveedores</mat-card-title>
+    <div class="margenSuperior">
+      <button class="enlace negrita" type="button" (click)="insertarProveedor()">
+        Insertar Proveedor
+      </button>
+
+      
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <form #listarProveedorForm="ngForm" novalidate name="listarProveedorForm">
+      <div class="card-body">
+
+        <div class="row">
+
+          
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-label for="nombreProveedor">Proveedor </mat-label>
+              <input matInput type="text" name="nombreProveedor" #nombreProveedor="ngModel" id="nombreProveedor"
+                [(ngModel)]="paramsBusqueda.nombreProveedor" 
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="nombreProveedor" labelName="nombreProveedor">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-4 "  align="center">
+            <button mat-raised-button (click)="buscarListaProveedor(1)" [disabled]="isInvalid(listarProveedorForm)">
+              Buscar
+            </button>
+          </div>
+
+        </div>
+
+
+      </div>
+    </form>
+
+  </mat-card-content>
+
+
+
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource" *ngIf="proveedoresAUX.length!=0">
+
+     
+
+      <ng-container matColumnDef="nombProv">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.nombreProveedor}}  </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="direcc">
+        <mat-header-cell *matHeaderCellDef>Direccion </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.direccion }} </mat-cell>
+      </ng-container>
+
+    
+
+      <ng-container matColumnDef="telef">
+        <mat-header-cell *matHeaderCellDef> Telefono </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.telefono}}
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef> Correo </mat-header-cell>
+          <mat-cell *matCellDef="let e">
+              {{ e.email}}
+          </mat-cell>
+        </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="abrirModalVerificarMateriales(row)"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+      (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+  <br>
+</mat-card>

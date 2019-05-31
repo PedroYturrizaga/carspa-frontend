@@ -1,6 +1,10 @@
 <mat-toolbar class="colorMenu3">
   <mat-toolbar-row>
-    <a mat-button class="mat-button {{activado.registrarProveedor}}" (click)="goToModulo('registrarProveedor')">Registrar Proveedor</a>
+    <a mat-button class="mat-button {{activado.listar}}" (click)="goToModulo('listar-proveedor')">Listar
+      Proveedor</a>
+
+      <a mat-button class="mat-button {{activado.listar}}" (click)="goToModulo('listar-material-proveedor')">Listar Material
+          Proveedor</a>
     <!-- <a mat-button class="mat-button {{activado.administrarMaterial}}" (click)="goToModulo('administrarMaterial')">Administrar Material</a> -->
   </mat-toolbar-row>
 </mat-toolbar>
