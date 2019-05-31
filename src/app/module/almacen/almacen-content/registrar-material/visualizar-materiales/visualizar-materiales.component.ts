@@ -27,7 +27,7 @@ export class VisualizarMaterialesComponent implements OnInit {
     private toastr: ToastsManager,
     private _almacenService: AlmacenService
   ) { }
-  displayedColumns = ['codigo', 'producto', 'marca', 'cantidad', 'cantidadFaltante', 'cantidadFisica', 'editar'];
+  displayedColumns = ['codigo', 'producto', 'marca', 'cantidad', 'cantidadFaltante', 'cantidadFisica', 'editar', 'restaurar'];
 
   ngOnInit() {
     this.listarMaterialesxOrdenCompra();
@@ -47,9 +47,9 @@ export class VisualizarMaterialesComponent implements OnInit {
         this.cont = 0;
 
         this.almacenOrdenCompraMateriales[i].cantidadFaltante = this.almacenOrdenCompraMateriales[i].cantidadFaltante - (+(cantidadFisica));
-        if (this.almacenOrdenCompraMateriales[i].cantidadFaltante == 0) {
-          cantidadFisica = this.almacenOrdenCompraMateriales[i].cantidad;
-        }
+        // if (this.almacenOrdenCompraMateriales[i].cantidadFaltante == 0) {
+        //   cantidadFisica = this.almacenOrdenCompraMateriales[i].cantidad;
+        // }
         this.almacenOrdenCompraMateriales[i].cantidadFisica = +cantidadFisica;
       }
     }
@@ -75,7 +75,8 @@ export class VisualizarMaterialesComponent implements OnInit {
     par.idAlmacenOrdenCompraMaterial = idAlmacenOrdenCompraMaterial;
     par.idAlmacenOrdenCompra = idAlmacenOrdenCompra;
     par.idMaterial = idMaterial;
-    par.cantidadFisica = +cantidadFisica;
+    par.cantidadFisica = +(cantidadFisica);
+    console.log(par);
     this._almacenService.actualizarCantidadFisica(par)
       .subscribe(data => {
         if (data.estado == 1) {
@@ -173,5 +174,13 @@ export class VisualizarMaterialesComponent implements OnInit {
 
   private isInvalid(_ngForm: any): boolean {
     return isInvalid(_ngForm);
+  }
+
+
+
+  restaurarCantidad(e, i) {
+    let par = { idAlmacenOrdenCompraMaterial: null, idAlmacenOrdenCompra: null, idMaterial: null, cantidadFisica: null };
+    par.cantidadFisica = -e.cantidadFisica;
+    this.upCantidadFisica(e.idAlmacenOrdenCompraMaterial, par.cantidadFisica, i, e.idMaterial, e.idAlmacenOrdenCompra);
   }
 }

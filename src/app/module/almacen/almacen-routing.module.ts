@@ -1,3 +1,4 @@
+import { SalidaMaterialComponent } from './almacen-content/salida-material/salida-material.component';
 import { VisualizarMaterialesComponent } from './almacen-content/registrar-material/visualizar-materiales/visualizar-materiales.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -15,6 +16,9 @@ const routes: Routes = [
             { path: 'registrar-anaquel', component: RegistrarAnaquelComponent }
           ]
       },
+      {
+        path: 'salida-material', component: SalidaMaterialComponent
+      }
     ]
   }
 ];

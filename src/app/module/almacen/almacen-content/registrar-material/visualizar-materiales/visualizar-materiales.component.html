@@ -6,7 +6,7 @@
         <h5>Registrar Materiales</h5>
       </div>
       <div class="margenSuperior2">
-          <!-- <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalabrir(0)">Registrar</a>
+        <!-- <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalabrir(0)">Registrar</a>
           <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalInactivos()">Inactivos</a> -->
       </div>
     </div>
@@ -96,10 +96,25 @@
         <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
         <mat-cell *matCellDef="let e; let i = index">
 
-          <button mat-button (click)="asignarCantidadFisica(i)">
+          <button mat-button (click)="asignarCantidadFisica(i)" [disabled]="e.cantidadFisica == e.cantidad">
             <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
               <span>
                 <i class="material-icons">edit</i>
+              </span>
+            </div>
+          </button>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="restaurar">
+        <mat-header-cell *matHeaderCellDef>Restaurar</mat-header-cell>
+        <mat-cell *matCellDef="let e; let i = index">
+
+          <button mat-button (click)="restaurarCantidad(e,i)" [disabled]="e.cantidadFisica!=e.cantidad">
+            <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+              <span>
+                <i class="material-icons">settings_backup_restore</i>
               </span>
             </div>
           </button>

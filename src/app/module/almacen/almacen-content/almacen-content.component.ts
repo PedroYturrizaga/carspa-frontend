@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 export class AlmacenContentComponent implements OnInit {
 
   private activado: any = {
-    'registrar-material': "titulo"
+    'registrar-material': "titulo",
+    'salida-material': 'titulo'
   }
   constructor(private _router: Router) { }
 

@@ -8,6 +8,7 @@ import { RegistrarMaterialComponent } from './almacen-content/registrar-material
 import { ModuleModule } from '../module.module';
 import { VisualizarMaterialesComponent } from './almacen-content/registrar-material/visualizar-materiales/visualizar-materiales.component';
 import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/registrar-anaquel/registrar-anaquel.component';
+import { SalidaMaterialComponent } from './almacen-content/salida-material/salida-material.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/
     AlmacenContentComponent,
     RegistrarMaterialComponent,
     VisualizarMaterialesComponent,
-    RegistrarAnaquelComponent
+    RegistrarAnaquelComponent,
+    SalidaMaterialComponent
   ],
 
   entryComponents: [
