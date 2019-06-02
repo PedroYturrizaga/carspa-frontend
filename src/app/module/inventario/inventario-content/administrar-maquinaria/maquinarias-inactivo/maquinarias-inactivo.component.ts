@@ -28,7 +28,11 @@ export class MaquinariasInactivoComponent implements OnInit {
     this.displayedSizes = [10, 15, 25, 100];
     this.pageSize = this.displayedSizes[0];
   }
-
+  busqueda(target) {
+    if (target.length % 2 == 0) {
+      this.getMaquinarias(1);
+    }
+  }
   private getMaquinarias(nuPagina?: number) {
     this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
 

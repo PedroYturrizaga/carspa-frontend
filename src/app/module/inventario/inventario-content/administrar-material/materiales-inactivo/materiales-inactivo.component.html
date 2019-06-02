@@ -52,7 +52,7 @@
         <!-- EDITAR -->
         <ng-container matColumnDef="activar">
           <mat-header-cell *matHeaderCellDef> Activar </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="activarMaterial()" >
+          <mat-cell *matCellDef="let element" (click)="activarMaterial(element.idMaterial)" >
             <button mat-button>
               <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
                 <span>

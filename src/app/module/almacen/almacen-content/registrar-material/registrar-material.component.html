@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header class="sombreadoSubtitulos">
-    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title> 
+    <mat-card-title class="subtitulo-seccion">Registrar Materiales</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <form #registrarMaterialForm="ngForm" novalidate name="registrarMaterialForm">
@@ -71,7 +71,7 @@
       </ng-container>
 
       <ng-container matColumnDef="nomProv">
-        <mat-header-cell *matHeaderCellDef> Nombre Proveedor </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Proveedor </mat-header-cell>
         <mat-cell *matCellDef="let e">
           {{ e.nombreProveedor }}
         </mat-cell>

@@ -1,3 +1,4 @@
+import { log } from 'util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { AdministrarMaquinariaService } from '../../administrar-maquinaria.service';
@@ -108,6 +109,8 @@ export class AdministrarMaquinariaComponent implements OnInit {
     this._maquinariaService.getMaquinarias(this.requestListar).subscribe(data => {
       if (data.estado == 1) {
         this.lsmaquinarias = data.maquinarias;
+        console.log(this.lsmaquinarias);
+        
         this.dataSource = new MatTableDataSource(this.lsmaquinarias);
         if (this.matPag) {
           this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;

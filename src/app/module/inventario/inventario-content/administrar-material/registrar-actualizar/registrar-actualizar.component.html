@@ -87,7 +87,7 @@
         <div class=" col-12">
           <mat-form-field class="example-full-width ">
             <textarea matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion" [disabled]="disabled" name="request.material.descripcion"
-              #request.material.descripcion="ngModel" ></textarea>
+              #request.material.descripcion="ngModel"  (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)" ></textarea>
           </mat-form-field>
         </div>
 
