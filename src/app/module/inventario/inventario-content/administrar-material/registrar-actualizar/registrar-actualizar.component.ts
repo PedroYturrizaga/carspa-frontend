@@ -93,6 +93,10 @@ export class RegistrarActualizarComponent implements OnInit {
     this.dialogRef.close(add);
   }
   private insertMaterial() {
+    if(this.request.material.stock>this.request.material.stockMaximo ){
+      this.toastr.warning("La cantidad actual no puede ser mayor que el stock máximo.");
+      return;
+    }
     if (this.request.material.stockMaximo < this.request.material.stockMinimo || this.request.material.stockMaximo < this.request.material.puntoPedido) {
       this.toastr.warning("El stock máximo no puede ser menor al punto de pedido o stock mínimo.");
       return;
@@ -131,6 +135,10 @@ export class RegistrarActualizarComponent implements OnInit {
     }
   }
   private updateMaterial() {
+    if(this.request.material.stock>this.request.material.stockMaximo ){
+      this.toastr.warning("La cantidad actual no puede ser mayor que el stock máximo.");
+      return;
+    }
      if (this.request.material.stockMaximo < this.request.material.stockMinimo || this.request.material.stockMaximo < this.request.material.puntoPedido) {
       this.toastr.warning("El stock máximo no puede ser menor al punto de pedido o stock mínimo.");
       return;

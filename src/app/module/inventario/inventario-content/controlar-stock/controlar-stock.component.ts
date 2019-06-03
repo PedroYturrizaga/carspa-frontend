@@ -60,6 +60,7 @@ export class ControlarStockComponent implements OnInit {
       if (data.estado == 1) {
         console.log(data);
         this.lsMateriales = data.materiales;
+        this.show=0;
         this.dataSource = new MatTableDataSource(this.lsMateriales);
         this.lsMateriales.forEach(element => {
           if (element["idAlerta"] == 1) {
@@ -77,6 +78,7 @@ export class ControlarStockComponent implements OnInit {
           this.toastr.info("Hay " + p + " material(es) en Punto de pedido.");
           this.show = 1;
         }
+
         if (this.matPag) {
           this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
         }
