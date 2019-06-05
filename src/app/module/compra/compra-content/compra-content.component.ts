@@ -10,7 +10,8 @@ export class CompraContentComponent implements OnInit {
 
   private activado: any = {
     'listar-proveedor': "titulo" ,
-    'listar-material-proveedor': "titulo"
+    'listar-material-proveedor': "titulo",
+    'orden-compra': 'titulo'
   
   }
   constructor(private _router: Router) { }

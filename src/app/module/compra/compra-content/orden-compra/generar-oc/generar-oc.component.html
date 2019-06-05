@@ -1,0 +1,120 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Generar Orden Compra</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <form #OrdenCompraForm="ngForm" novalidate name="OrdenCompraForm">
+        <div class="form-row justify-content-between">
+          <mat-form-field class="col-auto">
+            <input matInput placeholder="Fecha Orden Compra" name="feOrdenCompra_form"
+              [(ngModel)]="jsonOrdenCompra.feOrdenCompra" disabled>
+          </mat-form-field>
+          <mat-form-field class="col-auto">
+            <mat-select placeholder="Proveedor: " [(ngModel)]="jsonOrdenCompra.idProveedor" name="proveedor_form"
+              #proveedor_form="ngModel" required>
+              <mat-option> -- </mat-option>
+              <mat-option *ngFor="let pl of proveedorList" [value]="pl.id"> {{pl.descripcionProveedor}} </mat-option>
+            </mat-select>
+
+            <mat-error>
+              <app-validators-messages [controlVar]="proveedor_form" labelName="Proveedor: ">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-row">
+          <mat-table #table [dataSource]="dataSourceMaterialOrdenCompra">
+
+            <ng-container matColumnDef="codigo">
+              <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreMaterial">
+              <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="cantidad">
+              <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+              <mat-header-cell *matHeaderCellDef> fecha </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="add">
+              <mat-header-cell *matHeaderCellDef> Agregar </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <a (click)="addMaterialOCTemp(element)">
+                  <i class="fa fa-check-circle"></i>
+                </a>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumnsMaterialOrdenCompra"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsMaterialOrdenCompra;"></mat-row>
+
+          </mat-table>
+        </div>
+        <div class="form-row">
+          <mat-card class="col" *ngIf="ocTempList.length>0">
+            <mat-card-header>
+              <mat-card-title>Listado de Orden Compra</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="form-row">
+                  <mat-table #table [dataSource]="dataSourceMaterialOCTemp">
+
+                    <ng-container matColumnDef="codigo">
+                      <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombreMaterial">
+                      <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cantidad">
+                      <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fecha">
+                      <mat-header-cell *matHeaderCellDef> fecha </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="eliminar">
+                      <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                      <mat-cell *matCellDef="let element; let i = index">
+                        <a (click)="deleteMaterialOCTemp(i)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnsMaterialOCTemp"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnsMaterialOCTemp;"></mat-row>
+
+                  </mat-table>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </form>
+    </div>
+    <div class="form-row pb-3">
+      <div class="col text-right ">
+        <button mat-raised-button (click)="generarOrden()" [disabled]="isInvalid(OrdenCompraForm)"> Generar OC </button>
+        <button mat-raised-button (click)="dismiss()"> Cancelar </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

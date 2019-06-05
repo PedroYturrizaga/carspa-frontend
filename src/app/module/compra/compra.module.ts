@@ -8,8 +8,12 @@ import { ListarProveedorComponent } from './compra-content/listar-proveedor/list
 import { ModuleModule } from '../module.module';
 import { InsertarProveedorComponent } from './compra-content/listar-proveedor/insertar-proveedor/insertar-proveedor.component';
 import { InsertarMaterialProveedorComponent } from './compra-content/listar-material-proveedor/insertar-material-proveedor/insertar-material-proveedor.component';
-
+import { OrdenCompraComponent } from './compra-content/orden-compra/orden-compra.component';
+import { GenerarOcComponent } from './compra-content/orden-compra/generar-oc/generar-oc.component'
 // import { ListarProveedorComponent } from './compra-content/listar-proveedor/listar-proveedor.component';
+
+import { ModalConfirmacionComponent } from './../../shared/others/modal-confirmacion/modal-confirmacion.component';
+import { VisualizarOcComponent } from './compra-content/orden-compra/visualizar-oc/visualizar-oc.component';
 
 @NgModule({
   imports: [
@@ -23,14 +27,18 @@ import { InsertarMaterialProveedorComponent } from './compra-content/listar-mate
     ListarProveedorComponent,
     ListarMaterialProveedorComponent,
     InsertarProveedorComponent ,
-    InsertarMaterialProveedorComponent
-    
-    
+    InsertarMaterialProveedorComponent,
+    OrdenCompraComponent,
+    GenerarOcComponent,
+    VisualizarOcComponent
   ],
 
   entryComponents: [
     InsertarProveedorComponent,
-    InsertarMaterialProveedorComponent
+    InsertarMaterialProveedorComponent,
+    GenerarOcComponent,
+    VisualizarOcComponent,
+    ModalConfirmacionComponent
   ],
 
   providers: [
