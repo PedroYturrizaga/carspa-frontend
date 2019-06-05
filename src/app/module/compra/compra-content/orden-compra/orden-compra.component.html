@@ -1,6 +1,6 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title></mat-card-title>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"></mat-card-title>
     <div class="container">
       <div class="seccion-title">
         <h5>Busqueda de Ordenes de Compra</h5>
@@ -56,7 +56,7 @@
           <button mat-raised-button (click)="BuscarOrdenCompra()"> Buscar </button>
         </div>
       </div>
-      <div class="form-row">
+      <div class="table table-responsive">
         <mat-table #table [dataSource]="dataSourceOrdenCompra">
 
           <ng-container matColumnDef="codigo">
@@ -93,6 +93,9 @@
             <mat-cell *matCellDef="let element;let i = index">
               <a (click)="deleteOC(i)" *ngIf="element.estado==1">
                 <i class="fa fa-trash"></i>
+              </a>
+              <a (click)="addMaterialOCTemp(element)" *ngIf="element.estado==0">
+                <i class="fa fa-check-circle"></i>
               </a>
             </mat-cell>
           </ng-container>

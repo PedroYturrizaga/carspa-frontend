@@ -1,6 +1,6 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>Generar Orden Compra</mat-card-title>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Generar Orden Compra</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="card-body">
@@ -23,7 +23,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-row">
+        <div class="table table-responsive">
           <mat-table #table [dataSource]="dataSourceMaterialOrdenCompra">
 
             <ng-container matColumnDef="codigo">
@@ -62,12 +62,12 @@
         </div>
         <div class="form-row">
           <mat-card class="col" *ngIf="ocTempList.length>0">
-            <mat-card-header>
-              <mat-card-title>Listado de Orden Compra</mat-card-title>
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Listado de Orden Compra</mat-card-title>
             </mat-card-header>
             <mat-card-content>
               <div class="card-body">
-                <div class="form-row">
+                <div class="table table-responsive">
                   <mat-table #table [dataSource]="dataSourceMaterialOCTemp">
 
                     <ng-container matColumnDef="codigo">

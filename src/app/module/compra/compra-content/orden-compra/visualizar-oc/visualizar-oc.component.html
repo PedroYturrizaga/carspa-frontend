@@ -1,6 +1,6 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>Generar Orden Compra</mat-card-title>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Generar Orden Compra</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="card-body">
@@ -18,13 +18,14 @@
             disabled>
         </mat-form-field>
       </div>
+
       <mat-card>
-        <mat-card-header>
-          <mat-card-title>Listado de Orden Compra</mat-card-title>
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion">Listado de Orden Compra</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="card-body">
-            <div class="form-row">
+            <div class="table table-responsive">
               <mat-table #table [dataSource]="dataSourceMaterialOC">
 
                 <ng-container matColumnDef="codigo">
