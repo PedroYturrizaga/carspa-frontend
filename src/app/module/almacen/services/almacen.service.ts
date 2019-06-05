@@ -9,11 +9,13 @@ import { BaseService } from '../../../shared/services/base.service';
 export class AlmacenService extends BaseService {
 
   private UrlAlmacen: string;
+  private UrlAlmacen1: string;
   private UrlAnaquel: string;
 
   constructor(public _http: Http, public _configuration: Configuration) {
     super();
     this.UrlAlmacen = this._configuration.Server + 'sigs-commons-ws/almacenOrdenCompra';
+    this.UrlAlmacen1 = this._configuration.Server + 'sigs-commons-ws/almacenOrdenTrabajo';
     this.UrlAnaquel = this._configuration.Server + 'sigs-commons-ws/anaquel';
   }
 
@@ -71,6 +73,48 @@ export class AlmacenService extends BaseService {
     });
     console.log(options);
     return this._http.get(this.UrlAnaquel + "/listarAnaquel", options).map((res: Response) => res.json());
+  }
+
+  public listarOT(_params: any) {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    if (_params.idAlmacenOrdenTrabajo != null) {
+      queryParams.append('idAlmacenOrdenTrabajo', _params.idAlmacenOrdenTrabajo);
+    }
+    if (_params.estado != null) {
+      queryParams.append('estado', _params.estado);
+    }
+    if (_params.nuPagina != null) {
+      queryParams.append('nuPagina', _params.nuPagina);
+    }
+    if (_params.nuRegisMostrar != null) {
+      queryParams.append('nuRegisMostrar', _params.nuRegisMostrar);
+    }
+
+    let options = new RequestOptions({
+      search: queryParams
+    });
+
+    return this._http.get(this.UrlAlmacen1 + "/listarOrdenTrabajo", options).map((res: Response) => res.json());
+  }
+
+  public listarMaterialOT(_params: any) {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    if (_params.idAlmacenOrdenTrabajo != null) {
+      queryParams.append('idAlmacenOrdenTrabajo', _params.idAlmacenOrdenTrabajo);
+    }
+    let options = new RequestOptions({
+      search: queryParams
+    });
+
+    return this._http.get(this.UrlAlmacen1 + "/listarMaterialesOT", options).map((res: Response) => res.json());
+  }
+
+  public actualizarCantidadFisicaOT(data) {
+    return this._http.put(this.UrlAlmacen1 + "/actualizarCantidadFisicaOT", data).map((res: Response) => res.json());
+  }
+
+  public actualizarEstadoOT(data) {
+    return this._http.put(this.UrlAlmacen1 + "/actualizarEstadoOT", data).map((res: Response) => res.json());
   }
 
 }

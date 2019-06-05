@@ -60,7 +60,7 @@ export class ControlarStockComponent implements OnInit {
       if (data.estado == 1) {
         console.log(data);
         this.lsMateriales = data.materiales;
-        this.show=0;
+        this.show = 0;
         this.dataSource = new MatTableDataSource(this.lsMateriales);
         this.lsMateriales.forEach(element => {
           if (element["idAlerta"] == 1) {

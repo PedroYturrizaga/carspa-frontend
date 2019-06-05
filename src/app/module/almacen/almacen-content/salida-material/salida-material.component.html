@@ -1,3 +1,87 @@
-<p>
-  salida-material works!
-</p>
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Salida de Materiales</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #salidaMaterialForm="ngForm" novalidate name="salidaMaterialForm">
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-label for="montoApertura">Número Movimiento</mat-label>
+              <input matInput type="number" name="idAlmacenOrdenTrabajo" #idAlmacenOrdenTrabajo="ngModel" id="idAlmacenOrdenTrabajo" [(ngModel)]="paramsBusqueda.idAlmacenOrdenTrabajo"
+                [min]="1" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
+              />
+              <mat-error>
+                <app-validators-messages [controlVar]="idAlmacenOrdenTrabajo" labelName="Número Movimiento">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class=" col-sm-4 ">
+            <mat-form-field class="example-full-width ">
+              <mat-select placeholder="Seleccione Estado" name="estados" [(ngModel)]="paramsBusqueda.estado" (selectionChange)="verificarIdEstado(paramsBusqueda.estado)">
+                <mat-option>Seleccione Estado</mat-option>
+                <mat-option *ngFor="let ls of lsEstado" [value]="ls.idEstado"> {{ls.descripcionEstado}}</mat-option>
+              </mat-select>
+
+            </mat-form-field>
+          </div>
+
+          <div class="col-4 ">
+            <button mat-raised-button (click)="buscarOrdenTrabajos(1)" [disabled]="isInvalid(salidaMaterialForm)">
+              Buscar
+            </button>
+          </div>
+
+        </div>
+
+
+      </div>
+    </form>
+  </mat-card-content>
+
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource" *ngIf="almacenOrdenesCompraAUX.length!=0">
+
+      <ng-container matColumnDef="codMov">
+        <mat-header-cell *matHeaderCellDef> Codigo Movimiento </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.idAlmacenOrdenTrabajo}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="descAlm">
+        <mat-header-cell *matHeaderCellDef> Almacén </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.descripcionAlmacen}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef>Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.fecha }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef>Estado </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ (e.estado)=='P' ? 'Pendiente' : 'Entregado' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="nomCliente">
+        <mat-header-cell *matHeaderCellDef> Cliente </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.nombreCliente }}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="abrirModalVerificarMateriales(row)"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+      showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+  <br>
+</mat-card>

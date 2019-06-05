@@ -5,7 +5,6 @@ import { MatTableDataSource, MatDialog, MatPaginator, MatSort } from '@angular/m
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { isInvalid, setQuantifier, setValidatorPattern, setInputPattern } from '../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
-import { copyConfig } from '@angular/router/src/config';
 import { RegistrarAnaquelComponent } from './registrar-anaquel/registrar-anaquel.component';
 
 @Component({
@@ -32,8 +31,6 @@ export class RegistrarMaterialComponent implements OnInit {
     this.displayedSizes = [5, 10, 25, 100];
     this.pageSize = this.displayedSizes[0];
   }
-
-  private llenar = { id: null, nom: null };
 
   ngOnInit() {
     this.llenarLista();

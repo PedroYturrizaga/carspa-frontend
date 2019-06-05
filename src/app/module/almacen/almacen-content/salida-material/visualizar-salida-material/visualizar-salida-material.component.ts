@@ -1,16 +1,16 @@
-import { AlmacenService } from './../../../services/almacen.service';
-import { MatTableDataSource, MatDialogRef, MatPaginator, MatSort } from '@angular/material';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 import { Observable } from 'rxjs/Observable';
 import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '../../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
+import { MatTableDataSource, MatDialogRef, MatPaginator, MatSort } from '@angular/material';
+import { AlmacenService } from './../../../services/almacen.service';
 
 @Component({
-  selector: 'app-visualizar-materiales',
-  templateUrl: './visualizar-materiales.component.html',
-  styleUrls: ['./visualizar-materiales.component.scss']
+  selector: 'app-visualizar-salida-material',
+  templateUrl: './visualizar-salida-material.component.html',
+  styleUrls: ['./visualizar-salida-material.component.scss']
 })
-export class VisualizarMaterialesComponent implements OnInit {
+export class VisualizarSalidaMaterialComponent implements OnInit {
 
   @ViewChild(MatPaginator) matPag: MatPaginator;
   @ViewChild(MatSort) matSort: MatSort;
@@ -22,19 +22,18 @@ export class VisualizarMaterialesComponent implements OnInit {
   private showInput: any = [];
   private cont: any = 0;
   dataSource = new MatTableDataSource();
-  constructor(
-    private dialogRef: MatDialogRef<VisualizarMaterialesComponent>,
-    private toastr: ToastsManager,
-    private _almacenService: AlmacenService
-  ) { }
   displayedColumns = ['codigo', 'producto', 'marca', 'cantidad', 'cantidadFaltante', 'cantidadFisica', 'editar', 'restaurar'];
 
+  constructor(private dialogRef: MatDialogRef<VisualizarSalidaMaterialComponent>,
+    private toastr: ToastsManager,
+    private _almacenService: AlmacenService) { }
+
   ngOnInit() {
-    this.listarMaterialesxOrdenCompra();
+    this.listarMaterialesxOrdenTrabajo();
     this.asignarCantidadFisica(1);
   }
 
-  private pressEnter(idAlmacenOrdenCompraMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenCompra) {
+  private pressEnter(idAlmacenOrdenTrabajoMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenTrabajo) {
     if (cantidadFisica == "") {
       cantidadFisica = null;
       return;
@@ -53,7 +52,7 @@ export class VisualizarMaterialesComponent implements OnInit {
         this.almacenOrdenCompraMateriales[i].cantidadFisica = +cantidadFisica;
       }
     }
-    this.upCantidadFisica(idAlmacenOrdenCompraMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenCompra);
+    this.upCantidadFisica(idAlmacenOrdenTrabajoMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenTrabajo);
   }
 
   private asignarCantidadFisica(indice1) {
@@ -68,21 +67,21 @@ export class VisualizarMaterialesComponent implements OnInit {
     }
   }
 
-  private upCantidadFisica(idAlmacenOrdenCompraMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenCompra) {
+  private upCantidadFisica(idAlmacenOrdenTrabajoMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenTrabajo) {
 
-    let par = { idAlmacenOrdenCompraMaterial: null, idAlmacenOrdenCompra: null, idMaterial: null, cantidadFisica: null };
+    let par = { idAlmacenOrdenTrabajoMaterial: null, idAlmacenOrdenTrabajo: null, idMaterial: null, cantidadFisica: null };
 
-    par.idAlmacenOrdenCompraMaterial = idAlmacenOrdenCompraMaterial;
-    par.idAlmacenOrdenCompra = idAlmacenOrdenCompra;
+    par.idAlmacenOrdenTrabajoMaterial = idAlmacenOrdenTrabajoMaterial;
+    par.idAlmacenOrdenTrabajo = idAlmacenOrdenTrabajo;
     par.idMaterial = idMaterial;
     par.cantidadFisica = +(cantidadFisica);
     console.log(par);
-    this._almacenService.actualizarCantidadFisica(par)
+    this._almacenService.actualizarCantidadFisicaOT(par)
       .subscribe(data => {
         if (data.estado == 1) {
           this.toastr.success(data.mensaje);
         }
-        this.listarMaterialesxOrdenCompra();
+        this.listarMaterialesxOrdenTrabajo();
         return true;
       },
         error => {
@@ -95,12 +94,12 @@ export class VisualizarMaterialesComponent implements OnInit {
   }
 
   private actualizarEstado() {
-    let paramAct = { idAlmacenOrdenCompra: null };
-    paramAct.idAlmacenOrdenCompra = this.row.idAlmacenOrdenCompra;
-    this._almacenService.actualizarEstado(paramAct)
+    let paramAct = { idAlmacenOrdenTrabajo: null };
+    paramAct.idAlmacenOrdenTrabajo = this.row.idAlmacenOrdenTrabajo;
+    this._almacenService.actualizarEstadoOT(paramAct)
       .subscribe(data => {
         if (data.estado == 1) {
-          this.toastr.success("Materiales ingresados correctamente al Almacén");
+          this.toastr.success("Los materiales están siendo utilizados");
           this.close(1);
         } else if (data.estado == 0) {
           this.toastr.warning(data.mensaje);
@@ -119,14 +118,14 @@ export class VisualizarMaterialesComponent implements OnInit {
     this.dialogRef.close(add);
   }
 
-  private param = { idAlmacenOrdenCompra: null };
+  private param = { idAlmacenOrdenTrabajo: null };
 
-  private listarMaterialesxOrdenCompra() {
-    this.param.idAlmacenOrdenCompra = this.row.idAlmacenOrdenCompra;
-    this._almacenService.getAlmacenOrdenCompraMaterial(this.param)
+  private listarMaterialesxOrdenTrabajo() {
+    this.param.idAlmacenOrdenTrabajo = this.row.idAlmacenOrdenTrabajo;
+    this._almacenService.listarMaterialOT(this.param)
       .subscribe(data => {
         if (data.estado == 1) {
-          this.almacenOrdenCompraMateriales = data.almacenOrdenCompraMaterialList;
+          this.almacenOrdenCompraMateriales = data.almacenOrdenTrabajoMaterialList;
           for (let x of this.almacenOrdenCompraMateriales) {
 
             x.cantidadFaltante = x.cantidad;
@@ -179,8 +178,8 @@ export class VisualizarMaterialesComponent implements OnInit {
 
 
   restaurarCantidad(e, i) {
-    let par = { idAlmacenOrdenCompraMaterial: null, idAlmacenOrdenCompra: null, idMaterial: null, cantidadFisica: null };
+    let par = { idAlmacenOrdenTrabajoMaterial: null, idAlmacenOrdenTrabajo: null, idMaterial: null, cantidadFisica: null };
     par.cantidadFisica = -e.cantidadFisica;
-    this.upCantidadFisica(e.idAlmacenOrdenCompraMaterial, par.cantidadFisica, i, e.idMaterial, e.idAlmacenOrdenCompra);
+    this.upCantidadFisica(e.idAlmacenOrdenTrabajoMaterial, par.cantidadFisica, i, e.idMaterial, e.idAlmacenOrdenTrabajo);
   }
 }

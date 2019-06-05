@@ -94,10 +94,10 @@
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="abrirModalVerificarMateriales(row)"></mat-row>
-
-      <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
-        showFirstLastButtons></mat-paginator>
     </mat-table>
+
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
+      showFirstLastButtons></mat-paginator>
 
   </mat-card-content>
   <br>
