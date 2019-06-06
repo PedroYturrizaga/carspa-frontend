@@ -30,7 +30,7 @@
             <input matInput placeholder="Fecha Inicio" [matDatepicker]="picker" [(ngModel)]="paramsBusqueda.fInicial"
               name="fInicial" #fInicial="ngModel" disabled>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker disabled></mat-datepicker>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
 
             <mat-error>
               <app-validators-messages [controlVar]="fInicial" labelName="Fecha Inicial">
@@ -40,9 +40,9 @@
 
           <mat-form-field class="col">
             <input matInput placeholder="Fecha Inicio" [matDatepicker]="pickerFin" [(ngModel)]="paramsBusqueda.fFinal"
-              name="fFinal" #fFinal="ngModel">
+              name="fFinal" #fFinal="ngModel" disabled>
             <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
-            <mat-datepicker #pickerFin></mat-datepicker>
+            <mat-datepicker #pickerFin disabled="false"></mat-datepicker>
 
             <mat-error>
               <app-validators-messages [controlVar]="fInicial" labelName="Fecha Inicial">
@@ -94,9 +94,9 @@
               <a (click)="deleteOC(i)" *ngIf="element.estado==1">
                 <i class="fa fa-trash"></i>
               </a>
-              <a (click)="addMaterialOCTemp(element)" *ngIf="element.estado==0">
-                <i class="fa fa-check-circle"></i>
-              </a>
+              <!-- <a> -->
+              <i *ngIf="element.estado==0" class="fa fa-check-circle"></i>
+              <!-- </a> -->
             </mat-cell>
           </ng-container>
 

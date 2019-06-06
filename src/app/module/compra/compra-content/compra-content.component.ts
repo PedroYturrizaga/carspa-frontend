@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 export class CompraContentComponent implements OnInit {
 
   private activado: any = {
-    'listar-proveedor': "titulo" ,
-    'listar-material-proveedor': "titulo",
-    'orden-compra': 'titulo'
+    'listarProveedor': "titulo" ,
+    'listarMaterialProveedor': "titulo",
+    'ordenCompra': 'titulo'
   
   }
   constructor(private _router: Router) { }
@@ -20,7 +20,10 @@ export class CompraContentComponent implements OnInit {
   }
 
   goToModulo(uri) {
-    this.activado[uri] = "tituloActivo"
+    // this.activado.map(item => { this.activado[item] = item == uri ? 'tituloActivo' : 'titulo' })
+    for(let x in this.activado){
+      this.activado[x] = (x == uri) ? 'tituloActivo' : 'titulo' 
+    }
     this._router.navigate(['/principal/compra/' + uri]);
   }
 
