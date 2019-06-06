@@ -27,9 +27,11 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VerActoMedicoService } from './shared/services/ver-acto-medico.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
+  
   ],
   imports: [
     HttpClientModule,

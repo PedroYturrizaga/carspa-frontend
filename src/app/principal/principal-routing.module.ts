@@ -19,10 +19,13 @@ const routes: Routes = [
         path: 'inventario', loadChildren: '../module/inventario/inventario.module#InventarioModule',
         canLoad: [AuthGuard, RoleGuard]
       },
+      
       {
         path: 'compra', loadChildren: '../module/compra/compra.module#CompraModule',
         canLoad: [AuthGuard, RoleGuard]
-      },
+      }
+      
+
       // {
       //   path: 'farmacia', loadChildren: '../module/farmacia/farmacia.module#FarmaciaModule',
       //   canLoad: [AuthGuard, RoleGuard]

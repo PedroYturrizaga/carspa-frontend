@@ -9,11 +9,17 @@ import { Router } from '@angular/router';
 export class CompraContentComponent implements OnInit {
 
   private activado: any = {
+<<<<<<< Updated upstream
     'listarProveedor': "titulo" ,
     'listarMaterialProveedor': "titulo",
     'ordenCompra': 'titulo'
   
+=======
+    'administraProveedor': "titulo"
+    
+>>>>>>> Stashed changes
   }
+
   constructor(private _router: Router) { }
 
   ngOnInit() {
@@ -26,5 +32,6 @@ export class CompraContentComponent implements OnInit {
     }
     this._router.navigate(['/principal/compra/' + uri]);
   }
+
 
 }
