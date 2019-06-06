@@ -10,10 +10,15 @@ export class CompraContentComponent implements OnInit {
 
   private activado: any = {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     'listarProveedor': "titulo" ,
     'listarMaterialProveedor': "titulo",
     'ordenCompra': 'titulo'
   
+=======
+    'administraProveedor': "titulo"
+    
+>>>>>>> Stashed changes
 =======
     'administraProveedor': "titulo"
     
