@@ -47,7 +47,7 @@
           </div>
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput placeholder="Fecha:" [(ngModel)]="request.maquinaria.fechaMantenimiento" [disabled]="disabled" type="date"
+              <input matInput placeholder="Fecha de Mantenimiento:" [(ngModel)]="request.maquinaria.fechaMantenimiento" [disabled]="disabled" type="date"
                 name="request.maquinaria.fechaMantenimiento" #request.maquinaria.fechaMantenimiento="ngModel" required>
             </mat-form-field>
           </div>
@@ -82,8 +82,21 @@
                 name="request.maquinaria.detalle" #request.maquinaria.detalle="ngModel"></textarea>
             </mat-form-field>
           </div>
-
-
+        </div>
+     <div class="row">
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput placeholder="Fecha de Compra:" [(ngModel)]="request.maquinaria.fechaCompra" [disabled]="disabled" type="date"
+                name="request.maquinaria.fechaCompra" #request.maquinaria.fechaCompra="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput type="number" placeholder="Precio de Compra:" [(ngModel)]="request.maquinaria.precioCompra" [disabled]="disabled" [min]="1" name="request.maquinaria.precioCompra"
+                #request.maquinaria.precioCompra="ngModel" (keypress)="setInputPattern($event, 'realPrices')" [pattern]="setValidatorPattern('realPrices', setQuantifier('+'), true, true)"
+                required>
+            </mat-form-field>
+          </div>
         </div>
 
         <div class="modalaling">

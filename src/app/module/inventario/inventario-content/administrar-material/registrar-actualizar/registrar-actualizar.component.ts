@@ -110,9 +110,10 @@ export class RegistrarActualizarComponent implements OnInit {
       return;
     }
     else{
-      if(this.request.material.stock>this.request.material.puntoPedido){this.request.material.idAlerta=3;}
-      if(this.request.material.stock<=this.request.material.puntoPedido && this.request.material.stock>this.request.material.stockMinimo ){this.request.material.idAlerta=2;}
-      if(this.request.material.stock<=this.request.material.stockMinimo ){this.request.material.idAlerta=1;}
+      if(this.request.material.stock>this.request.material.puntoPedido){this.request.material.idAlerta=4;}
+      if(this.request.material.stock<=this.request.material.puntoPedido && this.request.material.stock>this.request.material.stockMinimo ){this.request.material.idAlerta=3;}
+      if(this.request.material.stock<=this.request.material.stockMinimo && this.request.material.stock>0){this.request.material.idAlerta=2;}
+       if(this.request.material.stock==0){this.request.material.idAlerta=1;}
     console.log(this.request);
     this._materialService.insertMaterial(this.request).subscribe(data => {
       if (data.confirmacion.id == 1) {
