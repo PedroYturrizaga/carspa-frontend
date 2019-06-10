@@ -24,6 +24,9 @@ export class ControlarStockComponent implements OnInit {
   private displayedSizes: number[];
   private pageSize: number;
   private pagination: any;
+  private b = 0;
+  private p = 0;
+  private c = 0;
   constructor(private _materialService: AdministrarMaterialService,
     private toastr: ToastsManager,
     private dialog: MatDialog) {
@@ -38,13 +41,11 @@ export class ControlarStockComponent implements OnInit {
     }
   }
   private pageEvent($event) {
-    this.pagination.numPagina = $event.pageIndex + 1;
+    this.pagination.nuPagina = $event.pageIndex + 1;
     this.pageSize = $event.pageSize;
     this.getMateriales();
   }
-  private getMateriales(nuPagina?: number) {
-    let b = 0;
-    let p = 0;
+  private getAlerta(nuPagina?: number) {
     this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
 
     Object.keys(this.requestListar).forEach(key => {
@@ -60,22 +61,83 @@ export class ControlarStockComponent implements OnInit {
       if (data.estado == 1) {
         console.log(data);
         this.lsMateriales = data.materiales;
-        this.show=0;
+        this.show = 0;
         this.dataSource = new MatTableDataSource(this.lsMateriales);
         this.lsMateriales.forEach(element => {
-          if (element["idAlerta"] == 1) {
-            b++;
-          }
           if (element["idAlerta"] == 2) {
-            p++;
+            this.b++;
+          }
+          if (element["idAlerta"] == 3) {
+            this.p++;
+          }
+          if (element["idAlerta"] == 1) {
+            this.c++;
           }
         });
-        if (b > 0) {
-          this.toastr.warning("Hay " + b + " material(es) con Bajo Stock.");
+        if (this.c > 0) {
+          this.toastr.error("Hay " + this.c + " material(es) con Stock 0.");
           this.show = 1;
         }
-        if (p > 0) {
-          this.toastr.info("Hay " + p + " material(es) en Punto de pedido.");
+        if (this.b > 0) {
+          this.toastr.warning("Hay " + this.b + " material(es) con Bajo Stock.");
+          this.show = 1;
+        }
+        if (this.p > 0) {
+          this.toastr.info("Hay " + this.p + " material(es) en Punto de pedido.");
+          this.show = 1;
+        }
+        if (this.matPag) {
+          this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
+        }
+        if (this.lsMateriales.length > 0) {
+          this.pagination.nuRegisMostrar = this.lsMateriales[0].nuTotalReg;
+        }
+
+      } else {
+        this.toastr.error(data.mensaje);
+      }
+      return true;
+    },
+      error => {
+        console.error(error);
+        return Observable.throw(error);
+      }
+    ),
+      err => console.error(err),
+      () => console.log('Request Complete');
+  }
+  private getMateriales(nuPagina?: number) {
+    this.p=0;
+    this.b=0;
+    this.show=0;
+    this.pagination.nuPagina = (nuPagina) ? nuPagina : this.pagination.nuPagina;
+
+    Object.keys(this.requestListar).forEach(key => {
+      this.requestListar[key] = (this.requestListar[key] === '') ? null : this.requestListar[key];
+    });
+    this.requestListar = {
+      ...this.requestListar,
+      ...this.pagination,
+      nuRegisMostrar: this.pageSize
+    };
+    console.log(this.requestListar);
+    this._materialService.getMateriales(this.requestListar).subscribe(data => {
+      if (data.estado == 1) {
+        console.log(data);
+        this.lsMateriales = data.materiales;
+        this.dataSource = new MatTableDataSource(this.lsMateriales);
+        this.lsMateriales.forEach(element => {
+          if (element["idAlerta"]== 1) {
+            this.b++;
+          }
+          if (element["idAlerta"]== 2) {
+            this.p++;
+          }
+        });
+        if (this.p > 0) {
+          this.show = 1;
+        }
+        if (this.b > 0) {
           this.show = 1;
         }
 
@@ -102,9 +164,9 @@ export class ControlarStockComponent implements OnInit {
   private modalEdit() {
     const dialogRef = this.dialog.open(OrdenPedidoComponent, {
       autoFocus: false,
-      width:'90%',
-      height:'90%',
-      maxHeight:'95%',
+      width: '90%',
+      height: '90%',
+      maxHeight: '95%',
       disableClose: false,
       hasBackdrop: true
     });
@@ -116,7 +178,7 @@ export class ControlarStockComponent implements OnInit {
     });
 
   }
-    private setInputPattern(_event: any, _pattern: any): void {
+  private setInputPattern(_event: any, _pattern: any): void {
     setInputPattern(_event, _pattern);
   }
   private setValidatorPattern(_pattern: string, _quantifier: any,
@@ -134,7 +196,7 @@ export class ControlarStockComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMateriales();
+    this.getAlerta();
   }
 
 }

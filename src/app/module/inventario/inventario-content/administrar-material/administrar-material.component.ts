@@ -29,7 +29,7 @@ export class AdministrarMaterialComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router) {
       this.pagination = { nuPagina: 1, nuRegisMostrar: 0 };
-      this.displayedSizes = [10, 15, 25, 100];
+      this.displayedSizes = [5, 15, 25, 100];
       this.pageSize = this.displayedSizes[0];
      }
 
@@ -39,8 +39,8 @@ export class AdministrarMaterialComponent implements OnInit {
       }
     }
       private pageEvent($event) {
-    // this.paginationParameter.numPagina = event.pageIndex;
-    this.pagination.numPagina = $event.pageIndex + 1;
+    // this.paginationParameter.nuPagina = event.pageIndex;
+    this.pagination.nuPagina = $event.pageIndex + 1;
     this.pageSize = $event.pageSize;
     this.getMateriales();
   }

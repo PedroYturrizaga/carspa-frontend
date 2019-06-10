@@ -9,18 +9,34 @@ import { Router } from '@angular/router';
 export class CompraContentComponent implements OnInit {
 
   private activado: any = {
-    'listar-proveedor': "titulo" ,
-    'listar-material-proveedor': "titulo"
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+    'listarProveedor': "titulo" ,
+    'listarMaterialProveedor': "titulo",
+    'ordenCompra': 'titulo'
   
+=======
+    'administraProveedor': "titulo"
+    
+>>>>>>> Stashed changes
+=======
+    'administraProveedor': "titulo"
+    
+>>>>>>> Stashed changes
   }
+
   constructor(private _router: Router) { }
 
   ngOnInit() {
   }
 
   goToModulo(uri) {
-    this.activado[uri] = "tituloActivo"
+    // this.activado.map(item => { this.activado[item] = item == uri ? 'tituloActivo' : 'titulo' })
+    for(let x in this.activado){
+      this.activado[x] = (x == uri) ? 'tituloActivo' : 'titulo' 
+    }
     this._router.navigate(['/principal/compra/' + uri]);
   }
+
 
 }

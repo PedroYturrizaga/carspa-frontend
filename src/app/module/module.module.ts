@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { NativeDateAdapter } from '@angular/material';
+import { RegistrarActualizarComponent } from './compra/compra-content/administrar-proveedor/registrar-actualizar/registrar-actualizar.component';
 // import { CompraModule } from './compra/compra.module';
 // import { AlmacenModule } from './almacen/almacen.module';
 // import { TerapiaComponent } from './consulta-ambulatoria/consulta-ambulatoria-content/atencion-medica-ambulatoria/atencion-medica-ambulatoria/terapia/terapia.component';
@@ -86,6 +87,6 @@ const MY_DATE_FORMATS = {
   ],
   declarations: [
     // TerapiaComponent
-  ]
+  RegistrarActualizarComponent]
 })
 export class ModuleModule { }

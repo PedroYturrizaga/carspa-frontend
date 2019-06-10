@@ -19,7 +19,7 @@ export class OrdenPedidoComponent implements OnInit {
   dataSource = new MatTableDataSource();
   private show = 0;
   private lsMateriales = [];
-  private requestListar= { nombre: null, idAlerta1: 1, idAlerta2: 2 };
+  private requestListar= { nombre: null, idAlerta1: 1, idAlerta2: 3 };
   private displayedSizes: number[];
   private pageSize: number;
   private pagination: any;
@@ -28,7 +28,7 @@ export class OrdenPedidoComponent implements OnInit {
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<OrdenPedidoComponent>) {
     this.pagination = { nuPagina: 1, nuRegisMostrar: 0 };
-    this.displayedSizes = [10, 15, 25, 100];
+    this.displayedSizes = [5, 15, 25, 100];
     this.pageSize = this.displayedSizes[0];
   }
     private request = {
@@ -44,7 +44,7 @@ export class OrdenPedidoComponent implements OnInit {
     }
   }
   private pageEvent($event) {
-    this.pagination.numPagina = $event.pageIndex + 1;
+    this.pagination.nuPagina = $event.pageIndex + 1;
     this.pageSize = $event.pageSize;
     this.getMateriales();
   }
@@ -90,7 +90,7 @@ export class OrdenPedidoComponent implements OnInit {
      console.log(this.request);
     this._materialService.ordenPedido(this.request).subscribe(data => {
       if (data.confirmacion.id == 1) {
-        this.toastr.success("Se generó la Orden de Pedido del material '"+element.nombre+"'");
+        // this.toastr.success("Se generó la Orden de Pedido del material '"+element.nombre+"'");
          this.getMateriales();
       } else {
         this.toastr.info(data.confirmacion.mensaje);

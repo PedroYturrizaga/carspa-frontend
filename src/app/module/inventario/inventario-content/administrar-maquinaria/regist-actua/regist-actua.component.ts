@@ -25,6 +25,8 @@ export class RegistActuaComponent implements OnInit {
     fechaMantenimiento:null,
     detalle:null,
     idUbicacion:1,
+    fechaCompra:null,
+    precioCompra:null
     }
   }
   private today: Date = new Date();
@@ -52,6 +54,8 @@ public getDatos(){
     this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
     this.fecha=this.e.fechaMantenimiento;
     this.request.maquinaria.detalle=this.e.detalle;
+    this.request.maquinaria.fechaCompra=this.e.fechaCompra;
+    this.request.maquinaria.precioCompra=this.e.precioCompra;
     this.disabled=true;
     this.disabledEdit=false;
   }
@@ -65,6 +69,8 @@ public getDatos(){
     this.request.maquinaria.codigo=this.e.codigo;
     this.request.maquinaria.detalle=this.e.detalle;
     this.request.maquinaria.fechaMantenimiento=this.e.fechaMantenimiento;
+    this.request.maquinaria.fechaCompra=this.e.fechaCompra;
+    this.request.maquinaria.precioCompra=this.e.precioCompra;
     this.disabled=false;
     this.show=3;
     this.disabledEdit=true;    

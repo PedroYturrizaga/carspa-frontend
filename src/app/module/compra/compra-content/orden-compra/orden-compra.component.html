@@ -1,0 +1,110 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"></mat-card-title>
+    <div class="container">
+      <div class="seccion-title">
+        <h5>Busqueda de Ordenes de Compra</h5>
+      </div>
+      <div class="margenSuperior2">
+        <a mat-button class="mat-button enlace negrita text-right hover " (click)="openModalGenerarOC()">Generar Orden
+          Compra</a>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+      <form #BusquedaOrdenCompra="ngForm" novalidate name="BusquedaOrdenCompra">
+        <div class="form-row">
+          <mat-form-field class="col">
+            <mat-label for="nombreProveedor">Proveedor </mat-label>
+            <input matInput type="text" name="nombreProveedor" #nombreProveedor="ngModel" id="nombreProveedor"
+              [(ngModel)]="paramsBusqueda.nombreProveedor" />
+            <mat-error>
+              <app-validators-messages [controlVar]="nombreProveedor" labelName="nombreProveedor">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col">
+            <input matInput placeholder="Fecha Inicio" [matDatepicker]="picker" [(ngModel)]="paramsBusqueda.fInicial"
+              name="fInicial" #fInicial="ngModel" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+
+            <mat-error>
+              <app-validators-messages [controlVar]="fInicial" labelName="Fecha Inicial">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col">
+            <input matInput placeholder="Fecha Inicio" [matDatepicker]="pickerFin" [(ngModel)]="paramsBusqueda.fFinal"
+              name="fFinal" #fFinal="ngModel" disabled>
+            <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFin disabled="false"></mat-datepicker>
+
+            <mat-error>
+              <app-validators-messages [controlVar]="fInicial" labelName="Fecha Inicial">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+      <div class="form-row pb-3">
+        <div class="col text-right ">
+          <button mat-raised-button (click)="BuscarOrdenCompra()"> Buscar </button>
+        </div>
+      </div>
+      <div class="table table-responsive">
+        <mat-table #table [dataSource]="dataSourceOrdenCompra">
+
+          <ng-container matColumnDef="codigo">
+            <mat-header-cell *matHeaderCellDef> Codigo OC </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="proveedor">
+            <mat-header-cell *matHeaderCellDef> Proveedor </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.proveedor}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.estado == 1 ? 'Pendiente' : 'Realizado'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ver">
+            <mat-header-cell *matHeaderCellDef>Visualizar </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-button>
+                <i class="material-icons" (click)="visualizarOC(element)">remove_red_eye</i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+            <mat-cell *matCellDef="let element;let i = index">
+              <a (click)="deleteOC(i)" *ngIf="element.estado==1">
+                <i class="fa fa-trash"></i>
+              </a>
+              <!-- <a> -->
+              <i *ngIf="element.estado==0" class="fa fa-check-circle"></i>
+              <!-- </a> -->
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsOrdenCompra"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsOrdenCompra;"></mat-row>
+
+        </mat-table>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

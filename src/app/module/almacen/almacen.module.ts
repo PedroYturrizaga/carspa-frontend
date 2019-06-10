@@ -9,6 +9,7 @@ import { ModuleModule } from '../module.module';
 import { VisualizarMaterialesComponent } from './almacen-content/registrar-material/visualizar-materiales/visualizar-materiales.component';
 import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/registrar-anaquel/registrar-anaquel.component';
 import { SalidaMaterialComponent } from './almacen-content/salida-material/salida-material.component';
+import { VisualizarSalidaMaterialComponent } from './almacen-content/salida-material/visualizar-salida-material/visualizar-salida-material.component';
 
 @NgModule({
   imports: [
@@ -20,12 +21,14 @@ import { SalidaMaterialComponent } from './almacen-content/salida-material/salid
     RegistrarMaterialComponent,
     VisualizarMaterialesComponent,
     RegistrarAnaquelComponent,
-    SalidaMaterialComponent
+    SalidaMaterialComponent,
+    VisualizarSalidaMaterialComponent
   ],
 
   entryComponents: [
     VisualizarMaterialesComponent,
-    RegistrarAnaquelComponent
+    RegistrarAnaquelComponent,
+    VisualizarSalidaMaterialComponent
   ],
 
   providers: [

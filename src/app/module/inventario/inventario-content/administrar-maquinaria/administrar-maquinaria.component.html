@@ -1,7 +1,6 @@
 <mat-card>
   <mat-card-header class="sombreadoSubtitulos">
-    <mat-card-title class="subtitulo-seccion">
-    </mat-card-title>
+    <mat-card-title class="subtitulo-seccion"> </mat-card-title>
     <div class="container">
       <div class="seccion-title">
         <h5>MAQUINARIAS</h5>
@@ -79,7 +78,7 @@
 
         <!-- ELIMINAR -->
         <ng-container matColumnDef="eliminar">
-          <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> En Reparación </mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="modalelementDelete(element)">
             <button mat-button>
               <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">

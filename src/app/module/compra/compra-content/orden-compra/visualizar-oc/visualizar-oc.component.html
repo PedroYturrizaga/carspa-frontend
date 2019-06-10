@@ -1,0 +1,66 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Generar Orden Compra</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="form-row justify-content-around">
+        <mat-form-field class="col-auto">
+          <input matInput placeholder="Codigo de Orden Compra" name="codigoOrdenCompra_form"
+            [(ngModel)]="jsonOrdenCompra.codigoOrdenCompra" disabled>
+        </mat-form-field>
+        <mat-form-field class="col-auto">
+          <input matInput placeholder="Fecha Orden Compra" name="feOrdenCompra_form"
+            [(ngModel)]="jsonOrdenCompra.feOrdenCompra" disabled>
+        </mat-form-field>
+        <mat-form-field class="col-auto">
+          <input matInput placeholder="Proveedor" name="proveedor_form" [(ngModel)]="jsonOrdenCompra.nombreProveedor"
+            disabled>
+        </mat-form-field>
+      </div>
+
+      <mat-card>
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion">Listado de Orden Compra</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="card-body">
+            <div class="table table-responsive">
+              <mat-table #table [dataSource]="dataSourceMaterialOC">
+
+                <ng-container matColumnDef="codigo">
+                  <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nombreMaterial">
+                  <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.nombreMaterial}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="cantidad">
+                  <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="precio">
+                  <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.precio}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsMaterialOC"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsMaterialOC;"></mat-row>
+
+              </mat-table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="text-right pr-5">
+      <p>{{total}}</p>
+    </div>
+  </mat-card-actions>
+</mat-card>
