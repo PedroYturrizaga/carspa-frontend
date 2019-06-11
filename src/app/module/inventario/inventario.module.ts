@@ -14,14 +14,16 @@ import { ModalConfirmacionComponent } from '../../shared/others/modal-confirmaci
 import { RegistActuaComponent } from './inventario-content/administrar-maquinaria/regist-actua/regist-actua.component';
 import { ControlarStockComponent } from './inventario-content/controlar-stock/controlar-stock.component';
 import { OrdenPedidoComponent } from './inventario-content/controlar-stock/orden-pedido/orden-pedido.component';
+import { ReportesComponent } from './inventario-content/reportes/reportes.component';
+import { ModalPdfComponent } from "../../shared/helpers/modal-pdf/modal-pdf.component";
 
 @NgModule({
   imports: [
     ModuleModule,
     InventarioRoutingModule
   ],
-  declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent, MaquinariasInactivoComponent, RegistActuaComponent, ControlarStockComponent, OrdenPedidoComponent],
-  entryComponents:[ModalConfirmacionComponent,MaterialesInactivoComponent,MaquinariasInactivoComponent,RegistrarActualizarComponent,RegistActuaComponent,OrdenPedidoComponent],
+  declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent, MaquinariasInactivoComponent, RegistActuaComponent, ControlarStockComponent, OrdenPedidoComponent, ReportesComponent],
+  entryComponents:[ModalConfirmacionComponent,MaterialesInactivoComponent,MaquinariasInactivoComponent,RegistrarActualizarComponent,RegistActuaComponent,OrdenPedidoComponent,ModalPdfComponent],
   providers:[AdministrarMaquinariaService,AdministrarMaterialService]
 })
 export class InventarioModule { }

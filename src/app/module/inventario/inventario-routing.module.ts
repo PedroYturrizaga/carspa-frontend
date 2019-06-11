@@ -4,6 +4,7 @@ import { InventarioContentComponent } from './inventario-content/inventario-cont
 import { AdministrarMaquinariaComponent } from './inventario-content/administrar-maquinaria/administrar-maquinaria.component';
 import { AdministrarMaterialComponent } from './inventario-content/administrar-material/administrar-material.component';
 import { ControlarStockComponent } from "./inventario-content/controlar-stock/controlar-stock.component";
+import { ReportesComponent } from "./inventario-content/reportes/reportes.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,9 @@ const routes: Routes = [
       },
       {
         path: 'controlarStock', component: ControlarStockComponent
+      },
+      {
+        path: 'reportes', component: ReportesComponent
       }
     ]
   }
