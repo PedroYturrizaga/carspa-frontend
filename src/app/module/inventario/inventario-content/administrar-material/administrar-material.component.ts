@@ -16,7 +16,7 @@ import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '
 })
 export class AdministrarMaterialComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['codigo', 'material','marca','cantidad','sm','smi','pp','ver','edit' ,'eliminar'];
+  displayedColumns = ['codigo', 'material','marca','ana','cantidad','sm','smi','pp','ver','edit' ,'eliminar'];
   dataSource = new MatTableDataSource();
   private lsMateriales = [];
   private requestListar = { nombre: null ,estado:1}

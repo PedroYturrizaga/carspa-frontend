@@ -16,6 +16,7 @@ import { ControlarStockComponent } from './inventario-content/controlar-stock/co
 import { OrdenPedidoComponent } from './inventario-content/controlar-stock/orden-pedido/orden-pedido.component';
 import { ReportesComponent } from './inventario-content/reportes/reportes.component';
 import { ModalPdfComponent } from "../../shared/helpers/modal-pdf/modal-pdf.component";
+import { AlmacenService } from "../almacen/services/almacen.service";
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { ModalPdfComponent } from "../../shared/helpers/modal-pdf/modal-pdf.comp
   ],
   declarations: [InventarioContentComponent, AdministrarMaquinariaComponent, AdministrarMaterialComponent, RegistrarActualizarComponent, MaterialesInactivoComponent, MaquinariasInactivoComponent, RegistActuaComponent, ControlarStockComponent, OrdenPedidoComponent, ReportesComponent],
   entryComponents:[ModalConfirmacionComponent,MaterialesInactivoComponent,MaquinariasInactivoComponent,RegistrarActualizarComponent,RegistActuaComponent,OrdenPedidoComponent,ModalPdfComponent],
-  providers:[AdministrarMaquinariaService,AdministrarMaterialService]
+  providers:[AdministrarMaquinariaService,AdministrarMaterialService,AlmacenService]
 })
 export class InventarioModule { }

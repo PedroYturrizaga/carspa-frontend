@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '../../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
+import { AlmacenService } from "../../../../almacen/services/almacen.service";
 
 @Component({
   selector: 'app-registrar-actualizar',
@@ -20,6 +21,7 @@ export class RegistrarActualizarComponent implements OnInit {
   private disabled: boolean = true;
   private disabledEdit: boolean = true;
   private lsProveedor = [];
+  private anaquelList: any = [];
   private request = {
     material: {
       idMaterial: null,
@@ -32,7 +34,8 @@ export class RegistrarActualizarComponent implements OnInit {
       marca: null,
       descripcion: null,
       proveedor: null,
-      idAlerta:null
+      idAlerta: null,
+      idAnaquel:null
     }
 
   };
@@ -50,6 +53,7 @@ export class RegistrarActualizarComponent implements OnInit {
       this.request.material.nombre = this.e.nombre;
       this.request.material.marca = this.e.marca;
       this.request.material.descripcion = this.e.descripcion;
+      this.request.material.idAnaquel=this.e.idAnaquel;
       this.disabled = false;
       this.showIf = 0;
 
@@ -68,8 +72,13 @@ export class RegistrarActualizarComponent implements OnInit {
       this.request.material.descripcion = this.e.descripcion;
       if (this.e.nombreProveedor == null) {
         this.request.material.proveedor = "";
-      } else {
+      }if (this.e.nombreProveedor != null) {
         this.request.material.proveedor = this.e.nombreProveedor;
+      }
+      if (this.e.idAnaquel == null) {
+        this.request.material.idAnaquel = "";
+      } else {
+        this.request.material.idAnaquel = this.e.idAnaquel;
       }
       this.showIf = 1;
       this.disabled = true;
@@ -87,13 +96,34 @@ export class RegistrarActualizarComponent implements OnInit {
     private toastr: ToastsManager,
     private dialog: MatDialog,
     private router: Router,
-    public dialogRef: MatDialogRef<RegistrarActualizarComponent>) { }
+    public dialogRef: MatDialogRef<RegistrarActualizarComponent>,
+    private _almacenService: AlmacenService) { }
 
   close(add) {
     this.dialogRef.close(add);
   }
+  private listarAnaqueles() {
+    this._almacenService.listarAnaquel()
+      .subscribe(data => {
+        if (data.estado == 1) {
+          this.anaquelList = data.anaquelList;
+          console.log(this.anaquelList);
+        } else if (this.anaquelList == []) {
+          this.toastr.error("No se encontraron datos");
+        } else {
+          this.toastr.error(data.mensaje);
+          this.anaquelList = [];
+        }
+      },
+      error => {
+        this.toastr.error(error);
+        return Observable.throw(error);
+      }),
+      err => this.toastr.error(err),
+      () => this.toastr.success('Request Complete');
+  }
   private insertMaterial() {
-    if(this.request.material.stock>this.request.material.stockMaximo ){
+    if (this.request.material.stock > this.request.material.stockMaximo) {
       this.toastr.warning("La cantidad actual no puede ser mayor que el stock máximo.");
       return;
     }
@@ -105,42 +135,42 @@ export class RegistrarActualizarComponent implements OnInit {
       this.toastr.warning("El stock mínimo no puede ser mayor al punto de pedido.");
       return;
     }
-    if (this.request.material.stockMinimo==this.request.material.puntoPedido || this.request.material.stockMaximo==this.request.material.stockMinimo || this.request.material.stockMaximo== this.request.material.puntoPedido ) {
+    if (this.request.material.stockMinimo == this.request.material.puntoPedido || this.request.material.stockMaximo == this.request.material.stockMinimo || this.request.material.stockMaximo == this.request.material.puntoPedido) {
       this.toastr.warning("Las cantidades no pueden ser iguales.");
       return;
     }
-    else{
-      if(this.request.material.stock>this.request.material.puntoPedido){this.request.material.idAlerta=4;}
-      if(this.request.material.stock<=this.request.material.puntoPedido && this.request.material.stock>this.request.material.stockMinimo ){this.request.material.idAlerta=3;}
-      if(this.request.material.stock<=this.request.material.stockMinimo && this.request.material.stock>0){this.request.material.idAlerta=2;}
-       if(this.request.material.stock==0){this.request.material.idAlerta=1;}
-    console.log(this.request);
-    this._materialService.insertMaterial(this.request).subscribe(data => {
-      if (data.confirmacion.id == 1) {
-        this.toastr.success("Se insertó el material");
-        this.close(1);
+    else {
+      if (this.request.material.stock > this.request.material.puntoPedido) { this.request.material.idAlerta = 4; }
+      if (this.request.material.stock <= this.request.material.puntoPedido && this.request.material.stock > this.request.material.stockMinimo) { this.request.material.idAlerta = 3; }
+      if (this.request.material.stock <= this.request.material.stockMinimo && this.request.material.stock > 0) { this.request.material.idAlerta = 2; }
+      if (this.request.material.stock == 0) { this.request.material.idAlerta = 1; }
+      console.log(this.request);
+      this._materialService.insertMaterial(this.request).subscribe(data => {
+        if (data.confirmacion.id == 1) {
+          this.toastr.success("Se insertó el material");
+          this.close(1);
 
-      } else {
-        this.toastr.info(data.confirmacion.mensaje);
-      }
-      return true;
-    },
-      error => {
-        console.error(error);
-        return Observable.throw(error);
-      }
-    ),
-      err => console.error(err),
-      () => console.log('Request Complete');
+        } else {
+          this.toastr.info(data.confirmacion.mensaje);
+        }
+        return true;
+      },
+        error => {
+          console.error(error);
+          return Observable.throw(error);
+        }
+      ),
+        err => console.error(err),
+        () => console.log('Request Complete');
 
     }
   }
   private updateMaterial() {
-    if(this.request.material.stock>this.request.material.stockMaximo ){
+    if (this.request.material.stock > this.request.material.stockMaximo) {
       this.toastr.warning("La cantidad actual no puede ser mayor que el stock máximo.");
       return;
     }
-     if (this.request.material.stockMaximo < this.request.material.stockMinimo || this.request.material.stockMaximo < this.request.material.puntoPedido) {
+    if (this.request.material.stockMaximo < this.request.material.stockMinimo || this.request.material.stockMaximo < this.request.material.puntoPedido) {
       this.toastr.warning("El stock máximo no puede ser menor al punto de pedido o stock mínimo.");
       return;
     }
@@ -148,31 +178,31 @@ export class RegistrarActualizarComponent implements OnInit {
       this.toastr.warning("El stock mínimo no puede ser mayor al punto de pedido.");
       return;
     }
-    if (this.request.material.stockMinimo==this.request.material.puntoPedido || this.request.material.stockMaximo==this.request.material.stockMinimo || this.request.material.stockMaximo== this.request.material.puntoPedido ) {
+    if (this.request.material.stockMinimo == this.request.material.puntoPedido || this.request.material.stockMaximo == this.request.material.stockMinimo || this.request.material.stockMaximo == this.request.material.puntoPedido) {
       this.toastr.warning("Las cantidades no pueden ser iguales.");
       return;
     }
-    else{
-      if(this.request.material.stock>this.request.material.puntoPedido){this.request.material.idAlerta=3;}
-      if(this.request.material.stock<=this.request.material.puntoPedido && this.request.material.stock>this.request.material.stockMinimo ){this.request.material.idAlerta=2;}
-      if(this.request.material.stock<=this.request.material.stockMinimo ){this.request.material.idAlerta=1;}
-    this._materialService.updateMaterial(this.request).subscribe(data => {
-      if (data.confirmacion.id == 1) {
-        this.toastr.success("Se actualizó el material");
-        this.close(1);
+    else {
+      if (this.request.material.stock > this.request.material.puntoPedido) { this.request.material.idAlerta = 3; }
+      if (this.request.material.stock <= this.request.material.puntoPedido && this.request.material.stock > this.request.material.stockMinimo) { this.request.material.idAlerta = 2; }
+      if (this.request.material.stock <= this.request.material.stockMinimo) { this.request.material.idAlerta = 1; }
+      this._materialService.updateMaterial(this.request).subscribe(data => {
+        if (data.confirmacion.id == 1) {
+          this.toastr.success("Se actualizó el material");
+          this.close(1);
 
-      } else {
-        this.toastr.info(data.confirmacion.mensaje);
-      }
-      return true;
-    },
-      error => {
-        console.error(error);
-        return Observable.throw(error);
-      }
-    ),
-      err => console.error(err),
-      () => console.log('Request Complete');
+        } else {
+          this.toastr.info(data.confirmacion.mensaje);
+        }
+        return true;
+      },
+        error => {
+          console.error(error);
+          return Observable.throw(error);
+        }
+      ),
+        err => console.error(err),
+        () => console.log('Request Complete');
     }
   }
   private isInvalid(_ngForm: any): boolean {
@@ -212,6 +242,8 @@ export class RegistrarActualizarComponent implements OnInit {
   ngOnInit() {
     this.getProveedor();
     this.inicial();
+    this.listarAnaqueles();
+
   }
 
 }

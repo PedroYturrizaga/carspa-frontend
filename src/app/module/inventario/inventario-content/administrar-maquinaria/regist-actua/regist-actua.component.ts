@@ -41,7 +41,7 @@ export class RegistActuaComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<RegistActuaComponent>) {
     let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    this.fecha = ((this.today).toLocaleDateString('es-PE', options)).split('/').join('-');
+    this.fecha = ((this.today).toLocaleDateString('zh-Hans-CN', options)).split('/').join('-');
   }
 
   close(add) {
@@ -161,7 +161,6 @@ export class RegistActuaComponent implements OnInit {
   }
   ngOnInit() {
     console.log(this.fecha);
-    .
     this.getDatos();
     this.getUbicacion();
   }

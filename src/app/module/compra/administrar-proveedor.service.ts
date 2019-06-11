@@ -18,7 +18,7 @@ export class AdministrarProveedorService extends BaseService{
 
    public getProveedores (_params){
     let queryParams = new URLSearchParams();
-    queryParams.append("idProveedor", _params.idProveedor;
+    queryParams.append("idProveedor", _params.idProveedor);
     queryParams.append("nombreProveedor", _params.nombreProveedor);
     queryParams.append("nuPagina", _params.nuPagina);
     queryParams.append("nuRegisMostrar", _params.nuRegisMostrar);

@@ -79,15 +79,23 @@
           <div class=" col-4">
             <mat-form-field class="example-full-width ">
               <input matInput placeholder="Último Proveedor:" [(ngModel)]="request.material.proveedor" [disabled]="disabled" name="request.material.proveedor"
-                #request.material.proveedor="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)"
-                >
+                #request.material.proveedor="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)" >
+            </mat-form-field>
+          </div>
+          <div class=" col-4">
+            <mat-form-field class="example-full-width ">
+              <mat-select placeholder="Seleccione Anaquel" name="anaquel" [(ngModel)]="request.material.idAnaquel" [disabled]="disabled" >
+                <mat-option>Seleccione Anaquel</mat-option>
+                <mat-option *ngFor="let ls of anaquelList" [value]="ls.idAnaquel">
+                  {{ls.nombreAnaquel}}</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
         <div class=" col-12">
           <mat-form-field class="example-full-width ">
             <textarea matInput placeholder="Detalle:" [(ngModel)]="request.material.descripcion" [disabled]="disabled" name="request.material.descripcion"
-              #request.material.descripcion="ngModel"  (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)" ></textarea>
+              #request.material.descripcion="ngModel" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)"></textarea>
           </mat-form-field>
         </div>
 

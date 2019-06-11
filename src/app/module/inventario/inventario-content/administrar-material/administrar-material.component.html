@@ -5,9 +5,9 @@
       <div class="seccion-title">
         <h5>MATERIALES</h5>
       </div>
-      <div class="margenSuperior2"> 
-          <a mat-button class="mat-button enlace negrita text-right hover" (click)="modalEdit(0)">Registrar</a>
-          <a mat-button class="mat-button enlace negrita text-right hover" (click)="modalInactivos()">Inactivos</a>
+      <div class="margenSuperior2">
+        <a mat-button class="mat-button enlace negrita text-right hover" (click)="modalEdit(0)">Registrar</a>
+        <a mat-button class="mat-button enlace negrita text-right hover" (click)="modalInactivos()">Inactivos</a>
       </div>
     </div>
   </mat-card-header>
@@ -15,7 +15,7 @@
     <div class="col-12 card-body text-center">
       <mat-form-field class="col-sm-6 mat-form-field-flex1">
         <input matInput placeholder="Nombre del material" [(ngModel)]="requestListar.nombre" (input)="busqueda($event.target.value)"
-         matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
+          matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
           [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)">
       </mat-form-field>
     </div>
@@ -34,6 +34,11 @@
         <ng-container matColumnDef="marca">
           <mat-header-cell *matHeaderCellDef>Marca </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{ element.marca }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ana">
+          <mat-header-cell *matHeaderCellDef> Anaquel </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.nombreAnaquel }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="cantidad">
