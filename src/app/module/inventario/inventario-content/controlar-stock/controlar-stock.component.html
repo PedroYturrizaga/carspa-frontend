@@ -3,10 +3,10 @@
     <mat-card-title class="subtitulo-seccion"></mat-card-title>
     <div class="container">
       <div class="seccion-title">
-        <h5>Consultar Stock</h5>
+        <h5>Consultar Stock</h5 >
       </div>
-    <div class="linkOrden" *ngIf="show==1"> 
-      <button class="enlace negrita text-right hover" type="button" (click)="modalEdit()">Generar Orden de Pedido</button>
+    <div class="linkOrden margenSuperior2" *ngIf="show==1"> 
+      <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalEdit()">Generar Orden de Pedido</a>
       </div>
     </div>
   </mat-card-header>

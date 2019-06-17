@@ -7,6 +7,7 @@ import { setPagesList } from './../../shared/auth/storage/pages.storage';
 import { removeSession } from "../../shared/auth/storage/token.storage";
 import { getCodUsuario } from "../../shared/auth/storage/cabecera.storage";
 import { MatDialog } from '@angular/material';
+import { a } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-principal',
@@ -15,7 +16,7 @@ import { MatDialog } from '@angular/material';
   providers: [MenuPrincipalService]
 })
 export class PrincipalComponent implements OnInit {
-
+  
   private img1 = "assets/images/Iconos/t-cuido.png";;
   private img = "assets/images/Iconos/T.png";
   private imgAvatar = "assets/images/avatars/profile.jpg";
@@ -26,7 +27,7 @@ export class PrincipalComponent implements OnInit {
   private jsonUris: any = {};
   private activo: any = {};
   private activado = { almacen: "titulo", compra: 'titulo', inventario: 'titulo' }
-
+  
   constructor(
     private _router: Router,
     private toastr: ToastsManager,
@@ -94,12 +95,25 @@ export class PrincipalComponent implements OnInit {
       }
     });
   }
+  
+  visible = true;
   goToModulo(mod) {
+    this.visible = !this.visible;
     // Object.keys(this.activo).forEach(key => this.activo[key] = 'titulo');
     for (let x in this.activado) {
       this.activado[x] = (x == mod) ? "tituloActivo" : "titulo"
     }
     this._router.navigate(['/principal/' + mod]);
+  }
+  atras(){
+    // if(boton == true ){
+    //   this.visible =! this.visible;
+    // }
+    // else{
+    //   this.activado = !this.visible;
+    // }
+    this.visible =! this.visible;
+    
   }
 
   // goToModulo(modulo: any) {

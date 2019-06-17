@@ -27,8 +27,10 @@ export class AppComponent {
       // this._router.navigate(['login']);
     // } else {
       // this._router.navigate(['principal']);
+
     }
   }
+
   ngOnInit() {   
    this._router.navigate(['principal']);
   }

@@ -1059,6 +1059,10 @@ align-items: baseline;
     padding-top: 7px;
     display:inline-block;
     color: $color-segun;
+    h5{
+      width: 130px;
+      margin-left: -20px;
+    }
   }
   .margenSuperior2{
     display: inline-flex;
@@ -1096,4 +1100,10 @@ align-items: baseline;
   color: $color-segun;
   border: 2px solid #4F6597 !important;
   border-color: #4F6597 !important;
+}
+.pruebon{
+  position: absolute;
+  top: 112px;
+  background-color: red;
+  z-index: 2;
 }
