@@ -46,5 +46,13 @@ export class AdministrarMaquinariaService extends BaseService{
     return this._http.get(this.urlMaquinaria+"listarUbicacion").map((res: Response) => res.json());
 
    }
+    public getMaquinariasReporte (){
+    let queryParams = new URLSearchParams();
 
+    let options = new RequestOptions({
+      search: queryParams
+    })
+
+    return this._http.get(this.urlMaquinaria+"reporte", options).map((res: Response) => res.json());
+   }
 }
