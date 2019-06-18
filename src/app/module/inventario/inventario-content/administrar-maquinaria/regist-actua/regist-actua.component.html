@@ -22,7 +22,7 @@
         <div class="row">
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput placeholder="Código:" [(ngModel)]="request.maquinaria.codigo" [disabled]="disabled" maxlength="8" name="request.maquinaria.codigo"
+              <input matInput placeholder="N° Serie:" [(ngModel)]="request.maquinaria.codigo" [disabled]="disabled" minlength="10" maxlength="20" name="request.maquinaria.codigo"
                 #request.maquinaria.codigo="ngModel" (keypress)="setInputPattern($event, 'alfanumerics')" [pattern]="setValidatorPattern('alfanumerics', setQuantifier('+'), true, true)"
                 required>
             </mat-form-field>
