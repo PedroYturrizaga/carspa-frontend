@@ -16,8 +16,9 @@ export class ReportesComponent implements OnInit {
   private pdf: String = "";
   private combo = { nombre: null }
   private requestListar = { nombre: null, idAlerta1: 1, idAlerta2: 3, nuPagina: 1, nuRegisMostrar: 100000000 };
-  private request = { idMaterial: null, tipoFile: 2 };
+  private request = { idMaterial:null,fechaRegistro:null ,tipoFile: 2 };
   private listMaterial = [];
+  private listAnos = [];
   displayedColumns = ['codigo', 'material', 'orden'];
   dataSource = new MatTableDataSource();
   constructor(
@@ -40,6 +41,9 @@ export class ReportesComponent implements OnInit {
     if (e.id == 3) {
       if (this.request.idMaterial == null) {
         this.toastr.info("Debe seleccionar un material")
+      }
+      if (this.request.fechaRegistro == null) {
+        this.toastr.info("Debe seleccionar año")
       }
       else {
         this.getMaterialesMes();
@@ -90,6 +94,8 @@ export class ReportesComponent implements OnInit {
           this.request.idMaterial=null;
           this.listMaterial=null;
           this.combo.nombre=null;
+          this.request.fechaRegistro=null;
+          this.listAnos=null;
         } else if (data.estado == -1) {
           console.log(data);
         }
@@ -105,6 +111,21 @@ export class ReportesComponent implements OnInit {
   }
   selectMaterial(e) {
     this.request.idMaterial = e.idMaterial;
+    this.getAnosMateriales();
+  }
+    private getAnosMateriales() {    
+    this._materialService.getMaterialesAnoCombo(this.request)
+      .subscribe(data => {
+        if (data.estado == 1) {
+          this.listAnos = data.materiales;
+        } else if (data.estado == -1) {
+          console.log(data);
+        }
+      },
+      err => {
+        this.toastr.error(err)
+      });
+
   }
 
   private getMateriales() {

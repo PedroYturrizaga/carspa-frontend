@@ -13,22 +13,35 @@
       <mat-table #table [dataSource]="dataSource">
         <ng-container matColumnDef="codigo">
           <mat-header-cell *matHeaderCellDef> Inventario </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.inv }} </mat-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-form-field class="col-sm-12 col-md-12" *ngIf="element.id==3">
+              <input matInput type="text" [matAutocomplete]="auto" placeholder="Salidas de Materiales" (input)="busqueda($event.target.value)"
+                [(ngModel)]="combo.nombre" matTooltip="Mínimo 2 caracteres">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                 <strong>Seleccionar Material</strong>
+                <mat-option (onSelectionChange)="selectMaterial(lm)" *ngFor="let lm of listMaterial " [value]="lm.nombre">
+                  <span>{{ lm.nombre}}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-label *ngIf="element.id!=3" for="montoApertura"> {{ element.inv }} </mat-label>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="material">
           <mat-header-cell *matHeaderCellDef>Opción</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field class="col-sm-12 col-md-12" *ngIf="element.id==3">
-              <input matInput type="text" [matAutocomplete]="auto" placeholder="Material" (input)="busqueda($event.target.value)" [(ngModel)]="combo.nombre"
-                matTooltip="Mínimo 2 caracteres">
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="selectMaterial(lm)" *ngFor="let lm of listMaterial " [value]="lm.nombre" >
-                   <span>{{ lm.nombre}}</span>
+              <mat-select placeholder="Año:" [(ngModel)]="request.fechaRegistro" >
+                <mat-option>
+                  <strong>Seleccionar Año</strong>
                 </mat-option>
-              </mat-autocomplete>
+                <mat-option *ngFor="let option of listAnos; let i = index" [value]="option.nombre">
+                  {{option.nombre}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-             <mat-label *ngIf="element.id!=3" for="montoApertura">Todos</mat-label>   
+            <mat-label *ngIf="element.id!=3" for="montoApertura">Todos</mat-label>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="orden">

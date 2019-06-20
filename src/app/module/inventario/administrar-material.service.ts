@@ -81,11 +81,20 @@ export class AdministrarMaterialService extends BaseService {
     public getMaterialMes(_params) {
     let queryParams = new URLSearchParams();
     queryParams.append("idMaterial", _params.idMaterial);
+    queryParams.append("fechaRegistro", _params.fechaRegistro);
     queryParams.append("tipoFile", _params.tipoFile);
     let options = new RequestOptions({
       search: queryParams
     })
     return this._http.get(this.urlMaterial + "listarMaterialesMes", options).map((res: Response) => res.json());
+  }
+    public getMaterialesAnoCombo(_params) {
+    let queryParams = new URLSearchParams();
+    queryParams.append("idMaterial", _params.idMaterial);
+    let options = new RequestOptions({
+      search: queryParams
+    })
+    return this._http.get(this.urlMaterial + "comboAnosMaterial", options).map((res: Response) => res.json());
   }
 
 }
