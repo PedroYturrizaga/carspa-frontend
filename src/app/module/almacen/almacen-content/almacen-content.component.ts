@@ -20,6 +20,7 @@ export class AlmacenContentComponent implements OnInit {
   goToModulo(uri) {
     this.activado[uri] = "tituloActivo"
     this._router.navigate(['/principal/almacen/' + uri]);
+    $('.colorMenu3').removeClass('vete');
   }
 
 }

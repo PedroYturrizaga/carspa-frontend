@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { getCodUsuario, getIpress } from "./shared/auth/storage/cabecera.storage";
 import { getToken } from "./shared/auth/storage/token.storage";
 import {FormControl} from '@angular/forms';
-
+declare var $: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -33,5 +33,7 @@ export class AppComponent {
 
   ngOnInit() {   
    this._router.navigate(['principal']);
+
+  
   }
 }

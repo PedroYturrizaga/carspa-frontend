@@ -224,7 +224,12 @@ export class AdministrarMaquinariaComponent implements OnInit {
 
   ngOnInit() {
     this.aviso();
-    this.getMaquinarias();
+    this.getMaquinarias(); 
+
+    $('.pruebon').click(function() {
+    $('.todaspartes').addClass('vete');
+    $('.colorMenu3').addClass('vete');
+  });
   }
 
 }

@@ -555,7 +555,8 @@ margin: 0 0 0 auto;
 /* color de fondo para el menu de 2do nivel */
 .colorMenu3{
   background-color: $color-segun;
-  height: 40px!important;
+  height: 600px !important;
+  width: 230px !important;
 }
 .menu3Nivel{
   height: 40px!important;
@@ -1101,9 +1102,52 @@ align-items: baseline;
   border: 2px solid #4F6597 !important;
   border-color: #4F6597 !important;
 }
+.pruebon:hover{
+  color:$color-font;
+}
 .pruebon{
   position: absolute;
-  top: 112px;
-  background-color: red;
+  top: 0px;
+  left: 1100px;
+  background-color: $color-segun;
+  border-bottom-left-radius:8px !important; 
+  border-bottom-right-radius:8px !important;
+  border-top-left-radius:8px !important;
+  border-top-right-radius:8px !important;
   z-index: 2;
+}
+#principalmenu{
+  height: 600px !important;
+}
+.principalmenu{
+  height: 600px !important;
+  .mat-button{
+    border-radius: 5px;
+  }
+}
+#submenu1,
+#submenu2,
+#submenu3{
+ margin-top: -36px !important;
+}
+
+.colorMenu3 {
+  .itemsgs{
+    flex-direction: column !important;
+    width: 220px;
+  }
+  
+}
+.todaspartes{
+  width: 72% !important;
+    display: inline-flex !important;
+    position: absolute !important;
+    top: 90px !important;
+    right: 68px !important;
+}
+.material-icons.col-2{
+ color: yellow;
+}
+.vete{
+  display: none !important;
 }

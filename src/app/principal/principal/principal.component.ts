@@ -8,6 +8,7 @@ import { removeSession } from "../../shared/auth/storage/token.storage";
 import { getCodUsuario } from "../../shared/auth/storage/cabecera.storage";
 import { MatDialog } from '@angular/material';
 import { a } from '@angular/core/src/render3';
+declare var $: any;
 
 @Component({
   selector: 'app-principal',
@@ -16,7 +17,6 @@ import { a } from '@angular/core/src/render3';
   providers: [MenuPrincipalService]
 })
 export class PrincipalComponent implements OnInit {
-  
   private img1 = "assets/images/Iconos/t-cuido.png";;
   private img = "assets/images/Iconos/T.png";
   private imgAvatar = "assets/images/avatars/profile.jpg";
@@ -101,19 +101,14 @@ export class PrincipalComponent implements OnInit {
     this.visible = !this.visible;
     // Object.keys(this.activo).forEach(key => this.activo[key] = 'titulo');
     for (let x in this.activado) {
-      this.activado[x] = (x == mod) ? "tituloActivo" : "titulo"
+      this.activado[x] = (x == mod) ? "tituloActivo" : "titulo" 
     }
     this._router.navigate(['/principal/' + mod]);
   }
+  
   atras(){
-    // if(boton == true ){
-    //   this.visible =! this.visible;
-    // }
-    // else{
-    //   this.activado = !this.visible;
-    // }
+
     this.visible =! this.visible;
-    
   }
 
   // goToModulo(modulo: any) {
@@ -130,16 +125,7 @@ export class PrincipalComponent implements OnInit {
   // }
 
   ngOnInit() {
+    
   }
-
-  // backGo() {
-  //   this.isDisabledMenu = false;
-  //   this.isDisabledback = false;
-  // }
-
-  // toBack() {
-  //   this.isDisabledMenu = true;
-  //   this.isDisabledback = true;
-  // }
 
 }
