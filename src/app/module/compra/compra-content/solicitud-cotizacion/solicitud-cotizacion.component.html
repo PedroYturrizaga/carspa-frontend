@@ -1,0 +1,88 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"></mat-card-title>
+    <div class="container">
+      <div class="seccion-title">
+        <h5>Generar Solicitud</h5>
+      </div>
+      <div class="margenSuperior2">
+        <a mat-button class="mat-button enlace negrita text-right hover "
+          (click)="openModalSolicitudCotizacion()">Generar Solicitud
+          Compra</a>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-body">
+      <form #BusquedaSolicitud="ngForm" novalidate="novalidate" name="BusquedaSolicitud">
+        <div class="form-row">
+          <mat-form-field class="col">
+            <input matInput placeholder="Codigo de Solicitud" name="codigo_form" #codigo_form="ngModel" id="codigo_form"
+              [(ngModel)]="paramsBusqueda.codigo"/>
+          </mat-form-field>
+
+          <mat-form-field class="col">
+            <input matInput placeholder="Fecha Solicitud" [matDatepicker]="picker"
+              [(ngModel)]="paramsBusqueda.feSolicitud" name="fInicial" #fInicial="ngModel" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+
+          </mat-form-field>
+
+        </div>
+      </form>
+      <div class="form-row pb-3">
+        <div class="col text-right ">
+          <button mat-raised-button (click)="BuscarOrdenCompra()"> Buscar </button>
+        </div>
+      </div>
+      <div class="table table-responsive">
+        <mat-table #table [dataSource]="dataSourceSolicitudes">
+
+          <ng-container matColumnDef="codigo">
+            <mat-header-cell *matHeaderCellDef> Codigo Solicitud Cotizacion </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.estado}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ver">
+            <mat-header-cell *matHeaderCellDef>Visualizar </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-button>
+                <i class="material-icons" (click)="visualizarOC(element)">remove_red_eye</i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+            <mat-cell *matCellDef="let element;let i = index">
+              <a (click)="deleteOC(i)" *ngIf="element.estado==1">
+                <i class="fa fa-trash"></i>
+              </a>
+              <!-- <a> -->
+              <i *ngIf="element.estado==0" class="fa fa-check-circle"></i>
+              <!-- </a> -->
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsSolicitudes"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsSolicitudes;"></mat-row>
+
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+          (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

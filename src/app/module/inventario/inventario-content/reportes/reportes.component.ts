@@ -43,16 +43,19 @@ export class ReportesComponent implements OnInit {
       this.getObtenerImpresionMaterialesAlerta();
     }
     if (e.id == 3) {
-      if (this.request.idMaterial == null) {
-        this.toastr.info("Debe seleccionar un material")
+      if (this.request.idMaterial == null && this.request.fechaRegistro == null) {
+        this.toastr.info("Debe seleccionar un material");
+        return;
       }
-      if (this.request.fechaRegistro == null) {
-        this.toastr.info("Debe seleccionar año")
+      if (this.request.idMaterial != null && this.request.fechaRegistro == null) {
+        this.toastr.info("Debe seleccionar año");
+        return;
       }
       else {
         this.getMaterialesMes();
       }
     }
+    this.listMaterial=null;
   }
   private getObtenerImpresionMaquinas() {
 
@@ -109,6 +112,7 @@ export class ReportesComponent implements OnInit {
       });
   }
   busqueda(target) {
+    
     if (target.length % 2 == 0) {
       this.getMateriales();
     }

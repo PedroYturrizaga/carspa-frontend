@@ -1,0 +1,139 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Visualizar Detalle Solicitud</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <!-- <div class="form-row justify-content-around">
+
+        <mat-form-field class="col-auto">
+          <input matInput placeholder="Nombre del Producto" [(ngModel)]="paramsBusqueda.nombre" name="nombre_form"
+            #nombre_form="ngModel" (keyup.enter)="busquedaDescripcion($event.target.value)">
+
+        </mat-form-field>
+ 
+      </div> -->
+
+      <mat-card *ngIf="flgProveedor">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion">Listado de Proveedores de la Solicitud</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="card-body">
+            <div class="table table-responsive">
+              <mat-table #table [dataSource]="dataSourceSolicitudesProveedor">
+
+                <ng-container matColumnDef="codigo">
+                  <mat-header-cell *matHeaderCellDef> Codigo de Solictud </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nombreProveedor">
+                  <mat-header-cell *matHeaderCellDef> Nombre del Proveedor </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.nombreProveedor}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.estado}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="ver">
+                  <mat-header-cell *matHeaderCellDef> Visualizar Detalle </mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-button>
+                      <i class="material-icons" (click)="visualizarDetalleSolictud(element)">remove_red_eye</i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="cotizacion">
+                  <mat-header-cell *matHeaderCellDef> Cotizacion </mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-button *ngIf="!element.idCotizacionProveedor">
+                      <i class="fa fa-file" (click)="generarCotizacion(element)"></i>
+                    </button>
+                    <button mat-button *ngIf="element.idCotizacionProveedor">
+                      <i class="material-icons" (click)="visualizarCotizacionDetalle(element)"> monetization_on </i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsSolicitudesProveedor"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsSolicitudesProveedor;"></mat-row>
+
+              </mat-table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="!flgProveedor">
+        <mat-card-header class="sombreadoSubtitulos">
+          <mat-card-title class="subtitulo-seccion">Detalle de la Solicitud del Proveedor</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form #DetalleSolicitudForm="ngForm" novalidate name="DetalleSolicitudForm">
+            <div class="card-body">
+              <div class="table table-responsive">
+                <mat-table #table [dataSource]="dataSourceSolicitudesProveedorDetalle">
+
+                  <ng-container matColumnDef="codMatProv">
+                    <mat-header-cell *matHeaderCellDef> Codigo de Material </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.codMatProv}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="nombre">
+                    <mat-header-cell *matHeaderCellDef> Nombre del Material </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="marca">
+                    <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.marca}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="cantidadCompra">
+                    <mat-header-cell *matHeaderCellDef> Cantidad Solicitada </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.cantidadCompra}}</mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="precioUnit">
+                    <mat-header-cell *matHeaderCellDef> Precio Cotizacion </mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i=index;">
+                      <div class="form-grup form-group-sm row">
+                        <mat-form-field class="col-sm-12">
+                          <input matInput [(ngModel)]="element.precioUnit" name="precioUnit_{{i}}" id="precioUnit_{{i}}"
+                            #precioUnit="ngModel" (keypress)="setInputPattern($event, 'realPrices')"
+                            [pattern]="setValidatorPattern('realPrices', setQuantifier(''), true, true)" [min]="0.5"
+                            type="number" [maxlength]="10" required>
+                          <mat-error>
+                            <app-validators-messages [controlVar]="precioUnit" labelName="Precio">
+                            </app-validators-messages>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumnsSolicitudesProveedorDetalle"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsSolicitudesProveedorDetalle;"></mat-row>
+
+                </mat-table>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+        <div class="form-row pb-3">
+          <div class="col text-right ">
+            <button mat-raised-button (click)="backTo()"> Regresar </button>
+            <button mat-raised-button (click)="insertarCotizacion()" [disabled]="isInvalid(DetalleSolicitudForm)">
+              Cotizar </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+  </mat-card-content>
+
+</mat-card>

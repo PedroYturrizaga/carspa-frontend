@@ -19,7 +19,7 @@ import { setInputPattern, setValidatorPattern, setQuantifier, isInvalid } from '
 })
 export class AdministrarMaquinariaComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
-  displayedColumns = ['codigo', 'material', 'marca', 'fecha', 'ubicacion', 'ver', 'edit', 'eliminar'];
+  displayedColumns = ['codigo', 'material', 'marca', 'fecha','compra','precio', 'ubicacion', 'ver', 'edit', 'eliminar'];
   dataSource = new MatTableDataSource();
   private lsmaquinarias = [];
   private today = new Date();
@@ -61,7 +61,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
     this.requestListar = {
       ...this.requestListar,
       ...this.pagination,
-      nuRegisMostrar: this.pageSize
+      nuRegisMostrar: 10000
     };
     this._maquinariaService.getMaquinarias(this.requestListar).subscribe(data => {
       if (data.estado == 1) {

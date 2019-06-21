@@ -1,0 +1,97 @@
+<mat-card class="col-12">
+    <mat-card-header class="sombreadoSubtitulos">
+      <mat-card-title class="subtitulo-seccion"></mat-card-title>
+      <div class="container">
+          <div class="seccion-title">
+            <h5>Datos del Material</h5>
+          </div>
+          <div class="margenSuperior2"> 
+            <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
+              <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+                <span>
+                  <i class="material-icons">close</i>
+                </span>
+              </div>
+            </button>
+          </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <form #FormCrearArea="ngForm" novalidate name="FormCrearArea">
+        <div class="modal-body">
+          <div class="row">
+            <div class=" col-6">
+              <mat-form-field class="">
+                <input matInput placeholder="Código :" [(ngModel)]="request.materialProveedor.codMatProv"  maxlength="8" name="request.materialProveedor.codMatProv"
+                  #request.materialProveedor.codMatProv="ngModel" 
+                  required>
+              </mat-form-field>
+            </div>
+            <div class=" col-6">
+                <mat-form-field class="example-full-width mat-form-field-flex2">
+                  <mat-select #listaOpciones placeholder="Seleccione Material" name="request.materialProveedor.idMaterial" #request.maquinaria.idMaterial="ngModel"
+                    [(ngModel)]="request.materialProveedor.idMaterial" id="request.materialProveedor.idMaterial"  required>
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let a of lsMaterial" [value]="a.idMaterial">
+                      {{a.nombre}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    <app-validators-messages [controlVar]="request.materialProveedor.idMaterial" labelName="request.materialProveedor.idMaterial"></app-validators-messages>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+          </div>
+          <div class="row">
+            <div class=" col-6">
+              <mat-form-field class="">
+                <input matInput placeholder="Presentacion:" [(ngModel)]="request.materialProveedor.unidadMedida"  
+                  name="request.materialProveedor.unidadMedida" #request.materialProveedor.unidadMedida="ngModel" required>
+              </mat-form-field>
+            </div>
+            <div class=" col-6">
+              <mat-form-field class="">
+                <input matInput placeholder="Precio:" [(ngModel)]="request.materialProveedor.precioCompra" 
+                  name="request.materialProveedor.precioCompra" #request.materialProveedor.precioCompra="ngModel" required>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--<mat-form-field class="col-6">
+              <input matInput placeholder="Fecha" [matDatepicker]="picker22" [(ngModel)]="requestnew.fecha" [min]="today"
+                [minDate]="today" name="requestnew_fecha" #requestnew_fecha="ngModel"
+                (dateInput)="onDateChangee($event.target.value)" [disabled]="disabled" required>
+              <mat-datepicker-toggle matSuffix [for]="picker22"></mat-datepicker-toggle>
+              <mat-datepicker #picker22></mat-datepicker>
+            </mat-form-field>-->
+  
+          <div class="row">
+   
+            <div class=" col-6">
+              <mat-form-field class="">
+                <input matInput placeholder="Factor de Conversion:" [(ngModel)]="request.materialProveedor.factorConversion"  
+                  name="request.materialProveedor.factorConversion" #request.materialProveedor.factorConversion="ngModel" required>
+              </mat-form-field>
+            </div>
+  
+  
+          </div>
+        <div class="col-6">
+
+             </div>
+          <div class="modalaling">
+            <div *ngIf="show==3" class="col-11 text-right">
+              <button mat-raised-button (click)="update()" [disabled]="FormCrearArea.invalid">Editar</button>
+            </div>
+            <div *ngIf="show==1" class="col-11 text-right ">
+              <button mat-raised-button (click)="insert()" [disabled]="FormCrearArea.invalid">Insertar</button>
+            </div>
+            <div class="col-11 text-left ">
+              <button mat-raised-button (click)="close(1)">Regresar</button>
+            </div>
+  
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

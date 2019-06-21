@@ -15,8 +15,7 @@
     <div class="col-12 card-body text-center">
       <mat-form-field class="col-sm-6 mat-form-field-flex1">
         <input matInput placeholder="Nombre de la maquinaria" [(ngModel)]="requestListar.nombre" (input)="busqueda($event.target.value)"
-          matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
-          [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)">
+          matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetra')" [pattern]="setValidatorPattern('soloUnEspacioNumeroLetra', setQuantifier('+'), true, true)">
       </mat-form-field>
     </div>
 
@@ -42,6 +41,17 @@
           <mat-cell *matCellDef="let element"> {{ element.fechaMantenimiento }} </mat-cell>
         </ng-container>
 
+
+        <ng-container matColumnDef="compra">
+          <mat-header-cell *matHeaderCellDef> Fecha de Compra </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.fechaCompra }} </mat-cell>
+        </ng-container>
+
+        
+        <ng-container matColumnDef="precio">
+          <mat-header-cell *matHeaderCellDef> Precio de Compra</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.precioCompra }} </mat-cell>
+        </ng-container>
 
         <ng-container matColumnDef="ubicacion">
           <mat-header-cell *matHeaderCellDef> Ubicación </mat-header-cell>
@@ -81,7 +91,7 @@
           <mat-header-cell *matHeaderCellDef> En Reparación </mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="modalelementDelete(element)">
             <button mat-button>
-              <div class="example-tooltip-host" matTooltip="Eliminar" [matTooltipPosition]="'above'">
+              <div class="example-tooltip-host" matTooltip="En Reparación" [matTooltipPosition]="'above'">
                 <span>
                   <i class="material-icons">build</i>
                 </span>

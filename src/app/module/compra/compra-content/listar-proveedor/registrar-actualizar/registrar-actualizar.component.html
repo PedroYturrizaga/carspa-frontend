@@ -1,0 +1,119 @@
+<mat-card class="col-12">
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"></mat-card-title>
+    <div class="container">
+        <div class="seccion-title">
+          <h5>Datos del Proveedor</h5>
+        </div>
+        <div class="margenSuperior2"> 
+          <button mat-button class="mat-button-icon" (click)="close()" tabindex="-1">
+            <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+              <span>
+                <i class="material-icons">close</i>
+              </span>
+            </div>
+          </button>
+        </div>
+    </div>
+  </mat-card-header>
+
+
+
+  <mat-card-content>
+    <form #FormCrearProveedor="ngForm" novalidate name="FormCrearProveedor">
+      <div class="modal-body">
+        <div class="row">
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput placeholder="Nombre:" [(ngModel)]="request.proveedor.nombreProveedor" [disabled]="disabled"  name="request.proveedor.nombreProveedor"
+                #request.proveedor.nombreProveedor="ngModel" 
+                required>
+            </mat-form-field>
+          </div>
+
+          <div class="col-6 ">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Telefono:" [(ngModel)]="request.proveedor.telefono" [disabled]="disabled" name="request.proveedor.telefono"
+               
+                #request.proveedor.telefono="ngModel" required>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput placeholder="Email:" [(ngModel)]="request.proveedor.email" 
+
+                name="request.proveedor.email" #request.proveedor.email="ngModel" required>
+            </mat-form-field>
+          </div>
+          <div class=" col-6">
+            <mat-form-field class="">
+              <input matInput placeholder="Contacto:" [(ngModel)]="request.proveedor.contacto"
+                
+                name="request.proveedor.contacto" #request.proveedor.contacto="ngModel" required>
+            </mat-form-field>
+          </div>
+        </div>
+ 
+
+        <div class="row">
+          <div class=" col-6">
+            <mat-form-field class="example-full-width mat-form-field-flex2">
+              <mat-select #listaOpciones placeholder="Seleccione Tipo de Pago" name="request.proveedor.idTipoPago" #request.proveedor.idTipoPago="ngModel"
+                [(ngModel)]="request.proveedor.idTipoPago" id="request.proveedor.idTipoPago" [disabled]="disabled" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let a of lsTipoPago" [value]="a.idTipoPago">
+                  {{a.nombreTipoPago}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-validators-messages [controlVar]="request.proveedor.idTipoPago" labelName="request.proveedor.idTipoPago"></app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class=" col-6">
+            <mat-form-field class="">
+              <textarea matInput placeholder="Direccion:" [(ngModel)]="request.proveedor.direccion" 
+               
+                name="request.proveedor.direccion" #request.proveedor.direccion="ngModel"></textarea>
+            </mat-form-field>
+          </div>
+
+
+        </div>
+
+
+
+        <div class="row">
+           
+            <div class=" col-6">
+                <mat-form-field class="">
+                    <input matInput placeholder="RUC:" [(ngModel)]="request.proveedor.ruc" 
+     
+                      name="request.proveedor.ruc" #request.proveedor.ruc="ngModel" required>
+                  </mat-form-field>
+            </div>
+  
+  
+          </div>
+
+        <div class="modalaling">
+          <div *ngIf="show==3" class="col-11 text-right">
+            <button mat-raised-button (click)="update()" [disabled]="FormCrearProveedor.invalid">Editar</button>
+          </div>
+          <div *ngIf="show==1" class="col-11 text-right ">
+            <button mat-raised-button (click)="insert()" [disabled]="FormCrearProveedor.invalid">Insertar</button>
+          </div>
+          <div class="col-11 text-left ">
+            <button mat-raised-button (click)="close(1)">Regresar</button>
+          </div>
+
+        </div>
+
+
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -92,7 +92,7 @@
           </div>
           <div class=" col-6">
             <mat-form-field class="">
-              <input matInput type="number" placeholder="Precio de Compra:" [(ngModel)]="request.maquinaria.precioCompra" [disabled]="disabled" [min]="1" name="request.maquinaria.precioCompra"
+              <input matInput placeholder="Precio de Compra:" [(ngModel)]="request.maquinaria.precioCompra" [disabled]="disabled" minlength="3" maxlength="8" [min]="1" name="request.maquinaria.precioCompra"
                 #request.maquinaria.precioCompra="ngModel" (keypress)="setInputPattern($event, 'realPrices')" [pattern]="setValidatorPattern('realPrices', setQuantifier('+'), true, true)"
                 required>
             </mat-form-field>

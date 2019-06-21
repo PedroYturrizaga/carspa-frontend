@@ -19,7 +19,7 @@
           <mat-form-field class="col">
             <mat-label for="nombreProveedor">Proveedor </mat-label>
             <input matInput type="text" name="nombreProveedor" #nombreProveedor="ngModel" id="nombreProveedor"
-              [(ngModel)]="paramsBusqueda.nombreProveedor" />
+              [(ngModel)]="paramsBusqueda.nombreProveedor" disabled />
             <mat-error>
               <app-validators-messages [controlVar]="nombreProveedor" labelName="nombreProveedor">
               </app-validators-messages>
@@ -27,27 +27,14 @@
           </mat-form-field>
 
           <mat-form-field class="col">
-            <input matInput placeholder="Fecha Inicio" [matDatepicker]="picker" [(ngModel)]="paramsBusqueda.fInicial"
-              name="fInicial" #fInicial="ngModel" disabled>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker disabled="false"></mat-datepicker>
-
-            <mat-error>
-              <app-validators-messages [controlVar]="fInicial" labelName="Fecha Inicial">
-              </app-validators-messages>
-            </mat-error>
+            <input matInput placeholder="Codigo de OC" name="codigo_form" #codigo_form="ngModel" id="codigo_form" [(ngModel)]="paramsBusqueda.codigo" />
           </mat-form-field>
 
           <mat-form-field class="col">
-            <input matInput placeholder="Fecha Inicio" [matDatepicker]="pickerFin" [(ngModel)]="paramsBusqueda.fFinal"
-              name="fFinal" #fFinal="ngModel" disabled>
+            <input matInput placeholder="Fecha de Orden Compra" [matDatepicker]="pickerFin" [(ngModel)]="paramsBusqueda.feOrdenCompra"
+              name="feOrdenCompra_form" #feOrdenCompra_form="ngModel" disabled>
             <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
             <mat-datepicker #pickerFin disabled="false"></mat-datepicker>
-
-            <mat-error>
-              <app-validators-messages [controlVar]="fInicial" labelName="Fecha Inicial">
-              </app-validators-messages>
-            </mat-error>
           </mat-form-field>
         </div>
       </form>
@@ -71,12 +58,12 @@
 
           <ng-container matColumnDef="proveedor">
             <mat-header-cell *matHeaderCellDef> Proveedor </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.proveedor}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.nombreProveedor}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.estado == 1 ? 'Pendiente' : 'Realizado'}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.estado }} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="ver">
@@ -91,11 +78,11 @@
           <ng-container matColumnDef="eliminar">
             <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
             <mat-cell *matCellDef="let element;let i = index">
-              <a (click)="deleteOC(i)" *ngIf="element.estado==1">
+              <a (click)="deleteOC(i)" *ngIf="element.estado!='Confirmada'">
                 <i class="fa fa-trash"></i>
               </a>
               <!-- <a> -->
-              <i *ngIf="element.estado==0" class="fa fa-check-circle"></i>
+              <i *ngIf="element.estado=='Confirmada'" class="fa fa-check-circle"></i>
               <!-- </a> -->
             </mat-cell>
           </ng-container>
@@ -104,6 +91,8 @@
           <mat-row *matRowDef="let row; columns: displayedColumnsOrdenCompra;"></mat-row>
 
         </mat-table>
+        <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+          (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
       </div>
     </div>
   </mat-card-content>

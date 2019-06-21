@@ -1,0 +1,147 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"></mat-card-title>
+    <div class="container">
+      <div class="seccion-title">
+        <h5>Generar Solicitud de Cotizacion</h5>
+      </div>
+      <div class="margenSuperior2">
+        <button mat-button class="mat-button-icon" (click)="dismiss()" tabindex="-1">
+          <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <form #OrdenCompraForm="ngForm" novalidate name="OrdenCompraForm">
+        <div class="form-row justify-content-between">
+          <mat-form-field class="col-auto">
+            <input matInput placeholder="Fecha Orden Compra" name="feOrdenCompra_form"
+              [(ngModel)]="jsonOrdenCompra.feOrdenCompra" disabled>
+          </mat-form-field> 
+          <mat-form-field class="col-3">
+            <mat-select placeholder="Toppings" [formControl]="toppingsSC"
+              [(ngModel)]="jsonOrdenCompra.descripcionProveedor" name="proveedor_form" required multiple>
+              <mat-select-trigger>
+                {{toppingsSC.value ? toppingsSC.value[0] : ''}}
+                <span *ngIf="toppingsSC.value?.length > 1" class="additional-selection">
+                  (+{{toppingsSC.value.length - 1}} others)
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let pl of proveedorList" [value]="pl.nombreProveedor"> {{pl.nombreProveedor}}</mat-option>
+            </mat-select>
+
+            <mat-error>
+              <app-validators-messages [controlVar]="proveedor_form" labelName="Proveedor: ">
+              </app-validators-messages>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="table table-responsive">
+          <mat-table #table [dataSource]="dataSourceMaterialOrdenCompra">
+
+            <ng-container matColumnDef="codigo">
+              <mat-header-cell *matHeaderCellDef> Codigo Pedido de Material </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.idMaterialOrdenCompra}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreMaterial">
+              <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+              <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.estado}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="cantidad">
+              <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+              <mat-header-cell *matHeaderCellDef> fecha </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="add">
+              <mat-header-cell *matHeaderCellDef> Agregar </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <a (click)="addMaterialOCTemp(element)">
+                  <i class="fa fa-check-circle"></i>
+                </a>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumnsMaterialOrdenCompra"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsMaterialOrdenCompra;"></mat-row>
+
+          </mat-table>
+          <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+            (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
+        </div>
+        <div class="form-row">
+          <mat-card class="col" *ngIf="ocTempList.length>0">
+            <mat-card-header class="sombreadoSubtitulos">
+              <mat-card-title class="subtitulo-seccion">Listado de Orden Compra</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <div class="table table-responsive">
+                  <mat-table #table [dataSource]="dataSourceMaterialOCTemp">
+
+                    <ng-container matColumnDef="codigo">
+                      <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombreMaterial">
+                      <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cantidad">
+                      <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fecha">
+                      <mat-header-cell *matHeaderCellDef> fecha </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="eliminar">
+                      <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+                      <mat-cell *matCellDef="let element; let i = index">
+                        <a (click)="deleteMaterialOCTemp(i)">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnsMaterialOCTemp"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnsMaterialOCTemp;"></mat-row>
+
+                  </mat-table>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </form>
+    </div>
+    <div class="form-row pb-3">
+      <div class="col text-right ">
+        <button mat-raised-button (click)="generarOrden()" [disabled]="isInvalid(OrdenCompraForm)"> Generar OC </button>
+        <button mat-raised-button (click)="dismiss()"> Cancelar </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

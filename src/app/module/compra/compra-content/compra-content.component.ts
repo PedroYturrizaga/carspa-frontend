@@ -12,10 +12,10 @@ export class CompraContentComponent implements OnInit {
     'listarProveedor': "titulo" ,
     'listarMaterialProveedor': "titulo",
     'ordenCompra': 'titulo',
-    'administraProveedor': "titulo"
-    
+    'solicitarCotizacion': 'titulo',
+    'cotizaciones': 'titulo'
+  
   }
-
   constructor(private _router: Router) { }
 
   ngOnInit() {
@@ -28,6 +28,5 @@ export class CompraContentComponent implements OnInit {
     }
     this._router.navigate(['/principal/compra/' + uri]);
   }
-
 
 }

@@ -1,0 +1,203 @@
+
+  <mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion"></mat-card-title>
+        <div class="container">
+            <div class="seccion-title">
+              <h5>DATOS DE PROVEEDOR   </h5>
+            </div>
+     
+      </div>
+
+      </mat-card-header>
+
+<mat-card-content>
+
+         
+
+
+      <div class="table responsive">
+  <mat-table #table [dataSource]="dataSource" >
+
+
+
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nombreProveedor}} </mat-cell>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="telefono">
+      <mat-header-cell *matHeaderCellDef> Telefono </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.telefono}}
+      </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> Correo </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.email}}
+        </mat-cell>
+      </ng-container>
+
+    <ng-container matColumnDef="contacto">
+      <mat-header-cell *matHeaderCellDef>Contacto </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.contacto}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="direccion">
+        <mat-header-cell *matHeaderCellDef>Direccion </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.direccion}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="ruc">
+          <mat-header-cell *matHeaderCellDef>RUC </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.ruc}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="tpago">
+            <mat-header-cell *matHeaderCellDef>Tipo de pago </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.nombreTipoPago}} </mat-cell>
+          </ng-container>
+
+
+
+
+
+    
+ 
+
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+
+
+
+      </div>
+
+</mat-card-content>
+</mat-card>
+
+
+
+
+
+<mat-card>
+    <mat-card-header class="sombreadoSubtitulos">
+        <mat-card-title class="subtitulo-seccion"></mat-card-title>
+        <div class="container">
+            <div class="seccion-title">
+              <h5>MATERIALES DE PROVEEDOR   </h5>
+            </div>
+     
+
+            <div class="margenSuperior2">
+                <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalabrir(0)">Registrar</a>
+   
+              </div>
+      </div>
+
+      </mat-card-header>
+
+
+      
+<mat-card-content>
+
+         <div class="col-12 card-body text-center">
+            <mat-form-field class="col-sm-6 mat-form-field-flex1">
+              <input matInput placeholder="Nombre" [(ngModel)]="requestListarM.nombre" (input)="busqueda($event.target.value)"
+                matTooltip="Mínimo 2 caracteres" [matTooltipPosition]="'above'" (keypress)="setInputPattern($event, 'soloUnEspacioNumeroLetraPunto')"
+                [pattern]="setValidatorPattern('soloUnEspacioNumeroLetraPunto', setQuantifier('+'), true, true)">
+            </mat-form-field>
+          </div>
+
+
+      <div class="table responsive">
+  <mat-table #table [dataSource]="dataSource2" >
+
+
+   
+    
+
+
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="marca">
+      <mat-header-cell *matHeaderCellDef> Marca </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.marca}}
+      </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="codigomp">
+        <mat-header-cell *matHeaderCellDef> Codigo de Proveedor </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.codMatProv}}
+        </mat-cell>
+      </ng-container>
+
+    <ng-container matColumnDef="umedida">
+      <mat-header-cell *matHeaderCellDef>Presentación </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.unidadMedida}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="pcompra">
+        <mat-header-cell *matHeaderCellDef>Precio</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.precioCompra}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="fconversion">
+          <mat-header-cell *matHeaderCellDef>Conversion </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.factorConversion}} </mat-cell>
+        </ng-container>
+
+
+  <!-- EDITAR -->
+  <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="modalabrir(2,element)">
+        <button mat-button>
+          <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
+            <span>
+              <i class="material-icons">edit</i>
+            </span>
+          </div>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    
+ 
+
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+
+  </mat-table>
+
+
+
+      </div>
+
+</mat-card-content>
+</mat-card>

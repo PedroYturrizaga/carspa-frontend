@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Cuadro Comparativo</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="table table-responsive">
+        <mat-table #table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="material">
+            <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="marca">
+            <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Proveedor1">
+            <mat-header-cell *matHeaderCellDef> Proveedor 1 </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="proveedor2">
+            <mat-header-cell *matHeaderCellDef> Proveedor 2 </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="proveedor3">
+            <mat-header-cell *matHeaderCellDef> Proveedor 3 </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

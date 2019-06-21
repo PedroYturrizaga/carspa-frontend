@@ -1,0 +1,95 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion">Listar Materiales Proveedores</mat-card-title>
+    <div class="margenSuperior">
+      <button class="enlace negrita" type="button" (click)="insertarMaterialProveedor()">
+        Insertar Proveedor
+      </button>
+
+
+
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <form #listarProveedorForm="ngForm" novalidate name="listarMaterialProveedorForm">
+      <div class="card-body">
+
+        <div class="row">
+
+
+
+          <div class="col-sm-4">
+            <mat-form-field class="example-full-width">
+              <mat-label for="codMatProv">Material Proveedor </mat-label>
+              <input matInput type="text" name="codMatProv" #codMatProv="ngModel" id="codMatProv"
+                [(ngModel)]="paramsBusqueda.codMatProv" />
+              <mat-error>
+                <app-validators-messages [controlVar]="codMatProv" labelName="codMatProv">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-4 " align="center">
+            <button mat-raised-button (click)="buscarListaMaterialProveedor(1)">
+              Buscar
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+
+  </mat-card-content>
+
+
+
+  <mat-card-content>
+    <mat-table #table [dataSource]="dataSource" *ngIf="materialesproveedoresAUX.length!=0">
+
+
+
+      <ng-container matColumnDef="idMp">
+        <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.idMaterialProveedor}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="uniM">
+        <mat-header-cell *matHeaderCellDef>Presentacion</mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.unidadMedida }} </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="fac">
+        <mat-header-cell *matHeaderCellDef> Factor C. </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.factorConversion}}
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="prec">
+        <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.precioCompra}}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="abrirModalVerificarMateriales(row)"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+      (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+  <br>
+
+
+
+</mat-card>
