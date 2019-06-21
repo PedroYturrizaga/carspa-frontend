@@ -229,7 +229,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
     $('.pruebon').click(function() {
     $('.todaspartes').addClass('vete');
     $('.colorMenu3').addClass('vete');
-  });
+    });
   }
 
 }

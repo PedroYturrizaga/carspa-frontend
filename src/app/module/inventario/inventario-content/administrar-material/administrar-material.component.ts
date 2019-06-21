@@ -104,7 +104,12 @@ export class AdministrarMaterialComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.getMateriales();
+    this.getMateriales(
+    );
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+      });
   }
   private modalelementDelete(e){
       const dialogRef = this.dialog.open(ModalConfirmacionComponent, {
@@ -172,5 +177,6 @@ private modalInactivos(){
   private isInvalid(_ngForm: any): boolean {
     return isInvalid(_ngForm);
   }
+
 
 }
