@@ -731,7 +731,7 @@ margin: 0 0 0 auto;
 .margenSuperior22{
   text-align: center;
   margin-top: 15px;
-  margin-left: 76.5%;
+  margin-left: 50%;
 }
 .margenSuperior6{
   margin-top: -60px;
@@ -1107,7 +1107,7 @@ align-items: baseline;
 }
 .pruebon{
   position: absolute;
-  top: 0px;
+  top: 8px;
   left: 1100px;
   background-color: $color-segun;
   border-bottom-left-radius:8px !important; 
@@ -1150,4 +1150,12 @@ align-items: baseline;
 }
 .vete{
   display: none !important;
+}
+.Surface{
+  h4{
+    color:$color-back;
+  }
+  p{
+    color:$color-primer;
+  }
 }
