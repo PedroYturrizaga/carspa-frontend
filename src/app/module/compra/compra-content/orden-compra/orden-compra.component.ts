@@ -45,6 +45,10 @@ export class OrdenCompraComponent implements OnInit {
 
   ngOnInit() {
     this.getObtenerOrdenesCompra(1);
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private pageEvent($event: any) {
