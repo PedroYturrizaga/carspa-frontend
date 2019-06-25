@@ -37,7 +37,7 @@
         </ng-container>
 
         <ng-container matColumnDef="fecha">
-          <mat-header-cell *matHeaderCellDef> Próximo Mantenimiento </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Próx. Mantenimiento </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{ element.fechaMantenimiento }} </mat-cell>
         </ng-container>
 
@@ -50,7 +50,7 @@
         
         <ng-container matColumnDef="precio">
           <mat-header-cell *matHeaderCellDef> Precio de Compra</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.precioCompra }} </mat-cell>
+          <mat-cell *matCellDef="let element">S/{{ element.precioCompra }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="ubicacion">
@@ -91,7 +91,7 @@
           <mat-header-cell *matHeaderCellDef> En Reparación </mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="modalelementDelete(element)">
             <button mat-button>
-              <div class="example-tooltip-host" matTooltip="En Reparación" [matTooltipPosition]="'above'">
+              <div class="example-tooltip-host" matTooltip="Máquina en Reparación" [matTooltipPosition]="'above'">
                 <span>
                   <i class="material-icons">build</i>
                 </span>
