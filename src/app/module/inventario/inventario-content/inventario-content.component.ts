@@ -12,15 +12,17 @@ export class InventarioContentComponent implements OnInit {
     'administrarMaquinaria': "titulo",
     'administrarMaterial': 'titulo'
   }
-
   constructor(private _router: Router) { }
-
+  
   ngOnInit() {
+
   }
 
   goToModulo(uri) {
     this.activado[uri] = "tituloActivo"
     this._router.navigate(['/principal/inventario/' + uri]);
+    $('.colorMenu3').removeClass('vete');
+  
   }
 
 

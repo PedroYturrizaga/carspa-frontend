@@ -30,10 +30,11 @@ body {
   font-weight: 400px;
   font-size: 14px!important;
 }
-$color-back:#17275B !important;
-$color-primer:#233C7C !important;
+$color-back:#001D4F !important;
+$color-primer:rgb(151, 161, 170) !important;
 $color-segun:#4F6597 !important;
 $color-font:#FFFFFF !important;
+$color-botonx: #FCFF00 !important;
 
 a {
   cursor: pointer !important;
@@ -555,7 +556,8 @@ margin: 0 0 0 auto;
 /* color de fondo para el menu de 2do nivel */
 .colorMenu3{
   background-color: $color-segun;
-  height: 600px !important;
+  min-height: 800px !important;
+  max-height: 2200px !important;
   width: 230px !important;
 }
 .menu3Nivel{
@@ -997,6 +999,7 @@ align-items: baseline;
  .hover:hover{
   color: white;
   background-color: #2dacd1;
+  text-decoration: none !important;
 }
 .modalaling{
   display: inline-flex;
@@ -1021,6 +1024,7 @@ align-items: baseline;
   }
   .mat-button:hover{
     @include radius;
+    text-decoration: none !important;
   }
 }
 .colorMenu3{
@@ -1031,6 +1035,7 @@ align-items: baseline;
   }
   .mat-button:hover{
     @include radius;
+    text-decoration: none !important;
   }
 }
 
@@ -1038,9 +1043,10 @@ align-items: baseline;
   .mat-button:hover {
     background-color:$color-back;
     color:$color-font;
+    text-decoration: none !important;
   }
 }
-.tituloActivo{
+.tituloActivos{
   @include radius;
   background-color: $color-back;
   color:$color-font;
@@ -1059,7 +1065,9 @@ align-items: baseline;
   .seccion-title{
     padding-top: 7px;
     display:inline-block;
-    color: $color-segun;
+    color: $color-back;
+    text-decoration-style: solid;
+    font-weight: bold;
     h5{
       width: 130px;
       margin-left: -20px;
@@ -1073,6 +1081,7 @@ align-items: baseline;
     .mat-button:hover{
       i{
         color:$color-font;
+        text-decoration: none !important;
       }
       
       background-color:$color-segun;
@@ -1101,14 +1110,15 @@ align-items: baseline;
   color: $color-segun;
   border: 2px solid #4F6597 !important;
   border-color: #4F6597 !important;
+  text-decoration: none !important;
 }
 .pruebon:hover{
-  color:$color-font;
+  text-decoration: none !important;
 }
 .pruebon{
   position: absolute;
   top: 8px;
-  left: 1100px;
+  left: 83%;
   background-color: $color-segun;
   border-bottom-left-radius:8px !important; 
   border-bottom-right-radius:8px !important;
@@ -1117,10 +1127,12 @@ align-items: baseline;
   z-index: 2;
 }
 #principalmenu{
-  height: 600px !important;
+  min-height: 800px !important;
+  max-height: 1200px;
 }
 .principalmenu{
-  height: 600px !important;
+  min-height: 800px !important;
+  max-height: 1200px;
   .mat-button{
     border-radius: 5px;
   }
@@ -1143,7 +1155,7 @@ align-items: baseline;
     display: inline-flex !important;
     position: absolute !important;
     top: 90px !important;
-    right: 68px !important;
+    right: 5% !important;
 }
 .material-icons.col-2{
  color: yellow;
@@ -1156,6 +1168,12 @@ align-items: baseline;
     color:$color-back;
   }
   p{
-    color:$color-primer;
+    color: $color-botonx;
   }
+}
+.botonx{
+  background-color: $color-botonx;
+}
+.crece{
+  width: 90% !important;
 }

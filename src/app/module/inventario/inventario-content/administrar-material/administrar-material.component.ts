@@ -109,7 +109,7 @@ export class AdministrarMaterialComponent implements OnInit {
     $('.pruebon').click(function() {
       $('.todaspartes').addClass('vete');
       $('.colorMenu3').addClass('vete');
-      });
+    });
   }
   private modalelementDelete(e){
       const dialogRef = this.dialog.open(ModalConfirmacionComponent, {

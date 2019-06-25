@@ -15,12 +15,17 @@ export class AlmacenContentComponent implements OnInit {
   constructor(private _router: Router) { }
 
   ngOnInit() {
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   goToModulo(uri) {
     this.activado[uri] = "tituloActivo"
     this._router.navigate(['/principal/almacen/' + uri]);
     $('.colorMenu3').removeClass('vete');
+    
   }
 
 }

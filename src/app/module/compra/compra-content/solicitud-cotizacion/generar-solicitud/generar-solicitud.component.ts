@@ -66,7 +66,10 @@ export class GenerarSolicitudComponent implements OnInit {
 
     this.getProveedor();
     this.getMaterialOC(1);
-
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   getProveedor() {

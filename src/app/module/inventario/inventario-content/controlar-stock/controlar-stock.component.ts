@@ -197,10 +197,11 @@ export class ControlarStockComponent implements OnInit {
 
   ngOnInit() {
     this.getAlerta();
+    
     $('.pruebon').click(function() {
       $('.todaspartes').addClass('vete');
       $('.colorMenu3').addClass('vete');
-      });
+    });
   }
 
 }

@@ -43,6 +43,10 @@ export class ConsultarMovimientosComponent implements OnInit {
     this.paramListar.feIni = null;
     this.paramListar.feFin = null;
     this.listarAllMaterial();
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
 

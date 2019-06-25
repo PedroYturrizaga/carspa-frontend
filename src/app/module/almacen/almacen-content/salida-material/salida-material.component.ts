@@ -38,6 +38,10 @@ export class SalidaMaterialComponent implements OnInit {
   ngOnInit() {
     this.llenarLista();
     //this.buscarOrdenTrabajos(1);
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private llenarLista() {

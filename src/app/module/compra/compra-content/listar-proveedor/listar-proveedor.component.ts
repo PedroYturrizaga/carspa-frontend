@@ -60,6 +60,10 @@ export class ListarProveedorComponent implements OnInit {
   ngOnInit() {
     this.getProveedores();
     this.proveedorDisabled = true;
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
     
   }
 

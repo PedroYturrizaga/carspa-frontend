@@ -36,6 +36,10 @@ export class ListarMaterialProveedorComponent implements OnInit {
   ngOnInit() {
 
     this.buscarListaMaterialProveedor(1);
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private pageEvent($event: any) {

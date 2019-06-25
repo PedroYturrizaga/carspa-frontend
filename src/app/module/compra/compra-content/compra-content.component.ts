@@ -19,6 +19,10 @@ export class CompraContentComponent implements OnInit {
   constructor(private _router: Router) { }
 
   ngOnInit() {
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   goToModulo(uri) {
@@ -27,6 +31,7 @@ export class CompraContentComponent implements OnInit {
       this.activado[x] = (x == uri) ? 'tituloActivo' : 'titulo' 
     }
     this._router.navigate(['/principal/compra/' + uri]);
+    $('.colorMenu3').removeClass('vete');
   }
 
 }

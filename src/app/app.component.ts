@@ -33,7 +33,12 @@ export class AppComponent {
 
   ngOnInit() {   
    this._router.navigate(['principal']);
-
-  
+   var confirma = 1 
+   window.onbeforeunload = function(e) { 
+   if (confirma) 
+   { 
+       return "Esta a punto de reiniciar la aplicacion. ¿Esta seguro?"; 
+   } 
+  }
   }
 }

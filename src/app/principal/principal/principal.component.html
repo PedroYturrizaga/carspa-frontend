@@ -1,14 +1,16 @@
 <mat-toolbar class="menuPrincipal">
-  <img style="vertical-align:middle;" aria-hidden height="40" />
+  <div class="menu-icon"  style="margin: -130px;">
+    <div class="mat__prin" ></div>
+  </div>
   <span class="example-spacer"></span>
   <span class="sedeHispital">SCG-CARSPA</span>
-
+  <span class="example-spacer"></span>
   <div class="mat__action">
     <div class="mat__user" [matMenuTriggerFor]="menu"></div>
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item>
         <!-- <mat-icon>dialpad</mat-icon> -->
-        <span class="ola" >Usuario</span>
+        <span class="" >Usuario</span>
       </button>
       <!-- <button mat-menu-item disabled>
         <span>Editar Perfil</span>
@@ -35,6 +37,9 @@
     <!-- <div class="row col-12 principal-cards"> -->
         <div mat-button class="mat-button col-4 {{activado.almacen}}" (click)="goToModulo('almacen')">
           <mat-card class="Surface ">
+              <mat-card-subtitle style=" margin-bottom: -20px;"> 
+                  <p class="botomx">Ingresar al modulo.</p>
+                </mat-card-subtitle>
             <div class="menu-icon">
               <div class="mat__1"></div>
             </div>
@@ -43,14 +48,14 @@
                 <h4 class="col-10">ALMACEN</h4>
                 <i ng-show="showme" ng-hide="check-list" class="material-icons col-2">check_circle</i>
               </mat-card-title>
-              <mat-card-subtitle>
-                <p>Ingresar al modulo.</p>
-              </mat-card-subtitle>
             </div>
           </mat-card>
         </div>
         <div mat-button class="mat-button col-4 {{activado.inventario}}" (click)="goToModulo('inventario')">
           <mat-card class="Surface ">
+              <mat-card-subtitle style=" margin-bottom: -20px;"> 
+                  <p class="botomx">Ingresar al modulo.</p>
+                </mat-card-subtitle>
               <div class="menu-icon">
                   <div class="mat__2"></div>
                 </div>
@@ -59,25 +64,23 @@
                 <h4 class="col-10">INVENTARIO</h4>
                 <i ng-show="showme" ng-hide="check-list" class="material-icons col-2">check_circle</i>
               </mat-card-title>
-              <mat-card-subtitle>
-                <p>Ingresar al modulo.</p>
-              </mat-card-subtitle>
             </div>
           </mat-card>
         </div>
         <div mat-button class="mat-button col-4 {{activado.compra}}" (click)="goToModulo('compra')">
           <mat-card class="Surface ">
-              <div class="menu-icon">
-                  <div class="mat__3"></div>
-                </div>
+            <mat-card-subtitle style=" margin-bottom: -20px;"> 
+                <p class="botomx">Ingresar al modulo.</p>
+              </mat-card-subtitle>
+            <div class="menu-icon">
+                <div class="mat__3"></div>
+              </div>
             <div class="">
               <mat-card-title class="mat-header">
                 <h4 class="col-10">COMPRAS</h4>
                 <i ng-show="showme" ng-hide="check-list" class="material-icons col-2">check_circle</i>
               </mat-card-title>
-              <mat-card-subtitle>
-                <p>Ingresar al modulo.</p>
-              </mat-card-subtitle>
+              
             </div>
           </mat-card>
         </div>
@@ -89,11 +92,10 @@
 </mat-toolbar>
 
 
-<ng-template #agregarboton><a mat-button class="mat-button pruebon" (click)="atras()">Volver a Módulos</a> </ng-template> 
+<ng-template #agregarboton><a mat-button class="mat-button pruebon botonx" (click)="atras()">Volver a Módulos</a> </ng-template> 
 
 <router-outlet>
 
-  
 </router-outlet>
 
 

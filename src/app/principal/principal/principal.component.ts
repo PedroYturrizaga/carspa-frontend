@@ -104,10 +104,10 @@ export class PrincipalComponent implements OnInit {
       this.activado[x] = (x == mod) ? "tituloActivo" : "titulo" 
     }
     this._router.navigate(['/principal/' + mod]);
+    $('.colorMenu3').removeClass('vete');
   }
   
   atras(){
-
     this.visible =! this.visible;
   }
 
@@ -125,7 +125,16 @@ export class PrincipalComponent implements OnInit {
   // }
 
   ngOnInit() {
-    
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
+    $('.menu-icon').click(function() {
+      $('.colorMenu3').toggle(0, function(){
+        $('.todaspartes').toggleClass('crece');
+      });
+      // $('.colorMenu3').addClass('vete');
+    });
   }
 
 }
