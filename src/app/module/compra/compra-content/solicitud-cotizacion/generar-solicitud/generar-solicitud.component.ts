@@ -66,10 +66,7 @@ export class GenerarSolicitudComponent implements OnInit {
 
     this.getProveedor();
     this.getMaterialOC(1);
-    $('.pruebon').click(function() {
-      $('.todaspartes').addClass('vete');
-      $('.colorMenu3').addClass('vete');
-    });
+
   }
 
   getProveedor() {
@@ -198,7 +195,7 @@ export class GenerarSolicitudComponent implements OnInit {
     console.log(this.ocTempList);
     console.log(this.jsonOrdenCompra)
     let idProv = []
-    debugger
+    // debugger
     this.jsonOrdenCompra.descripcionProveedor.map((_item) => {
       let index = this.proveedorList.findIndex(_it => { return _it['nombreProveedor'] == _item });
       if (index != -1) {
@@ -239,7 +236,9 @@ export class GenerarSolicitudComponent implements OnInit {
   obtenerConcat(_array: any, _item: any) {
     let concatenado = ''
     _array.map((_it, _id) => {
-      if (_id == 0) {
+      if (_array.length == 1) {
+        concatenado = '{' + _it[_item] + '}';
+      } else if (_id == 0) {
         concatenado = '{' + _it[_item];
       } else if (_id == _array.length - 1 && _array.length === 2) {
         concatenado = concatenado + ',' + _it[_item] + '}';

@@ -181,6 +181,7 @@ export class GenerarOcComponent implements OnInit {
     // this.toastr.success("generado correctamente", "Exitoso")
     let idMaterialOrdenCompra = ''
     this.ocTempList.map((_it, _id) => {
+ 
       if (this.ocTempList.length == 1) {
         idMaterialOrdenCompra = '{' + _it.idMaterialOrdenCompra + '}';
       } else if (_id == 0) {

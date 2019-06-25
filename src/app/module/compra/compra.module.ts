@@ -28,6 +28,7 @@ import { CotizacionService } from './compra-content/services/cotizacion.service'
 import { OrdenCompraService } from './compra-content/services/orden-compra.service';
 import { SolicitudCotizacionService } from './compra-content/services/solicitud-cotizacion.service';
 import { VerSolicitudComponent } from './compra-content/solicitud-cotizacion/ver-solicitud/ver-solicitud.component';
+import { ReportesComponent } from './compra-content/reportes/reportes.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { VerSolicitudComponent } from './compra-content/solicitud-cotizacion/ver
     CotizacionesComponent,
     GenerarCotizacionComponent,
     VerCotizacionComponent,
-    VerSolicitudComponent
+    VerSolicitudComponent,
+    ReportesComponent
  
 
 
@@ -69,7 +71,8 @@ import { VerSolicitudComponent } from './compra-content/solicitud-cotizacion/ver
     GenerarSolicitudComponent,
     GenerarCotizacionComponent,
     VerCotizacionComponent,
-    VerSolicitudComponent
+    VerSolicitudComponent,
+    RegistrarCotizacionComponent
   ],
 
   providers: [

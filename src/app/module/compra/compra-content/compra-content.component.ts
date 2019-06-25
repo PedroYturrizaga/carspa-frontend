@@ -13,16 +13,13 @@ export class CompraContentComponent implements OnInit {
     'listarMaterialProveedor': "titulo",
     'ordenCompra': 'titulo',
     'solicitarCotizacion': 'titulo',
-    'cotizaciones': 'titulo'
+    'cotizaciones': 'titulo',
+    'reporte': 'titulo'
   
   }
   constructor(private _router: Router) { }
 
   ngOnInit() {
-    $('.pruebon').click(function() {
-      $('.todaspartes').addClass('vete');
-      $('.colorMenu3').addClass('vete');
-    });
   }
 
   goToModulo(uri) {
@@ -31,7 +28,6 @@ export class CompraContentComponent implements OnInit {
       this.activado[x] = (x == uri) ? 'tituloActivo' : 'titulo' 
     }
     this._router.navigate(['/principal/compra/' + uri]);
-    $('.colorMenu3').removeClass('vete');
   }
 
 }

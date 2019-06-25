@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
-import { MatTableDataSource, MatDialog, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatPaginator, MatDialogRef } from '@angular/material';
 import { SolicitudCotizacionService } from '../../services/solicitud-cotizacion.service';
 import {
   setQuantifier, setValidatorPattern,
@@ -35,7 +35,8 @@ export class VerSolicitudComponent implements OnInit {
   private temp: any;
   constructor(private _modalDialog: MatDialog,
     private toastr: ToastsManager,
-    private _solicitudCotizacionService: SolicitudCotizacionService) { }
+    private _solicitudCotizacionService: SolicitudCotizacionService,
+    private _dialogRef: MatDialogRef<VerSolicitudComponent>) { }
 
   ngOnInit() {
     this.paramsBusqueda.idSolicitudCotizacion = this.SolicitudCotizacion.idSolicitudCotizacion
@@ -55,6 +56,7 @@ export class VerSolicitudComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         if (data.estado == 1) {
+          this.flgProveedor = true;
           this.SolicitudProveedorList = data.solicitudcotizacionlist;
           this.dataSourceSolicitudesProveedor = new MatTableDataSource(this.SolicitudProveedorList);
         } else if (data.estado == 0) {
@@ -69,14 +71,18 @@ export class VerSolicitudComponent implements OnInit {
         () => {
         });
   }
+  verDetalle(datos) {
+    this.getSolicitudProveedorDetalle(datos);
+    this.flgProveedor = false;
 
-  visualizarDetalleSolictud(datos) {
+  }
+
+  getSolicitudProveedorDetalle(datos) {
 
     this._solicitudCotizacionService.getSolicitudesProveedorDetalle(datos)
       .subscribe(data => {
         console.log(data)
         if (data.estado == 1) {
-          this.flgProveedor = false;
           this.SolicitudProveedorDetalleList = data.solicitudproveedordetallelist;
           this.displayedColumnsSolicitudesProveedorDetalle = ['codMatProv', 'nombre', 'marca', 'cantidadCompra'];
           this.dataSourceSolicitudesProveedorDetalle = new MatTableDataSource(this.SolicitudProveedorDetalleList);
@@ -90,14 +96,10 @@ export class VerSolicitudComponent implements OnInit {
       },
         err => console.error(err),
         () => {
-          if (this.flg) {
-            this.flgProveedor = true;
-            this.flg = false;
-          }
+
         });
   }
 
-  private flg: boolean = false;
   generarCotizacion(element) {
     console.log(element)
     let data = { idSolicitudProveedor: element.idSolicitudProveedor };
@@ -106,9 +108,8 @@ export class VerSolicitudComponent implements OnInit {
         console.log(data)
         if (data.estado == 1) {
           this.toastr.success("Cotizacion Generada", "Exitoso");
-          this.flg = true;
-          this.visualizarDetalleSolictud(element);
-          
+          this.getProveedorCabecera();
+
         } else if (data.estado == 0) {
         } else {
           this.toastr.error(data.mensaje, "Error");
@@ -156,10 +157,8 @@ export class VerSolicitudComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         if (data.estado == 1) {
-          this.flgProveedor;
           this.toastr.success("Cotizacion Generada", "Exitoso");
-          this.visualizarDetalleSolictud(this.temp);
-          this.flgProveedor = true;
+          this.getProveedorCabecera();
         } else if (data.estado == 0) {
         } else {
           this.toastr.error(data.mensaje, "Error");
@@ -175,17 +174,63 @@ export class VerSolicitudComponent implements OnInit {
   obtenerConcat(_array: any, _item: any) {
     let concatenado = ''
     _array.map((_it, _id) => {
-      if (_id == 0) {
-        concatenado = '{' + _it[_item];
-      } else if (_id == _array.length - 1 && _array.length === 2) {
-        concatenado = concatenado + ',' + _it[_item] + '}';
-      } else if (_id == _array.length - 1) {
-        concatenado = concatenado + ',' + _it[_item] + '}';
+
+      if (_array.length == 1) {
+        concatenado = '{' + _it[_item] + '}';
       } else {
-        concatenado = concatenado + ',' + _it[_item];
+        if (_id == 0) {
+          concatenado = '{' + _it[_item];
+        } else if (_id == _array.length - 1 && _array.length === 2) {
+          concatenado = concatenado + ',' + _it[_item] + '}';
+        } else if (_id == _array.length - 1) {
+          concatenado = concatenado + ',' + _it[_item] + '}';
+        } else {
+          concatenado = concatenado + ',' + _it[_item];
+        }
       }
+
+      // if (_array.length == 1) {
+      //   concatenado = '{' + _it[_item] + '}';
+      // } else if (_id == 0) {
+      //   concatenado = '{' + _it[_item];
+      // } else if (_id == _array.length - 1 && _array.length === 2) {
+      //   concatenado = concatenado + ',' + _it[_item] + '}';
+      // } else if (_id == _array.length - 1) {
+      //   concatenado = concatenado + ',' + _it[_item] + '}';
+      // } else {
+      //   concatenado = concatenado + ',' + _it[_item];
+      // }
     })
     return concatenado;
+  }
+
+  cerrarCotizacion(){
+    let data = {
+      "idSolicitudCotizacion": this.SolicitudCotizacion.idSolicitudCotizacion
+    }
+    this._solicitudCotizacionService.postTerminarCotizacion(data)
+    .subscribe(data => {
+      console.log(data)
+      if (data.estado == 1) {
+        this.toastr.success("Cotizacion Cerrada", "Exitoso");
+        this.confirmacionCorrecta();
+      } else if (data.estado == 0) {
+      } else {
+        this.toastr.error(data.mensaje, "Error");
+      }
+      return true;
+    },
+      err => console.error(err),
+      () => {
+      });
+  }
+
+  dismiss() {
+    this._dialogRef.close();
+  }
+
+  confirmacionCorrecta() {
+    this._dialogRef.close(1);
   }
 
 

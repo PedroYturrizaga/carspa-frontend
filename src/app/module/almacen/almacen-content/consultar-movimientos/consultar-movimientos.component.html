@@ -51,7 +51,7 @@
 
         <div class="row">
           <button mat-raised-button (click)="listarKardex(1)"
-            [disabled]="isInvalid(consultarMovimientosForm)">Buscar</button>
+            [disabled]="isInvalid(consultarMovimientosForm) || feIni==null || feFin == null ">Buscar</button>
 
           <button mat-raised-button (click)="imprimePDF_Excel(2)">Imprimir PDF</button>
         </div>

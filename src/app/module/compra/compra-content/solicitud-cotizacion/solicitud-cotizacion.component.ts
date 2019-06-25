@@ -11,6 +11,7 @@ import { GenerarSolicitudComponent } from './generar-solicitud/generar-solicitud
 import { SolicitudCotizacionService } from '../services/solicitud-cotizacion.service';
 import { Observable } from 'rxjs';
 import { VerSolicitudComponent } from './ver-solicitud/ver-solicitud.component';
+import { RegistrarCotizacionComponent } from './registrar-cotizacion/registrar-cotizacion.component';
 
 @Component({
   selector: 'app-solicitud-cotizacion',
@@ -21,7 +22,7 @@ export class SolicitudCotizacionComponent implements OnInit {
 
   @ViewChild(MatPaginator) matPag: MatPaginator;
 
-  displayedColumnsSolicitudes = ['codigo', 'fecha', 'estado', 'ver', 'eliminar'];
+  displayedColumnsSolicitudes = ['codigo', 'fecha', 'estado', 'ver'];
   dataSourceSolicitudes = new MatTableDataSource();
 
   private paramsBusqueda = { codigo: null, feSolicitud: null }
@@ -42,10 +43,6 @@ export class SolicitudCotizacionComponent implements OnInit {
 
   ngOnInit() {
     this.getSolicitudesCabecera(1);
-    $('.pruebon').click(function() {
-      $('.todaspartes').addClass('vete');
-      $('.colorMenu3').addClass('vete');
-    });
 
   }
 
@@ -82,7 +79,7 @@ export class SolicitudCotizacionComponent implements OnInit {
           }
           this.dataSourceSolicitudes = new MatTableDataSource(this.solicitudesCabeceraList);
         } else if (data.estado == 0) {
-          this.toastr.error("No se encontraron datos");
+          this.toastr.warning("No se encontraron datos");
           this.solicitudesCabeceraList = [];
           this.dataSourceSolicitudes = new MatTableDataSource(this.solicitudesCabeceraList);
         } else {
@@ -140,7 +137,24 @@ export class SolicitudCotizacionComponent implements OnInit {
     dialogRef.componentInstance.SolicitudCotizacion = _Data;
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
-        // this.BuscarOrdenCompra();
+        this.getSolicitudesCabecera(1);
+      }
+    });
+  }
+
+  verComparativo(element){
+    
+    const dialogRef = this._modalDialog.open(RegistrarCotizacionComponent, {
+      autoFocus: false,
+      disableClose: false,
+      width: '80vw',
+      height: '600px',
+
+    });
+    dialogRef.componentInstance.solicitud = element;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        this.getSolicitudesCabecera(1);
       }
     });
   }

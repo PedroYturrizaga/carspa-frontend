@@ -22,7 +22,8 @@ export class OrdenCompraComponent implements OnInit {
 
   @ViewChild(MatPaginator) matPag: MatPaginator;
 
-  displayedColumnsOrdenCompra = ['codigo', 'fecha', 'proveedor', 'estado', 'ver', 'eliminar'];
+  // displayedColumnsOrdenCompra = ['codigo', 'fecha', 'proveedor', 'estado', 'ver', 'eliminar'];
+  displayedColumnsOrdenCompra = ['codigo', 'fecha', 'proveedor', 'ver', 'eliminar'];
   dataSourceOrdenCompra = new MatTableDataSource();
   
   private paramsBusqueda = { feOrdenCompra: null, nombreProveedor: null, estado: null, idOrdenCompra: null, codigo: null }
@@ -44,10 +45,6 @@ export class OrdenCompraComponent implements OnInit {
 
   ngOnInit() {
     this.getObtenerOrdenesCompra(1);
-    $('.pruebon').click(function() {
-      $('.todaspartes').addClass('vete');
-      $('.colorMenu3').addClass('vete');
-    });
   }
 
   private pageEvent($event: any) {
@@ -88,7 +85,7 @@ export class OrdenCompraComponent implements OnInit {
           }
           this.dataSourceOrdenCompra = new MatTableDataSource(this.ordenesCompraList);
         } else if (data.estado == 0) {
-          this.toastr.error("No se encontraron datos");
+          this.toastr.warning("No se encontraron datos");
           this.ordenesCompraList = [];
           this.dataSourceOrdenCompra = new MatTableDataSource(this.ordenesCompraList);
         } else {
@@ -130,7 +127,7 @@ export class OrdenCompraComponent implements OnInit {
   openModalGenerarOC() {
     const dialogRef = this._modalDialog.open(GenerarOcComponent, {
       autoFocus: false,
-      disableClose: true,
+      disableClose: false,
       width: '80vw',
       height: '600px',
 

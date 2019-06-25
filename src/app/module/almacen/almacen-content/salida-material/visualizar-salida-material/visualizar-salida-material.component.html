@@ -10,7 +10,7 @@
           <a mat-button class="mat-button enlace negrita text-right hover " (click)="modalInactivos()">Inactivos</a> -->
       </div>
     </div>
-    <div class="colocar-left">
+    <!-- <div class="colocar-left">
       <button class="mat-button-icon" mat-button (click)="close()">
         <div class="example-tooltip-host" matTooltip="Salir">
           <span>
@@ -18,7 +18,7 @@
           </span>
         </div>
       </button>
-    </div>
+    </div> -->
   </mat-card-header>
 
   <mat-card-content>
@@ -80,7 +80,7 @@
 
               <input matInput type="text" name="nameCantidadFisica" #nameCantidadFisica="ngModel"
                 [(ngModel)]="cantidadFisica" placeholder="Ingrese Cantidad Fisica"
-                (keyup.enter)="pressEnter(e.idAlmacenOrdenTrabajoMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenTrabajo);asignarCantidadFisica(i)"
+                (keyup.enter)="pressEnter(e.idAlmacenOrdenTrabajoMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenTrabajo,e.stock);asignarCantidadFisica(i)"
                 (keypress)="setInputPattern($event, 'positiveDigits')" [max]="e.cantidadFaltante" [min]="0"
                 [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
               <mat-hint align="start" class="mat-hint-mensaje">

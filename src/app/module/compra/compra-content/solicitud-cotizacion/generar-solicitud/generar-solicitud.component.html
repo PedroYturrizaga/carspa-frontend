@@ -99,7 +99,7 @@
 
                     <ng-container matColumnDef="codigo">
                       <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+                      <mat-cell *matCellDef="let element;let i=index"> {{i}} </mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="nombreMaterial">

@@ -13,6 +13,7 @@ export class SolicitudCotizacionService extends BaseService {
   private URLMaterialordencompra: string;
   private URLCotizacionproveedor: string;
   private URLCotizacionproveedorDetalle: string;
+  private URLPrecioscotizaciones : string;
 
   constructor(public _http: Http, public _configuration: Configuration) {
     super();
@@ -21,6 +22,7 @@ export class SolicitudCotizacionService extends BaseService {
     this.URLMaterialordencompra = this._configuration.Server + 'sigs-commons-ws/materialordencompra';
     this.URLCotizacionproveedor = this._configuration.Server + 'sigs-commons-ws/cotizacionproveedor';
     this.URLCotizacionproveedorDetalle = this._configuration.Server + 'sigs-commons-ws/cotizacionproveedordetalle';
+    this.URLPrecioscotizaciones = this._configuration.Server + 'sigs-commons-ws/precioscotizaciones';
   }
 
   public getSolicitudesCabecera(_params: any) {
@@ -112,6 +114,33 @@ export class SolicitudCotizacionService extends BaseService {
     return this._http.post(this.URLSolicitudCotizacion + "/insertarSolicitudCotizacion", data, { headers: this.obtenerHeaders() }).map((res: Response) => res.json());
   }
 
+  // getcomparativo(_params: any) {
+  //   let queryParams: URLSearchParams = new URLSearchParams();
+
+  //   if (_params.idSolicitudCotizacion != null) {
+  //     queryParams.append('idSolicitudCotizacion', _params.idSolicitudCotizacion);
+  //   }
+  //   if (_params.codigo != null) {
+  //     queryParams.append('nombreProveedor', _params.codigo);
+  //   }
+
+  //   queryParams.append('nuPagina', _params.nuPagina ? _params.nuPagina : '1');
+  //   queryParams.append('nuRegisMostrar', _params.nuRegisMostrar ? _params.nuRegisMostrar : '10');
+  //   let options = new RequestOptions({
+  //     search: queryParams
+  //   });
+  //   console.log(options);
+  //   return this._http.get(this.URLSolicitudProveedor + "/listarSolicitudProveedor", options).map((res: Response) => res.json());
+
+  // }
+
+
+  postTerminarCotizacion(data: any) {
+    return this._http.post(this.URLPrecioscotizaciones + "/insertarPreciosCotizacion", data, { headers: this.obtenerHeaders() }).map((res: Response) => res.json());
+  }
+
+
+
   getcomparativo(_params: any) {
     let queryParams: URLSearchParams = new URLSearchParams();
 
@@ -128,7 +157,10 @@ export class SolicitudCotizacionService extends BaseService {
       search: queryParams
     });
     console.log(options);
-    return this._http.get(this.URLSolicitudProveedor + "/listarSolicitudProveedor", options).map((res: Response) => res.json());
-
+    return this._http.get(this.URLPrecioscotizaciones + "/listarprecioscotizaciones", options).map((res: Response) => res.json());
   }
+
+
+
+
 }

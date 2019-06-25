@@ -12,12 +12,13 @@ import { OrdenCompraComponent } from './compra-content/orden-compra/orden-compra
 import { SolicitudCotizacionComponent } from './compra-content/solicitud-cotizacion/solicitud-cotizacion.component';
 import { CotizacionesComponent } from './compra-content/cotizaciones/cotizaciones.component';
 
+import { ReportesComponent } from './compra-content/reportes/reportes.component';
 
 const routes: Routes = [
   {
     path: '', component: CompraContentComponent, children: [
       {
-        path: 'listar-proveedor', component: ListarProveedorComponent, children: [
+        path: 'listarProveedor', component: ListarProveedorComponent, children: [
           {
             path: 'detalle-proveedor', component: DetalleProveedorComponent, children: [
               { path: 'registrar-actualizar-mp', component: RegistrarActualizarMpComponent }
@@ -31,7 +32,7 @@ const routes: Routes = [
         ]
       } ,
       {
-        path: 'listar-material-proveedor', component: ListarMaterialProveedorComponent
+        path: 'listarMaterialProveedor', component: ListarMaterialProveedorComponent
       } ,
       /*{
         path: 'listar-orden-compra', component: ListarOrdenCompraComponent
@@ -43,7 +44,7 @@ const routes: Routes = [
         path: 'solicitarCotizacion', component: SolicitudCotizacionComponent
       },
       {
-        path: 'cotizaciones', component: CotizacionesComponent
+        path: 'reporte', component: ReportesComponent
       }
     ]
   }

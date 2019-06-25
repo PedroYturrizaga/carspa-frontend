@@ -1,46 +1,74 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Cuadro Comparativo</mat-card-title>
+    <mat-card-title></mat-card-title>
+    <div class="container">
+      <div class="seccion-title">
+        <h5>Cuadro Comparativo</h5>
+      </div>
+      <div class="margenSuperior2">
+        <button mat-button class="mat-button-icon" (click)="dismiss()" tabindex="-1">
+          <div class="example-tooltip-host" matTooltip="Cerrar" [matTooltipPosition]="'above'">
+            <span>
+              <i class="material-icons">close</i>
+            </span>
+          </div>
+        </button>
+      </div>
+    </div>
   </mat-card-header>
   <mat-card-content>
     <div class="card-body">
+      <div class="form-row">
+         <mat-form-field class="col text-right ">
+             <mat-select placeholder="Provedor:" [(ngModel)]="jsonInsert.idProvedor" name="provedor_form" #provedor_form="ngModel"> 
+                 <mat-option> -- </mat-option>
+                 <mat-option *ngFor="let pr of proveedorList" [value]="pr.id"> {{pr.nombre}} </mat-option>
+                 
+             </mat-select>
+         </mat-form-field>
+      </div>
       <div class="table table-responsive">
         <mat-table #table [dataSource]="dataSource">
 
           <ng-container matColumnDef="material">
-            <mat-header-cell *matHeaderCellDef> Codigo Solicitud de Material </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.codigo}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>  Nombre Materiall </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.material}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="marca">
-            <mat-header-cell *matHeaderCellDef> Nombre Material </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef> Marca del Material </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.marca}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="cantidad">
             <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.cantidadCompra}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="Proveedor1">
+          <ng-container matColumnDef="proveedor1">
             <mat-header-cell *matHeaderCellDef> Proveedor 1 </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.proveedor1}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="proveedor2">
             <mat-header-cell *matHeaderCellDef> Proveedor 2 </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.proveedor2}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="proveedor3">
             <mat-header-cell *matHeaderCellDef> Proveedor 3 </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.proveedor3}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectedRow = row" [ngClass]="{selected : row === selectedRow}"></mat-row>
 
         </mat-table>
+      </div>
+      <div class="form-row pb-3">
+        <div class="col text-right ">
+          <button mat-raised-button (click)="cerrarCotizacion()"> Generar Orden Compra </button>
+        </div>
       </div>
     </div>
   </mat-card-content>

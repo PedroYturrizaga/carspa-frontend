@@ -34,11 +34,21 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
     this.asignarCantidadFisica(1);
   }
 
-  private pressEnter(idAlmacenOrdenTrabajoMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenTrabajo) {
+  private pressEnter(idAlmacenOrdenTrabajoMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenTrabajo, stock) {
+    console.log(stock);
     if (cantidadFisica == "") {
       cantidadFisica = null;
       return;
-    } else {
+    }
+    if (cantidadFisica > stock) {
+      this.toastr.warning("No hay stock suficiente, Stock Actual es de: " + stock);
+      return;
+    }
+    if (cantidadFisica == 0) {
+      this.toastr.warning("Debe ingresar cantidades mayores a 0");
+      return;
+    }
+    else {
       if (this.almacenOrdenCompraMateriales[i].cantidadFaltante < cantidadFisica || cantidadFisica < 0) {
         this.cont = 1;
         this.toastr.warning("Ingrese una cantidad válida");
@@ -127,6 +137,7 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
       .subscribe(data => {
         if (data.estado == 1) {
           this.almacenOrdenCompraMateriales = data.almacenOrdenTrabajoMaterialList;
+          console.log(this.almacenOrdenCompraMateriales);
           for (let x of this.almacenOrdenCompraMateriales) {
 
             x.cantidadFaltante = x.cantidad;

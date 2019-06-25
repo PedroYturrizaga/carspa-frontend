@@ -16,7 +16,7 @@
 
       <mat-card *ngIf="flgProveedor">
         <mat-card-header class="sombreadoSubtitulos">
-          <mat-card-title class="subtitulo-seccion">Listado de Proveedores de la Solicitud</mat-card-title>
+          <mat-card-title class="subtitulo-seccion">Listado de la Solicitud por Proveedores</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="card-body">
@@ -42,7 +42,7 @@
                   <mat-header-cell *matHeaderCellDef> Visualizar Detalle </mat-header-cell>
                   <mat-cell *matCellDef="let element">
                     <button mat-button>
-                      <i class="material-icons" (click)="visualizarDetalleSolictud(element)">remove_red_eye</i>
+                      <i class="material-icons" (click)="verDetalle(element)">remove_red_eye</i>
                     </button>
                   </mat-cell>
                 </ng-container>
@@ -64,6 +64,11 @@
                 <mat-row *matRowDef="let row; columns: displayedColumnsSolicitudesProveedor;"></mat-row>
 
               </mat-table>
+            </div>
+            <div class="form-row pb-3">
+              <div class="col text-right ">
+                <button mat-raised-button (click)="cerrarCotizacion()"> Terminar Cotizacion </button>
+              </div>
             </div>
           </div>
         </mat-card-content>

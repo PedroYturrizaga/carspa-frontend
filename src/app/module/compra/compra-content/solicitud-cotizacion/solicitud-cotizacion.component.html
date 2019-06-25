@@ -1,4 +1,4 @@
-<mat-card class="todaspartes" id="porfas">
+<mat-card>
   <mat-card-header class="sombreadoSubtitulos">
     <mat-card-title class="subtitulo-seccion"></mat-card-title>
     <div class="container">
@@ -56,10 +56,13 @@
           </ng-container>
 
           <ng-container matColumnDef="ver">
-            <mat-header-cell *matHeaderCellDef>Visualizar </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Visualizar/Comparativo </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <button mat-button>
+              <button mat-button *ngIf="element.estado != 'COTIZACION TERMINADA'">
                 <i class="material-icons" (click)="visualizarOC(element)">remove_red_eye</i>
+              </button>
+              <button mat-button *ngIf="element.estado == 'COTIZACION TERMINADA'">
+                <i class="material-icons" (click)="verComparativo(element)">description</i>
               </button>
             </mat-cell>
           </ng-container>

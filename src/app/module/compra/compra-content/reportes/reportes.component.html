@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Reporte de Compras</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-body">
+      <div class="form-grup form-group-sm row">
+        <div class="col-sm-12">
+          <mat-table #table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef> Nombre del Reporte </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+          </mat-table>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
