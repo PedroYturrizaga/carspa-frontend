@@ -17,7 +17,7 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
 
   private almacenOrdenCompraMateriales: any = [];
 
-  @Input() row;
+  @Input() idAlmacenOrdenTrabajo;
   private cantidadFisica: String;
   private showInput: any = [];
   private cont: any = 0;
@@ -29,6 +29,7 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
     private _almacenService: AlmacenService) { }
 
   ngOnInit() {
+    console.log(this.idAlmacenOrdenTrabajo);
     this.listarMaterialesxOrdenTrabajo();
     this.asignarCantidadFisica(1);
   }
@@ -95,14 +96,14 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
 
   private actualizarEstado() {
     let paramAct = { idAlmacenOrdenTrabajo: null };
-    paramAct.idAlmacenOrdenTrabajo = this.row.idAlmacenOrdenTrabajo;
+    paramAct.idAlmacenOrdenTrabajo = this.idAlmacenOrdenTrabajo;
     this._almacenService.actualizarEstadoOT(paramAct)
       .subscribe(data => {
         if (data.estado == 1) {
           this.toastr.success("Los materiales están siendo utilizados");
           this.close(1);
         } else if (data.estado == 0) {
-          this.toastr.warning(data.mensaje);
+          //this.toastr.warning("Los materiales han sido entregados parcialmente");
           this.close(1);
         }
       },
@@ -121,7 +122,7 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
   private param = { idAlmacenOrdenTrabajo: null };
 
   private listarMaterialesxOrdenTrabajo() {
-    this.param.idAlmacenOrdenTrabajo = this.row.idAlmacenOrdenTrabajo;
+    this.param.idAlmacenOrdenTrabajo = this.idAlmacenOrdenTrabajo;
     this._almacenService.listarMaterialOT(this.param)
       .subscribe(data => {
         if (data.estado == 1) {
@@ -181,5 +182,26 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
     let par = { idAlmacenOrdenTrabajoMaterial: null, idAlmacenOrdenTrabajo: null, idMaterial: null, cantidadFisica: null };
     par.cantidadFisica = -e.cantidadFisica;
     this.upCantidadFisica(e.idAlmacenOrdenTrabajoMaterial, par.cantidadFisica, i, e.idMaterial, e.idAlmacenOrdenTrabajo);
+  }
+
+  actualizarTerminar() {
+    let paramT = { idAlmacenOrdenTrabajo: null };
+    paramT.idAlmacenOrdenTrabajo = this.idAlmacenOrdenTrabajo;
+    this._almacenService.actualizarTerminar(paramT)
+      .subscribe(data => {
+        if (data.estado == 1) {
+          this.toastr.success("Trabajo Terminado");
+          this.close(1);
+        } else if (data.estado == 0) {
+          // this.toastr.warning("Los materiales han sido entregados parcialmente");
+          this.close(1);
+        }
+      },
+        error => {
+          this.toastr.error(error);
+          return Observable.throw(error);
+        }),
+      err => this.toastr.error(err),
+      () => this.toastr.success('Request Complete');
   }
 }

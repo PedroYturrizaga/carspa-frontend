@@ -17,7 +17,7 @@ export class RegistrarMaterialComponent implements OnInit {
   @ViewChild(MatSort) matSort: MatSort;
   private paramsBusqueda = { idAlmacenOrdenCompra: null, estado: null };
   private lsEstado: any = [];
-  displayedColumns = ['codMov', 'descAlm', 'fecha', 'estado', 'nomProv', 'anaquel'];
+  displayedColumns = ['codMov', 'descAlm', 'fecha', 'estado', 'nomProv'];
   private almacenOrdenesCompraAUX: any = [];
   dataSource = new MatTableDataSource();
   private pageSize: number;

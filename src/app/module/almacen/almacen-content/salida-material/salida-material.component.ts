@@ -6,6 +6,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { isInvalid, setQuantifier, setValidatorPattern, setInputPattern } from '../../../../shared/helpers/custom-validators/validators-messages/validators-messages.component';
 import { VisualizarSalidaMaterialComponent } from './visualizar-salida-material/visualizar-salida-material.component';
+import { ModalUsuarioComponent } from './modal-usuario/modal-usuario.component';
 
 @Component({
   selector: 'app-salida-material',
@@ -36,7 +37,7 @@ export class SalidaMaterialComponent implements OnInit {
 
   ngOnInit() {
     this.llenarLista();
-    this.buscarOrdenTrabajos(1);
+    //this.buscarOrdenTrabajos(1);
   }
 
   private llenarLista() {
@@ -100,13 +101,12 @@ export class SalidaMaterialComponent implements OnInit {
       () => this.toastr.success('Request Complete');
   }
 
-
-
-
-
-  abrirModalVerificarMateriales(row) {
+  abrirModalVerificarUsuario(row) {
+    if (row.estado == 'T') {
+      return;
+    }
     console.log(row);
-    const dialogRef = this._modalDialog.open(VisualizarSalidaMaterialComponent, {
+    const dialogRef = this._modalDialog.open(ModalUsuarioComponent, {
       autoFocus: false,
       disableClose: true
     });

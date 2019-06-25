@@ -1,0 +1,53 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="subtitulo-seccion"> Usuario </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #modalUsuarioForm="ngForm" novalidate name="modalUsuarioForm">
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <mat-label for="montoApertura">Usuario</mat-label>
+              <input matInput name="usuario" #usuario="ngModel" id="usuario" [(ngModel)]="paramsInsert.usuario"
+                required />
+              <mat-error>
+                <app-validators-messages [controlVar]="usuario" labelName="Usuario">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-6">
+            <mat-form-field class="example-full-width">
+              <mat-label for="cont">Contraseña</mat-label>
+              <input matInput name="contrasena" type="password" #contrasena="ngModel" id="contrasena"
+                [(ngModel)]="paramsInsert.contrasena" required />
+              <mat-error>
+                <app-validators-messages [controlVar]="contrasena" labelName="Contraseña">
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-12" align="right">
+            <button mat-raised-button (click)="close()">
+              Cancelar
+            </button>
+            <button mat-raised-button (click)="actualizarEstado()" [disabled]="isInvalid(modalUsuarioForm)">
+              Aceptar
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>

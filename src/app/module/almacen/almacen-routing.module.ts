@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AlmacenContentComponent } from './almacen-content/almacen-content.component';
 import { RegistrarMaterialComponent } from './almacen-content/registrar-material/registrar-material.component';
 import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/registrar-anaquel/registrar-anaquel.component';
+import { ConsultarMovimientosComponent } from './almacen-content/consultar-movimientos/consultar-movimientos.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
       },
       {
         path: 'salida-material', component: SalidaMaterialComponent
+      },
+      {
+        path: 'consultar-movimientos', component: ConsultarMovimientosComponent
       }
     ]
   }

@@ -118,7 +118,7 @@
         <mat-header-cell *matHeaderCellDef>Restaurar</mat-header-cell>
         <mat-cell *matCellDef="let e; let i = index">
 
-          <button mat-button (click)="restaurarCantidad(e,i)" [disabled]="e.cantidadFisica!=e.cantidad">
+          <button mat-button (click)="restaurarCantidad(e,i)" [disabled]="e.cantidadFisica==0">
             <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
               <span>
                 <i class="material-icons">settings_backup_restore</i>

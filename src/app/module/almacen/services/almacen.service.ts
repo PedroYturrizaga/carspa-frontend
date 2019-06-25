@@ -117,4 +117,70 @@ export class AlmacenService extends BaseService {
     return this._http.put(this.UrlAlmacen1 + "/actualizarEstadoOT", data).map((res: Response) => res.json());
   }
 
+  public listarKardex(_params: any) {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    if (_params.idMaterial != null) {
+      queryParams.append('idMaterial', _params.idMaterial);
+    }
+    if (_params.feIni != null) {
+      queryParams.append('feIni', _params.feIni);
+    }
+    if (_params.feFin != null) {
+      queryParams.append('feFin', _params.feFin);
+    }
+    if (_params.nuPagina != null) {
+      queryParams.append('nuPagina', _params.nuPagina);
+    }
+    if (_params.nuRegisMostrar != null) {
+      queryParams.append('nuRegisMostrar', _params.nuRegisMostrar);
+    }
+
+    let options = new RequestOptions({
+      search: queryParams
+    });
+
+    return this._http.get(this.UrlAlmacen1 + "/listarKardex", options).map((res: Response) => res.json());
+  }
+
+  public obtenerReporteKardex(_params: any) {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    if (_params.idMaterial != null) {
+      queryParams.append('idMaterial', _params.idMaterial);
+    }
+    if (_params.feIni != null) {
+      queryParams.append('feIni', _params.feIni);
+    }
+    if (_params.feFin != null) {
+      queryParams.append('feFin', _params.feFin);
+    }
+    if (_params.nuPagina != null) {
+      queryParams.append('nuPagina', _params.nuPagina);
+    }
+    if (_params.nuRegisMostrar != null) {
+      queryParams.append('nuRegisMostrar', _params.nuRegisMostrar);
+    }
+    if (_params.tipoFile != null) {
+      queryParams.append('tipoFile', _params.tipoFile);
+    }
+
+    let options = new RequestOptions({
+      search: queryParams
+    });
+
+    return this._http.get(this.UrlAlmacen1 + "/obtenerKardex-Reporte", options).map((res: Response) => res.json());
+  }
+
+  public listarMateriales() {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    let options = new RequestOptions({
+      search: queryParams
+    });
+
+    return this._http.get(this.UrlAlmacen1 + "/listarMaterial", options).map((res: Response) => res.json());
+  }
+
+  public actualizarTerminar(data) {
+    return this._http.put(this.UrlAlmacen1 + "/actualizarTerminado", data).map((res: Response) => res.json());
+  }
+
 }

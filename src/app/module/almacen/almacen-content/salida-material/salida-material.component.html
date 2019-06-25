@@ -11,9 +11,10 @@
           <div class="col-sm-4">
             <mat-form-field class="example-full-width">
               <mat-label for="montoApertura">Número Movimiento</mat-label>
-              <input matInput type="number" name="idAlmacenOrdenTrabajo" #idAlmacenOrdenTrabajo="ngModel" id="idAlmacenOrdenTrabajo" [(ngModel)]="paramsBusqueda.idAlmacenOrdenTrabajo"
-                [min]="1" (keypress)="setInputPattern($event, 'positiveDigits')" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)"
-              />
+              <input matInput type="number" name="idAlmacenOrdenTrabajo" #idAlmacenOrdenTrabajo="ngModel"
+                id="idAlmacenOrdenTrabajo" [(ngModel)]="paramsBusqueda.idAlmacenOrdenTrabajo" [min]="1"
+                (keypress)="setInputPattern($event, 'positiveDigits')"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)" />
               <mat-error>
                 <app-validators-messages [controlVar]="idAlmacenOrdenTrabajo" labelName="Número Movimiento">
                 </app-validators-messages>
@@ -23,7 +24,8 @@
 
           <div class=" col-sm-4 ">
             <mat-form-field class="example-full-width ">
-              <mat-select placeholder="Seleccione Estado" name="estados" [(ngModel)]="paramsBusqueda.estado" (selectionChange)="verificarIdEstado(paramsBusqueda.estado)">
+              <mat-select placeholder="Seleccione Estado" name="estados" [(ngModel)]="paramsBusqueda.estado"
+                (selectionChange)="verificarIdEstado(paramsBusqueda.estado)">
                 <mat-option>Seleccione Estado</mat-option>
                 <mat-option *ngFor="let ls of lsEstado" [value]="ls.idEstado"> {{ls.descripcionEstado}}</mat-option>
               </mat-select>
@@ -44,7 +46,7 @@
     </form>
   </mat-card-content>
 
-  <mat-card-content>
+  <mat-card-content *ngIf="almacenOrdenesCompraAUX.length!=0">
     <mat-table #table [dataSource]="dataSource" *ngIf="almacenOrdenesCompraAUX.length!=0">
 
       <ng-container matColumnDef="codMov">
@@ -66,7 +68,7 @@
       <ng-container matColumnDef="estado">
         <mat-header-cell *matHeaderCellDef>Estado </mat-header-cell>
         <mat-cell *matCellDef="let e">
-          {{ (e.estado)=='P' ? 'Pendiente' : 'Entregado' }}
+          {{ e.estado=='P' ? 'Pendiente' : (e.estado=='E' ? 'Entregado' : (e.estado=='T' ? 'Terminado' : '-'))}}
         </mat-cell>
       </ng-container>
 
@@ -77,11 +79,12 @@
         </mat-cell>
       </ng-container>
 
+
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="abrirModalVerificarMateriales(row)"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="abrirModalVerificarUsuario(row)"></mat-row>
     </mat-table>
-    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize" (page)="pageEvent($event)"
-      showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+      (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
   </mat-card-content>
   <br>
 </mat-card>

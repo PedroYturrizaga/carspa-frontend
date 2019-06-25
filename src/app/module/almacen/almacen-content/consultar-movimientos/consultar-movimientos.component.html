@@ -1,0 +1,128 @@
+<mat-card>
+  <mat-card-header class="sombreadoSubtitulos">
+    <mat-card-title class="sombreadoSubtitulos">Reporte Kardex</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #consultarMovimientosForm="ngForm" novalidate name="consultarMovimientosForm">
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class=" col-sm-4 ">
+            <mat-form-field class="example-full-width ">
+              <mat-select placeholder="Seleccione Material" name="material" required
+                [(ngModel)]="paramListar.idMaterial">
+                <mat-option *ngFor="let ls of listMaterial" [value]="ls.idMaterial"> {{ls.nombre}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- fecha inicio -->
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" [matDatepicker]="dp" [disabled]="true" name="feIniForm" #feIniForm="ngModel"
+                [(ngModel)]="feIni" [maxDate]="feFin" placeholder="Desde:" required>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp [disabled]="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="feIniForm" labelName="Fecha Desde">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- fecha fin -->
+          <div class="col-sm-4 mdl-input-group mdl-input-group__only">
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" [matDatepicker]="dpp" [disabled]="true" name="feFinForm" #feFinForm="ngModel"
+                [(ngModel)]="feFin" [minDate]="feIni" placeholder="Hasta:" required>
+              <mat-datepicker-toggle matSuffix [for]="dpp"></mat-datepicker-toggle>
+              <mat-datepicker #dpp [disabled]="false"></mat-datepicker>
+              <mat-error>
+                <app-validators-messages [controlVar]="feFinForm" labelName="Fecha Hasta">
+                  <!-- [ngDirty]="true" [ngTouched]="true" -->
+                </app-validators-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <button mat-raised-button (click)="listarKardex(1)"
+            [disabled]="isInvalid(consultarMovimientosForm)">Buscar</button>
+
+          <button mat-raised-button (click)="imprimePDF_Excel(2)">Imprimir PDF</button>
+        </div>
+
+
+
+      </div>
+    </form>
+  </mat-card-content>
+
+  <mat-card-content *ngIf="listKardex.length!=0">
+    <mat-table #table [dataSource]="dataSource" *ngIf="listKardex.length!=0">
+
+      <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.fecha}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoMovimiento">
+        <mat-header-cell *matHeaderCellDef> Tipo Movimiento </mat-header-cell>
+        <mat-cell *matCellDef="let e"> {{e.tipoMovimiento}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="e">
+        <mat-header-cell *matHeaderCellDef> C. Entrada </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ (e.entrada) ?  e.entrada : '-' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="pE">
+        <mat-header-cell *matHeaderCellDef>Precio Entrada </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.precioEntrada ? e.precioEntrada : '-'  }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="s">
+        <mat-header-cell *matHeaderCellDef> C. Salida </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.salida ? e.salida : '-' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="pS">
+        <mat-header-cell *matHeaderCellDef> Precio Salida </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.precioSalida ? e.precioSalida : '-' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="sT">
+        <mat-header-cell *matHeaderCellDef> Stock Actual </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.stockActual ? e.stockActual : '-' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="pT">
+        <mat-header-cell *matHeaderCellDef> Precio Total </mat-header-cell>
+        <mat-cell *matCellDef="let e">
+          {{ e.precioT }}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="displayedSizes" [length]="pagination.nuRegisMostrar" [pageSize]="pageSize"
+      (page)="pageEvent($event)" showFirstLastButtons></mat-paginator>
+
+  </mat-card-content>
+
+</mat-card>

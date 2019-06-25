@@ -21,8 +21,6 @@
     </div>
   </mat-card-header>
 
-
-
   <mat-card-content>
     <div class="card-body">
 
@@ -31,7 +29,7 @@
         <div class="col-4">
           <mat-form-field class="example-full-width">
             <mat-label for="codMovimientos">Codigo Movimiento</mat-label>
-            <input matInput name="codMovimiento" #codMovimiento="ngModel" id="codMovimiento" [(ngModel)]="row.idAlmacenOrdenTrabajo"
+            <input matInput name="codMovimiento" #codMovimiento="ngModel" id="codMovimiento" [(ngModel)]="row"
               disabled />
           </mat-form-field>
         </div>
@@ -39,10 +37,6 @@
       </div>
     </div>
   </mat-card-content>
-
-
-
-
 
   <mat-card-content>
     <mat-table #table [dataSource]="dataSource" *ngIf="almacenOrdenCompraMateriales.length!=0">
@@ -84,9 +78,11 @@
           <div *ngIf="showInput[i] == 2">
             <mat-form-field class="example-full-width">
 
-              <input matInput type="text" name="nameCantidadFisica" #nameCantidadFisica="ngModel" [(ngModel)]="cantidadFisica" placeholder="Ingrese Cantidad Fisica"
+              <input matInput type="text" name="nameCantidadFisica" #nameCantidadFisica="ngModel"
+                [(ngModel)]="cantidadFisica" placeholder="Ingrese Cantidad Fisica"
                 (keyup.enter)="pressEnter(e.idAlmacenOrdenTrabajoMaterial,$event.target.value,i,e.idMaterial, e.idAlmacenOrdenTrabajo);asignarCantidadFisica(i)"
-                (keypress)="setInputPattern($event, 'positiveDigits')" [max]="e.cantidadFaltante" [min]="0" [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
+                (keypress)="setInputPattern($event, 'positiveDigits')" [max]="e.cantidadFaltante" [min]="0"
+                [pattern]="setValidatorPattern('positiveDigits', setQuantifier('+'), true, true)">
               <mat-hint align="start" class="mat-hint-mensaje">
                 Ingrese y Enter
               </mat-hint>
@@ -115,7 +111,7 @@
         <mat-header-cell *matHeaderCellDef>Restaurar</mat-header-cell>
         <mat-cell *matCellDef="let e; let i = index">
 
-          <button mat-button (click)="restaurarCantidad(e,i)" [disabled]="e.cantidadFisica!=e.cantidad">
+          <button mat-button (click)="restaurarCantidad(e,i)" [disabled]="e.cantidadFisica==0">
             <div class="example-tooltip-host" matTooltip="Editar" [matTooltipPosition]="'above'">
               <span>
                 <i class="material-icons">settings_backup_restore</i>
@@ -135,6 +131,11 @@
       <div class="col-4" align="center">
         <button mat-raised-button (click)="actualizarEstado()" [disabled]="cont==1">
           Asignar
+        </button>
+      </div>
+      <div class="col-4" align="center">
+        <button mat-raised-button (click)="actualizarTerminar()" [disabled]="cont==1">
+          Terminar Trabajo
         </button>
       </div>
     </div>

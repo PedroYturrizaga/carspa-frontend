@@ -1,3 +1,4 @@
+import { ModalPdfComponent } from './../../shared/helpers/modal-pdf/modal-pdf.component';
 import { AlmacenService } from './services/almacen.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,6 +10,8 @@ import { VisualizarMaterialesComponent } from './almacen-content/registrar-mater
 import { RegistrarAnaquelComponent } from './almacen-content/registrar-material/registrar-anaquel/registrar-anaquel.component';
 import { SalidaMaterialComponent } from './almacen-content/salida-material/salida-material.component';
 import { VisualizarSalidaMaterialComponent } from './almacen-content/salida-material/visualizar-salida-material/visualizar-salida-material.component';
+import { ModalUsuarioComponent } from './almacen-content/salida-material/modal-usuario/modal-usuario.component';
+import { ConsultarMovimientosComponent } from './almacen-content/consultar-movimientos/consultar-movimientos.component';
 
 @NgModule({
   imports: [
@@ -21,13 +24,17 @@ import { VisualizarSalidaMaterialComponent } from './almacen-content/salida-mate
     VisualizarMaterialesComponent,
     RegistrarAnaquelComponent,
     SalidaMaterialComponent,
-    VisualizarSalidaMaterialComponent
+    VisualizarSalidaMaterialComponent,
+    ModalUsuarioComponent,
+    ConsultarMovimientosComponent
   ],
 
   entryComponents: [
     VisualizarMaterialesComponent,
     RegistrarAnaquelComponent,
-    VisualizarSalidaMaterialComponent
+    VisualizarSalidaMaterialComponent,
+    ModalUsuarioComponent,
+    ModalPdfComponent
   ],
 
   providers: [
