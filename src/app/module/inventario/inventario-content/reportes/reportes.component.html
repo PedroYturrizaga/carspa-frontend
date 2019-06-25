@@ -15,7 +15,7 @@
           <mat-header-cell *matHeaderCellDef> Inventario </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field class="col-sm-12 col-md-12" *ngIf="element.id==3">
-              <input matInput type="text" [matAutocomplete]="auto" placeholder="Salidas de Materiales" (input)="busqueda($event.target.value)"
+              <input matInput type="text" [matAutocomplete]="auto" placeholder="Consumo del Material:" (input)="busqueda($event.target.value)"
                 [(ngModel)]="combo.nombre" matTooltip="Mínimo 2 caracteres">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                  <strong>Seleccionar Material</strong>
@@ -45,10 +45,10 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="orden">
-          <mat-header-cell *matHeaderCellDef>Generar Reporte</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Reporte</mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="generarReporte(element)">
             <button mat-button>
-              <div class="example-tooltip-host" matTooltip="Generar Orden de Pedido" [matTooltipPosition]="'above'">
+              <div class="example-tooltip-host" matTooltip="Generar Reporte" [matTooltipPosition]="'above'">
                 <span>
                   <i class="material-icons">picture_as_pdf</i>
                 </span>

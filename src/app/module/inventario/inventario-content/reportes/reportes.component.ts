@@ -28,7 +28,7 @@ export class ReportesComponent implements OnInit {
     private _materialService: AdministrarMaterialService) { }
 
   ngOnInit() {
-    this.lista = [{ inv: 'Maquinarias', id: 1 }, { inv: 'Materiales con Alerta de Stock', id: 2 }, { inv: 'Salidas del Material', id: 3 }];
+    this.lista = [{ inv: 'Maquinarias', id: 1 }, { inv: 'Materiales con Alerta de Stock', id: 2 }, { inv: 'Consumos del Material:', id: 3 }];
     this.dataSource = new MatTableDataSource(this.lista);
     $('.pruebon').click(function() {
       $('.todaspartes').addClass('vete');

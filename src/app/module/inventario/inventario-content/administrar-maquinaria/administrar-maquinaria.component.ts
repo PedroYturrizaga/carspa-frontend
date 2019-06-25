@@ -65,9 +65,9 @@ export class AdministrarMaquinariaComponent implements OnInit {
     };
     this._maquinariaService.getMaquinarias(this.requestListar).subscribe(data => {
       if (data.estado == 1) {
-        this.lsmaquinarias = data.maquinarias;
-        this.dataSource = new MatTableDataSource(this.lsmaquinarias);
-        this.lsmaquinarias.forEach(element => {
+        let maquinariasAviso=[];
+        maquinariasAviso = data.maquinarias;
+        maquinariasAviso.forEach(element => {
           if (element["fechaMantenimiento"] == fecha) {
             let maquina = element["nombre"];
             let marca = element["marca"];
@@ -75,13 +75,6 @@ export class AdministrarMaquinariaComponent implements OnInit {
               ;
           }
         });
-        if (this.matPag) {
-          this.matPag._pageIndex = (nuPagina) ? nuPagina - 1 : this.matPag._pageIndex;
-        }
-        if (this.lsmaquinarias.length > 0) {
-          this.pagination.nuRegisMostrar = this.lsmaquinarias[0].nuTotalReg;
-        }
-
       } else {
         this.toastr.error(data.mensaje);
       }
@@ -137,7 +130,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
     this._maquinariaService.anularMaquinaria(request).subscribe(data => {
       console.log(data);
       if (data.estado == 1) {
-        this.toastr.success("Se anuló la maquinaria");
+        this.toastr.success("Maquinaria inactiva");
         this.getMaquinarias();
 
       } else {
@@ -163,7 +156,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
       disableClose: true,
       hasBackdrop: true
     });
-    dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea anular la maquinaria '" + e.nombre + "' ?";
+    dialogRef.componentInstance.mensajeConfirmacion = "¿Está seguro que desea deshabilitar la maquinaria '" + e.nombre + "' ?";
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
         this.anularMaquinaria(e.idMaquinaria);
@@ -224,7 +217,7 @@ export class AdministrarMaquinariaComponent implements OnInit {
 
   ngOnInit() {
     this.aviso();
-    this.getMaquinarias(); 
+    this.getMaquinarias();
 
     $('.pruebon').click(function() {
     $('.todaspartes').addClass('vete');
