@@ -32,6 +32,10 @@ export class VisualizarSalidaMaterialComponent implements OnInit {
     console.log(this.idAlmacenOrdenTrabajo);
     this.listarMaterialesxOrdenTrabajo();
     this.asignarCantidadFisica(1);
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private pressEnter(idAlmacenOrdenTrabajoMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenTrabajo, stock) {
