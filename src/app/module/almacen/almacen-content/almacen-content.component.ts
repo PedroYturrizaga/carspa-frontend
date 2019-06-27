@@ -23,7 +23,11 @@ export class AlmacenContentComponent implements OnInit {
 
   goToModulo(uri) {
     for(let x in this.activado){
+<<<<<<< Updated upstream
       this.activado[x] = (x == uri) ? 'tituloActivos' : 'titulo' 
+=======
+      this.activado[x] = (x == uri) ? 'tituloActivo' : 'titulo' 
+>>>>>>> Stashed changes
     }
     this._router.navigate(['/principal/almacen/' + uri]);
     // $('.colorMenu3').removeClass('vete');

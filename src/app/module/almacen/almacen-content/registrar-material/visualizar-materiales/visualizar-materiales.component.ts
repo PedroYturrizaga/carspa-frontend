@@ -32,6 +32,10 @@ export class VisualizarMaterialesComponent implements OnInit {
   ngOnInit() {
     this.listarMaterialesxOrdenCompra();
     this.asignarCantidadFisica(1);
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private pressEnter(idAlmacenOrdenCompraMaterial, cantidadFisica, i, idMaterial, idAlmacenOrdenCompra) {

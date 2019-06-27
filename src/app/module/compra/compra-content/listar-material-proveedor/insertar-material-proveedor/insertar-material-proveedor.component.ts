@@ -44,6 +44,10 @@ export class InsertarMaterialProveedorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private registrarMaterialProveedor() {

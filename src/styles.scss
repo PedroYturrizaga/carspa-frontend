@@ -40,9 +40,9 @@ a {
   cursor: pointer !important;
 }
 
-// button {
-//     cursor: pointer;
-// }
+.mat-button{
+    margin:0 -3px !important;
+}
 
 .routerLink {
   cursor: pointer !important;
@@ -466,6 +466,7 @@ margin: 0 0 0 auto;
   font-weight: 500!important;
   font-size: 19px!important;
   line-height: 1.8!important;
+  margin : -3px !important;
 }
 /* agregar tamaño al icono del calendario en los input de los formularios */
 .mat-form-field-suffix .mat-datepicker-toggle-default-icon {
@@ -1033,21 +1034,15 @@ align-items: baseline;
   .mat-button{
     margin-right: 4px;
   }
-  .mat-button:hover{
-    @include radius;
-    text-decoration: none !important;
-  }
-}
-
-.colorMenu3{
   .mat-button:hover {
     background-color:$color-back;
     color:$color-font;
     text-decoration: none !important;
+    width:128% !important;
   }
 }
-.tituloActivos{
-  @include radius;
+.tituloActivo{
+  width:128% !important;
   background-color: $color-back;
   color:$color-font;
 }

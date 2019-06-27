@@ -100,9 +100,6 @@ export class PrincipalComponent implements OnInit {
   goToModulo(mod) {
     this.visible = !this.visible;
     // Object.keys(this.activo).forEach(key => this.activo[key] = 'titulo');
-    for (let x in this.activado) {
-      this.activado[x] = (x == mod) ? "tituloActivo" : "titulo" 
-    }
     this._router.navigate(['/principal/' + mod]);
     $('.colorMenu3').removeClass('vete');
   }

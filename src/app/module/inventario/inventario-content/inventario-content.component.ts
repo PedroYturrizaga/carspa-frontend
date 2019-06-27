@@ -21,9 +21,14 @@ export class InventarioContentComponent implements OnInit {
   }
 
   goToModulo(uri) {
+<<<<<<< Updated upstream
     // this.activado[uri] = "tituloActivo"
     for(let x in this.activado){
       this.activado[x] = (x == uri) ? 'tituloActivos' : 'titulo' 
+=======
+    for(let x in this.activado){
+      this.activado[x] = (x == uri) ? 'tituloActivo' : 'titulo' 
+>>>>>>> Stashed changes
     }
     this._router.navigate(['/principal/inventario/' + uri]);
     // $('.colorMenu3').removeClass('vete');

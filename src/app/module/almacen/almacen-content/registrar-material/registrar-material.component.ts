@@ -35,6 +35,10 @@ export class RegistrarMaterialComponent implements OnInit {
   ngOnInit() {
     this.llenarLista();
     this.buscarListaOrdenCompraAlmacen(1);
+    $('.pruebon').click(function() {
+      $('.todaspartes').addClass('vete');
+      $('.colorMenu3').addClass('vete');
+    });
   }
 
   private llenarLista() {
