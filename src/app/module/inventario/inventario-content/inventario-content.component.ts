@@ -10,7 +10,9 @@ export class InventarioContentComponent implements OnInit {
 
   private activado: any = {
     'administrarMaquinaria': "titulo",
-    'administrarMaterial': 'titulo'
+    'administrarMaterial': 'titulo',
+    'controlarStock': 'titulo',
+    'reportes': 'titulo'
   }
   constructor(private _router: Router) { }
   
@@ -19,9 +21,12 @@ export class InventarioContentComponent implements OnInit {
   }
 
   goToModulo(uri) {
-    this.activado[uri] = "tituloActivo"
+    // this.activado[uri] = "tituloActivo"
+    for(let x in this.activado){
+      this.activado[x] = (x == uri) ? 'tituloActivos' : 'titulo' 
+    }
     this._router.navigate(['/principal/inventario/' + uri]);
-    $('.colorMenu3').removeClass('vete');
+    // $('.colorMenu3').removeClass('vete');
   
   }
 

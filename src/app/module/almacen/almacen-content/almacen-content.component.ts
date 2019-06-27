@@ -22,9 +22,11 @@ export class AlmacenContentComponent implements OnInit {
   }
 
   goToModulo(uri) {
-    this.activado[uri] = "tituloActivo"
+    for(let x in this.activado){
+      this.activado[x] = (x == uri) ? 'tituloActivos' : 'titulo' 
+    }
     this._router.navigate(['/principal/almacen/' + uri]);
-    $('.colorMenu3').removeClass('vete');
+    // $('.colorMenu3').removeClass('vete');
     
   }
 

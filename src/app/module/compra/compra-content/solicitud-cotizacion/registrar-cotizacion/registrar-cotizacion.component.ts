@@ -12,7 +12,7 @@ export class RegistrarCotizacionComponent implements OnInit {
   @Input() solicitud
   displayedColumns = ['material', 'marca', 'cantidad', 'proveedor1', 'proveedor2', 'proveedor3'];
   dataSource = new MatTableDataSource();
-
+  private jsonInsert = { idProvedor: null };
   private comparativoList;
   constructor(private _solicitudCotizacionService: SolicitudCotizacionService,
     private toastr: ToastsManager,
