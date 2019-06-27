@@ -152,7 +152,7 @@ export class ListarProveedorComponent implements OnInit {
   redirige(idProveedor) {
     this.idProveedor = idProveedor;
     this.proveedorDisabled = false;
-    this._router.navigate(['/principal/compra/listar-proveedor/detalle-proveedor'], { queryParams: { 'idProveedor': this.idProveedor } });
+    this._router.navigate(['/principal/compra/listarProveedor/detalle-proveedor'], { queryParams: { 'idProveedor': this.idProveedor } });
   }
 
 

@@ -23,7 +23,7 @@ export class OrdenCompraComponent implements OnInit {
   @ViewChild(MatPaginator) matPag: MatPaginator;
 
   // displayedColumnsOrdenCompra = ['codigo', 'fecha', 'proveedor', 'estado', 'ver', 'eliminar'];
-  displayedColumnsOrdenCompra = ['codigo', 'fecha', 'proveedor', 'ver', 'eliminar'];
+  displayedColumnsOrdenCompra = ['codigo', 'fecha', 'proveedor', 'ver'];
   dataSourceOrdenCompra = new MatTableDataSource();
   
   private paramsBusqueda = { feOrdenCompra: null, nombreProveedor: null, estado: null, idOrdenCompra: null, codigo: null }

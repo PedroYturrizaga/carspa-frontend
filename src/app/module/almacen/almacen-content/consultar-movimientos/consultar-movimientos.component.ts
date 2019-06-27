@@ -43,7 +43,7 @@ export class ConsultarMovimientosComponent implements OnInit {
     this.paramListar.feIni = null;
     this.paramListar.feFin = null;
     this.listarAllMaterial();
-    $('.pruebon').click(function() {
+    $('.pruebon').click(function () {
       $('.todaspartes').addClass('vete');
       $('.colorMenu3').addClass('vete');
     });
@@ -101,6 +101,15 @@ export class ConsultarMovimientosComponent implements OnInit {
       .subscribe(data => {
         if (data.estado == 1) {
           this.listKardex = data.movimientosKardexList;
+          for (let x of this.listKardex) {
+            x['precioT'] = parseFloat(x['precioT']).toFixed(2);
+            if (x['precioSalida'] == null) {
+              x['precioEntrada'] = parseFloat(x['precioEntrada']).toFixed(2);
+            }
+            if (x['precioEntrada'] == null) {
+              x['precioSalida'] = parseFloat(x['precioSalida']).toFixed(2);
+            }
+          }
           console.log(this.listKardex);
           this.dataSource = new MatTableDataSource(this.listKardex);
 
